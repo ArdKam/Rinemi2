@@ -3,6 +3,7 @@ import sourceDataset from "./data/kanji.json";
 import topicDataset from "./data/kanji-topics.json";
 import { EXAMPLES, PERSIAN_GLOSSES, STARTER_CHARACTERS } from "./content";
 import { addCharacterToCollection, buildSessionQueue, countDueReviews, createCollection, deleteCollection, loadStore, persistStore, recordRating, removeCharacterFromCollection, type AppStore, type ReviewRating } from "./study";
+import { applyThemePreference, resolveThemePreference } from "./theme";
 
 type Kanji = { id: string; character: string; meaning: string[]; on: string[]; kun: string[]; strokes: number; grade: number; jlpt: string | null; frequency: number; order: number };
 type Topic = { id: string; label: { fa: string; en: string }; characters: string };
@@ -117,6 +118,8 @@ export default function App() {
   const language = store.language;
   const isFa = language === "fa";
   const t = COPY[language];
+  const resolvedTheme = resolveThemePreference(store.theme);
+  const themeActionLabel = resolvedTheme === "dark" ? t.light : t.dark;
   const currentCharacter = queue[sessionIndex] ?? null;
   const currentItem = currentCharacter ? BY_CHARACTER.get(currentCharacter) ?? null : null;
   const dueCount = countDueReviews(store, now);
@@ -125,7 +128,7 @@ export default function App() {
   useEffect(() => {
     document.documentElement.lang = language;
     document.documentElement.dir = isFa ? "rtl" : "ltr";
-    document.documentElement.dataset.theme = store.theme;
+    return applyThemePreference(store.theme);
   }, [language, isFa, store.theme]);
   useEffect(() => {
     if (!persistAllowed) return;
@@ -262,8 +265,8 @@ export default function App() {
       </nav>
       <div className="header-tools">
         <button className="utility-button language-switch" type="button" onClick={() => setStore(previous => ({ ...previous, language: isFa ? "en" : "fa" }))} aria-label={isFa ? "Switch to English" : "تغییر به فارسی"}>{t.langSwitch}</button>
-        <button className="utility-button theme-switch" type="button" onClick={() => setStore(previous => ({ ...previous, theme: previous.theme === "dark" ? "light" : "dark" }))} aria-label={store.theme === "dark" ? t.light : t.dark}>
-          <span aria-hidden="true">{store.theme === "dark" ? "☼" : "◐"}</span><span className="utility-label">{store.theme === "dark" ? t.light : t.dark}</span>
+        <button className="utility-button theme-switch" type="button" onClick={() => setStore(previous => ({ ...previous, theme: resolveThemePreference(previous.theme) === "dark" ? "light" : "dark" }))} aria-label={themeActionLabel}>
+          <span aria-hidden="true">{resolvedTheme === "dark" ? "☼" : "◐"}</span><span className="utility-label">{themeActionLabel}</span>
         </button>
       </div>
     </header>
