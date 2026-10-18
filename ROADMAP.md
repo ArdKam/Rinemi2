@@ -143,7 +143,7 @@ New scope requires a documented learner problem, expected benefit, content/sourc
 | Phase | Name | Outcome | Dependency | Status |
 |---|---|---|---|---|
 | P0 | Repository and evidence baseline | Separate, safe working boundary and verified reference baseline | None | IN PROGRESS — source corpus and topic taxonomy provenance recorded; reuse inventory remains open |
-| P1 | Product/UX blueprint | Journeys, scope, screen inventory, and success criteria drafted in specs | P0 | DONE — planning baseline documented; open product decisions remain tracked |
+| P1 | Product/UX blueprint | Journeys, scope, screen inventory, and success criteria drafted in specs | P0 | IN PROGRESS — written blueprint exists; end-to-end flow acceptance, onboarding validation, and learner/usability evidence remain open |
 | P2 | Visual direction baseline | Written Sumi Play direction accepted; generated visual concepts optional | P1 | DONE — image generation explicitly skipped by owner |
 | P3 | Art direction and design system | Translate written direction into tokens/components, then browser-verify | P2 | IN PROGRESS — first semantic tokens/responsive styles implemented; browser visual QA pending |
 | P4 | Content/data audit and source adapters | Trusted content foundation with provenance and failure handling | P0, parallel to P1–P3 | IN PROGRESS — corpus/topic integrity checks and attribution added; human content QA pending |
@@ -216,10 +216,8 @@ Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.
 
 - [x] Adopt the written direction: warm paper, sumi charcoal, restrained vermilion action accent, muted indigo and sakura as secondary accents, editorial Japanese typography, native Persian RTL, generous whitespace, restrained surfaces, and a calm nonchalant cat companion used selectively.
 - [x] Do not generate mockups or block implementation on image generation; the owner explicitly asked to skip it.
-- [ ] Validate the direction on actual rendered screens in-browser, including Persian RTL/English LTR, light/dark themes, mobile and desktop.
-- [ ] Refine palette and components based on contrast/accessibility checks and real content density.
 
-**Acceptance:** written art direction is the baseline; the real browser-rendered slice becomes the visual target for refinement. A generated picture is optional, not acceptance evidence.
+**Acceptance:** the written Sumi Play direction is accepted as the visual baseline. Actual browser rendering, content-density review, contrast, and refinement are P3/P11 acceptance work. A generated picture is optional, not acceptance evidence.
 
 ## P3 — Art direction and design system
 
@@ -236,6 +234,8 @@ Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.
 - [ ] Define reduced-motion alternatives and ensure motion communicates state or teaches a skill.
 - [ ] Create illustration and mascot standards; establish which screens merit custom artwork and which must remain typographic.
 - [ ] Build a small rendered component gallery to verify tokens on actual devices and themes.
+- [ ] Validate the approved direction on actual rendered screens in-browser, including Persian RTL/English LTR, light/dark themes, mobile and desktop.
+- [ ] Refine palette and components based on contrast/accessibility checks and real content density.
 - [ ] Add design QA screenshots to PRs when visual behavior changes.
 
 **Acceptance:** one coherent token/component baseline; no parallel token set; core components render consistently in Persian RTL, English LTR, light and dark mode.
@@ -450,11 +450,11 @@ Do not mix broad file reorganization, data migrations, branding replacement, con
 
 The repo should maintain these artifacts as work advances:
 
-- [ ] Product and UX specification.
-- [ ] Art direction and design-system specification.
-- [ ] Learning design and content-quality specification.
+- [x] Product and UX specification exists; P1 acceptance and learner validation remain open.
+- [x] Art direction and design-system specification exists; rendered-browser acceptance remains open.
+- [x] Learning design and content-quality specification exists; learner-facing content QA remains open.
 - [ ] Reference/reuse inventory, source/license matrix, and selected source SHAs.
-- [ ] Decision log with date, status, alternatives and rationale.
+- [x] Decision log with date, status, alternatives and rationale; unresolved decisions remain recorded as open.
 - [ ] Screen/flow acceptance checklist.
 - [ ] Component gallery and approved visual references.
 - [ ] Content QA sampling register and correction queue.
