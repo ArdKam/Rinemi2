@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "Rinemi — Persian-first Kanji Learning",
+  "short_name": "Rinemi",
+  "description": "Learn kanji through meaning, active recall, vocabulary, and reading.",
+  "lang": "fa",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F7F4EE",
+  "theme_color": "#F7F4EE",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
