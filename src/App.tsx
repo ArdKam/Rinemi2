@@ -379,7 +379,7 @@ export default function App() {
       <a className="skip-link" href="#main-content">{t.skip}</a>
 
       <header className="topbar">
-        <a href="#main-content" className="brand-lockup" onClick={(event) => { event.preventDefault(); changeView("today"); }} aria-label="Rinemi — home">
+        <a href="#main-content" className="brand-lockup" onClick={(event) => { event.preventDefault(); changeView("today"); }} aria-label={locale === "fa" ? "rinemi — خانه" : "rinemi — home"}>
           <span className="brand-mark" aria-hidden="true">凛</span>
           <span className="brand-wording">
             <span className="brand-name">rinemi</span>
@@ -398,7 +398,7 @@ export default function App() {
           <button
             className="header-control language-control"
             type="button"
-            aria-label={locale === "fa" ? t.languageToEnglish : t.languageToPersian}
+            aria-label={locale === "fa" ? "EN — تغییر زبان به انگلیسی" : "فا — Switch language to Persian"}
             onClick={() => setLocale(locale === "fa" ? "en" : "fa")}
           >
             {locale === "fa" ? "EN" : "فا"}
