@@ -25,7 +25,7 @@ Not yet implemented or accepted:
 
 ## Run locally
 
-Requires Node.js 22 or newer.
+Requires Node.js 22.12 or newer; CI runs Node.js 24.
 
 ```bash
 npm install
@@ -46,12 +46,13 @@ The repository currently does not include a committed npm lockfile. Generate and
 
 1. [Roadmap and release gates](ROADMAP.md)
 2. [Product and UX specification](docs/PRODUCT-AND-UX-SPEC.md)
-3. [Art direction and design system](docs/ART-DIRECTION.md)
-4. [Learning design and content QA](docs/LEARNING-DESIGN.md)
-5. [Reference and migration policy](docs/REFERENCE-AND-MIGRATION.md)
-6. [Quality and release policy](docs/QUALITY-AND-RELEASE.md)
-7. [Data-source provenance](docs/DATA-SOURCES.md)
-8. [Decision log](docs/DECISIONS.md)
+3. [Art direction](docs/ART-DIRECTION.md)
+4. [Design token contract](docs/DESIGN-TOKENS.md) — canonical semantic roles and theme integration requirements; runtime tokens live in `src/styles/design-tokens.css`.
+5. [Learning design and content QA](docs/LEARNING-DESIGN.md)
+6. [Reference and migration policy](docs/REFERENCE-AND-MIGRATION.md)
+7. [Quality and release policy](docs/QUALITY-AND-RELEASE.md)
+8. [Data-source provenance](docs/DATA-SOURCES.md)
+9. [Decision log](docs/DECISIONS.md)
 
 ## Repository boundary
 
