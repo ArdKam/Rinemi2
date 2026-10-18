@@ -6,6 +6,36 @@
   <meta name="theme-color" content="#f7f4ee">
   <link rel="icon" type="image/svg+xml" href="/icon.svg">
   <meta name="description" content="Rinemi به یادگیری کانجی از راه معنا، یادآوری و کاربرد در واژه‌های ژاپنی کمک می‌کند.">
+  <link rel="stylesheet" href="/src/styles/design-tokens.css">
+  <link rel="stylesheet" href="/src/styles.css">
+  <script>
+    (() => {
+      const root = document.documentElement;
+      let preference = "system";
+      try {
+        const saved = localStorage.getItem("rinemi.theme");
+        if (saved === "light" || saved === "dark" || saved === "system") {
+          preference = saved;
+        } else {
+          const legacyRaw = localStorage.getItem("rinemi2:local:v1");
+          if (legacyRaw) {
+            const legacy = JSON.parse(legacyRaw);
+            if (legacy.theme === "light" || legacy.theme === "dark") preference = legacy.theme;
+          }
+        }
+      } catch {
+        // System preference is the safe fallback when browser storage is unavailable.
+      }
+      const prefersDark = typeof window.matchMedia === "function"
+        && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const resolved = preference === "system" ? (prefersDark ? "dark" : "light") : preference;
+      root.dataset.theme = resolved;
+      root.style.colorScheme = resolved;
+      const themeColor = document.querySelector('meta[name="theme-color"]');
+      const canvas = getComputedStyle(root).getPropertyValue("--rinemi-color-bg-canvas").trim();
+      if (themeColor && /^#[\da-f]{6}$/i.test(canvas)) themeColor.content = canvas;
+    })();
+  </script>
   <title>Rinemi — کانجی، با درک و کاربرد</title>
 </head>
 <body>
