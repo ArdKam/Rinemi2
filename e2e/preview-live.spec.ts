@@ -51,6 +51,9 @@ test("live preview mounts React and completes a minimal learner journey without 
   await page.getByRole("button", { name: "Switch to English" }).click();
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+  // Fresh learners start with the system preference, so choose explicit light before dark.
+  await page.getByRole("button", { name: "Light mode" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.getByRole("button", { name: "Dark mode" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(lightMark).toBeHidden();
