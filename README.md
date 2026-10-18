@@ -39,7 +39,7 @@ Not yet implemented or accepted:
 Requires Node.js 22 or newer.
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -52,7 +52,7 @@ npm run build
 npm run e2e
 ```
 
-The repository currently does not include a committed npm lockfile. Generate and review one before beta/release, then use `npm ci` in CI.
+A committed npm lockfile pins the dependency tree. Use `npm ci` for local setup and CI; update the lockfile deliberately when dependencies change.
 
 ## Source of truth
 
