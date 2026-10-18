@@ -16,22 +16,24 @@ Included in this slice:
 - Named local collections with add/remove, collection filtering and focused sessions (first 20 items per session).
 - Versioned local storage migration from v1 to v2 that preserves review records and bookmarks.
 - Small Persian gloss and vocabulary seed set, clearly distinguished from unreviewed source glosses.
-- Unit/data tests, Playwright browser journey tests, and CI screenshot artifacts.
+- Unit/data tests, Playwright browser journey tests, automated axe checks, and CI screenshot artifacts.
 - Shared spacing, typography, radius, motion and focus tokens; semantic CSS consumers; system-theme bootstrap and browser `theme-color` synchronization.
+- Committed `package-lock.json`; CI and Pages install dependencies with `npm ci`.
 
 Not yet implemented or accepted:
-- Browser screenshot review and manual usability/accessibility acceptance.
-- Reviewed Persian content beyond the editorial seed set.
+- Manual browser screenshot review and keyboard/focus, zoom, reduced-motion/forced-colors, screen-reader and broader usability acceptance.
+- Human review of Persian glosses, Japanese readings/examples and translations in the starter set; the register currently marks these unreviewed.
+- Independent license/provenance confirmation for the corpus, topic taxonomy, identity assets and bundled fonts; owner approval of the overall project license.
 - Collection rename, bulk operations and comprehensive collection management; Anki import; adaptive learner-model planning; and full reading-path integration.
-- Lockfile reproducibility, PWA/offline acceptance, full backup/export/deletion workflows and production hosting.
-- Public beta or a claim of measured learning efficacy.
+- Defined and tested backup/export/restore/deletion workflows, privacy/data lifecycle review, and offline/PWA acceptance.
+- Public beta or any claim of measured learning efficacy.
 
 ## Verification and deployment status
 
-- Main [CI]( https://github.com/ArdKam/Rinemi2/actions/runs/39166049955 ) and [Pages deployment + static and live Chromium smoke tests]( https://github.com/ArdKam/Rinemi2/actions/runs/39166050054 ) passed on commit [`de3b9ef`](https://github.com/ArdKam/Rinemi2/commit/de3b9efb89698e395346be8fcdd77ef11517f87c).
-- The Pages workflow publishes only Vite's `dist/` under `/Rinemi2/`; all 11 same-origin static resources return HTTP 200, including both brand marks, the compiled JS bundle, CSS, theme bootstrap, icon and fonts.
-- The live Chromium check verifies React mounts, Today renders, a review can be revealed/rated and advanced, Persian RTL can switch to English LTR, the actual system → light → dark theme cycle works, both brand images load, and a 390px mobile viewport has no horizontal overflow. It also checks that no page errors, console errors or failed/escaped same-origin resources occur; screenshots are retained in the workflow artifact.
-- Manual keyboard/focus, zoom, reduced-motion/high-contrast, screen-reader and broader usability acceptance remain open. See [issue #7](https://github.com/ArdKam/Rinemi2/issues/7); automated live checks are not production-readiness approval.
+- Main [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39166049955) and [Pages deployment + static and live Chromium smoke tests](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054) passed on commit [`de3b9ef`](https://github.com/ArdKam/Rinemi2/commit/de3b9efb89698e395346be8fcdd77ef11517f87c).
+- The Pages workflow publishes only Vite's `dist/` under `/Rinemi2/`; all 11 same-origin static resources returned HTTP 200 in that recorded run, including both brand marks, compiled JavaScript, CSS, theme bootstrap, icon and fonts.
+- The recorded live Chromium check verified React mounts, Today renders, a review can be revealed/rated and advanced, Persian RTL switches to English LTR, the system → light → dark theme cycle works, both brand images load, and a 390px mobile viewport has no horizontal overflow. It reported no page/console errors or failed/escaped same-origin resources; screenshots were retained in the workflow artifact. This evidence belongs to the cited SHA/run and is not a claim about every later commit.
+- Issue [#7](https://github.com/ArdKam/Rinemi2/issues/7) tracks the remaining manual accessibility/usability acceptance. Use the [manual acceptance checklist](docs/MANUAL-RELEASE-ACCEPTANCE.md); automated tests do not replace human keyboard, zoom, forced-colors or screen-reader review.
 
 ## Run locally
 
@@ -63,7 +65,8 @@ A committed npm lockfile pins the dependency tree. Use `npm ci` for local setup 
 6. [Quality and release policy](docs/QUALITY-AND-RELEASE.md)
 7. [Data-source provenance](docs/DATA-SOURCES.md)
 8. [Starter content QA register](docs/CONTENT-QA-REGISTER.md)
-8. [Decision log](docs/DECISIONS.md)
+9. [Manual release acceptance checklist](docs/MANUAL-RELEASE-ACCEPTANCE.md)
+10. [Decision log](docs/DECISIONS.md)
 
 ## Repository boundary
 

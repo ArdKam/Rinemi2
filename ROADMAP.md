@@ -455,7 +455,7 @@ The repo should maintain these artifacts as work advances:
 - [x] Learning design and content-quality specification exists; learner-facing content QA remains open.
 - [x] Initial source/provenance matrix and source SHAs recorded in `docs/DATA-SOURCES.md`; independent license/ownership confirmation remains an open release gate.
 - [x] Decision log with date, status, alternatives and rationale; unresolved decisions remain recorded as open.
-- [ ] Screen/flow acceptance checklist.
+- [x] Manual release acceptance checklist exists in `docs/MANUAL-RELEASE-ACCEPTANCE.md`; the checks themselves remain NOT RUN until a human records evidence.
 - [ ] Component gallery and approved visual references.
 - [x] Starter content QA register created in `docs/CONTENT-QA-REGISTER.md` for all 44 seed kanji; all language-review statuses remain `NOT REVIEWED` until a human records evidence.
 - [ ] Anki import format/support matrix and test-fixture inventory.
