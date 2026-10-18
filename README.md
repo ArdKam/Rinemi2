@@ -13,7 +13,7 @@ Included in this slice:
 - Learning card with reveal, review progress and Again/Hard/Good/Easy ratings.
 - Local FSRS scheduling, due-review queue and local browser storage.
 - Search over 2,136 kanji, topic/JLPT filters, detail view and local bookmarks.
-- Named local collections with add/remove, collection filtering and focused sessions (first 20 items per session).
+- Named local collections with add/remove, rename, confirmed bulk-clear and deletion, collection filtering and focused sessions (first 20 items per session).
 - Local JSON backup download, validated restore preview with explicit replacement confirmation, and local learner-data erasure.
 - Versioned local storage migration from v1 to v2 that preserves review records and bookmarks.
 - Small Persian gloss and vocabulary seed set, clearly distinguished from unreviewed source glosses.
@@ -25,7 +25,7 @@ Not yet implemented or accepted:
 - Manual browser screenshot review and keyboard/focus, zoom, reduced-motion/forced-colors, screen-reader and broader usability acceptance.
 - Human review of Persian glosses, Japanese readings/examples and translations in the starter set; the register currently marks these unreviewed.
 - Independent license/provenance confirmation for the corpus, topic taxonomy, identity assets and bundled fonts; owner approval of the overall project license.
-- Broader collection bulk selection/management; Anki import; adaptive learner-model planning; and full reading-path integration.
+- Multi-item selection/bulk add-remove and comprehensive collection management; end-to-end Anki import; adaptive learner-model planning; and full reading-path integration.
 - Manual acceptance and storage-failure review of the backup/restore/erasure controls; complete privacy/legal review and offline/PWA acceptance.
 - Public beta or any claim of measured learning efficacy.
 
@@ -68,7 +68,8 @@ A committed npm lockfile pins the dependency tree. Use `npm ci` for local setup 
 8. [Starter content QA register](docs/CONTENT-QA-REGISTER.md)
 9. [Manual release acceptance checklist](docs/MANUAL-RELEASE-ACCEPTANCE.md)
 10. [Local data and privacy contract](docs/LOCAL-DATA-AND-PRIVACY.md)
-11. [Decision log](docs/DECISIONS.md)
+11. [UI/UX review register](docs/UI-UX-REVIEW-REGISTER.md)
+12. [Decision log](docs/DECISIONS.md)
 
 ## Repository boundary
 
