@@ -221,3 +221,32 @@ test("erasing learner data removes current, legacy and independent theme storage
     else Object.defineProperty(globalThis, "window", { configurable: true, value: previousWindow });
   }
 });
+
+
+test("a failed second persistence write rolls the primary store back best-effort", () => {
+  const originalStore = JSON.stringify({ previous: true });
+  const data = new Map<string, string>([
+    ["rinemi2:local:v2", originalStore],
+    [THEME_PREFERENCE_KEY, "light"]
+  ]);
+  const previousWindow = (globalThis as unknown as { window?: unknown }).window;
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: { localStorage: {
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => {
+        if (key === THEME_PREFERENCE_KEY) throw new Error("simulated theme write failure");
+        data.set(key, value);
+      },
+      removeItem: (key: string) => { data.delete(key); }
+    } }
+  });
+  try {
+    assert.throws(() => persistStore({ ...createFreshStore(), bookmarks: ["日"], theme: "dark" }), /simulated theme write failure/);
+    assert.equal(data.get("rinemi2:local:v2"), originalStore);
+    assert.equal(data.get(THEME_PREFERENCE_KEY), "light");
+  } finally {
+    if (previousWindow === undefined) delete (globalThis as unknown as { window?: unknown }).window;
+    else Object.defineProperty(globalThis, "window", { configurable: true, value: previousWindow });
+  }
+});
