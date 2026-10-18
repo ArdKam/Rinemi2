@@ -73,6 +73,15 @@ This file records consequential decisions, not every implementation detail. Upda
 - **Consequence:** visual QA still requires actual screenshots and accessibility checks; a generated mockup is not evidence of application quality.
 - **Status:** ACCEPTED
 
+### D-012 — Semantic tokens and primary-action color
+- **Date:** 2026-10-18
+- **Decision:** use `src/styles/design-tokens.css` as the single runtime token source. Vermilion/coral is the primary action in both light and dark themes using separately tuned values; indigo is used for secondary actions and links; focus, selection and destructive/error remain distinct roles.
+- **Alternatives considered:** switch to indigo for dark-mode primary actions, maintain duplicate per-component theme palettes, or let React and pre-React UI resolve theme independently.
+- **Reason:** preserve a stable brand meaning across themes while tuning contrast for each actual surface; keep one token authority to prevent visual drift.
+- **Implementation consequence:** the current app candidate uses shared semantic CSS tokens, a pre-React bootstrap and a shared React theme resolver. The bootstrap reads `rinemi.theme`, falls back to the earlier local-store theme if needed, and resolves system preference before React starts. New onboarding must reuse this contract.
+- **Verification required:** automated token contrast and preference/bootstrap tests; rendered screenshots and manual focus/border/overlay checks remain required.
+- **Status:** ACCEPTED; integrated in the design-system candidate, rendered-browser acceptance OPEN
+
 ## Open decisions
 
 ### Q-001 — First-run language
