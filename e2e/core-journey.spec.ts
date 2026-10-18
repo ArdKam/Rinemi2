@@ -55,3 +55,44 @@ test("Explore can search, bookmark, switch language/theme, and fit mobile width"
   }));
   expect(widths.document).toBeLessThanOrEqual(widths.viewport);
 });
+
+test("personal collections can add, filter, and remove kanji without altering bookmarks or review state", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "کاوش" }).click();
+  await page.getByPlaceholder("مثلاً 日، nichi، خورشید…").fill("日");
+  await page.locator(".kanji-result").first().click();
+  await page.locator(".detail-bookmark").click();
+  await expect(page.locator(".detail-bookmark")).toHaveAttribute("aria-pressed", "true");
+
+  const before = await page.evaluate(() => {
+    const parsed = JSON.parse(localStorage.getItem("rinemi2:local:v2") || "{}");
+    return { reviews: parsed.reviews, bookmarks: parsed.bookmarks };
+  });
+
+  await page.getByRole("button", { name: /مجموعه‌های شخصی/ }).click();
+  await page.getByLabel("نام مجموعه").fill("کانجی‌های مهم");
+  await page.getByRole("button", { name: "ساخت مجموعه" }).click();
+  await expect(page.getByText("مجموعه ساخته شد.")).toBeVisible();
+
+  await page.locator(".detail-collection-control select").selectOption({ index: 1 });
+  await page.getByRole("button", { name: "افزودن به مجموعه" }).click();
+  await expect(page.getByText("کانجی به مجموعه افزوده شد.")).toBeVisible();
+
+  await page.getByRole("button", { name: "نمایش کانجی‌ها" }).click();
+  await expect(page.locator(".kanji-result")).toHaveCount(1);
+  await expect(page.locator(".kanji-result").first()).toContainText("日");
+
+  await page.locator(".detail-collection-control button").click();
+  await expect(page.getByText("کانجی از مجموعه حذف شد.")).toBeVisible();
+  await expect(page.locator(".kanji-result")).toHaveCount(0);
+
+  const after = await page.evaluate(() => {
+    const parsed = JSON.parse(localStorage.getItem("rinemi2:local:v2") || "{}");
+    return { reviews: parsed.reviews, bookmarks: parsed.bookmarks, collections: parsed.collections };
+  });
+  expect(after.reviews).toEqual(before.reviews);
+  expect(after.bookmarks).toEqual(before.bookmarks);
+  expect(after.bookmarks).toContain("日");
+  expect(after.collections[0].characters).toEqual([]);
+});
