@@ -7,7 +7,7 @@ const source = JSON.parse(
   fs.readFileSync(new URL("../src/data/kanji.json", import.meta.url), "utf8")
 ) as { kanji: Array<{ character: string }> };
 const corpus = new Set(source.kanji.map(item => item.character));
-const kanaOnly = /^[\\u3040-\\u30ffー・]+$/u;
+const kanaOnly = /^[\u3040-\u30ffー・]+$/u;
 
 test("starter content IDs exist in the kanji corpus and are unique", () => {
   assert.ok(STARTER_CHARACTERS.length > 0, "Starter set must not be empty");
