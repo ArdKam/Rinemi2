@@ -186,3 +186,12 @@ Review:
 ## 11. What not to introduce
 
 Do not create parallel visual systems or add another token library without a documented gap. Avoid gradients, glassmorphism, excessive rounding, excessive shadows, arbitrary status badges, multiple competing accent colors, icons without clear semantics, and one-off inline styles. Existing palette names are not a reason to use every color frequently.
+
+
+## Implemented token contract
+
+- `src/styles/design-tokens.css` is the canonical source for semantic palette roles and font-family roles.
+- Application styles may define short local aliases that point to semantic tokens, but must not duplicate theme palette hex values in component styles.
+- Primary actions use the action-primary role; secondary controls and inline links use their separate semantic roles; review status uses danger/warning/success/selection roles instead of literal per-component colors.
+- `npm run check:contrast` validates required foreground/background pairs and is part of CI. Passing that check does not replace browser-level visual QA or manual accessibility review.
+- Review visible hover, selected, disabled, focus, loading and error states after every token change. Do not recolor a single component to patch a contrast problem; correct the shared role or token.
