@@ -29,6 +29,9 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Validate deployment smoke test syntax
+        run: node --check scripts/smoke-deployment.mjs
+
       - name: Run data and unit tests
         run: npm test
 
