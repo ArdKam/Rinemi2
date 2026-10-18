@@ -221,6 +221,7 @@ When a defect appears:
 ## Deployment acceptance — GitHub Pages preview
 
 - GitHub Pages must publish the Vite production artifact from `dist/`; publishing the source tree with Jekyll is not a successful application deployment.
+- CI and Pages deployment must install from the committed `package-lock.json` with `npm ci`; dependency updates must include a reviewed lockfile change.
 - The GitHub Pages project base is `/Rinemi2/`. Use the dedicated `npm run build:pages` script so HTML references, module scripts, stylesheet links and public assets are rebased to that path without changing local development defaults.
 - Repository **Settings → Pages → Build and deployment → Source** must be set to **GitHub Actions**. The deployment workflow is not a substitute for this repository-level setting.
 - `.github/workflows/deploy-pages.yml` must install dependencies, pass the existing test/typecheck/build/e2e gates, upload only `dist/`, deploy via the Pages artifact action, and run `scripts/smoke-deployment.mjs` against the returned deployed URL.
