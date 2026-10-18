@@ -64,14 +64,15 @@ A committed npm lockfile pins the dependency tree. Use `npm ci` for local setup 
 3. [Art direction and design system](docs/ART-DIRECTION.md)
 4. [Learning design and content QA](docs/LEARNING-DESIGN.md)
 5. [Reference and migration policy](docs/REFERENCE-AND-MIGRATION.md)
-6. [Quality and release policy](docs/QUALITY-AND-RELEASE.md)
-7. [Data-source provenance](docs/DATA-SOURCES.md)
-8. [Starter content QA register](docs/CONTENT-QA-REGISTER.md)
-9. [Manual release acceptance checklist](docs/MANUAL-RELEASE-ACCEPTANCE.md)
-10. [Local data and privacy contract](docs/LOCAL-DATA-AND-PRIVACY.md)
-11. [Anki import support matrix](docs/ANKI-IMPORT-SUPPORT.md)
-12. [UI/UX review register](docs/UI-UX-REVIEW-REGISTER.md)
-13. [Decision log](docs/DECISIONS.md)
+6. [Kanji5 reuse inventory and extraction priorities](docs/KANJI5-REUSE-INVENTORY.md)
+7. [Quality and release policy](docs/QUALITY-AND-RELEASE.md)
+8. [Data-source provenance](docs/DATA-SOURCES.md)
+9. [Starter content QA register](docs/CONTENT-QA-REGISTER.md)
+10. [Manual release acceptance checklist](docs/MANUAL-RELEASE-ACCEPTANCE.md)
+11. [Local data and privacy contract](docs/LOCAL-DATA-AND-PRIVACY.md)
+12. [Anki import support matrix](docs/ANKI-IMPORT-SUPPORT.md)
+13. [UI/UX review register](docs/UI-UX-REVIEW-REGISTER.md)
+14. [Decision log](docs/DECISIONS.md)
 
 ## Repository boundary
 
