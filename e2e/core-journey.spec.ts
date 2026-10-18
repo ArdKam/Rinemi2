@@ -10,6 +10,12 @@ test("Today starts a useful session and learning rating advances the queue", asy
   await page.goto("/");
   await expect(page).toHaveTitle(/Rinemi/);
   await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+  await expect(page.locator(".brand-mark-light")).toBeVisible();
+  const serifLoaded = await page.evaluate(async () => {
+    await document.fonts.ready;
+    return document.fonts.check('400 72px "Noto Serif JP"');
+  });
+  expect(serifLoaded).toBe(true);
   await expect(page.getByRole("heading", { name: "امروز، یک قدم به خواندن نزدیک‌تر." })).toBeVisible();
   await expect(page.locator(".hero-kanji-glyph")).toHaveText("日");
   await page.screenshot({ path: "artifacts/today-fa-light.png", fullPage: true });
@@ -21,7 +27,7 @@ test("Today starts a useful session and learning rating advances the queue", asy
   await expect(page.locator(".answer-heading h2")).toHaveText("خورشید؛ روز");
   await page.screenshot({ path: "artifacts/learning-revealed-fa-light.png", fullPage: true });
 
-  await page.getByRole("button", { name: "به یاد آوردم", exact: true }).click();
+  await page.locator(".rating-good").click();
   await expect(page.locator(".prompt-kanji")).toHaveText("一");
 });
 
