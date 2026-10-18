@@ -119,6 +119,8 @@ A source-level review cannot substitute for opening the actual rendered app.
 
 Maintain a QA register with stable content IDs, source, reviewer, review date, status, defect severity and correction history.
 
+CI runs a structural contract test for the Persian/English starter glosses and vocabulary examples (identity, required fields, kana-only readings and key coverage). This catches malformed content records but does not certify linguistic correctness, naturalness, translation quality or license compliance; those still require human review.
+
 Release blockers:
 - incorrect target answer or unsupported accepted answer;
 - mismatched kanji reading/vocabulary;
