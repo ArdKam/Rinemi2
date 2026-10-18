@@ -78,3 +78,55 @@ function expectAssetPath(source: string | null, asset: string) {
   expect(url.origin).toBe(deployedBase.origin);
   expect(url.pathname).toBe(`${deployedBase.pathname}${asset}`);
 }
+
+test("deployed Pages base path serves the install manifest and supports warm-cache offline study", async ({ page, context }) => {
+  const appRoot = new URL("./", deployedBase).href;
+  const manifestUrl = new URL("manifest.webmanifest", appRoot).href;
+  const manifestResponse = await page.request.get(manifestUrl);
+  expect(manifestResponse.status()).toBe(200);
+  const manifest = await manifestResponse.json();
+  expect(manifest.start_url).toBe("./");
+  expect(manifest.scope).toBe("./");
+  expect(manifest.display).toBe("standalone");
+
+  for (const icon of manifest.icons as Array<{ src: string }>) {
+    const iconUrl = new URL(icon.src, manifestUrl);
+    expect(iconUrl.origin).toBe(deployedBase.origin);
+    expect(iconUrl.pathname.startsWith(deployedBase.pathname)).toBe(true);
+    expect((await page.request.get(iconUrl.href)).status()).toBe(200);
+  }
+
+  await page.goto(appRoot, { waitUntil: "networkidle" });
+  await expect(page.locator("#root .app-shell")).toBeVisible();
+  await page.waitForFunction(async () => {
+    if (!("serviceWorker" in navigator)) return false;
+    const registration = await navigator.serviceWorker.getRegistration();
+    return Boolean(registration?.active && navigator.serviceWorker.controller);
+  }, undefined, { timeout: 20_000 });
+  const actualScope = await page.evaluate(async () => (await navigator.serviceWorker.getRegistration())?.scope ?? "");
+  expect(actualScope).toBe(appRoot);
+
+  // The second online load caches all same-origin assets actually used by the app.
+  await page.reload({ waitUntil: "networkidle" });
+  await page.evaluate(async () => { await document.fonts.ready; });
+  const cacheState = await page.evaluate(async () => {
+    const name = (await caches.keys()).find(key => key.startsWith("rinemi2-app-shell:"));
+    if (!name) return { paths: [] as string[], base: "" };
+    const cache = await caches.open(name);
+    const requests = await cache.keys();
+    return { paths: requests.map(request => new URL(request.url).pathname), base: name };
+  });
+  expect(cacheState.base).not.toBe("");
+  expect(cacheState.paths).toContain(new URL(appRoot).pathname);
+  expect(cacheState.paths.some(path => path.includes("/assets/") && path.endsWith(".js"))).toBe(true);
+  expect(cacheState.paths.some(path => path.includes("/assets/") && path.endsWith(".css"))).toBe(true);
+
+  await context.setOffline(true);
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await expect(page.locator("#root .app-shell")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "امروز، یک قدم به خواندن نزدیک‌تر." })).toBeVisible();
+  await page.getByRole("button", { name: /شروع یادگیری/ }).click();
+  await expect(page.locator(".prompt-kanji")).toBeVisible();
+  await page.getByRole("button", { name: /نمایش پاسخ/ }).click();
+  await expect(page.locator(".answer-heading h2")).toBeVisible();
+});
