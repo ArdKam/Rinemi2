@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   addCharacterToCollection,
   buildSessionQueue,
+  clearCollectionCharacters,
   countDueReviews,
   createCollection,
   createFreshStore,
@@ -10,6 +11,7 @@ import {
   loadStore,
   persistStore,
   recordRating,
+  renameCollection,
   resolveEffectiveTheme,
   THEME_PREFERENCE_KEY,
   removeCharacterFromCollection
@@ -91,6 +93,38 @@ test("collection names are trimmed, bounded, and unique without case-only duplic
   assert.throws(() => createCollection(store, "   ", new Date(), "three"), /COLLECTION_NAME_REQUIRED/);
   const long = createCollection(store, "x".repeat(100), new Date(), "long");
   assert.equal(long.collections[1].name.length, 60);
+});
+
+test("collections can be renamed and cleared in bulk without touching learning history or bookmarks", () => {
+  const now = new Date("2026-10-18T12:00:00.000Z");
+  let store = recordRating(createFreshStore(), "日", "Good", now);
+  store = { ...store, bookmarks: ["日", "一"] };
+  store = createCollection(store, "Travel", now, "travel");
+  store = addCharacterToCollection(store, "travel", "日", now);
+  store = addCharacterToCollection(store, "travel", "一", now);
+  const originalReviews = structuredClone(store.reviews);
+  const originalBookmarks = [...store.bookmarks];
+
+  const renamed = renameCollection(store, "travel", "  Trip kanji  ", new Date(now.getTime() + 1000));
+  assert.equal(renamed.collections[0].name, "Trip kanji");
+  assert.equal(renamed.collections[0].updatedAt, new Date(now.getTime() + 1000).toISOString());
+  assert.deepEqual(renamed.collections[0].characters, ["日", "一"]);
+  assert.deepEqual(renamed.reviews, originalReviews);
+  assert.deepEqual(renamed.bookmarks, originalBookmarks);
+
+  assert.throws(() => renameCollection(renamed, "travel", "   "), /COLLECTION_NAME_REQUIRED/);
+  assert.throws(() => renameCollection(renamed, "missing", "Another"), /COLLECTION_NOT_FOUND/);
+  const second = createCollection(renamed, "Study", now, "study");
+  assert.throws(() => renameCollection(second, "travel", " study "), /COLLECTION_NAME_DUPLICATE/);
+  assert.equal(renameCollection(renamed, "travel", "Trip kanji"), renamed, "unchanged names are a no-op");
+
+  const cleared = clearCollectionCharacters(renamed, "travel", new Date(now.getTime() + 2000));
+  assert.deepEqual(cleared.collections[0].characters, []);
+  assert.deepEqual(cleared.reviews, originalReviews);
+  assert.deepEqual(cleared.bookmarks, originalBookmarks);
+  assert.equal(cleared.collections[0].updatedAt, new Date(now.getTime() + 2000).toISOString());
+  assert.equal(clearCollectionCharacters(cleared, "travel"), cleared, "clearing an empty collection is a no-op");
+  assert.throws(() => clearCollectionCharacters(cleared, "missing"), /COLLECTION_NOT_FOUND/);
 });
 
 test("v1 local data migrates to v2 without losing review history or bookmarks", () => {
