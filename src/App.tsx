@@ -37,6 +37,7 @@ const COPY = {
     browse: "کاوش کانجی‌ها", back: "بازگشت به امروز", progress: "کانجی",
     searchTitle: "کانجی را پیدا کن.", searchHelp: "با خود کانجی، خوانش، معنی انگلیسی یا توضیح فارسی جست‌وجو کن.",
     searchPlaceholder: "مثلاً 日، nichi، خورشید…", allLevels: "همهٔ سطوح JLPT",
+    moreResults: "نمایش نتایج بیشتر", showingResults: "نمایش", ofResults: "از", backToResults: "بازگشت به نتایج",
     allTopics: "همهٔ موضوع‌ها", savedOnly: "فقط ذخیره‌شده‌ها", results: "نتیجه",
     noResults: "چیزی پیدا نشد.", clear: "پاک کردن فیلترها", bookmark: "ذخیره", savedLabel: "ذخیره شد",
     removeSaved: "حذف از ذخیره‌ها", detail: "جزئیات کانجی", close: "بستن جزئیات",
@@ -70,6 +71,7 @@ const COPY = {
     browse: "Explore kanji", back: "Back to Today", progress: "kanji",
     searchTitle: "Find a kanji.", searchHelp: "Search by character, reading, English gloss, or reviewed Persian meaning.",
     searchPlaceholder: "Try 日, nichi, sun…", allLevels: "All JLPT levels",
+    moreResults: "Show more results", showingResults: "Showing", ofResults: "of", backToResults: "Back to results",
     allTopics: "All topics", savedOnly: "Saved only", results: "results",
     noResults: "No matches found.", clear: "Clear filters", bookmark: "Save", savedLabel: "Saved",
     removeSaved: "Remove saved item", detail: "Kanji details", close: "Close details",
@@ -119,6 +121,10 @@ export default function App() {
   const [backupError, setBackupError] = useState("");
   const [dataMessage, setDataMessage] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>("日");
+  const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
+  const [visibleResultCount, setVisibleResultCount] = useState(60);
+  const selectedResultRef = useRef<HTMLButtonElement | null>(null);
+  const detailRef = useRef<HTMLElement | null>(null);
   const [queue, setQueue] = useState<string[]>([]);
   const [sessionIndex, setSessionIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
@@ -166,6 +172,22 @@ export default function App() {
       return haystack.includes(needle);
     }).sort((a, b) => a.order - b.order);
   }, [query, level, topicId, onlySaved, activeCollectionId, store.bookmarks, store.collections]);
+
+  useEffect(() => {
+    setVisibleResultCount(60);
+  }, [query, level, topicId, onlySaved, activeCollectionId]);
+
+  useEffect(() => {
+    if (page !== "explore" || !window.matchMedia("(max-width: 680px)").matches) return;
+    if (mobileDetailOpen && selectedCharacter) {
+      const detail = detailRef.current;
+      if (!detail) return;
+      detail.scrollIntoView({ block: "start", behavior: "auto" });
+      detail.focus({ preventScroll: true });
+    } else if (selectedCharacter) {
+      selectedResultRef.current?.focus({ preventScroll: true });
+    }
+  }, [mobileDetailOpen, page, selectedCharacter]);
 
   function startSession() {
     const nextQueue = buildSessionQueue(store, KANJI, STARTER_CHARACTERS, new Date());
@@ -553,19 +575,27 @@ export default function App() {
               </div>}
           </section>}
         </div>
-        <div className="explore-layout">
+        <div className={"explore-layout" + (mobileDetailOpen ? " is-mobile-detail" : "")}>
           <section className="kanji-results" aria-label={t.explore}>
-            {filteredKanji.slice(0, 240).map(item => {
+            <p className="result-count" role="status">{t.showingResults} {fmt(Math.min(visibleResultCount, filteredKanji.length), language)} {t.ofResults} {fmt(filteredKanji.length, language)} {t.results}</p>
+            {filteredKanji.slice(0, visibleResultCount).map(item => {
               const gloss = glossFor(item.character, language);
-              return <button key={item.character} type="button" className={"kanji-result " + (selectedCharacter === item.character ? "is-selected" : "")} onClick={() => setSelectedCharacter(item.character)} aria-pressed={selectedCharacter === item.character}>
-                <span className="result-glyph" lang="ja">{item.character}</span><span className="result-copy"><strong>{gloss ?? item.meaning.slice(0, 2).join(" · ")}</strong><small>{item.jlpt ?? "Jōyō"} · {fmt(item.strokes, language)} {t.strokes.toLocaleLowerCase()}</small></span>{savedSet.has(item.character) && <span className="saved-dot" aria-label={t.savedLabel}>♥</span>}
+              const reading = item.on[0] ?? item.kun[0] ?? "";
+              return <button ref={item.character === selectedCharacter ? selectedResultRef : undefined} key={item.character} type="button" className={"kanji-result " + (selectedCharacter === item.character ? "is-selected" : "")} onClick={() => {
+                setSelectedCharacter(item.character);
+                setMobileDetailOpen(window.matchMedia("(max-width: 680px)").matches);
+              }} aria-pressed={selectedCharacter === item.character}>
+                <span className="result-glyph" lang="ja">{item.character}</span><span className="result-copy"><strong lang={gloss ? language : "en"} dir="auto">{gloss ?? item.meaning.slice(0, 2).join(" · ")}</strong>{reading && <small className="result-reading" lang="ja" dir="ltr">{reading}</small>}<small className="result-metadata">{item.jlpt ?? "Jōyō"} · {fmt(item.strokes, language)} {t.strokes.toLocaleLowerCase()}</small></span>{savedSet.has(item.character) && <span className="saved-dot" aria-label={t.savedLabel}>♥</span>}
               </button>;
             })}
-            {filteredKanji.length === 0 && <div className="no-results"><span aria-hidden="true">⌕</span><p>{t.noResults}</p><button className="text-link" type="button" onClick={() => { setQuery(""); setLevel("all"); setTopicId("all"); setOnlySaved(false); }}>{t.clear}</button></div>}
-            {filteredKanji.length > 240 && <p className="list-limit">{isFa ? "برای سبک‌ماندن فهرست، ۲۴۰ نتیجهٔ نخست نمایش داده می‌شود؛ جست‌وجو را دقیق‌تر کن." : "The first 240 results are shown for responsiveness. Narrow your search."}</p>}
+            {filteredKanji.length === 0 && <div className="no-results"><span aria-hidden="true">⌕</span><p>{t.noResults}</p><button className="text-link" type="button" onClick={() => { setQuery(""); setLevel("all"); setTopicId("all"); setOnlySaved(false); setActiveCollectionId(null); }}>{t.clear}</button></div>}
+            {filteredKanji.length > visibleResultCount && <button className="button-secondary load-more-results" type="button" onClick={() => setVisibleResultCount(count => Math.min(count + 60, filteredKanji.length))}>{t.moreResults} · {fmt(Math.min(60, filteredKanji.length - visibleResultCount), language)}</button>}
           </section>
-          {selectedItem && <aside className="kanji-detail" aria-labelledby="detail-title">
-            <div className="detail-topline"><span className="eyebrow">{t.detail}</span><button type="button" className="detail-close" onClick={() => setSelectedCharacter(null)} aria-label={t.close}>×</button></div>
+          {selectedItem && <aside ref={detailRef} tabIndex={-1} className="kanji-detail" aria-labelledby="detail-title">
+            <div className="detail-topline"><span className="eyebrow">{t.detail}</span><button type="button" className={"detail-close" + (mobileDetailOpen ? " detail-back" : "")} onClick={() => {
+              if (mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches) setMobileDetailOpen(false);
+              else { setSelectedCharacter(null); setMobileDetailOpen(false); }
+            }} aria-label={mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches ? t.backToResults : t.close}><span className="detail-close-glyph" aria-hidden="true">{mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches ? "←" : "×"}</span><span className="detail-back-label">{t.backToResults}</span></button></div>
             <div className="detail-character" lang="ja">{selectedItem.character}</div><h2 id="detail-title">{selectedGloss ?? selectedItem.meaning.slice(0, 2).join(" · ")}</h2><p className="content-caveat">{selectedGloss ? t.glossNotice : t.sourceDisclaimer}</p>
             <div className="detail-property"><span>{t.on}</span><strong lang="ja" dir="ltr">{selectedItem.on.slice(0, 5).join(" · ") || "—"}</strong></div><div className="detail-property"><span>{t.kun}</span><strong lang="ja" dir="ltr">{selectedItem.kun.slice(0, 5).join(" · ") || "—"}</strong></div>
             {(EXAMPLES[selectedItem.character] ?? []).length > 0 && <section className="detail-examples"><p className="section-kicker">{t.example}</p>{(EXAMPLES[selectedItem.character] ?? []).map(example => <div className="detail-example" key={example.word}><strong lang="ja" dir="ltr">{example.word}</strong><span lang="ja" dir="ltr">{example.reading}</span><small>{language === "fa" ? example.fa : example.en}</small></div>)}</section>}
