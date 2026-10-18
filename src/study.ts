@@ -139,6 +139,13 @@ export function persistStore(store: AppStore): void {
   window.localStorage.setItem(THEME_PREFERENCE_KEY, store.theme);
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...store, version: 2 }));
 }
+
+export function eraseLocalData(): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(STORAGE_KEY);
+  window.localStorage.removeItem(LEGACY_STORAGE_KEY);
+  window.localStorage.removeItem(THEME_PREFERENCE_KEY);
+}
 function createId(): string {
   try {
     if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") return crypto.randomUUID();
