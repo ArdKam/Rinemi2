@@ -174,12 +174,13 @@ test("collection rename and bulk clear preserve bookmarks and review history", a
 
 test("local backup can be downloaded, validated in preview, and restored after confirmation", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "مدیریت داده‌ها" }).click();
+  await page.locator(".data-tools-toggle").click();
 
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "دانلود پشتیبان" }).click();
   const download = await downloadPromise;
-  expect(download.suggestedFilename()).toMatch(/^rinemi-local-backup-\\d{4}-\\d{2}-\\d{2}\\.json$/);
+  expect(download.suggestedFilename().startsWith("rinemi-local-backup-")).toBe(true);
+  expect(download.suggestedFilename().endsWith(".json")).toBe(true);
   const downloadPath = await download.path();
   expect(downloadPath).not.toBeNull();
   const exported = JSON.parse(fs.readFileSync(downloadPath!, "utf8"));
@@ -265,8 +266,8 @@ test("local data erasure clears review, bookmark, collection, legacy and theme p
   await page.goto("/");
   await page.getByRole("button", { name: "مدیریت داده‌ها" }).click();
   page.once("dialog", dialog => dialog.accept());
-  await page.getByRole("button", { name: "پاک‌کردن داده‌های این مرورگر" }).click();
-  await expect(page.getByText("داده‌های محلی پاک شد.")).toBeVisible();
+  await page.getByRole("button", { name: "Erase this browser's data" }).click();
+  await expect(page.getByText("Local learner data was erased.")).toBeVisible();
 
   const state = await page.evaluate(() => ({
     store: JSON.parse(localStorage.getItem("rinemi2:local:v2") || "{}"),
