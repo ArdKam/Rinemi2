@@ -1,0 +1,224 @@
+/* Rinemi 2 — canonical runtime design tokens.
+   Keep semantic color values here. Do not redeclare palettes in component styles.
+   Theme integration contract: set data-theme="light" or "dark" on <html> before first paint.
+*/
+:root {
+  /* Typography */
+  --rinemi-font-family-persian: "Vazirmatn", sans-serif;
+  --rinemi-font-family-latin: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", Inter, sans-serif;
+  --rinemi-font-family-japanese-display: "Noto Serif JP", "Yu Mincho", serif;
+  --rinemi-font-family-japanese-text: "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+
+  --rinemi-font-size-xs: 0.75rem;
+  --rinemi-font-size-sm: 0.875rem;
+  --rinemi-font-size-base: 1rem;
+  --rinemi-font-size-lg: 1.125rem;
+  --rinemi-font-size-xl: 1.25rem;
+  --rinemi-font-size-2xl: 1.5rem;
+  --rinemi-font-size-3xl: 1.875rem;
+  --rinemi-font-size-4xl: 2.25rem;
+  --rinemi-font-size-kanji-display: clamp(4rem, 16vw, 8rem);
+
+  --rinemi-font-weight-regular: 400;
+  --rinemi-font-weight-medium: 500;
+  --rinemi-font-weight-semibold: 600;
+  --rinemi-font-weight-bold: 700;
+
+  --rinemi-line-height-compact: 1.35;
+  --rinemi-line-height-body: 1.65;
+  --rinemi-line-height-reading: 1.8;
+  --rinemi-line-height-kanji: 1.1;
+
+  /* Spacing scale: use these values instead of one-off spacing declarations. */
+  --rinemi-space-0: 0;
+  --rinemi-space-1: 0.25rem;
+  --rinemi-space-2: 0.5rem;
+  --rinemi-space-3: 0.75rem;
+  --rinemi-space-4: 1rem;
+  --rinemi-space-5: 1.25rem;
+  --rinemi-space-6: 1.5rem;
+  --rinemi-space-8: 2rem;
+  --rinemi-space-10: 2.5rem;
+  --rinemi-space-12: 3rem;
+  --rinemi-space-16: 4rem;
+  --rinemi-space-20: 5rem;
+
+  /* Geometry and layering */
+  --rinemi-radius-none: 0;
+  --rinemi-radius-sm: 0.25rem;
+  --rinemi-radius-md: 0.5rem;
+  --rinemi-radius-lg: 0.75rem;
+  --rinemi-radius-xl: 1rem;
+  --rinemi-radius-full: 9999px;
+
+  --rinemi-border-width-default: 1px;
+  --rinemi-border-width-focus: 2px;
+  --rinemi-focus-offset: 2px;
+
+  --rinemi-size-target-min: 44px;
+  --rinemi-content-width-reading: 68ch;
+  --rinemi-content-width-page: 72rem;
+
+  --rinemi-layer-base: 0;
+  --rinemi-layer-sticky: 10;
+  --rinemi-layer-header: 20;
+  --rinemi-layer-drawer: 30;
+  --rinemi-layer-dialog: 40;
+  --rinemi-layer-toast: 50;
+
+  /* Motion: semantic durations only; honor reduced-motion below. */
+  --rinemi-motion-fast: 120ms;
+  --rinemi-motion-standard: 180ms;
+  --rinemi-motion-slow: 240ms;
+  --rinemi-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* Surfaces */
+  --rinemi-color-bg-canvas: #F7F4EE;
+  --rinemi-color-bg-surface: #FDFBF7;
+  --rinemi-color-bg-raised: #FFFFFF;
+  --rinemi-color-bg-inset: #EFEAE1;
+  --rinemi-color-overlay: rgb(29 27 24 / 52%);
+
+  /* Text */
+  --rinemi-color-text-primary: #292B2D;
+  --rinemi-color-text-secondary: #55544F;
+  --rinemi-color-text-muted: #67645E;
+  --rinemi-color-text-disabled: #645751;
+  --rinemi-color-text-inverse: #FFFFFF;
+  --rinemi-color-link: #344B87;
+
+  /* Boundaries: subtle borders are decorative; interactive boundaries use strong. */
+  --rinemi-color-border-subtle: #DED8CE;
+  --rinemi-color-border-default: #C7BFB2;
+  --rinemi-color-border-strong: #827B70;
+  --rinemi-color-border-interactive: #827B70;
+  --rinemi-color-divider: #DED8CE;
+
+  /* Brand action: vermilion/coral is primary; indigo is secondary. */
+  --rinemi-color-action-primary-bg: #A63D2F;
+  --rinemi-color-action-primary-hover-bg: #8F3328;
+  --rinemi-color-action-primary-pressed-bg: #752A22;
+  --rinemi-color-action-primary-fg: #FFFFFF;
+  --rinemi-color-action-primary-disabled-bg: #E9DED9;
+  --rinemi-color-action-primary-disabled-fg: #645751;
+
+  --rinemi-color-action-secondary-fg: #344B87;
+  --rinemi-color-action-secondary-hover-bg: #ECEEF4;
+  --rinemi-color-action-secondary-border: #A7B2CB;
+
+  /* Selection is distinct from both primary action and focus. */
+  --rinemi-color-selection-bg: #E7EAF2;
+  --rinemi-color-selection-fg: #344B87;
+  --rinemi-color-selection-border: #6576A2;
+
+  /* Destructive/error is a separate semantic role from brand-primary action. */
+  --rinemi-color-danger-fg: #B42318;
+  --rinemi-color-danger-bg: #FCE9E7;
+  --rinemi-color-danger-border: #E2A7A1;
+  --rinemi-color-action-danger-bg: #B42318;
+  --rinemi-color-action-danger-hover-bg: #8F1D14;
+  --rinemi-color-action-danger-fg: #FFFFFF;
+
+  --rinemi-color-success-fg: #28623D;
+  --rinemi-color-success-bg: #E6F1E7;
+  --rinemi-color-success-border: #9FBDA5;
+
+  --rinemi-color-warning-fg: #7A4B12;
+  --rinemi-color-warning-bg: #FFF1D6;
+  --rinemi-color-warning-border: #D9B66A;
+
+  --rinemi-color-info-fg: #31568C;
+  --rinemi-color-info-bg: #E8EEF9;
+  --rinemi-color-info-border: #A7B8D9;
+
+  --rinemi-color-focus-ring: #344B87;
+  --rinemi-shadow-raised: 0 4px 16px rgb(41 43 45 / 8%);
+  --rinemi-shadow-overlay: 0 14px 40px rgb(41 43 45 / 16%);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --rinemi-color-bg-canvas: #1D2022;
+  --rinemi-color-bg-surface: #25282A;
+  --rinemi-color-bg-raised: #2D3032;
+  --rinemi-color-bg-inset: #17191A;
+  --rinemi-color-overlay: rgb(0 0 0 / 64%);
+
+  /* Text */
+  --rinemi-color-text-primary: #F3EEE6;
+  --rinemi-color-text-secondary: #CBC4B9;
+  --rinemi-color-text-muted: #A9A299;
+  --rinemi-color-text-disabled: #B6A6A0;
+  --rinemi-color-text-inverse: #29211F;
+  --rinemi-color-link: #B8C5FA;
+
+  /* Boundaries */
+  --rinemi-color-border-subtle: #393B3B;
+  --rinemi-color-border-default: #484641;
+  --rinemi-color-border-strong: #817D73;
+  --rinemi-color-border-interactive: #817D73;
+  --rinemi-color-divider: #393B3B;
+
+  /* Same semantic role as light mode, separately tuned for the dark surface. */
+  --rinemi-color-action-primary-bg: #F0A08B;
+  --rinemi-color-action-primary-hover-bg: #F7B39F;
+  --rinemi-color-action-primary-pressed-bg: #DB8A76;
+  --rinemi-color-action-primary-fg: #29211F;
+  --rinemi-color-action-primary-disabled-bg: #443533;
+  --rinemi-color-action-primary-disabled-fg: #B6A6A0;
+
+  --rinemi-color-action-secondary-fg: #D7E0FF;
+  --rinemi-color-action-secondary-hover-bg: #2B3346;
+  --rinemi-color-action-secondary-border: #8195CF;
+
+  --rinemi-color-selection-bg: #2B3346;
+  --rinemi-color-selection-fg: #D7E0FF;
+  --rinemi-color-selection-border: #8195CF;
+
+  --rinemi-color-danger-fg: #FFAAA5;
+  --rinemi-color-danger-bg: #402322;
+  --rinemi-color-danger-border: #8B4B47;
+  --rinemi-color-action-danger-bg: #FFAAA5;
+  --rinemi-color-action-danger-hover-bg: #FFC2BE;
+  --rinemi-color-action-danger-fg: #351311;
+
+  --rinemi-color-success-fg: #A6DAB1;
+  --rinemi-color-success-bg: #20372A;
+  --rinemi-color-success-border: #466A50;
+
+  --rinemi-color-warning-fg: #F3C67D;
+  --rinemi-color-warning-bg: #3B2E1E;
+  --rinemi-color-warning-border: #80613B;
+
+  --rinemi-color-info-fg: #B6C8F4;
+  --rinemi-color-info-bg: #253148;
+  --rinemi-color-info-border: #50658B;
+
+  --rinemi-color-focus-ring: #B8C5FA;
+  --rinemi-shadow-raised: 0 4px 16px rgb(0 0 0 / 32%);
+  --rinemi-shadow-overlay: 0 14px 40px rgb(0 0 0 / 48%);
+}
+
+:where(:focus-visible) {
+  outline: var(--rinemi-border-width-focus) solid var(--rinemi-color-focus-ring);
+  outline-offset: var(--rinemi-focus-offset);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --rinemi-motion-fast: 0ms;
+    --rinemi-motion-standard: 0ms;
+    --rinemi-motion-slow: 0ms;
+  }
+
+  :where(html) {
+    scroll-behavior: auto;
+  }
+}
