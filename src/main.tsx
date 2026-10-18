@@ -1,7 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
-import "./styles.css";
 import "@fontsource-variable/plus-jakarta-sans";
 import "vazirmatn/Vazirmatn-Variable-font-face.css";
 
