@@ -257,27 +257,36 @@ export default function App() {
     if (!window.confirm(t.eraseDataConfirm)) return;
     try {
       eraseLocalData();
-      const fresh = createFreshStore();
-      persistStore(fresh);
-      setStore(fresh);
-      setStorageWarning(false);
-      setPage("today");
-      setQueue([]);
-      setSessionIndex(0);
-      setSessionRated(0);
-      setRevealed(false);
-      setQuery("");
-      setLevel("all");
-      setTopicId("all");
-      setOnlySaved(false);
-      setActiveCollectionId(null);
-      setSelectedCharacter("日");
-      setBackupPreview(null);
-      setBackupError("");
-      setDataMessage(t.dataErased);
     } catch {
       setStorageWarning(true);
       setDataMessage(t.dataEraseFailed);
+      return;
+    }
+
+    const fresh = createFreshStore();
+    setStore(fresh);
+    setStorageWarning(false);
+    setPage("today");
+    setQueue([]);
+    setSessionIndex(0);
+    setSessionRated(0);
+    setRevealed(false);
+    setQuery("");
+    setLevel("all");
+    setTopicId("all");
+    setOnlySaved(false);
+    setActiveCollectionId(null);
+    setSelectedCharacter("日");
+    setBackupPreview(null);
+    setBackupError("");
+    try {
+      // Reinitialize an empty versioned store after deleting every prior data key.
+      persistStore(fresh);
+      setDataMessage(t.dataErased);
+    } catch {
+      // Personal records have already been removed; the warning concerns reinitializing storage.
+      setStorageWarning(true);
+      setDataMessage(t.dataErased);
     }
   }
   function createNamedCollection() {
