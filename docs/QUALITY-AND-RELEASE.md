@@ -210,7 +210,7 @@ When a defect appears:
 
 ## Semantic token and automated accessibility gates
 
-- CI must run `npm run check:contrast` against the canonical `src/styles/design-tokens.css`.
+- CI must run `npm run check:contrast` against the canonical `src/styles/design-tokens.css` and verify that every `--rinemi-*` alias consumed by the app resolves to a declared token.
 - Core browser journeys must run at small phone, typical phone, compact landscape and desktop viewport classes with horizontal-overflow assertions.
 - Core controls must retain comfortable target size; this implementation uses a 44 CSS-pixel minimum for button/select and text-input controls, with larger touch surfaces where appropriate.
 - Axe-based browser checks cover Today, revealed learning and Explore in representative Persian/English and light/dark states. Any exception must be explicit, narrowly scoped, and tracked to resolution.
