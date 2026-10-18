@@ -197,6 +197,10 @@ h1 { margin-bottom: var(--rinemi-space-3); font-size: var(--rinemi-font-size-pag
 .collection-open[aria-pressed="true"] strong { color: var(--vermilion); }
 .collection-actions { display: flex; flex: 0 0 auto; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: var(--rinemi-space-3); }
 .collection-actions .text-link { font-size: var(--rinemi-font-size-control); }
+.collection-rename-form { display: flex; flex: 1 1 320px; align-items: end; gap: var(--rinemi-space-2); min-width: 0; }
+.collection-rename-form .collection-name-field { flex: 1 1 160px; }
+.collection-rename-form button { min-height: 44px; }
+.collection-rename-form .button-secondary { flex: 0 0 auto; }
 .collection-delete { color: var(--muted-strong); }
 .detail-collection-control { display: grid; gap: var(--rinemi-space-2); margin-top: var(--rinemi-space-3); padding-top: var(--rinemi-space-3); border-top: 1px solid var(--line-soft); }
 .detail-collection-control label { display: grid; gap: var(--rinemi-space-1); }
@@ -301,6 +305,8 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
   .collection-create-form { align-items: stretch; flex-direction: column; }
   .collection-create-button { width: 100%; }
   .collection-row { align-items: flex-start; flex-direction: column; gap: var(--rinemi-space-2); }
+  .collection-rename-form { width: 100%; align-items: stretch; flex-direction: column; }
+  .collection-rename-form button { width: 100%; }
   .collection-actions { justify-content: flex-start; }
   .detail-collection-control .button-secondary { width: 100%; }
   .kanji-result { grid-template-columns: 45px minmax(0, 1fr) 20px; gap: var(--rinemi-space-2); }

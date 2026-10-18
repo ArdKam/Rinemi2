@@ -130,6 +130,48 @@ test("personal collections can add, filter, and remove kanji without altering bo
 });
 
 
+
+test("collection rename and bulk clear preserve bookmarks and review history", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "کاوش" }).click();
+  await page.getByPlaceholder("مثلاً 日، nichi، خورشید…").fill("日");
+  await page.locator(".kanji-result").first().click();
+
+  await page.getByRole("button", { name: /مجموعه‌های شخصی/ }).click();
+  await page.getByLabel("نام مجموعه").fill("کانجی‌های روزانه");
+  await page.getByRole("button", { name: "ساخت مجموعه" }).click();
+  await expect(page.getByText("مجموعه ساخته شد.")).toBeVisible();
+
+  const collectionRow = page.locator(".collection-row").first();
+  await page.locator(".detail-collection-control button").click();
+  await expect(page.getByText("کانجی به مجموعه افزوده شد.")).toBeVisible();
+
+  await collectionRow.getByRole("button", { name: "تغییر نام" }).click();
+  await collectionRow.locator("input").fill("کانجی‌های ضروری");
+  await collectionRow.getByRole("button", { name: "ذخیره نام" }).click();
+  await expect(collectionRow.locator(".collection-open")).toContainText("کانجی‌های ضروری");
+  await expect(page.getByText("نام مجموعه تغییر کرد.")).toBeVisible();
+
+  const before = await page.evaluate(() => {
+    const parsed = JSON.parse(localStorage.getItem("rinemi2:local:v2") || "{}");
+    return { reviews: parsed.reviews, bookmarks: parsed.bookmarks };
+  });
+  page.once("dialog", dialog => dialog.accept());
+  await collectionRow.getByRole("button", { name: "حذف همهٔ موارد" }).click();
+  await expect(page.getByText("همهٔ کانجی‌ها از مجموعه حذف شدند.")).toBeVisible();
+
+  const after = await page.evaluate(() => {
+    const parsed = JSON.parse(localStorage.getItem("rinemi2:local:v2") || "{}");
+    return { reviews: parsed.reviews, bookmarks: parsed.bookmarks, collection: parsed.collections[0] };
+  });
+  expect(after.collection.name).toBe("کانجی‌های ضروری");
+  expect(after.collection.characters).toEqual([]);
+  expect(after.reviews).toEqual(before.reviews);
+  expect(after.bookmarks).toEqual(before.bookmarks);
+});
+
+
 for (const viewport of [
   { name: "small phone portrait", width: 320, height: 640 },
   { name: "typical phone portrait", width: 390, height: 844 },

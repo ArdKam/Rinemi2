@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import sourceDataset from "./data/kanji.json";
 import topicDataset from "./data/kanji-topics.json";
 import { EXAMPLES, PERSIAN_GLOSSES, STARTER_CHARACTERS } from "./content";
-import { addCharacterToCollection, buildSessionQueue, countDueReviews, createCollection, deleteCollection, loadStore, persistStore, recordRating, removeCharacterFromCollection, resolveEffectiveTheme, type AppStore, type ReviewRating } from "./study";
+import { addCharacterToCollection, buildSessionQueue, clearCollectionCharacters, countDueReviews, createCollection, deleteCollection, loadStore, persistStore, recordRating, removeCharacterFromCollection, renameCollection, resolveEffectiveTheme, type AppStore, type ReviewRating } from "./study";
 import { applyThemePreference } from "./theme";
 
 type Kanji = { id: string; character: string; meaning: string[]; on: string[]; kun: string[]; strokes: number; grade: number; jlpt: string | null; frequency: number; order: number };
@@ -47,7 +47,7 @@ const COPY = {
     contentNote: "دادهٔ پایه از KANJIDIC2 آمده است. توضیح‌های فارسی فعلاً فقط برای مجموعهٔ آغازین نوشته شده‌اند و پیش از انتشار عمومی باید بازبینی شوند.",
     feedback: "بازخورد", feedbackCopy: "این نسخهٔ آغازین هنوز به بازبینی محتوایی نیاز دارد.",
     practice: "تمرین همین کانجی",
-    collectionsLabel: "مجموعه‌های شخصی", showCollections: "نمایش مجموعه‌ها", collectionName: "نام مجموعه", collectionPlaceholder: "مثلاً کانجی‌های گیج‌کننده", createCollection: "ساخت مجموعه", createFirstCollection: "اولین مجموعه را بساز", collectionEmpty: "هنوز مجموعه‌ای نساخته‌ای.", collectionHelp: "کانجی‌ها را برای مرور و مطالعهٔ شخصی دسته‌بندی کن.", addToCollection: "افزودن به مجموعه", removeFromCollection: "حذف از این مجموعه", collectionAdded: "کانجی به مجموعه افزوده شد.", collectionRemoved: "کانجی از مجموعه حذف شد.", collectionCreated: "مجموعه ساخته شد.", collectionExists: "مجموعه‌ای با این نام وجود دارد.", collectionNameRequired: "یک نام برای مجموعه وارد کن.", collectionLimit: "به سقف تعداد مجموعه‌ها رسیده‌ای.", collectionDeleted: "مجموعه حذف شد.", deleteCollection: "حذف مجموعه", deleteConfirm: "این مجموعه حذف شود؟ کانجی‌ها و سابقهٔ مرور حذف نمی‌شوند.", studyCollection: "مطالعهٔ ۲۰ مورد نخست", openCollection: "نمایش کانجی‌ها", allCharacters: "نمایش همهٔ کانجی‌ها", collectionFilterHint: "نتایج به مجموعهٔ انتخاب‌شده محدود شده‌اند."
+    collectionsLabel: "مجموعه‌های شخصی", showCollections: "نمایش مجموعه‌ها", collectionName: "نام مجموعه", collectionPlaceholder: "مثلاً کانجی‌های گیج‌کننده", createCollection: "ساخت مجموعه", createFirstCollection: "اولین مجموعه را بساز", collectionEmpty: "هنوز مجموعه‌ای نساخته‌ای.", collectionHelp: "کانجی‌ها را برای مرور و مطالعهٔ شخصی دسته‌بندی کن.", addToCollection: "افزودن به مجموعه", removeFromCollection: "حذف از این مجموعه", collectionAdded: "کانجی به مجموعه افزوده شد.", collectionRemoved: "کانجی از مجموعه حذف شد.", collectionCreated: "مجموعه ساخته شد.", collectionExists: "مجموعه‌ای با این نام وجود دارد.", collectionNameRequired: "یک نام برای مجموعه وارد کن.", collectionLimit: "به سقف تعداد مجموعه‌ها رسیده‌ای.", collectionDeleted: "مجموعه حذف شد.", deleteCollection: "حذف مجموعه", deleteConfirm: "این مجموعه حذف شود؟ کانجی‌ها و سابقهٔ مرور حذف نمی‌شوند.", renameCollection: "تغییر نام", saveCollectionName: "ذخیره نام", cancelCollectionRename: "لغو", collectionRenamed: "نام مجموعه تغییر کرد.", clearCollection: "حذف همهٔ موارد", clearCollectionConfirm: "همهٔ کانجی‌های این مجموعه حذف شوند؟ نشانک‌ها و سابقهٔ مرور تغییر نمی‌کنند.", collectionCleared: "همهٔ کانجی‌ها از مجموعه حذف شدند.", studyCollection: "مطالعهٔ ۲۰ مورد نخست", openCollection: "نمایش کانجی‌ها", allCharacters: "نمایش همهٔ کانجی‌ها", collectionFilterHint: "نتایج به مجموعهٔ انتخاب‌شده محدود شده‌اند."
   },
   en: {
     today: "Today", learn: "Learn", explore: "Explore", brand: "Kanji through meaning and use",
@@ -79,7 +79,7 @@ const COPY = {
     contentNote: "The base dataset is derived from KANJIDIC2. Persian explanations currently cover only the starter set and require review before public release.",
     feedback: "Feedback", feedbackCopy: "This early build still needs content review.",
     practice: "Practice this kanji",
-    collectionsLabel: "Personal collections", showCollections: "Show collections", collectionName: "Collection name", collectionPlaceholder: "e.g. Confusing kanji", createCollection: "Create collection", createFirstCollection: "Create your first collection", collectionEmpty: "You have not created a collection yet.", collectionHelp: "Group kanji for your own review and focused study.", addToCollection: "Add to collection", removeFromCollection: "Remove from collection", collectionAdded: "Kanji added to collection.", collectionRemoved: "Kanji removed from collection.", collectionCreated: "Collection created.", collectionExists: "A collection with this name already exists.", collectionNameRequired: "Enter a name for the collection.", collectionLimit: "You have reached the collection limit.", collectionDeleted: "Collection deleted.", deleteCollection: "Delete collection", deleteConfirm: "Delete this collection? Kanji and review history will remain.", studyCollection: "Study first 20 items", openCollection: "Show kanji", allCharacters: "Show all kanji", collectionFilterHint: "Results are filtered to the selected collection."
+    collectionsLabel: "Personal collections", showCollections: "Show collections", collectionName: "Collection name", collectionPlaceholder: "e.g. Confusing kanji", createCollection: "Create collection", createFirstCollection: "Create your first collection", collectionEmpty: "You have not created a collection yet.", collectionHelp: "Group kanji for your own review and focused study.", addToCollection: "Add to collection", removeFromCollection: "Remove from collection", collectionAdded: "Kanji added to collection.", collectionRemoved: "Kanji removed from collection.", collectionCreated: "Collection created.", collectionExists: "A collection with this name already exists.", collectionNameRequired: "Enter a name for the collection.", collectionLimit: "You have reached the collection limit.", collectionDeleted: "Collection deleted.", deleteCollection: "Delete collection", deleteConfirm: "Delete this collection? Kanji and review history will remain.", renameCollection: "Rename", saveCollectionName: "Save name", cancelCollectionRename: "Cancel", collectionRenamed: "Collection renamed.", clearCollection: "Remove all items", clearCollectionConfirm: "Remove every kanji from this collection? Bookmarks and review history will remain unchanged.", collectionCleared: "All kanji removed from the collection.", studyCollection: "Study first 20 items", openCollection: "Show kanji", allCharacters: "Show all kanji", collectionFilterHint: "Results are filtered to the selected collection."
   }
 } as const;
 const RATING_HINTS = {
@@ -109,6 +109,8 @@ export default function App() {
   const [activeCollectionId, setActiveCollectionId] = useState<string | null>(null);
   const [collectionTargetId, setCollectionTargetId] = useState("");
   const [collectionMessage, setCollectionMessage] = useState("");
+  const [editingCollectionId, setEditingCollectionId] = useState<string | null>(null);
+  const [editingCollectionName, setEditingCollectionName] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>("日");
   const [queue, setQueue] = useState<string[]>([]);
   const [sessionIndex, setSessionIndex] = useState(0);
@@ -196,6 +198,30 @@ export default function App() {
       const code = error instanceof Error ? error.message : "";
       setCollectionMessage(code === "COLLECTION_NAME_DUPLICATE" ? t.collectionExists
         : code === "COLLECTION_LIMIT_REACHED" ? t.collectionLimit : t.collectionNameRequired);
+    }
+  }
+  function renameNamedCollection(collectionId: string) {
+    try {
+      const next = renameCollection(store, collectionId, editingCollectionName);
+      setStore(next);
+      setEditingCollectionId(null);
+      setEditingCollectionName("");
+      setCollectionMessage(t.collectionRenamed);
+    } catch (error) {
+      const code = error instanceof Error ? error.message : "";
+      setCollectionMessage(code === "COLLECTION_NAME_DUPLICATE" ? t.collectionExists
+        : code === "COLLECTION_NOT_FOUND" ? t.collectionEmpty : t.collectionNameRequired);
+    }
+  }
+  function clearNamedCollection(collectionId: string) {
+    const collection = store.collections.find(item => item.id === collectionId);
+    if (!collection || collection.characters.length === 0) return;
+    if (!window.confirm(t.clearCollectionConfirm)) return;
+    try {
+      setStore(clearCollectionCharacters(store, collectionId));
+      setCollectionMessage(t.collectionCleared);
+    } catch {
+      setCollectionMessage(t.collectionEmpty);
     }
   }
   function toggleCollectionCharacter(collectionId: string, character: string) {
@@ -347,16 +373,28 @@ export default function App() {
               ? <p className="collection-empty">{t.collectionEmpty}</p>
               : <div className="collection-list">
                 {store.collections.map(collection => <article className={"collection-row " + (activeCollectionId === collection.id ? "is-active" : "")} key={collection.id}>
-                  <button className="collection-open" type="button" aria-pressed={activeCollectionId === collection.id} onClick={() => setActiveCollectionId(current => current === collection.id ? null : collection.id)}>
-                    <strong>{collection.name}</strong><span>{fmt(collection.characters.length, language)}</span>
-                  </button>
+                  {editingCollectionId === collection.id
+                    ? <form className="collection-rename-form" onSubmit={event => { event.preventDefault(); renameNamedCollection(collection.id); }}>
+                        <label className="collection-name-field">
+                          <span>{t.collectionName}</span>
+                          <input autoFocus value={editingCollectionName} onChange={event => setEditingCollectionName(event.target.value)} maxLength={60} />
+                        </label>
+                        <button className="button-secondary" type="submit">{t.saveCollectionName}</button>
+                        <button className="text-link" type="button" onClick={() => { setEditingCollectionId(null); setEditingCollectionName(""); }}>{t.cancelCollectionRename}</button>
+                      </form>
+                    : <button className="collection-open" type="button" aria-pressed={activeCollectionId === collection.id} onClick={() => setActiveCollectionId(current => current === collection.id ? null : collection.id)}>
+                        <strong>{collection.name}</strong><span>{fmt(collection.characters.length, language)}</span>
+                      </button>}
                   <div className="collection-actions">
                     <button className="text-link" type="button" disabled={collection.characters.length === 0} onClick={() => beginCollectionStudy(collection.id)}>{t.studyCollection}</button>
+                    <button className="text-link" type="button" onClick={() => { setEditingCollectionId(collection.id); setEditingCollectionName(collection.name); }}>{t.renameCollection}</button>
+                    <button className="text-link" type="button" disabled={collection.characters.length === 0} onClick={() => clearNamedCollection(collection.id)}>{t.clearCollection}</button>
                     <button className="text-link collection-delete" type="button" onClick={() => {
                       if (!window.confirm(t.deleteConfirm)) return;
                       setStore(previous => deleteCollection(previous, collection.id));
                       setActiveCollectionId(current => current === collection.id ? null : current);
                       setCollectionTargetId(current => current === collection.id ? "" : current);
+                      setEditingCollectionId(current => current === collection.id ? null : current);
                       setCollectionMessage(t.collectionDeleted);
                     }}>{t.deleteCollection}</button>
                   </div>

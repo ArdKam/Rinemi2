@@ -181,6 +181,38 @@ export function deleteCollection(store: AppStore, collectionId: string): AppStor
   if (!store.collections.some(item => item.id === collectionId)) return store;
   return { ...store, collections: store.collections.filter(item => item.id !== collectionId) };
 }
+
+export function renameCollection(store: AppStore, collectionId: string, name: string, now = new Date()): AppStore {
+  const current = store.collections.find(item => item.id === collectionId);
+  if (!current) throw new Error("COLLECTION_NOT_FOUND");
+  const normalizedName = name.trim().slice(0, 60);
+  if (!normalizedName) throw new Error("COLLECTION_NAME_REQUIRED");
+  if (store.collections.some(item => item.id !== collectionId
+    && item.name.localeCompare(normalizedName, undefined, { sensitivity: "accent" }) === 0)) {
+    throw new Error("COLLECTION_NAME_DUPLICATE");
+  }
+  if (current.name === normalizedName) return store;
+  const updatedAt = now.toISOString();
+  return {
+    ...store,
+    collections: store.collections.map(item => item.id === collectionId
+      ? { ...item, name: normalizedName, updatedAt }
+      : item)
+  };
+}
+
+export function clearCollectionCharacters(store: AppStore, collectionId: string, now = new Date()): AppStore {
+  const current = store.collections.find(item => item.id === collectionId);
+  if (!current) throw new Error("COLLECTION_NOT_FOUND");
+  if (current.characters.length === 0) return store;
+  const updatedAt = now.toISOString();
+  return {
+    ...store,
+    collections: store.collections.map(item => item.id === collectionId
+      ? { ...item, characters: [], updatedAt }
+      : item)
+  };
+}
 function reviveCard(card: SavedCard): SavedCard {
   return { ...card, due: new Date(card.due), last_review: card.last_review ? new Date(card.last_review) : undefined };
 }
