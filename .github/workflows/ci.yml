@@ -15,9 +15,11 @@ jobs:
         with:
           node-version: 22
       - run: npm install --no-audit --no-fund
+      - run: node --check scripts/smoke-deployment.mjs
       - run: npm test
       - run: npm run typecheck
       - run: npm run build
+      - run: npm run build:pages
       - run: npm run check:contrast
       - run: npx playwright install --with-deps chromium
       - run: npm run e2e
