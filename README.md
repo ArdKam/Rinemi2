@@ -66,7 +66,8 @@ A committed npm lockfile pins the dependency tree. Use `npm ci` for local setup 
 7. [Data-source provenance](docs/DATA-SOURCES.md)
 8. [Starter content QA register](docs/CONTENT-QA-REGISTER.md)
 9. [Manual release acceptance checklist](docs/MANUAL-RELEASE-ACCEPTANCE.md)
-10. [Decision log](docs/DECISIONS.md)
+10. [Anki import support matrix](docs/ANKI-IMPORT-SUPPORT.md)
+11. [Decision log](docs/DECISIONS.md)
 
 ## Repository boundary
 
