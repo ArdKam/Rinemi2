@@ -149,7 +149,7 @@ New scope requires a documented learner problem, expected benefit, content/sourc
 | P4 | Content/data audit and source adapters | Trusted content foundation with provenance and failure handling | P0, parallel to P1–P3 | IN PROGRESS — corpus/topic integrity checks and attribution added; human content QA pending |
 | P5 | Shell, navigation, onboarding, Today | First usable product skeleton with real content density | P3, P4 | IN PROGRESS — code slice exists; rendered-browser verification and onboarding remain open |
 | P6 | Learning card and practice journey | End-to-end learning, recall, feedback, ratings and recovery | P5, P4 | IN PROGRESS — reveal/rating/local FSRS slice exists; full recovery/adaptive semantics and browser QA remain open |
-| P7 | Explore, Dictionary, detail, bookmarks | Find and save kanji without search/filter overload | P5, P4 | IN PROGRESS — search/filter/detail/local bookmarks exist; collections and browser QA remain open |
+| P7 | Explore, Dictionary, detail, bookmarks | Find and save kanji without search/filter overload | P5, P4 | IN PROGRESS — search/filter/detail/bookmarks and named collections exist; final browser QA and bulk management remain open |
 | P8 | Anki import and imported material | Safely import supported deck exports with preview and error reporting | P7, data identity design | NOT STARTED |
 | P9 | Vocabulary-to-reading continuity | Connect mastered/known kanji to words and short reading | P6, P7, content QA | NOT STARTED |
 | P10 | Progress, settings, account/data controls | Meaningful progress and understandable user control | P6 plus data contract | NOT STARTED |
@@ -312,11 +312,12 @@ Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.
 - [ ] Provide a clear detail hierarchy: character and essential meaning, common readings in use, vocabulary, structure, stroke-order reference, lookalikes, and source/reference notes.
 - [ ] Distinguish what is useful to learn now from what is useful to consult.
 - [ ] Make search empty/no-match/offline/failure states actionable.
-- [ ] Add a bookmark action in both detail and relevant learning contexts.
-- [ ] Build saved-items view with search, filters, creation/rename/delete for collections, add/remove and bulk selection, confirmation for destructive bulk actions, and focused practice from a collection.
-- [ ] Treat bookmarks and collections as organization only; they must not silently alter due dates, mastery or scheduler state.
+- [x] Add a bookmark action in both detail and relevant learning contexts.
+- [x] Create/delete named collections, add/remove a kanji, filter Explore by a chosen collection, and start a focused session of up to 20 items.
+- [x] Treat bookmarks and collections as organization only; the collection contract tests verify they do not mutate scheduler records or bookmarks.
+- [ ] Add collection rename, bulk selection/add/remove and richer saved-item management only after the basic workflow is browser-verified.
 - [ ] Avoid adding a tag, badge, chip or icon where the same information is already visually obvious.
-- [ ] Verify large collections, zero results, duplicate saves, keyboard navigation and mobile reachability.
+- [ ] Verify large collections, zero results, duplicate saves, keyboard navigation and mobile reachability in the rendered browser.
 - [ ] Establish persistence/export semantics and conflict behavior before syncing saved state across devices.
 
 **Acceptance:** learners can locate a character, understand its essential information, save it, find it later, and start study from saved items without losing search context.
