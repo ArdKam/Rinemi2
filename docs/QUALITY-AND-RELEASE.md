@@ -216,3 +216,14 @@ When a defect appears:
 - Axe-based browser checks cover Today, revealed learning and Explore in representative Persian/English and light/dark states. Any exception must be explicit, narrowly scoped, and tracked to resolution.
 - Automated accessibility tools do not prove conformance. Manual keyboard, focus order, screen-reader, zoom, RTL/LTR and actual-render checks remain required.
 - Saved language/theme preference bootstrap runs before the React module so a returning learner does not intentionally wait for hydration to get the correct document direction/theme. Storage failures must fall back safely without blocking app startup.
+
+
+## Deployment acceptance — GitHub Pages preview
+
+- GitHub Pages must publish the Vite production artifact from `dist/`; publishing the source tree with Jekyll is not a successful application deployment.
+- The GitHub Pages project base is `/Rinemi2/`. Use the dedicated `npm run build:pages` script so HTML references, module scripts, stylesheet links and public assets are rebased to that path without changing local development defaults.
+- Repository **Settings → Pages → Build and deployment → Source** must be set to **GitHub Actions**. The deployment workflow is not a substitute for this repository-level setting.
+- `.github/workflows/deploy-pages.yml` must install dependencies, pass the existing test/typecheck/build/e2e gates, upload only `dist/`, deploy via the Pages artifact action, and run `scripts/smoke-deployment.mjs` against the returned deployed URL.
+- The smoke test must request the deployed entry page and every same-origin script, stylesheet, icon and locally referenced CSS asset; require successful HTTP responses; ensure a compiled module is present; ensure the source `/src/main.tsx` is not served; and ensure all local URLs remain under the `/Rinemi2/` base path.
+- Keep the hosting issue open until the deployment action and smoke test pass. Then manually verify Persian RTL, English LTR, light/dark themes, a narrow mobile viewport, refresh/navigation, and browser console/network errors.
+- A green GitHub Pages/Jekyll run, a successful build, or a passing smoke test in isolation does not establish full visual acceptance or production readiness.

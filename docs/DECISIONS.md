@@ -121,3 +121,12 @@ Copy this template for consequential decisions:
 - **Implementation and migration consequence:**
 - **Verification required:**
 - **Status:** PROPOSED / ACCEPTED / REJECTED / SUPERSEDED
+
+
+### D-012 — GitHub Pages is the public preview target, not the release gate
+- **Date:** 2026-10-18
+- **Decision:** retain `https://ardkam.github.io/Rinemi2/` as the preview URL, but publish it only from the Vite `dist/` artifact using a dedicated GitHub Actions workflow.
+- **Reason:** the current branch/Jekyll publication serves source entry points and fails to load the React application.
+- **Scope:** this approves repairing the existing public preview URL; it does not approve a public beta or declare the product production-ready.
+- **Acceptance:** change the repository Pages source to GitHub Actions, pass the post-deployment HTTP smoke test, and complete the manual browser matrix in the quality/release plan.
+- **Status:** ACCEPTED FOR PREVIEW; DEPLOYMENT NOT YET VERIFIED
