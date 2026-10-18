@@ -1,4 +1,5 @@
 import { createEmptyCard, fsrs, Rating } from "ts-fsrs";
+import { readThemePreference, type ThemePreference } from "./theme";
 
 export type ReviewRating = "Again" | "Hard" | "Good" | "Easy";
 type SavedCard = { due: string | Date; last_review?: string | Date; state: number; [key: string]: unknown };
@@ -6,7 +7,7 @@ type ReviewRecord = { card: SavedCard; reviews: number; lapses: number; lastRevi
 export type AppStore = {
   version: 1;
   language: "fa" | "en";
-  theme: "light" | "dark";
+  theme: ThemePreference;
   bookmarks: string[];
   reviews: Record<string, ReviewRecord>;
 };
@@ -24,7 +25,7 @@ const scheduler = fsrs({
 });
 
 export function createFreshStore(): AppStore {
-  return { version: 1, language: "fa", theme: "light", bookmarks: [], reviews: {} };
+  return { version: 1, language: "fa", theme: "system", bookmarks: [], reviews: {} };
 }
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
@@ -33,10 +34,10 @@ export function loadStore(): { store: AppStore; warning: boolean } {
   if (typeof window === "undefined") return { store: createFreshStore(), warning: false };
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { store: createFreshStore(), warning: false };
+    if (!raw) return { store: { ...createFreshStore(), theme: readThemePreference() }, warning: false };
     const parsed: unknown = JSON.parse(raw);
     if (!isRecord(parsed) || parsed.version !== 1 || !isRecord(parsed.reviews) || !Array.isArray(parsed.bookmarks)) {
-      return { store: createFreshStore(), warning: true };
+      return { store: { ...createFreshStore(), theme: readThemePreference() }, warning: true };
     }
     const reviews: Record<string, ReviewRecord> = {};
     for (const [character, value] of Object.entries(parsed.reviews)) {
@@ -51,15 +52,18 @@ export function loadStore(): { store: AppStore; warning: boolean } {
       };
     }
     const language = parsed.language === "en" ? "en" : "fa";
-    const theme = parsed.theme === "dark" ? "dark" : "light";
+    const theme = readThemePreference(parsed.theme);
     const bookmarks = [...new Set(parsed.bookmarks.filter((x): x is string => typeof x === "string").slice(0, 2136))];
     return { store: { version: 1, language, theme, bookmarks, reviews }, warning: false };
   } catch {
-    return { store: createFreshStore(), warning: true };
+    return { store: { ...createFreshStore(), theme: readThemePreference() }, warning: true };
   }
 }
 export function persistStore(store: AppStore): void {
-  if (typeof window !== "undefined") window.localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+  if (typeof window !== "undefined") {
+    window.localStorage.setItem("rinemi.theme", store.theme);
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+  }
 }
 function reviveCard(card: SavedCard): SavedCard {
   return { ...card, due: new Date(card.due), last_review: card.last_review ? new Date(card.last_review) : undefined };
