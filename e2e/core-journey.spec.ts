@@ -423,6 +423,14 @@ for (const viewport of [
     expect(measurements.width).toBeLessThanOrEqual(measurements.viewportWidth + 1);
     expect(measurements.targets.filter(target => target.width < 44 || target.height < 44), JSON.stringify(measurements.targets, null, 2)).toEqual([]);
     expect(measurements.checkboxLabel === null || measurements.checkboxLabel.height >= 44).toBe(true);
+    // Capture the full page from scroll origin. A fullPage screenshot taken after
+    // scrolling to the ratings can composite fixed-position off-canvas links at
+    // that scroll offset even when the link is correctly hidden in the viewport.
+    await page.evaluate(() => {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    });
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
     await page.screenshot({ path: testInfo.outputPath("revealed-card.png"), fullPage: true });
   });
 }
