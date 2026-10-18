@@ -58,9 +58,9 @@ a { color: inherit; }
 .brand-lockup { display: inline-flex; align-items: center; gap: var(--rinemi-space-3); flex-shrink: 0; padding: 0; background: transparent; border: 0; text-align: start; cursor: pointer; }
 .brand-mark-shell { display: block; width: 44px; height: 44px; flex-shrink: 0; }
 .brand-mark-shell img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.brand-mark-dark { display: none; }
-:root[data-theme="dark"] .brand-mark-light { display: none; }
-:root[data-theme="dark"] .brand-mark-dark { display: block; }
+.brand-mark-shell .brand-mark-dark { display: none; }
+:root[data-theme="dark"] .brand-mark-shell .brand-mark-light { display: none; }
+:root[data-theme="dark"] .brand-mark-shell .brand-mark-dark { display: block; }
 .brand-copy { display: grid; gap: var(--rinemi-space-1); }
 .brand-copy strong { font: var(--rinemi-font-weight-bold) var(--rinemi-font-size-lg)/var(--rinemi-line-height-compact) "Plus Jakarta Sans Variable", "Plus Jakarta Sans", sans-serif; letter-spacing: -.045em; }
 .brand-copy span { color: var(--muted); font-size: var(--rinemi-font-size-meta); white-space: nowrap; }
