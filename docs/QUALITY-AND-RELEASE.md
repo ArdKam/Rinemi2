@@ -117,8 +117,8 @@ A source-level review cannot substitute for opening the actual rendered app.
 
 ### Design-token and theme consistency
 - The canonical runtime token source is `src/styles/design-tokens.css`; standard UI components must not define alternate palettes or replace semantic tokens with local color literals.
-- The resolved theme belongs on the document root as `data-theme` before first paint. The pre-React shell, React and onboarding must read the same root state and stylesheet.
-- Verify stored `light` / `dark` / `system` preference behavior, including no flash of the wrong theme on first load and a correct system-theme update while preference is `system`.
+- The resolved theme belongs on the document root as `data-theme` before first paint. The pre-React bootstrap and current React shell share the token stylesheet and preference key; onboarding must consume the same root state when implemented.
+- Automated regression tests cover the stored `light` / `dark` / `system` resolver, legacy-preference fallback, system-theme change listener, browser chrome color, and script order. Rendered-browser checks must still verify there is no visible theme flash on first load.
 - Before release, run an automated scan for duplicate palette values and an automated contrast check for text, actions, status surfaces, selection and focus in both themes.
 
 ## 7. Educational content acceptance
