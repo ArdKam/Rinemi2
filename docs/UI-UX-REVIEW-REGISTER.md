@@ -3,7 +3,7 @@
 **Status:** Active; source review recorded on 2026-10-19. Rendered-browser visual acceptance remains outstanding.  
 **Scope:** Responsive UI, core learning flow, Explore/dictionary, keyboard interaction, design-system execution, and documentation accuracy.  
 **Target repository:** `ArdKam/Rinemi2`.  
-**Review baseline:** `63c42c0106218d6bfaf6cca3296c34cf95776e9d` (main, checked 2026-10-19).  
+**Review baseline:** `54abf8b9f47dbb1690176584dbdc3c972448f734` (main, source-level check on 2026-10-19; no fresh screenshots visually inspected for this comparative review).  
 **Public preview:** https://ardkam.github.io/Rinemi2/
 
 This register preserves review findings between inspections. It is the canonical place to track UI/UX findings, severity, evidence, disposition, and acceptance criteria. The product and UX specification owns intended behavior; the art direction and design-token contract own visual rules; the roadmap owns phase order and release status; this register owns the durable list of review findings and their verification state.
@@ -11,6 +11,7 @@ This register preserves review findings between inspections. It is the canonical
 ## 1. How to use this register
 
 - Re-read this file before every later UI/UX inspection. Check each finding against the current main commit, open PRs, and the actually deployed version; do not assume code, deployment, and screenshots represent the same version.
+- Also read [the Kanji5 reuse inventory](KANJI5-REUSE-INVENTORY.md) before proposing feature transfers; preserve Rinemi 2's editorial direction and track source provenance, target gaps, single-authority boundaries and acceptance evidence.
 - Reproduce findings on the current rendered app before describing them as verified runtime defects. Source inspection can establish a code-level risk, but cannot prove clipping, visual hierarchy, actual scrolling burden, or accessibility conformance.
 - Keep historical findings until fixed or explicitly dispositioned. Do not delete a finding simply because code changed; record the verifying commit, browser/viewport, result, and screenshot/test artifact.
 - Do not mark a design or accessibility acceptance item DONE solely because unit tests, a build, an automated contrast check, or an axe scan passes.
@@ -108,6 +109,17 @@ No fresh screenshots were captured or visually inspected for this register entry
 - **Recommendation:** keep the single dominant start/continue action. Check whether returning learners immediately understand due workload and next action, and whether new learners understand how to begin. Label featured educational content clearly if it is not the next item in the queue. Avoid adding competing statistic tiles or decorative dashboard panels.
 - **Acceptance:** unfamiliar users can identify what to do next on first visit and return visits, explain the due-work state, and distinguish the featured example from their scheduled learning.
 
+
+### UIUX-010 — Keep Kanji5 capability reuse from eroding Rinemi 2's editorial hierarchy
+
+- **Priority:** P1 — product coherence guardrail for future feature transfers.
+- **Status:** NEEDS RENDERED VERIFICATION; this is a direction/acceptance requirement, not a claim that the current deployed UI has regressed.
+- **Evidence:** the current design contracts favor editorial hierarchy, restrained surfaces, progressive disclosure, and one dominant next action. Kanji5 has more feature-dense presentation and persistent bottom navigation patterns that should not be adopted by default. This assessment was based on current source/spec inspection; fresh comparative screenshots were not visually inspected in this review.
+- **Recommendation:** transfer learner value and verified data/behavior, not Kanji5's accumulated screens or CSS. Keep Today → Learn → Explore as the three primary destinations, preserve the task-relevant kanji/meaning/vocabulary hierarchy, avoid adding dashboard/statistic tiles or nested surfaces without a demonstrated user need, and keep secondary reference content progressively disclosed. Continue using Rinemi 2's semantic tokens and its own responsive navigation. Any proposed exception should be justified by user testing or rendered evidence, not feature parity.
+- **Acceptance:** inspect actual current screenshots and new/changed screens on desktop and at 320px, 360px and 390px phone widths, in Persian RTL / English LTR and light / dark themes. Check that Today still has one obvious next action, Learn remains focused, Explore stays discoverable, the answer/rating action remains clear, and no new sticky/fixed component obscures content. Record the exact target SHA, screenshots and decision.
+- **Required evidence:** rendered screenshot review and regression evidence tied to the implementation PR; do not close this guardrail from a source diff alone.
+
+
 ## 4. Implementation order
 
 1. **UIUX-001:** make mobile Explore selection reveal details predictably.
@@ -117,6 +129,7 @@ No fresh screenshots were captured or visually inspected for this register entry
 5. **UIUX-006 and UIUX-007:** perform the full responsive and manual accessibility acceptance pass.
 6. **UIUX-008:** keep documents and status claims synchronized with main, open PRs, and the deployed artifact.
 7. **UIUX-009:** validate Today with short usability tasks, then refine only where evidence shows confusion.
+8. **UIUX-010:** apply the Kanji5 reuse guardrail during feature transfers and verify the resulting visual hierarchy with current rendered screenshots.
 
 Fix sequencing may change if the current browser run reveals a more severe blocker, but every change must retain the finding ID and record why the order changed.
 
@@ -130,4 +143,4 @@ Fix sequencing may change if the current browser run reveals a more severe block
 - [Roadmap](../ROADMAP.md) — phase order, current status, and ownership.
 - [README](../README.md) — concise implementation and release summary.
 
-**Do not mark UI/UX readiness complete until UIUX-001 through UIUX-008 are either verified fixed or explicitly dispositioned, all required manual checks are recorded, and current rendered screenshots have been inspected.** UIUX-009 requires a documented usability disposition before making claims about Today's effectiveness.
+**Do not mark UI/UX readiness complete until UIUX-001 through UIUX-008 are either verified fixed or explicitly dispositioned, all required manual checks are recorded, and current rendered screenshots have been inspected.** UIUX-009 requires a documented usability disposition before making claims about Today's effectiveness. UIUX-010 is an ongoing reuse guardrail and requires a documented rendered-UI disposition whenever new Kanji5-derived capabilities change core screens.
