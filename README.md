@@ -13,13 +13,15 @@ Included in this slice:
 - Learning card with reveal, review progress and Again/Hard/Good/Easy ratings.
 - Local FSRS scheduling, due-review queue and local browser storage.
 - Search over 2,136 kanji, topic/JLPT filters, detail view and local bookmarks.
+- Named local collections with add/remove, collection filtering and focused sessions (first 20 items per session).
+- Versioned local storage migration from v1 to v2 that preserves review records and bookmarks.
 - Small Persian gloss and vocabulary seed set, clearly distinguished from unreviewed source glosses.
-- Data-integrity checks and GitHub Actions typecheck/build workflow.
+- Unit/data tests, Playwright browser journey tests, and CI screenshot artifacts.
 
 Not yet implemented or accepted:
 - Browser screenshot review and manual usability/accessibility acceptance.
 - Reviewed Persian content beyond the editorial seed set.
-- Personal collections, Anki import, adaptive learner-model planning and reading-path integration.
+- Collection rename, bulk operations and comprehensive collection management; Anki import; adaptive learner-model planning; and full reading-path integration.
 - Lockfile reproducibility, PWA/offline acceptance, full backup/export/deletion workflows and production hosting.
 - Public beta or a claim of measured learning efficacy.
 
@@ -38,6 +40,7 @@ Checks:
 npm test
 npm run typecheck
 npm run build
+npm run e2e
 ```
 
 The repository currently does not include a committed npm lockfile. Generate and review one before beta/release, then use `npm ci` in CI.
