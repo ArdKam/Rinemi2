@@ -8,6 +8,7 @@ import {
   createCollection,
   createFreshStore,
   deleteCollection,
+  eraseLocalData,
   loadStore,
   persistStore,
   recordRating,
@@ -190,6 +191,31 @@ test("malformed current v2 data is not silently replaced by stale v1 data", () =
     assert.equal(loaded.warning, true);
     assert.deepEqual(loaded.store.bookmarks, []);
     assert.equal(loaded.store.language, "fa");
+  } finally {
+    if (previousWindow === undefined) delete (globalThis as unknown as { window?: unknown }).window;
+    else Object.defineProperty(globalThis, "window", { configurable: true, value: previousWindow });
+  }
+});
+
+
+test("erasing learner data removes current, legacy and independent theme storage keys", () => {
+  const data = new Map<string, string>([
+    ["rinemi2:local:v2", JSON.stringify({ version: 2, language: "en", theme: "dark", bookmarks: ["日"], collections: [], reviews: {} })],
+    ["rinemi2:local:v1", JSON.stringify({ version: 1, language: "fa", theme: "light", bookmarks: ["一"], reviews: {} })],
+    [THEME_PREFERENCE_KEY, "dark"]
+  ]);
+  const previousWindow = (globalThis as unknown as { window?: unknown }).window;
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: { localStorage: {
+      getItem: (key: string) => data.get(key) ?? null,
+      setItem: (key: string, value: string) => { data.set(key, value); },
+      removeItem: (key: string) => { data.delete(key); }
+    } }
+  });
+  try {
+    eraseLocalData();
+    assert.deepEqual([...data.keys()], []);
   } finally {
     if (previousWindow === undefined) delete (globalThis as unknown as { window?: unknown }).window;
     else Object.defineProperty(globalThis, "window", { configurable: true, value: previousWindow });
