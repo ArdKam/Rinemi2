@@ -4,7 +4,7 @@ Rinemi 2 is a separately developed, Persian-first kanji learning studio. Its int
 
 ## Current implementation
 
-**Status:** the first functional vertical slice is merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37). It is not production-ready. GitHub Pages has been serving the source tree through Jekyll instead of Vite's `dist/`, so the public application runtime remains unverified. The repository now defines an explicit Vite-to-Pages deployment workflow; the repository Pages source must be switched to **GitHub Actions** before that workflow can publish.
+**Status:** the first functional vertical slice is merged into `main`; the current preview is published from the Vite `dist/` artifact at [Rinemi 2 on GitHub Pages](https://ardkam.github.io/Rinemi2/). Deployment and post-deployment asset smoke test are verified on commit [`9e2f01f`](https://github.com/ArdKam/Rinemi2/commit/9e2f01f36e1d74e49043788414a1e87c30dd1a06). The app is still **pre-release**: manual visual/usability/accessibility acceptance, learner-facing content review, licensing, reproducible installs, privacy/data lifecycle, offline/PWA acceptance and major roadmap features remain open.
 
 Included in this slice:
 - Three primary destinations: Today, Learn and Explore.
@@ -28,11 +28,10 @@ Not yet implemented or accepted:
 
 ## Verification and deployment status
 
-- The post-merge [Rinemi2 CI run](https://github.com/ArdKam/Rinemi2/actions/runs/39160367180) passed on the merged code tree, including data/unit tests, TypeScript typecheck, Vite build, contrast checks and Playwright end-to-end tests (11/11).
-- Browser screenshots were captured in CI, but manual visual, usability and accessibility acceptance is still open. Automated green checks do not close those release gates.
-- `.github/workflows/deploy-pages.yml` builds the app with the `/Rinemi2/` base path, publishes only `dist/`, and checks the deployed HTML, module bundle, theme bootstrap, stylesheets, icons and local CSS assets for successful responses.
-- **Required one-time setting:** open repository **Settings → Pages → Build and deployment → Source** and select **GitHub Actions**. The GitHub connection used for this change cannot modify that repository setting. Until it is changed, the new workflow cannot replace the old branch/Jekyll deployment.
-- Keep [issue #7](https://github.com/ArdKam/Rinemi2/issues/7) open until the Actions deployment and post-deployment smoke test pass, then verify Persian RTL / English LTR, light/dark themes, mobile layout and refresh behavior in a real browser. A passing deploy or smoke test alone does not establish production readiness.
+- The latest [main CI run](https://github.com/ArdKam/Rinemi2/actions/runs/39164602025) and [Pages deployment + live smoke test](https://github.com/ArdKam/Rinemi2/actions/runs/39164602046) passed on commit [`9e2f01f`](https://github.com/ArdKam/Rinemi2/commit/9e2f01f36e1d74e49043788414a1e87c30dd1a06).
+- The Pages workflow publishes only Vite's `dist/` under `/Rinemi2/`. The live smoke test received HTTP 200 for the page and 11 same-origin resources, including both light/dark brand marks, the compiled JS bundle, CSS, theme bootstrap, icon and fonts.
+- Browser journey screenshots and automated axe checks are generated in CI. Manual visual/UX/accessibility acceptance remains open; automated checks do not establish production readiness.
+- [Issue #7](https://github.com/ArdKam/Rinemi2/issues/7) now tracks the remaining manual live-browser acceptance rather than the resolved deployment/asset 404s.
 
 ## Run locally
 
