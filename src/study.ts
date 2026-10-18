@@ -79,7 +79,7 @@ export function buildSessionQueue(store: AppStore, deck: KanjiLike[], starter: r
 export function recordRating(store: AppStore, character: string, rating: ReviewRating, now = new Date()): AppStore {
   const current = store.reviews[character];
   const rawCard = current ? current.card : createEmptyCard(now) as unknown as SavedCard;
-  const result = scheduler.next(reviveCard(rawCard) as never, now, ratings[rating]);
+  const result = scheduler.next(reviveCard(rawCard) as never, now, ratings[rating] as 1 | 2 | 3 | 4);
   const nextCard = result.card as unknown as SavedCard;
   return {
     ...store,
