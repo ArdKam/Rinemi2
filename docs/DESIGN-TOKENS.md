@@ -100,5 +100,6 @@ The initial values in the CSS are a starting baseline. Browser-rendered contrast
 - [ ] Make the future React app, onboarding and loading shell consume the same root theme and token sheet.
 - [ ] Remove duplicate palettes and local copies as components are introduced.
 - [x] Add a standalone semantic-token contrast checker at `scripts/check-design-token-contrast.mjs`.
-- [ ] Wire the checker into CI and build a rendered component gallery.
+- [x] Wire the checker into GitHub Actions for token-sheet and checker changes.
+- [ ] Build a rendered component gallery.
 - [ ] Validate Persian RTL / English LTR, light / dark, mobile / desktop, keyboard focus and reduced motion.
