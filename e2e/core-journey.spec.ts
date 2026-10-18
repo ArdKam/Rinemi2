@@ -172,6 +172,114 @@ test("collection rename and bulk clear preserve bookmarks and review history", a
 });
 
 
+test("local backup can be downloaded, validated in preview, and restored after confirmation", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "مدیریت داده‌ها" }).click();
+
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "دانلود پشتیبان" }).click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toMatch(/^rinemi-local-backup-\\d{4}-\\d{2}-\\d{2}\\.json$/);
+  const downloadPath = await download.path();
+  expect(downloadPath).not.toBeNull();
+  const exported = JSON.parse(fs.readFileSync(downloadPath!, "utf8"));
+  expect(exported.format).toBe("rinemi2-local-backup");
+  expect(exported.schemaVersion).toBe(1);
+  expect(exported.data.version).toBe(2);
+
+  const backup = {
+    format: "rinemi2-local-backup",
+    schemaVersion: 1,
+    exportedAt: "2026-10-19T00:00:00.000Z",
+    data: {
+      version: 2,
+      language: "en",
+      theme: "dark",
+      bookmarks: ["日"],
+      collections: [{
+        id: "restored-set",
+        name: "Restored collection",
+        characters: ["日"],
+        createdAt: "2026-10-18T00:00:00.000Z",
+        updatedAt: "2026-10-18T00:00:00.000Z"
+      }],
+      reviews: {}
+    }
+  };
+  await page.locator(".data-upload-control input").setInputFiles({
+    name: "rinemi-backup.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(backup))
+  });
+  await expect(page.getByText("فایل بررسی شد؛ هنوز هیچ داده‌ای تغییر نکرده است.")).toBeVisible();
+  await expect(page.locator(".data-backup-preview")).toContainText("Restored collection");
+  const restoreButton = page.getByRole("button", { name: "جایگزینی با پشتیبان" });
+  await expect(restoreButton).toBeEnabled();
+  page.once("dialog", dialog => dialog.accept());
+  await restoreButton.click();
+  await expect(page.getByText("پشتیبان در ذخیره‌سازی محلی جایگزین شد.")).toBeVisible();
+
+  const restored = await page.evaluate(() => JSON.parse(localStorage.getItem("rinemi2:local:v2") || "{}"));
+  expect(restored.language).toBe("en");
+  expect(restored.theme).toBe("dark");
+  expect(restored.bookmarks).toEqual(["日"]);
+  expect(restored.collections[0].name).toBe("Restored collection");
+  await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+});
+
+test("invalid backup is rejected without replacing existing local data", async ({ page }) => {
+  await page.goto("/");
+  const before = await page.evaluate(() => localStorage.getItem("rinemi2:local:v2"));
+  await page.getByRole("button", { name: "مدیریت داده‌ها" }).click();
+  await page.locator(".data-upload-control input").setInputFiles({
+    name: "invalid.json",
+    mimeType: "application/json",
+    buffer: Buffer.from("{not-json")
+  });
+  await expect(page.getByRole("alert")).toHaveText("فایل پشتیبان JSON معتبر نیست.");
+  await expect(page.getByRole("button", { name: "جایگزینی با پشتیبان" })).toBeDisabled();
+  const after = await page.evaluate(() => localStorage.getItem("rinemi2:local:v2"));
+  expect(after).toBe(before);
+});
+
+test("local data erasure clears review, bookmark, collection, legacy and theme preferences", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("rinemi2:local:v2", JSON.stringify({
+      version: 2,
+      language: "en",
+      theme: "dark",
+      bookmarks: ["日"],
+      collections: [{
+        id: "old",
+        name: "Old set",
+        characters: ["日"],
+        createdAt: "2026-10-18T00:00:00.000Z",
+        updatedAt: "2026-10-18T00:00:00.000Z"
+      }],
+      reviews: { "日": { card: { due: "2026-10-20T00:00:00.000Z", state: 2 }, reviews: 3, lapses: 0, lastReviewedAt: "2026-10-18T00:00:00.000Z" } }
+    }));
+    localStorage.setItem("rinemi2:local:v1", JSON.stringify({ version: 1, language: "fa", theme: "light", bookmarks: ["一"], reviews: {} }));
+    localStorage.setItem("rinemi.theme", "dark");
+  });
+  await page.goto("/");
+  await page.getByRole("button", { name: "مدیریت داده‌ها" }).click();
+  page.once("dialog", dialog => dialog.accept());
+  await page.getByRole("button", { name: "پاک‌کردن داده‌های این مرورگر" }).click();
+  await expect(page.getByText("داده‌های محلی پاک شد.")).toBeVisible();
+
+  const state = await page.evaluate(() => ({
+    store: JSON.parse(localStorage.getItem("rinemi2:local:v2") || "{}"),
+    legacy: localStorage.getItem("rinemi2:local:v1"),
+    theme: localStorage.getItem("rinemi.theme")
+  }));
+  expect(state.store.bookmarks).toEqual([]);
+  expect(state.store.collections).toEqual([]);
+  expect(state.store.reviews).toEqual({});
+  expect(state.legacy).toBeNull();
+  expect(state.theme).toBe("system");
+});
+
+
 for (const viewport of [
   { name: "small phone portrait", width: 320, height: 640 },
   { name: "typical phone portrait", width: 390, height: 844 },
