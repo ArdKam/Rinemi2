@@ -21,7 +21,9 @@ This register preserves review findings between inspections. It is the canonical
 
 The source and documentation review checked the main baseline above, including `src/App.tsx`, `src/styles.css`, `e2e/core-journey.spec.ts`, `e2e/keyboard-transaction.spec.ts`, `docs/PRODUCT-AND-UX-SPEC.md`, `docs/ART-DIRECTION.md`, `docs/DESIGN-TOKENS.md`, `docs/MANUAL-RELEASE-ACCEPTANCE.md`, `docs/QUALITY-AND-RELEASE.md`, `README.md`, and `ROADMAP.md`.
 
-The recorded GitHub Actions live Chromium journey on commit `de3b9efb89698e395346be8fcdd77ef11517f87c` verifies a prior deployment's minimum learner journey, locale/theme switching, asset loading, and no horizontal overflow at a 390px viewport. It is **historical smoke-test evidence**, not visual acceptance of the current main commit or every state in this register. See [the recorded deployment and browser run](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054).
+The recorded GitHub Actions live Chromium journey on commit `de3b9efb89698e395346be8fcdd77ef11517f87c` verifies a prior deployment's minimum learner journey, locale/theme switching, asset loading, and no horizontal overflow at a 390px viewport. It is **historical smoke-test evidence**, not visual acceptance of every state in this register. See [the recorded deployment and browser run](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054).
+
+For the review baseline `63c42c0`, [main CI](https://github.com/ArdKam/Rinemi2/actions/runs/39169365213) and [the GitHub Pages deployment workflow](https://github.com/ArdKam/Rinemi2/actions/runs/39169365252) both completed successfully. This confirms the pipeline result for that SHA; it does not substitute for a human inspection of screenshots or all interaction states.
 
 No fresh screenshots were captured or visually inspected for this register entry. Consequently, layout-related findings below are source-based risks or validation gaps until a current build is captured in a real browser. Do not describe this document as a completed screenshot audit.
 
