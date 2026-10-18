@@ -36,3 +36,22 @@ The project does not yet have an owner-approved overall open-source license. Thi
 - The brand mark is adapted from `ArdKam/kanji5/rinemi-mark.svg`, inspected on 2026-10-18 at blob SHA `67889ff0e8eef30035f7674f2e398b7b1ee94ff0`.
 - The favicon is adapted from `ArdKam/kanji5/icon.svg`, inspected at blob SHA `9c84619ec2e41ac15c01f8fef772ab9a06dd19a3`.
 - A dark-surface variant was derived by adjusting the mark stroke to pale indigo to maintain visibility on the dark canvas. The original source repository remains unchanged.
+
+
+## Release source/provenance gate matrix
+
+This matrix distinguishes where material came from from whether its legal and content acceptance is complete. A source path or a license label in an upstream document is not a completed release review.
+
+| Material | Current origin / revision evidence | Known declaration | Release status / next check |
+|---|---|---|---|
+| 2,136-entry kanji corpus | `ArdKam/kanji5/kanji-data.json`, blob SHA `b59e124d517313658b090e614130c38ccb00aac9`; metadata points to KANJIDIC2 via `jkindrix/japanese-language-data` | Existing project metadata says CC BY-SA 4.0 | **RECHECK REQUIRED** against the exact upstream source/license and required attribution/share-alike notice before beta; record current upstream URL/revision and redistribution obligations. |
+| Topic taxonomy | `ArdKam/kanji5/frontend/src/app/kanji-topics.json`, blob SHA `45036a2007c4cc5d1ff981219d1f04bf175d9f9a`; described as hand-curated with partial coverage | No independent record-specific license is established in this file | **OWNER/PROVENANCE CONFIRMATION REQUIRED**: establish authorship/permission and keep the partial-coverage limitation visible. |
+| Persian glosses and example vocabulary | Rinemi 2 editorial seed in `src/content.ts`; 44 stable character keys | No per-entry source trace is currently recorded in the seed | **HUMAN REVIEW REQUIRED** for Japanese usage/reading and Persian/English translation; record per-entry evidence in [Content QA Register](CONTENT-QA-REGISTER.md). |
+| Noto Serif JP subset | Copied from `ArdKam/kanji5/frontend/src/assets/NotoSerifJP-Regular.subset.woff2`, blob SHA `6c4c4ff4bfdaae9b48a10cc44d6f3c2f197086f0` | OFL license notice preserved in `public/fonts/NotoSerifJP-LICENSE-OFL.txt` | **VERIFY BEFORE RELEASE** that the bundled subset, its exact upstream notice, and any applicable reserved-name/redistribution terms match the source package. |
+| Plus Jakarta Sans and Vazirmatn | npm dependencies declared in `package.json`; lockfile pins resolved packages | Existing source documentation records SIL OFL 1.1 | **VERIFY PACKAGED NOTICES** from the locked installed packages and retain required license/author notices in any redistributed build. |
+| Rinemi logo marks and favicon | Adapted from `ArdKam/kanji5` brand SVGs at source blob SHAs documented above | Adaptation is documented; no separate project-wide license is approved | **OWNER APPROVAL REQUIRED** for reuse/adaptation terms and final attribution policy. |
+| Rinemi 2 application code | `ArdKam/Rinemi2` repository | No owner-approved overall open-source license is recorded | **OPEN DECISION**: do not imply that third-party component licenses license the entire application or dataset. |
+
+### Acceptance rule
+
+Do not close the licensing/provenance release gate just because dependencies have known licenses or a source file is reachable. Record the reviewer, source URL/version, exact license text or authoritative reference, required notice, decision, and date for each redistributed dataset/asset. Legal interpretation and the owner's overall project-license decision remain explicit release gates.
