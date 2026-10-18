@@ -32,7 +32,7 @@
       root.style.colorScheme = resolved;
       const themeColor = document.querySelector('meta[name="theme-color"]');
       const canvas = getComputedStyle(root).getPropertyValue("--rinemi-color-bg-canvas").trim();
-      if (themeColor && /^#[\\da-f]{6}$/i.test(canvas)) themeColor.content = canvas;
+      if (themeColor && /^#[\da-f]{6}$/i.test(canvas)) themeColor.content = canvas;
     })();
   </script>
   <title>Rinemi — کانجی، با درک و کاربرد</title>
