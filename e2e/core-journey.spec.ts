@@ -9,6 +9,15 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
+test("global footer credits KANJIDIC2 and links the authoritative license and source record", async ({ page }) => {
+  await page.goto("/");
+  const footer = page.locator(".app-footer");
+  await expect(footer).toContainText("KANJIDIC2");
+  await expect(footer).toContainText("EDRDG");
+  await expect(footer.getByRole("link", { name: "مجوز رسمی EDRDG" })).toHaveAttribute("href", "https://www.edrdg.org/edrdg/licence.html");
+  await expect(footer.getByRole("link", { name: "ثبت منابع داده" })).toHaveAttribute("href", "https://github.com/ArdKam/Rinemi2/blob/main/docs/DATA-SOURCES.md");
+});
+
 test("both brand marks load in light and dark themes", async ({ page }) => {
   const brandResponses = new Map<string, number>();
   page.on("response", response => {
