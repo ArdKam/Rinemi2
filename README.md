@@ -22,7 +22,7 @@ Included in this slice:
 - Unit/data tests, Playwright browser journey tests, automated axe checks, and CI screenshot artifacts.
 - Shared spacing, typography, radius, motion and focus tokens; semantic CSS consumers; system-theme bootstrap and browser `theme-color` synchronization.
 - Committed `package-lock.json`; CI and Pages install dependencies with `npm ci`.
-- Installable PWA shell: web manifest, 192/512px app icons, base-path-scoped service worker, and warm-cache offline browser tests. Manual install/update, live-base-path, and cache-recovery acceptance remain pending.
+- Installable PWA shell: web manifest, 192/512px app icons, base-path-scoped service worker, and warm-cache offline browser tests. The Pages build/smoke checks rebased asset URLs; manual installation/update, installed-app behavior and cache-recovery acceptance remain pending.
 
 Not yet implemented or accepted:
 - Manual browser screenshot review and keyboard/focus, zoom, reduced-motion/forced-colors, screen-reader and broader usability acceptance.
@@ -35,7 +35,7 @@ Not yet implemented or accepted:
 
 ## Verification and deployment status
 
-- Current integration snapshot: [`df3afc3`](https://github.com/ArdKam/Rinemi2/commit/df3afc35e1ebee201cd20abafd5746944a1b9247). Follow the linked [CI run](https://github.com/ArdKam/Rinemi2/actions/runs/39172253017) and [Pages deployment/live verification](https://github.com/ArdKam/Rinemi2/actions/runs/39172252973) for exact-SHA pipeline results; these are not manual visual/accessibility acceptance.
+- Latest application-code/evidence snapshot: [`36b1373`](https://github.com/ArdKam/Rinemi2/commit/36b1373fea55fda205c0e328621e3b8d6ce9c581). Follow the linked [CI run](https://github.com/ArdKam/Rinemi2/actions/runs/39172253017) and [Pages deployment/live verification](https://github.com/ArdKam/Rinemi2/actions/runs/39172252973) for exact-SHA pipeline results; these are not manual visual/accessibility acceptance.
 - The earlier detailed [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39166049955) and [Pages browser run](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054) passed on commit [`de3b9ef`](https://github.com/ArdKam/Rinemi2/commit/de3b9efb89698e395346be8fcdd77ef11517f87c).
 - The Pages workflow publishes only Vite's `dist/` under `/Rinemi2/`; all 11 same-origin static resources returned HTTP 200 in that recorded run, including both brand marks, compiled JavaScript, CSS, theme bootstrap, icon and fonts.
 - Historical live Chromium coverage verified React mount, the core reveal/rate/advance flow, locale/theme changes, brand assets, mobile width and runtime/network errors. Newer CI additionally covers mobile Explore Back/Escape/scroll/focus behavior, result continuation, responsive learning screens, 320px content insets, route-heading focus and answer-reveal focus, Anki text preview and the PWA warm-cache path. These automated checks and saved screenshots are exact-run evidence, not manual accessibility, teaching-quality or legal acceptance.
