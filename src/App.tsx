@@ -247,7 +247,7 @@ export default function App() {
       setPage("today");
       setBackupPreview(null);
       setBackupError("");
-      setDataMessage(t.backupRestored);
+      setDataMessage(backupPreview.store.language === "fa" ? "پشتیبان در ذخیره‌سازی محلی جایگزین شد." : "Backup replaced the local data.");
     } catch {
       setStorageWarning(true);
       setDataMessage(t.dataWriteFailed);
@@ -282,11 +282,11 @@ export default function App() {
     try {
       // Reinitialize an empty versioned store after deleting every prior data key.
       persistStore(fresh);
-      setDataMessage(t.dataErased);
+      setDataMessage(fresh.language === "fa" ? "داده‌های محلی پاک شد." : "Local learner data was erased.");
     } catch {
       // Personal records have already been removed; the warning concerns reinitializing storage.
       setStorageWarning(true);
-      setDataMessage(t.dataErased);
+      setDataMessage(fresh.language === "fa" ? "داده‌های محلی پاک شد." : "Local learner data was erased.");
     }
   }
   function createNamedCollection() {
