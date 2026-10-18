@@ -5,7 +5,7 @@
 :root {
   /* Typography */
   --rinemi-font-family-persian: "Vazirmatn", sans-serif;
-  --rinemi-font-family-latin: "Plus Jakarta Sans", Inter, sans-serif;
+  --rinemi-font-family-latin: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", Inter, sans-serif;
   --rinemi-font-family-japanese-display: "Noto Serif JP", "Yu Mincho", serif;
   --rinemi-font-family-japanese-text: "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
 
