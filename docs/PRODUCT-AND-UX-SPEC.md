@@ -29,6 +29,18 @@ A self-directed learner who can read or is learning kana and needs a dependable 
 - Local/guest-first study wherever the chosen architecture can reliably support it.
 - Transparent content provenance, import limitations, data handling, and product limitations.
 
+
+### Kanji5 reuse rule
+
+Kanji5 is a reference for proven learning capabilities, educational data and regression scenarios—not Rinemi 2's visual baseline or a mandate for feature parity.
+
+- Preserve Rinemi 2's Sumi Play editorial direction, Persian-first interaction design, Today → Learn → Explore information architecture, and one obvious next action. Do not wholesale-port Kanji5 screens, global CSS, floating navigation, nested-card treatment or accumulated component overrides.
+- Extract the learner value, not necessarily the source implementation. Re-author interactions with Rinemi 2's semantic tokens and components; progressive disclosure should keep the task-relevant answer and useful vocabulary easy to see while leaving secondary reference material optional.
+- Treat Kanji5's learning modes, grading, learner model, adaptive planning, recovery and session behavior as contracts to study. Do not introduce competing schedulers or duplicate domain decisions in the UI. Any engine reuse requires an explicit architecture decision, a single-authority map and tests proving compatibility with Rinemi 2's state and data model.
+- Prioritize verified Persian explanations, correct Japanese readings, high-value vocabulary, useful memory support and mobile review ergonomics over raw feature count. Every new capability needs a learner problem, trustworthy content/source, failure behavior, accessible interaction and clear maintenance scope.
+- Use the [Kanji5 reuse inventory](KANJI5-REUSE-INVENTORY.md) and [reference/migration plan](REFERENCE-AND-MIGRATION.md) to decide what to adopt, adapt, reference or exclude. Re-check source revisions and rendered behavior; historical screenshots or an open PR are not proof that a feature is shipped or accepted.
+
+
 ### Non-goals
 Do not build a general-purpose Anki clone, full grammar course, social feed, leaderboards, AI chat tutor, complex reward economy, or a feature surface designed for competitor parity. Each future addition requires evidence and a documented maintenance plan.
 

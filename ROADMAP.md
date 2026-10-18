@@ -32,6 +32,7 @@ This is a new, separate product implementation. It may selectively reuse verifie
 - **[Art direction & design system](ART-DIRECTION.md):** visual principles, type/color roles, component and illustration rules, mascot.
 - **[Learning design](LEARNING-DESIGN.md):** teaching sequence, card pedagogy, practice modes, content quality and evidence requirements.
 - **[Reference & migration plan](REFERENCE-AND-MIGRATION.md):** what can be reused from `kanji5`, verification procedure, boundaries, licensing, data migration.
+- **[Kanji5 reuse inventory](docs/KANJI5-REUSE-INVENTORY.md):** prioritized candidates, reuse/exclusion decisions, source revisions, status and acceptance evidence; update it during every reference audit.
 - **[Quality & release plan](QUALITY-AND-RELEASE.md):** test matrix, accessibility, content QA, security, release and evidence.
 - **[Decision log](DECISIONS.md):** consequential decisions, alternatives, reasons, open questions.
 - **[UI/UX review register](docs/UI-UX-REVIEW-REGISTER.md):** durable finding IDs, priorities, evidence, dispositions, and acceptance checks; re-read it before every later inspection.
@@ -67,6 +68,7 @@ Passing unit tests is not enough to mark visual, educational, content, or deploy
 10. **Do not duplicate authoritative learning logic.** If using an existing engine or scheduler from `kanji5`, preserve its stated authority boundaries and prove behavioral parity rather than implementing a competing system.
 11. **No speculative success claims.** Do not claim superior retention, better learning, market fit, or production readiness without suitable evidence.
 12. **Every phase ends with reviewable evidence.** Record tests, screenshots, findings, exceptions, and the exact commit.
+13. **Reuse by demonstrated gap, not feature parity.** Treat Kanji5 as a read-only source of candidate data, learning contracts and test ideas; keep Rinemi 2's design direction and one authoritative owner per learning/data responsibility. Read and update the reuse inventory before adopting anything.
 
 ---
 
@@ -143,7 +145,7 @@ New scope requires a documented learner problem, expected benefit, content/sourc
 
 | Phase | Name | Outcome | Dependency | Status |
 |---|---|---|---|---|
-| P0 | Repository and evidence baseline | Separate, safe working boundary and verified reference baseline | None | IN PROGRESS — source corpus and topic taxonomy provenance recorded; reuse inventory remains open |
+| P0 | Repository and evidence baseline | Separate, safe working boundary and verified reference baseline | None | IN PROGRESS — source corpus and topic taxonomy provenance recorded; [Kanji5 reuse inventory](docs/KANJI5-REUSE-INVENTORY.md) created and candidate audits remain open |
 | P1 | Product/UX blueprint | Journeys, scope, screen inventory, and success criteria drafted in specs | P0 | IN PROGRESS — written blueprint exists; end-to-end flow acceptance, onboarding validation, and learner/usability evidence remain open |
 | P2 | Visual direction baseline | Written Sumi Play direction accepted; generated visual concepts optional | P1 | DONE — image generation explicitly skipped by owner |
 | P3 | Art direction and design system | Translate written direction into tokens/components, then browser-verify | P2 | IN PROGRESS — first semantic tokens/responsive styles implemented; browser visual QA pending |
