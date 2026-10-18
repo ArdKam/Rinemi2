@@ -86,6 +86,10 @@ Each relevant PR runs a focused subset; release acceptance runs the integrated m
 - Detail navigation preserves context.
 
 ### Anki import
+
+**Current implemented scope:** preview-only parsing and field mapping for supported text exports, including warnings. The UI does not persist imported notes, create cards, or schedule them; `.apkg`, `.colpkg`, collection databases and media are not supported by this slice. Until write-capable import is designed and approved, test that preview/cancel make no writes and never describe the preview as a completed import.
+
+Required before any write-capable import is released:
 - Valid/invalid/oversized files, unsupported format, encoding issues, duplicates, media-heavy decks and no cards.
 - Preview shows exact expected effects before confirmation.
 - Cancellation writes nothing.
@@ -148,15 +152,18 @@ Sampling must cover diverse difficulty, reading patterns, common/rare vocabulary
 
 ## 9. Offline and resilience
 
-Only promise the behavior that is tested. Test:
-- cold start online and offline;
-- initial required asset unavailable;
-- cached learning and local save where supported;
-- external content API absent, malformed or rate-limited;
-- browser storage unavailable or quota exhausted;
-- stale service-worker/app version if a PWA is shipped;
-- interrupted import or study;
-- safe retry and meaningful recovery message.
+Only promise the behavior that is tested.
+
+**Current PWA contract:** installable manifest/icons and a base-path-scoped, network-first service worker are implemented, with E2E for a previously warmed cache. Cache-write errors must not discard a successful online response. Cold-start offline use, uncached resources, sync and cloud recovery are **not guaranteed**. Manual install/update/cache-recovery acceptance is still open; do not market this as offline-first.
+
+For the currently supported warm-cache claim, test:
+- warm app shell online, then offline reload/navigation for resources already cached;
+- an initial required asset or route not yet cached, and record that failure is permitted;
+- browser storage unavailable or quota exhausted while online and during offline fallback;
+- stale service-worker/app version and recovery after update/clear/unregister;
+- interrupted study and safe retry/meaningful recovery messages.
+
+If a future release makes a cold-start offline guarantee, add explicit cold-start online/offline acceptance and only claim it after the complete asset/content contract passes.
 
 Distinguish empty data from unavailable data at service and UI boundaries.
 
@@ -232,6 +239,6 @@ When a defect appears:
 - Repository **Settings → Pages → Build and deployment → Source** must be set to **GitHub Actions**. The deployment workflow is not a substitute for this repository-level setting.
 - `.github/workflows/deploy-pages.yml` must install dependencies, pass the existing test/typecheck/build/e2e gates, upload only `dist/`, deploy via the Pages artifact action, and run `scripts/smoke-deployment.mjs` against the returned deployed URL.
 - The smoke test must request the deployed entry page and every same-origin script, stylesheet, icon and locally referenced CSS asset; require successful HTTP responses; ensure a compiled module is present; ensure the source `/src/main.tsx` is not served; and ensure all local URLs remain under the `/Rinemi2/` base path.
-- The current hosting workflow, static smoke test, and live Chromium journey passed on commit `de3b9efb89698e395346be8fcdd77ef11517f87c` ([CI](https://github.com/ArdKam/Rinemi2/actions/runs/39166049955); [deployment and runtime evidence](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054)). The browser test verified React mount, a minimal review journey, language/theme cycling, both logo images, 390px mobile width, and absence of observed page/console errors or failed same-origin responses. Screenshots are retained in the run artifact.
-- Keep [issue #7](https://github.com/ArdKam/Rinemi2/issues/7) open until manual keyboard/focus, zoom, reduced-motion/forced-colors, screen-reader, Explore/collections, and edge-state review is recorded. Automated runtime smoke coverage does not replace those acceptance gates.
+- Current integration snapshot: `36b1373fea55fda205c0e328621e3b8d6ce9c581` ([CI](https://github.com/ArdKam/Rinemi2/actions/runs/39172536333); [Pages deployment/live verification](https://github.com/ArdKam/Rinemi2/actions/runs/39172536262)). These exact-SHA runs passed and verify the latest mobile focus and screenshot-evidence corrections; manual review is still a separate release gate. Historical live Chromium evidence on `de3b9ef` remains tied to its [original run](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054).
+- Keep [issue #7](https://github.com/ArdKam/Rinemi2/issues/7) open until manual keyboard/focus, zoom, reduced-motion/forced-colors, screen-reader, Explore/collections, and edge-state review is recorded. Keep [issue #24](https://github.com/ArdKam/Rinemi2/issues/24) open until the 44 starter teaching records receive human review, and [issue #25](https://github.com/ArdKam/Rinemi2/issues/25) open until the owner/legal source and licensing decisions are recorded. Automated runtime smoke coverage, attribution links and shipped font notices do not replace these acceptance gates.
 - A green GitHub Pages/Jekyll run, a successful build, or a passing smoke test in isolation does not establish full visual acceptance or production readiness.
