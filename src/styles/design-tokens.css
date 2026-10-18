@@ -94,8 +94,8 @@
   /* Boundaries: subtle borders are decorative; interactive boundaries use strong. */
   --rinemi-color-border-subtle: #DED8CE;
   --rinemi-color-border-default: #C7BFB2;
-  --rinemi-color-border-strong: #8F887C;
-  --rinemi-color-border-interactive: #8F887C;
+  --rinemi-color-border-strong: #827B70;
+  --rinemi-color-border-interactive: #827B70;
   --rinemi-color-divider: #DED8CE;
 
   /* Brand action: vermilion/coral is primary; indigo is secondary. */
