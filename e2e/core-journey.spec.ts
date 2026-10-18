@@ -171,3 +171,22 @@ test("primary screens pass automated WCAG 2.1/2.2 A/AA checks", async ({ page })
   await page.setViewportSize({ width: 390, height: 844 });
   await expectNoViolations("Explore · English · dark · mobile");
 });
+
+
+test("saved language and theme are applied before the React module boots", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("rinemi2:local:v2", JSON.stringify({
+      version: 2,
+      language: "en",
+      theme: "dark",
+      bookmarks: [],
+      collections: [],
+      reviews: {}
+    }));
+  });
+  await page.route("**/src/main.tsx", route => route.abort());
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+});
