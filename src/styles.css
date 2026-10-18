@@ -177,6 +177,20 @@ h1 { margin-bottom: var(--rinemi-space-3); font-size: var(--rinemi-font-size-pag
 .collections-count { display: inline-grid; place-items: center; min-width: 25px; min-height: 24px; padding: var(--rinemi-space-1) var(--rinemi-space-1); border: 1px solid var(--line); color: var(--muted-strong); font-size: var(--rinemi-font-size-meta); font-weight: var(--rinemi-font-weight-medium); }
 .collections-toggle > span:last-child { color: var(--vermilion); font-size: var(--rinemi-font-size-lg); }
 .collection-filter-status { display: flex; flex-wrap: wrap; align-items: center; gap: var(--rinemi-space-2); margin: var(--rinemi-space-2) 0 0; color: var(--muted); font-size: var(--rinemi-font-size-meta); }
+.data-management-panel { margin-block: var(--rinemi-space-4); padding: var(--rinemi-space-4); border: 1px solid var(--line); border-radius: var(--rinemi-radius-md); background: var(--surface); }
+.data-management-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--rinemi-space-4); }
+.data-management-heading h2 { margin: 0 0 var(--rinemi-space-2); font-size: var(--rinemi-font-size-lg); font-weight: var(--rinemi-font-weight-bold); }
+.data-management-heading .eyebrow { margin: 0 0 var(--rinemi-space-1); }
+.data-management-note { max-width: 72ch; color: var(--muted-strong); font-size: var(--rinemi-font-size-control); line-height: var(--rinemi-line-height-reading); }
+.data-management-actions { display: flex; flex-wrap: wrap; align-items: end; gap: var(--rinemi-space-3); margin-block: var(--rinemi-space-4); }
+.data-management-actions button { min-height: 44px; }
+.data-upload-control { display: grid; flex: 1 1 240px; min-width: 0; gap: var(--rinemi-space-1); color: var(--muted-strong); font-size: var(--rinemi-font-size-control); font-weight: var(--rinemi-font-weight-semibold); }
+.data-upload-control input { display: block; width: 100%; max-width: 100%; min-width: 0; min-height: 44px; padding: var(--rinemi-space-2); border: 1px solid var(--line); border-radius: var(--rinemi-radius-sm); background: var(--surface); color: var(--ink); font: inherit; }
+.data-erase-button { color: var(--vermilion); border-color: var(--vermilion); }
+.data-backup-preview { display: grid; gap: var(--rinemi-space-1); margin-block: var(--rinemi-space-3); padding: var(--rinemi-space-3); border-block: 1px solid var(--line); color: var(--muted-strong); font-size: var(--rinemi-font-size-control); }
+.data-backup-preview strong { color: var(--ink); }
+.data-management-error, .data-management-message { margin-block: var(--rinemi-space-2) 0; padding-inline-start: var(--rinemi-space-3); border-inline-start: 3px solid var(--vermilion); line-height: var(--rinemi-line-height-reading); }
+.data-management-message { color: var(--muted-strong); border-inline-start-color: var(--line); }
 .collections-panel { margin-top: var(--rinemi-space-3); padding: var(--rinemi-space-4) 0 var(--rinemi-space-1); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .collections-panel-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--rinemi-space-4); margin-bottom: var(--rinemi-space-4); }
 .collections-panel-heading h2 { margin-bottom: var(--rinemi-space-1); font-size: var(--rinemi-font-size-lg); font-weight: var(--rinemi-font-weight-bold); }
@@ -265,6 +279,7 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
   .brand-copy strong { font-size: var(--rinemi-font-size-lg); }
   .brand-copy span { font-size: var(--rinemi-font-size-meta); }
   .header-tools { gap: var(--rinemi-space-1); }
+  .header-tools { flex-wrap: wrap; justify-content: flex-end; }
   .utility-button { min-height: 44px; padding: var(--rinemi-space-1) var(--rinemi-space-2); }
   .theme-switch .utility-label { display: none; }
   .page-content { padding-top: var(--rinemi-space-6); }
@@ -305,6 +320,10 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
   .collection-create-form { align-items: stretch; flex-direction: column; }
   .collection-create-button { width: 100%; }
   .collection-row { align-items: flex-start; flex-direction: column; gap: var(--rinemi-space-2); }
+  .data-management-panel { padding: var(--rinemi-space-3); }
+  .data-management-actions { align-items: stretch; flex-direction: column; }
+  .data-management-actions button { width: 100%; }
+  .data-upload-control { width: 100%; }
   .collection-rename-form { width: 100%; align-items: stretch; flex-direction: column; }
   .collection-rename-form button { width: 100%; }
   .collection-actions { justify-content: flex-start; }
