@@ -363,16 +363,16 @@ export default function App() {
           </section>}
         </div>
         <div className="explore-layout">
-          <div className="kanji-results" role="list" aria-label={t.explore}>
+          <section className="kanji-results" aria-label={t.explore}>
             {filteredKanji.slice(0, 240).map(item => {
               const gloss = glossFor(item.character, language);
-              return <button role="listitem" key={item.character} type="button" className={"kanji-result " + (selectedCharacter === item.character ? "is-selected" : "")} onClick={() => setSelectedCharacter(item.character)} aria-pressed={selectedCharacter === item.character}>
+              return <button key={item.character} type="button" className={"kanji-result " + (selectedCharacter === item.character ? "is-selected" : "")} onClick={() => setSelectedCharacter(item.character)} aria-pressed={selectedCharacter === item.character}>
                 <span className="result-glyph" lang="ja">{item.character}</span><span className="result-copy"><strong>{gloss ?? item.meaning.slice(0, 2).join(" · ")}</strong><small>{item.jlpt ?? "Jōyō"} · {fmt(item.strokes, language)} {t.strokes.toLocaleLowerCase()}</small></span>{savedSet.has(item.character) && <span className="saved-dot" aria-label={t.savedLabel}>♥</span>}
               </button>;
             })}
             {filteredKanji.length === 0 && <div className="no-results"><span aria-hidden="true">⌕</span><p>{t.noResults}</p><button className="text-link" type="button" onClick={() => { setQuery(""); setLevel("all"); setTopicId("all"); setOnlySaved(false); }}>{t.clear}</button></div>}
             {filteredKanji.length > 240 && <p className="list-limit">{isFa ? "برای سبک‌ماندن فهرست، ۲۴۰ نتیجهٔ نخست نمایش داده می‌شود؛ جست‌وجو را دقیق‌تر کن." : "The first 240 results are shown for responsiveness. Narrow your search."}</p>}
-          </div>
+          </section>
           {selectedItem && <aside className="kanji-detail" aria-labelledby="detail-title">
             <div className="detail-topline"><span className="eyebrow">{t.detail}</span><button type="button" className="detail-close" onClick={() => setSelectedCharacter(null)} aria-label={t.close}>×</button></div>
             <div className="detail-character" lang="ja">{selectedItem.character}</div><h2 id="detail-title">{selectedGloss ?? selectedItem.meaning.slice(0, 2).join(" · ")}</h2><p className="content-caveat">{selectedGloss ? t.glossNotice : t.sourceDisclaimer}</p>
