@@ -2,7 +2,7 @@
 
 **Purpose:** the implementation contract for Rinemi 2's shared visual language.  
 **Runtime source of truth:** [`src/styles/design-tokens.css`](../src/styles/design-tokens.css).  
-**Status:** initial token baseline created; theme integration and rendered-browser verification remain open.
+**Status:** semantic tokens, initial responsive consumers, and the documented theme-preference handoff are implemented in the current feature branch; complete visual acceptance remains open.
 
 ## 1. Authority and change policy
 
@@ -40,13 +40,13 @@ Danger/destructive feedback has its own semantic role and must remain distinguis
 ## 4. Theme contract
 
 - Apply the resolved theme to the document root using `data-theme="light"` or `data-theme="dark"`. Components do not own their own theme classes or local palette overrides.
-- The future pre-React bootstrap must resolve the stored preference and system default, then set the document-root theme **before first paint**. Use one documented preference key, `rinemi.theme`, with `light`, `dark` or `system` values.
+- The pre-React bootstrap resolves the stored preference and system default, then sets the document-root theme **before first paint**. The canonical preference key is `rinemi.theme`, with `light`, `dark` or `system` values.
 - React, onboarding and any pre-React/loading shell must all consume the same token stylesheet and root `data-theme`. They must not implement independent color maps or independently infer a theme.
-- With `system` selected, resolve the effective theme from `prefers-color-scheme`; update it if the OS setting changes while the preference remains `system`.
+- With `system` selected, resolve the effective theme from `prefers-color-scheme`; React updates the root attribute and browser `theme-color` when the OS setting changes while the preference remains `system`.
 - React must adopt the already resolved root value instead of briefly forcing light mode on hydration/mount. Theme changes must update the root attribute and persisted preference through one shared path.
 - Use the semantic surface roles rather than simply inverting light-mode hex values. Validate onboarding, dialogs, overlays, disabled controls and the pre-React state as part of the same theme matrix.
 
-**Current repository limitation:** Rinemi 2 has not yet implemented its HTML/React shell or onboarding. These are binding requirements for the first shell slice, not claims of current runtime integration.
+**Current implementation:** `index.html`, the pre-React `public/theme-bootstrap.js`, the React shell and `src/styles/design-tokens.css` exist in the current feature branch. The shell adopts the resolved root theme and updates browser `theme-color`. Onboarding is not yet implemented; it must reuse this contract when added.
 
 ## 5. Typography policy
 
@@ -90,14 +90,15 @@ Run the source-level check with `node scripts/check-design-token-contrast.mjs`. 
 4. Add a small component gallery once the app shell exists; use the same examples in light/dark and both languages.
 5. Record exact commit SHA, test output and screenshots in the PR. Do not mark the design-system phase complete until browser-rendered evidence exists.
 
-The initial values in the CSS are a starting baseline. Browser-rendered contrast, actual font loading and component consistency are still unverified in the current documentation-only repository.
+The source-level token check validates declared color pairs only. The current feature branch now also has Playwright coverage for the four language/theme combinations, system-theme changes, responsive target sizes, and font loading. Rendered screenshot review, broader keyboard/manual accessibility review, and final release-matrix acceptance are still required.
 
 ## 9. Implementation checklist
 
 - [x] Create one token sheet for shared colors, semantic roles, type, spacing, radius, focus, borders, elevation, layering and motion.
 - [x] Establish vermilion/coral as the primary action in both themes; keep indigo secondary and danger separate.
-- [ ] Add a pre-React theme bootstrap that sets the root attribute before first paint.
-- [ ] Make the future React app, onboarding and loading shell consume the same root theme and token sheet.
+- [x] Add a pre-React theme bootstrap that sets the resolved root attribute before first paint and updates initial browser `theme-color`.
+- [x] Make the current React shell adopt the shared theme preference and semantic token sheet.
+- [ ] Apply the same theme contract to onboarding and any future pre-React/loading views.
 - [ ] Remove duplicate palettes and local copies as components are introduced.
 - [x] Add a standalone semantic-token contrast checker at `scripts/check-design-token-contrast.mjs`.
 - [x] Wire the checker into GitHub Actions for token-sheet and checker changes.

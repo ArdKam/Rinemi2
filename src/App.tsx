@@ -2,7 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import sourceDataset from "./data/kanji.json";
 import topicDataset from "./data/kanji-topics.json";
 import { EXAMPLES, PERSIAN_GLOSSES, STARTER_CHARACTERS } from "./content";
-import { addCharacterToCollection, buildSessionQueue, countDueReviews, createCollection, deleteCollection, loadStore, persistStore, recordRating, removeCharacterFromCollection, type AppStore, type ReviewRating } from "./study";
+import { addCharacterToCollection, buildSessionQueue, countDueReviews, createCollection, deleteCollection, loadStore, persistStore, recordRating, removeCharacterFromCollection, resolveEffectiveTheme, type AppStore, type ReviewRating } from "./study";
+import { applyThemePreference } from "./theme";
 
 type Kanji = { id: string; character: string; meaning: string[]; on: string[]; kun: string[]; strokes: number; grade: number; jlpt: string | null; frequency: number; order: number };
 type Topic = { id: string; label: { fa: string; en: string }; characters: string };
@@ -39,7 +40,7 @@ const COPY = {
     strokes: "تعداد خط", grade: "پایهٔ آموزشی", jlpt: "سطح JLPT", frequency: "بسامد",
     notReviewed: "توضیح فارسیِ بازبینی‌شده برای این کانجی هنوز آماده نیست.",
     sourceDisclaimer: "این معنا از واژه‌نامهٔ مرجع آمده و ترجمهٔ فارسیِ تأییدشده محسوب نمی‌شود.",
-    langSwitch: "English", dark: "حالت تیره", light: "حالت روشن",
+    langSwitch: "English", dark: "حالت تیره", light: "حالت روشن", systemAppearance: "هماهنگی با سیستم‌عامل",
     storageWarning: "ذخیره‌سازی محلی در دسترس نیست یا دادهٔ ذخیره‌شده قابل‌خواندن نیست. تغییرها ممکن است ذخیره نشوند.",
     contentNote: "دادهٔ پایه از KANJIDIC2 آمده است. توضیح‌های فارسی فعلاً فقط برای مجموعهٔ آغازین نوشته شده‌اند و پیش از انتشار عمومی باید بازبینی شوند.",
     feedback: "بازخورد", feedbackCopy: "این نسخهٔ آغازین هنوز به بازبینی محتوایی نیاز دارد.",
@@ -71,7 +72,7 @@ const COPY = {
     strokes: "Strokes", grade: "School grade", jlpt: "JLPT level", frequency: "Frequency",
     notReviewed: "A reviewed Persian explanation is not available for this kanji yet.",
     sourceDisclaimer: "This is a source gloss, not a reviewed Persian learner explanation.",
-    langSwitch: "فارسی", dark: "Dark mode", light: "Light mode",
+    langSwitch: "فارسی", dark: "Dark mode", light: "Light mode", systemAppearance: "System appearance",
     storageWarning: "Local storage is unavailable or saved data could not be read. Changes may not persist.",
     contentNote: "The base dataset is derived from KANJIDIC2. Persian explanations currently cover only the starter set and require review before public release.",
     feedback: "Feedback", feedbackCopy: "This early build still needs content review.",
@@ -125,7 +126,7 @@ export default function App() {
   useEffect(() => {
     document.documentElement.lang = language;
     document.documentElement.dir = isFa ? "rtl" : "ltr";
-    document.documentElement.dataset.theme = store.theme;
+    return applyThemePreference(store.theme);
   }, [language, isFa, store.theme]);
   useEffect(() => {
     if (!persistAllowed) return;
@@ -262,8 +263,8 @@ export default function App() {
       </nav>
       <div className="header-tools">
         <button className="utility-button language-switch" type="button" onClick={() => setStore(previous => ({ ...previous, language: isFa ? "en" : "fa" }))} aria-label={isFa ? "Switch to English" : "تغییر به فارسی"}>{t.langSwitch}</button>
-        <button className="utility-button theme-switch" type="button" onClick={() => setStore(previous => ({ ...previous, theme: previous.theme === "dark" ? "light" : "dark" }))} aria-label={store.theme === "dark" ? t.light : t.dark}>
-          <span aria-hidden="true">{store.theme === "dark" ? "☼" : "◐"}</span><span className="utility-label">{store.theme === "dark" ? t.light : t.dark}</span>
+        <button className="utility-button theme-switch" type="button" onClick={() => setStore(previous => ({ ...previous, theme: previous.theme === "light" ? "dark" : previous.theme === "dark" ? "system" : "light" }))} aria-label={store.theme === "light" ? t.dark : store.theme === "dark" ? t.systemAppearance : t.light} title={store.theme === "system" ? t.systemAppearance : undefined}>
+          <span aria-hidden="true">{resolveEffectiveTheme(store.theme) === "dark" ? "☼" : "◐"}</span><span className="utility-label">{store.theme === "light" ? t.dark : store.theme === "dark" ? t.systemAppearance : t.light}</span>
         </button>
       </div>
     </header>

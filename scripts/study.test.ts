@@ -10,18 +10,27 @@ import {
   loadStore,
   persistStore,
   recordRating,
+  resolveEffectiveTheme,
+  THEME_PREFERENCE_KEY,
   removeCharacterFromCollection
 } from "../src/study.ts";
 
-test("fresh learner gets versioned Persian/light defaults and empty personal data", () => {
+test("fresh learner gets versioned Persian/system defaults and empty personal data", () => {
   const store = createFreshStore();
   assert.equal(store.version, 2);
   assert.equal(store.language, "fa");
-  assert.equal(store.theme, "light");
+  assert.equal(store.theme, "system");
   assert.equal(countDueReviews(store), 0);
   assert.deepEqual(store.bookmarks, []);
   assert.deepEqual(store.collections, []);
   assert.deepEqual(Object.keys(store.reviews), []);
+});
+
+test("effective theme follows explicit preferences or the operating-system scheme", () => {
+  assert.equal(resolveEffectiveTheme("light", true), "light");
+  assert.equal(resolveEffectiveTheme("dark", false), "dark");
+  assert.equal(resolveEffectiveTheme("system", true), "dark");
+  assert.equal(resolveEffectiveTheme("system", false), "light");
 });
 
 test("review ratings create and update one FSRS-backed record", () => {
@@ -125,6 +134,7 @@ test("v1 local data migrates to v2 without losing review history or bookmarks", 
     assert.deepEqual(v2.bookmarks, ["日", "一"]);
     assert.equal(v2.reviews["日"].reviews, 4);
     assert.ok(data.has("rinemi2:local:v1"), "legacy key should remain intact until a separate cleanup decision");
+    assert.equal(data.get(THEME_PREFERENCE_KEY), "dark", "theme preference is migrated to its documented key");
   } finally {
     if (previousWindow === undefined) delete (globalThis as unknown as { window?: unknown }).window;
     else Object.defineProperty(globalThis, "window", { configurable: true, value: previousWindow });
