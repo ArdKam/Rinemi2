@@ -2,8 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import sourceDataset from "./data/kanji.json";
 import topicDataset from "./data/kanji-topics.json";
 import { EXAMPLES, PERSIAN_GLOSSES, STARTER_CHARACTERS } from "./content";
-import { addCharacterToCollection, buildSessionQueue, countDueReviews, createCollection, deleteCollection, loadStore, persistStore, recordRating, removeCharacterFromCollection, type AppStore, type ReviewRating } from "./study";
-import { applyThemePreference, resolveEffectiveTheme } from "./theme";
+import { addCharacterToCollection, buildSessionQueue, countDueReviews, createCollection, deleteCollection, loadStore, persistStore, recordRating, removeCharacterFromCollection, resolveEffectiveTheme, type AppStore, type ReviewRating } from "./study";
+import { applyThemePreference } from "./theme";
 
 type Kanji = { id: string; character: string; meaning: string[]; on: string[]; kun: string[]; strokes: number; grade: number; jlpt: string | null; frequency: number; order: number };
 type Topic = { id: string; label: { fa: string; en: string }; characters: string };
