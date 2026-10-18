@@ -161,8 +161,8 @@
   /* Boundaries */
   --rinemi-color-border-subtle: #393B3B;
   --rinemi-color-border-default: #484641;
-  --rinemi-color-border-strong: #77736A;
-  --rinemi-color-border-interactive: #77736A;
+  --rinemi-color-border-strong: #817D73;
+  --rinemi-color-border-interactive: #817D73;
   --rinemi-color-divider: #393B3B;
 
   /* Same semantic role as light mode, separately tuned for the dark surface. */
