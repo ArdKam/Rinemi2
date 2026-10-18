@@ -13,11 +13,11 @@ import {
   removeCharacterFromCollection
 } from "../src/study.ts";
 
-test("fresh learner gets versioned Persian/light defaults and empty personal data", () => {
+test("fresh learner gets versioned Persian/system-theme defaults and empty personal data", () => {
   const store = createFreshStore();
   assert.equal(store.version, 2);
   assert.equal(store.language, "fa");
-  assert.equal(store.theme, "light");
+  assert.equal(store.theme, "system");
   assert.equal(countDueReviews(store), 0);
   assert.deepEqual(store.bookmarks, []);
   assert.deepEqual(store.collections, []);

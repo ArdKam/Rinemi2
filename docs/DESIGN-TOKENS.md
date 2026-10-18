@@ -96,10 +96,10 @@ The initial values in the CSS are a starting baseline. Browser-rendered contrast
 
 - [x] Create one token sheet for shared colors, semantic roles, type, spacing, radius, focus, borders, elevation, layering and motion.
 - [x] Establish vermilion/coral as the primary action in both themes; keep indigo secondary and danger separate.
-- [ ] Add a pre-React theme bootstrap that sets the root attribute before first paint.
-- [ ] Make the future React app, onboarding and loading shell consume the same root theme and token sheet.
-- [ ] Remove duplicate palettes and local copies as components are introduced.
+- [x] Add a pre-React theme bootstrap that resolves `rinemi.theme` and sets root `data-theme` before React mounts, preserving v2/v1 stored theme values as fallbacks.
+- [x] Make the current React shell use the shared resolver and document-root theme; onboarding is not implemented yet and must use the same contract when added.
+- [x] Remove the duplicated light/dark palette from the current global app CSS; compatibility aliases now reference semantic tokens instead of declaring alternate colors.
 - [x] Add a standalone semantic-token contrast checker at `scripts/check-design-token-contrast.mjs`.
-- [x] Wire the checker into GitHub Actions for token-sheet and checker changes.
+- [x] Wire the checker into GitHub Actions for token-sheet, theme resolver, app styles, app entry and preference changes; run it as part of `npm test` too.
 - [ ] Build a rendered component gallery.
 - [ ] Validate Persian RTL / English LTR, light / dark, mobile / desktop, keyboard focus and reduced motion.
