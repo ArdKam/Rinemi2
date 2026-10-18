@@ -2,10 +2,10 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { buildSessionQueue, countDueReviews, createFreshStore, recordRating } from "../src/study.ts";
 
-test("fresh learner gets Persian and light-theme defaults with no review history", () => {
+test("fresh learner gets Persian and system-theme defaults with no review history", () => {
   const store = createFreshStore();
   assert.equal(store.language, "fa");
-  assert.equal(store.theme, "light");
+  assert.equal(store.theme, "system");
   assert.equal(countDueReviews(store), 0);
   assert.deepEqual(store.bookmarks, []);
   assert.deepEqual(Object.keys(store.reviews), []);
