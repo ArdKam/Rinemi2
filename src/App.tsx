@@ -186,7 +186,7 @@ export default function App() {
       setStore(next);
       setNewCollectionName("");
       setCollectionTargetId(created.id);
-      setActiveCollectionId(created.id);
+      setActiveCollectionId(null);
       setCollectionsOpen(true);
       setCollectionMessage(t.collectionCreated);
     } catch (error) {
