@@ -24,7 +24,7 @@ const COPY = {
     missedDay: "جلسه‌ها کوتاه و پیوسته‌اند. روزی که برنگشتی، چیزی را از دست نداده‌ای.",
     starter: "مجموعهٔ آغازین فارسی", sourceOrder: "ترتیب فراوانی منبع",
     recall: "تمرین یادآوری", question: "معنای اصلی این کانجی چیست؟", reveal: "نمایش پاسخ",
-    hint: "اول خودت پاسخ را به یاد بیاور؛ بعد آن را آشکار کن.", meaning: "معنای یادگیرنده",
+    hint: "اول خودت پاسخ را به یاد بیاور؛ بعد آن را آشکار کن.", meaning: "معنای فارسی آغازین", glossNotice: "این توضیح اولیه هنوز بازبینی انسانی نشده است.", sourceMeaning: "معنای انگلیسی مرجع",
     on: "اون‌یومی", kun: "کون‌یومی", example: "در یک واژه", askRating: "چقدر راحت به یاد آوردی؟",
     Again: "دوباره", Hard: "سخت", Good: "خوب", Easy: "آسان",
     complete: "این بخش تمام شد.", completeText: "پاسخ‌ها ذخیره شدند و زمان مرور بعدی با FSRS محاسبه می‌شود.",
@@ -55,7 +55,7 @@ const COPY = {
     missedDay: "Study in short, steady sessions. Missing a day does not mean you have failed.",
     starter: "Persian starter set", sourceOrder: "Source frequency order",
     recall: "Active recall", question: "What is the central meaning of this kanji?", reveal: "Reveal answer",
-    hint: "Try to retrieve the answer first, then reveal it.", meaning: "Learner meaning",
+    hint: "Try to retrieve the answer first, then reveal it.", meaning: "Starter Persian gloss", glossNotice: "This editorial seed has not yet been human-reviewed.", sourceMeaning: "English source gloss",
     on: "ON'YOMI", kun: "KUN'YOMI", example: "In a word", askRating: "How easily did you recall it?",
     Again: "Again", Hard: "Hard", Good: "Good", Easy: "Easy",
     complete: "This session is complete.", completeText: "Your ratings were saved and the next review is scheduled by FSRS.",
@@ -246,7 +246,7 @@ export default function App() {
             <div className="learning-sheet-top"><span>{STARTER_CHARACTERS.some(character => character === currentItem.character) ? t.starter : t.explore}</span><button className={"bookmark-button " + (savedSet.has(currentItem.character) ? "is-saved" : "")} type="button" onClick={() => toggleBookmark(currentItem.character)} aria-pressed={savedSet.has(currentItem.character)} aria-label={savedSet.has(currentItem.character) ? t.removeSaved : t.bookmark}><span aria-hidden="true">{savedSet.has(currentItem.character) ? "♥" : "♡"}</span><span>{savedSet.has(currentItem.character) ? t.savedLabel : t.bookmark}</span></button></div>
             <div className="prompt-area"><div className="prompt-kanji" lang="ja">{currentItem.character}</div><p className="prompt-question">{t.question}</p>{!revealed && <p className="prompt-hint">{t.hint}</p>}</div>
             {revealed ? <div className="answer-area" aria-live="polite">
-              <div className="answer-heading"><span className="section-kicker">{t.meaning}</span><h2>{glossFor(currentItem.character, language) ?? currentItem.meaning[0] ?? "—"}</h2>{!glossFor(currentItem.character, language) && <p className="content-caveat">{t.notReviewed} {t.sourceDisclaimer}</p>}</div>
+              <div className="answer-heading"><span className="section-kicker">{glossFor(currentItem.character, language) ? t.meaning : t.sourceMeaning}</span><h2>{glossFor(currentItem.character, language) ?? currentItem.meaning[0] ?? "—"}</h2><p className="content-caveat">{glossFor(currentItem.character, language) ? t.glossNotice : t.sourceDisclaimer}</p></div>
               <div className="answer-readings"><div><span>{t.on}</span><strong lang="ja" dir="ltr">{currentItem.on.slice(0, 3).join(" · ") || "—"}</strong></div><div><span>{t.kun}</span><strong lang="ja" dir="ltr">{currentItem.kun.slice(0, 3).join(" · ") || "—"}</strong></div></div>
               {(EXAMPLES[currentItem.character] ?? []).length > 0 && <div className="vocabulary-example"><p className="section-kicker">{t.example}</p>{(EXAMPLES[currentItem.character] ?? []).slice(0, 2).map(example => <div className="vocab-row" key={example.word}><strong lang="ja" dir="ltr">{example.word}</strong><span lang="ja" dir="ltr">{example.reading}</span><span>{language === "fa" ? example.fa : example.en}</span></div>)}</div>}
               <div className="rating-area"><p>{t.askRating}</p><div className="rating-grid" dir="ltr">{(["Again", "Hard", "Good", "Easy"] as const).map((rating, index) => <button key={rating} className={"rating-button rating-" + rating.toLowerCase()} type="button" disabled={rateBusy} onClick={() => applyRating(rating)} title={RATING_HINTS[language][rating]} aria-label={t[rating] + " — " + RATING_HINTS[language][rating]}><strong>{t[rating]}</strong><small>{index + 1}</small></button>)}</div></div>
@@ -279,7 +279,7 @@ export default function App() {
           </div>
           {selectedItem && <aside className="kanji-detail" aria-labelledby="detail-title">
             <div className="detail-topline"><span className="eyebrow">{t.detail}</span><button type="button" className="detail-close" onClick={() => setSelectedCharacter(null)} aria-label={t.close}>×</button></div>
-            <div className="detail-character" lang="ja">{selectedItem.character}</div><h2 id="detail-title">{selectedGloss ?? selectedItem.meaning.slice(0, 2).join(" · ")}</h2>{!selectedGloss && <p className="content-caveat">{t.notReviewed} {t.sourceDisclaimer}</p>}
+            <div className="detail-character" lang="ja">{selectedItem.character}</div><h2 id="detail-title">{selectedGloss ?? selectedItem.meaning.slice(0, 2).join(" · ")}</h2><p className="content-caveat">{selectedGloss ? t.glossNotice : t.sourceDisclaimer}</p>
             <div className="detail-property"><span>{t.on}</span><strong lang="ja" dir="ltr">{selectedItem.on.slice(0, 5).join(" · ") || "—"}</strong></div><div className="detail-property"><span>{t.kun}</span><strong lang="ja" dir="ltr">{selectedItem.kun.slice(0, 5).join(" · ") || "—"}</strong></div>
             {(EXAMPLES[selectedItem.character] ?? []).length > 0 && <section className="detail-examples"><p className="section-kicker">{t.example}</p>{(EXAMPLES[selectedItem.character] ?? []).map(example => <div className="detail-example" key={example.word}><strong lang="ja" dir="ltr">{example.word}</strong><span lang="ja" dir="ltr">{example.reading}</span><small>{language === "fa" ? example.fa : example.en}</small></div>)}</section>}
             <div className="detail-facts"><div><span>{t.strokes}</span><strong>{fmt(selectedItem.strokes, language)}</strong></div><div><span>{t.grade}</span><strong>{selectedItem.grade ? fmt(selectedItem.grade, language) : "—"}</strong></div><div><span>{t.jlpt}</span><strong>{selectedItem.jlpt ?? "—"}</strong></div><div><span>{t.frequency}</span><strong>{fmt(selectedItem.frequency, language)}</strong></div></div>
