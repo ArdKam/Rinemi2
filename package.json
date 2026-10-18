@@ -8,7 +8,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/check-data.mjs && node --experimental-strip-types --test scripts/study.test.ts && npm run check:contrast",
+    "test": "node scripts/check-data.mjs && node scripts/check-style-token-aliases.mjs && node --experimental-strip-types --test scripts/study.test.ts && npm run check:contrast",
     "preview": "vite preview --host 0.0.0.0",
     "e2e": "playwright test",
     "check:contrast": "node scripts/check-design-token-contrast.mjs"
