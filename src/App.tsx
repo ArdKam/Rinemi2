@@ -192,6 +192,7 @@ export default function App() {
   const savedSet = new Set(store.bookmarks);
 
   return <div className="app-shell">
+    <a className="skip-link" href="#main-content">{isFa ? "رفتن به محتوای اصلی" : "Skip to main content"}</a>
     <header className="app-header">
       <button className="brand-lockup" type="button" onClick={() => setPage("today")} aria-label="Rinemi">
         <span className="brand-mark-shell" aria-hidden="true"><img className="brand-mark-light" src="/brand/rinemi-mark.svg" alt="" /><img className="brand-mark-dark" src="/brand/rinemi-mark-dark.svg" alt="" /></span>
@@ -238,7 +239,7 @@ export default function App() {
       </section>}
 
       {page === "learn" && <section className="learn-page" aria-labelledby="learn-title">
-        <div className="learn-topline"><button className="text-link" type="button" onClick={() => setPage("today")}>← {t.back}</button><p className="eyebrow">{t.recall}</p></div>
+        <div className="learn-topline"><button className="text-link" type="button" onClick={() => setPage("today")}>← {t.back}</button><p className="eyebrow" id="learn-title">{t.recall}</p></div>
         {currentItem ? <>
           <div className="session-progress-line"><span>{fmt(Math.min(sessionIndex + 1, queue.length), language)} / {fmt(queue.length, language)} {t.progress}</span><div className="progress-track" role="progressbar" aria-label={t.progress} aria-valuemin={0} aria-valuemax={queue.length} aria-valuenow={Math.min(sessionIndex, queue.length)}><span style={{ width: (queue.length ? (sessionIndex / queue.length) * 100 : 0) + "%" }} /></div></div>
           <article className={"learning-sheet " + (revealed ? "is-revealed" : "")}>
@@ -248,7 +249,7 @@ export default function App() {
               <div className="answer-heading"><span className="section-kicker">{t.meaning}</span><h2>{glossFor(currentItem.character, language) ?? currentItem.meaning[0] ?? "—"}</h2>{!glossFor(currentItem.character, language) && <p className="content-caveat">{t.notReviewed} {t.sourceDisclaimer}</p>}</div>
               <div className="answer-readings"><div><span>{t.on}</span><strong lang="ja" dir="ltr">{currentItem.on.slice(0, 3).join(" · ") || "—"}</strong></div><div><span>{t.kun}</span><strong lang="ja" dir="ltr">{currentItem.kun.slice(0, 3).join(" · ") || "—"}</strong></div></div>
               {(EXAMPLES[currentItem.character] ?? []).length > 0 && <div className="vocabulary-example"><p className="section-kicker">{t.example}</p>{(EXAMPLES[currentItem.character] ?? []).slice(0, 2).map(example => <div className="vocab-row" key={example.word}><strong lang="ja" dir="ltr">{example.word}</strong><span lang="ja" dir="ltr">{example.reading}</span><span>{language === "fa" ? example.fa : example.en}</span></div>)}</div>}
-              <div className="rating-area"><p>{t.askRating}</p><div className="rating-grid" dir="ltr">{(["Again", "Hard", "Good", "Easy"] as const).map((rating, index) => <button key={rating} className={"rating-button rating-" + rating.toLowerCase()} type="button" disabled={rateBusy} onClick={() => applyRating(rating)} title={RATING_HINTS[language][rating]} aria-label={RATING_HINTS[language][rating]}><strong>{t[rating]}</strong><small>{index + 1}</small></button>)}</div></div>
+              <div className="rating-area"><p>{t.askRating}</p><div className="rating-grid" dir="ltr">{(["Again", "Hard", "Good", "Easy"] as const).map((rating, index) => <button key={rating} className={"rating-button rating-" + rating.toLowerCase()} type="button" disabled={rateBusy} onClick={() => applyRating(rating)} title={RATING_HINTS[language][rating]} aria-label={t[rating] + " — " + RATING_HINTS[language][rating]}><strong>{t[rating]}</strong><small>{index + 1}</small></button>)}</div></div>
             </div> : <div className="reveal-area"><button className="button-primary reveal-button" type="button" onClick={() => setRevealed(true)}>{t.reveal}<span aria-hidden="true">↵</span></button><span className="keyboard-hint">Space</span></div>}
           </article>
         </> : queue.length > 0 && sessionRated > 0 ? <section className="session-complete"><span className="completion-mark" aria-hidden="true">✓</span><p className="eyebrow">{t.recall}</p><h1>{t.complete}</h1><p>{t.completeText}</p><div className="completion-total"><strong>{fmt(sessionRated, language)}</strong><span>{t.progress}</span></div><button className="button-primary" type="button" onClick={() => { setPage("today"); setNow(new Date()); }}>{t.back}<span aria-hidden="true">←</span></button></section> : <section className="session-complete session-empty"><span className="completion-mark" aria-hidden="true">日</span><h1>{t.empty}</h1><p>{t.emptyHelp}</p><button className="button-primary" type="button" onClick={() => setPage("explore")}>{t.browse}<span aria-hidden="true">←</span></button></section>}
