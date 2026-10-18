@@ -1,7 +1,7 @@
 # Rinemi 2 — Product and UX Specification
 
 **Status:** Approved written Sumi Play baseline; image generation and visual-concept selection are optional and do not block implementation.  
-**Authority:** This document owns product intent, navigation, screen behavior, and user journeys. `ROADMAP.md` owns phase status and execution order.
+**Authority:** This document owns product intent, navigation, screen behavior, and user journeys. `ROADMAP.md` owns phase status and execution order. `docs/UI-UX-REVIEW-REGISTER.md` preserves cross-cutting review findings and their verification status; consult it before later inspections.
 
 ## 1. Product intent
 
@@ -236,6 +236,20 @@ The layout must make the primary answer visible without forcing an excessive scr
 - Filters may become a drawer on mobile, but selected-filter state must remain visible.
 - Review controls stay predictably placed across prompts and reveal states.
 - No meaningful content may only be communicated by an icon, color, motion or pointer hover.
+
+### Review-derived requirements to carry into implementation and acceptance
+
+The [UI/UX review register](UI-UX-REVIEW-REGISTER.md) is the durable record of current review findings. The following requirements are added to the product behavior contract; do not treat them as accepted until their criteria are exercised in the rendered app.
+
+- **Explore on mobile:** selecting a kanji must make its details immediately apparent without requiring the learner to scroll through a long results list. A dedicated detail view, bottom sheet/dialog, or equivalent focused pattern is acceptable if it preserves search/filter/collection/scroll context and has coherent Back, close, Escape, and focus-return behavior.
+- **Keyboard shortcut ownership:** a global Space or numeric shortcut must not override native button/link activation or consume keystrokes intended for a text/form control. Prefer native button keyboard semantics wherever possible.
+- **Revealed-card reachability:** keep meaning, useful reading/context evidence, optional reference detail, and review ratings in the intended hierarchy. Review actions must remain predictably reachable on short phone and landscape screens; any fixed/sticky action must reserve space and never obscure content.
+- **Dictionary disambiguation:** show a useful reading when reliable data exists, avoid single-line truncation that makes long glosses indistinguishable, and keep metadata secondary to the kanji and meaning.
+- **Large result sets:** do not silently cap broad Explore searches at a fixed initial set without an accessible continuation path. Any pagination/virtualization must retain query and selected-filter context and remain keyboard navigable.
+- **Compact landscape:** validate short viewport heights and virtual-keyboard states, not only narrow viewport widths. Use a predictable scroll owner in panels/dialogs/drawers and keep the primary action reachable.
+- **Today clarity:** a returning learner should identify due work and the next action immediately; a new learner should understand how to begin. Featured editorial content must be distinguishable from scheduled learning.
+
+**Acceptance evidence:** use current rendered screenshots and task-based checks for 320px and 390px phone widths, 844×390 compact landscape, and desktop; Persian RTL / English LTR; light / dark; prompt and revealed-card states; selected Explore detail; and long content. Record exact commit, browser, results, screenshots, and unresolved findings in the review register and manual release checklist.
 
 ## 7. UX validation protocol
 
