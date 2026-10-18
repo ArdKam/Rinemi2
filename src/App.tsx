@@ -417,6 +417,8 @@ export default function App() {
         <span>{fmt(backupPreview.counts.collections, language)} {t.backupCollections}</span>
         <span>{fmt(backupPreview.counts.collectionItems, language)} {t.backupCollectionItems}</span>
         <span>{fmt(backupPreview.counts.reviewRecords, language)} {t.backupReviews}</span>
+        {backupPreview.store.collections.slice(0, 10).map(collection => <span key={collection.id}>{collection.name} · {fmt(collection.characters.length, language)}</span>)}
+        {backupPreview.counts.collections > 10 && <span>{isFa ? fmt(backupPreview.counts.collections - 10, language) + " مجموعهٔ دیگر" : fmt(backupPreview.counts.collections - 10, language) + " more collections"}</span>}
       </div>}
       {backupError && <p className="data-management-error" role="alert">{backupError}</p>}
       {dataMessage && <p className="data-management-message" role="status">{dataMessage}</p>}
