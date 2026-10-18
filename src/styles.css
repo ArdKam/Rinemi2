@@ -173,6 +173,33 @@ h1 { margin-bottom: var(--rinemi-space-3); font-size: var(--rinemi-font-size-pag
 .result-count { margin: var(--rinemi-space-4) 0 0; color: var(--muted); font-size: var(--rinemi-font-size-meta); }
 
 .collections-entry { margin-top: var(--rinemi-space-3); }
+
+.anki-import-entry { margin-top: var(--rinemi-space-5); padding-block: var(--rinemi-space-4); border-block: 1px solid var(--line); }
+.anki-import-entry-header { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--rinemi-space-4); }
+.anki-import-entry-header h2 { margin: 0 0 var(--rinemi-space-1); font-size: var(--rinemi-font-size-lg); line-height: var(--rinemi-line-height-body); }
+.anki-import-entry-header p { max-width: 72ch; margin: 0; color: var(--muted-strong); font-size: var(--rinemi-font-size-control); line-height: var(--rinemi-line-height-reading); }
+.anki-import-entry-header .button-secondary { flex: 0 0 auto; min-height: 44px; }
+.anki-import-panel { display: grid; gap: var(--rinemi-space-3); padding-top: var(--rinemi-space-4); }
+.anki-file-control { display: grid; gap: var(--rinemi-space-1); max-width: 520px; color: var(--muted-strong); font-size: var(--rinemi-font-size-control); font-weight: var(--rinemi-font-weight-semibold); }
+.anki-file-control input { display: block; width: 100%; min-width: 0; min-height: 44px; padding: var(--rinemi-space-2); border: 1px solid var(--line); border-radius: var(--rinemi-radius-sm); background: var(--surface); color: var(--ink); font: inherit; }
+.anki-file-name { margin: 0; color: var(--muted); font-size: var(--rinemi-font-size-meta); overflow-wrap: anywhere; }
+.anki-import-error { margin: 0; color: var(--vermilion); border-inline-start: 3px solid var(--vermilion); padding-inline-start: var(--rinemi-space-3); line-height: var(--rinemi-line-height-reading); }
+.anki-import-safe-note { margin: 0; padding-block: var(--rinemi-space-2); border-block: 1px solid var(--line-soft); color: var(--muted-strong); font-size: var(--rinemi-font-size-control); line-height: var(--rinemi-line-height-reading); }
+.anki-import-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--rinemi-space-2); margin: 0; }
+.anki-import-summary div { min-width: 0; padding: var(--rinemi-space-2); border-bottom: 1px solid var(--line-soft); }
+.anki-import-summary dt { color: var(--muted); font-size: var(--rinemi-font-size-meta); line-height: var(--rinemi-line-height-compact); }
+.anki-import-summary dd { margin: var(--rinemi-space-1) 0 0; color: var(--ink); font-size: var(--rinemi-font-size-control); font-weight: var(--rinemi-font-weight-semibold); font-variant-numeric: tabular-nums; }
+.anki-field-mapping { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--rinemi-space-3); max-width: 720px; }
+.anki-field-mapping label { display: grid; gap: var(--rinemi-space-1); color: var(--muted-strong); font-size: var(--rinemi-font-size-control); }
+.anki-field-mapping select { width: 100%; min-width: 0; min-height: 44px; padding-inline: var(--rinemi-space-2); border: 1px solid var(--line); border-radius: var(--rinemi-radius-sm); background: var(--surface); color: var(--ink); font: inherit; }
+.anki-preview-table-wrap { max-width: 100%; overflow-x: auto; border-block: 1px solid var(--line); overscroll-behavior-inline: contain; }
+.anki-preview-table { width: 100%; min-width: 680px; border-collapse: collapse; text-align: start; font-size: var(--rinemi-font-size-meta); line-height: var(--rinemi-line-height-reading); }
+.anki-preview-table th, .anki-preview-table td { padding: var(--rinemi-space-2); border-bottom: 1px solid var(--line-soft); vertical-align: top; overflow-wrap: anywhere; }
+.anki-preview-table th { position: sticky; top: 0; background: var(--surface); color: var(--muted-strong); font-weight: var(--rinemi-font-weight-semibold); white-space: nowrap; }
+.anki-preview-table td:nth-child(1) { color: var(--muted); font-variant-numeric: tabular-nums; }
+.anki-row-warning { display: block; margin-bottom: var(--rinemi-space-1); color: var(--vermilion); }
+.anki-preview-limit { margin: 0; color: var(--muted); font-size: var(--rinemi-font-size-meta); }
+
 .collections-toggle { display: inline-flex; align-items: center; gap: var(--rinemi-space-2); min-height: 44px; padding: var(--rinemi-space-2) 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); font-size: var(--rinemi-font-size-control); font-weight: var(--rinemi-font-weight-bold); cursor: pointer; }
 .collections-count { display: inline-grid; place-items: center; min-width: 25px; min-height: 24px; padding: var(--rinemi-space-1) var(--rinemi-space-1); border: 1px solid var(--line); color: var(--muted-strong); font-size: var(--rinemi-font-size-meta); font-weight: var(--rinemi-font-weight-medium); }
 .collections-toggle > span:last-child { color: var(--vermilion); font-size: var(--rinemi-font-size-lg); }
@@ -335,6 +362,11 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
   .collection-create-form { align-items: stretch; flex-direction: column; }
   .collection-create-button { width: 100%; }
   .collection-row { align-items: flex-start; flex-direction: column; gap: var(--rinemi-space-2); }
+  .anki-import-entry-header { flex-direction: column; }
+  .anki-import-entry-header .button-secondary { width: 100%; }
+  .anki-import-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .anki-field-mapping { grid-template-columns: minmax(0, 1fr); }
+  .anki-file-control { max-width: none; }
   .data-management-panel { padding: var(--rinemi-space-3); }
   .data-management-actions { align-items: stretch; flex-direction: column; }
   .data-management-actions button { width: 100%; }

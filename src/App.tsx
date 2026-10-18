@@ -5,6 +5,7 @@ import { EXAMPLES, PERSIAN_GLOSSES, STARTER_CHARACTERS } from "./content";
 import { addCharacterToCollection, buildSessionQueue, clearCollectionCharacters, countDueReviews, createCollection, createFreshStore, deleteCollection, eraseLocalData, loadStore, persistStore, recordRating, removeCharacterFromCollection, renameCollection, resolveEffectiveTheme, type AppStore, type ReviewRating } from "./study";
 import { applyThemePreference } from "./theme";
 import { createBackupFile, MAX_BACKUP_BYTES, parseBackupFile, type BackupPreview } from "./data-transfer";
+import { decodeAnkiTextExport, MAX_ANKI_TEXT_BYTES, parseAnkiTextExport, type AnkiImportWarningCode, type AnkiTextPreview } from "./anki-import";
 
 type Kanji = { id: string; character: string; meaning: string[]; on: string[]; kun: string[]; strokes: number; grade: number; jlpt: string | null; frequency: number; order: number };
 type Topic = { id: string; label: { fa: string; en: string }; characters: string };
@@ -50,6 +51,7 @@ const COPY = {
     feedback: "بازخورد", feedbackCopy: "این نسخهٔ آغازین هنوز به بازبینی محتوایی نیاز دارد.",
     practice: "تمرین همین کانجی",
     collectionsLabel: "مجموعه‌های شخصی", showCollections: "نمایش مجموعه‌ها", collectionName: "نام مجموعه", collectionPlaceholder: "مثلاً کانجی‌های گیج‌کننده", createCollection: "ساخت مجموعه", createFirstCollection: "اولین مجموعه را بساز", collectionEmpty: "هنوز مجموعه‌ای نساخته‌ای.", collectionHelp: "کانجی‌ها را برای مرور و مطالعهٔ شخصی دسته‌بندی کن.", addToCollection: "افزودن به مجموعه", removeFromCollection: "حذف از این مجموعه", collectionAdded: "کانجی به مجموعه افزوده شد.", collectionRemoved: "کانجی از مجموعه حذف شد.", collectionCreated: "مجموعه ساخته شد.", collectionExists: "مجموعه‌ای با این نام وجود دارد.", collectionNameRequired: "یک نام برای مجموعه وارد کن.", collectionLimit: "به سقف تعداد مجموعه‌ها رسیده‌ای.", collectionDeleted: "مجموعه حذف شد.", deleteCollection: "حذف مجموعه", deleteConfirm: "این مجموعه حذف شود؟ کانجی‌ها و سابقهٔ مرور حذف نمی‌شوند.", renameCollection: "تغییر نام", saveCollectionName: "ذخیره نام", cancelCollectionRename: "لغو", collectionRenamed: "نام مجموعه تغییر کرد.", clearCollection: "حذف همهٔ موارد", clearCollectionConfirm: "همهٔ کانجی‌های این مجموعه حذف شوند؟ نشانک‌ها و سابقهٔ مرور تغییر نمی‌کنند.", collectionCleared: "همهٔ کانجی‌ها از مجموعه حذف شدند.", studyCollection: "مطالعهٔ ۲۰ مورد نخست", openCollection: "نمایش کانجی‌ها", allCharacters: "نمایش همهٔ کانجی‌ها", collectionFilterHint: "نتایج به مجموعهٔ انتخاب‌شده محدود شده‌اند.",
+    ankiImportTitle: "پیش‌نمایش فایل متنی Anki", ankiImportToggle: "پیش‌نمایش Anki", ankiImportDescription: "فایل متنی UTF-8 را بررسی کن، ستون‌های روی کارت و پشت کارت را انتخاب کن و هشدارها را ببین. این مرحله هیچ داده‌ای را وارد یا ذخیره نمی‌کند.", ankiFileLabel: "فایل متن Anki (.txt، .tsv یا .csv)", ankiFrontField: "روی کارت", ankiBackField: "پشت کارت", ankiRows: "ردیف‌ها", ankiWarnings: "ردیف‌های دارای هشدار", ankiDuplicates: "ردیف‌های تکراری", ankiEmpty: "ردیف خالی", ankiHtml: "ردیف دارای HTML", ankiMedia: "ردیف دارای ارجاع رسانه", ankiSourceLine: "خط منبع", ankiTags: "برچسب‌ها", ankiDeck: "دسته", ankiNoteType: "نوع یادداشت", ankiRowWarnings: "هشدارها", ankiNoRows: "ردیفی برای پیش‌نمایش وجود ندارد.", ankiShowingFirst: "فقط ۳۰ ردیف نخست نمایش داده شده است.", ankiNotImported: "این فقط پیش‌نمایش است؛ هنوز هیچ یادداشت یا کارت زمان‌بندی‌شده‌ای وارد نمی‌شود. واردکردن فایل‌های بسته‌بندی‌شدهٔ .apkg و رسانه‌ها هم پشتیبانی نشده است.", ankiTooLarge: "فایل از سقف ۱۰ مگابایت بزرگ‌تر است.", ankiInvalidUtf8: "فایل باید متن UTF-8 معتبر باشد.", ankiNoRowsError: "ردیف قابل‌خواندنی در فایل پیدا نشد.", ankiSeparatorError: "جداکنندهٔ ستون‌ها قابل تشخیص نیست؛ یک فایل متنی جداشده با تب یا جداکنندهٔ پشتیبانی‌شده انتخاب کن.", ankiMalformedError: "ساختار نقل‌قول‌ها یا جداکننده‌های فایل معتبر نیست.", ankiUnsupportedError: "این ساختار یا جداکننده پشتیبانی نمی‌شود.", ankiPreviewError: "فایل قابل پیش‌نمایش نیست.", ankiWarnFieldCount: "تعداد ستون‌ها با ردیف‌های دیگر یکسان نیست", ankiWarnEmpty: "همهٔ فیلدهای محتوا خالی‌اند", ankiWarnDuplicate: "مقدار فیلد اول در این فایل تکراری است", ankiWarnHtml: "محتوا ممکن است HTML باشد؛ به‌صورت متن ساده نمایش داده می‌شود", ankiWarnMedia: "ارجاع رسانه وجود دارد؛ فایل رسانه همراه این پیش‌نمایش وارد نمی‌شود",
     dataControls: "مدیریت داده‌ها", dataControlsHeading: "پشتیبان‌گیری و داده‌های محلی", dataLocalOnly: "یادگیری، نشانک‌ها و سابقهٔ مرور فعلاً فقط در همین مرورگر ذخیره می‌شوند؛ حساب و همگام‌سازی ابری فعال نیست.", dataBackupGuidance: "بازگردانی، دادهٔ محلی فعلی را جایگزین می‌کند. ابتدا فایل را بررسی کن و در صورت نیاز از دادهٔ فعلی پشتیبان بگیر.", exportData: "دانلود پشتیبان", importBackup: "انتخاب فایل پشتیبان", restoreBackup: "جایگزینی با پشتیبان", eraseData: "پاک‌کردن داده‌های این مرورگر", closeDataControls: "بستن مدیریت داده‌ها", restoreBackupConfirm: "داده‌های محلی فعلی با داده‌های داخل این فایل جایگزین شوند؟", eraseDataConfirm: "همهٔ نشانک‌ها، مجموعه‌ها و سابقهٔ مرور این مرورگر پاک شوند؟ این کار قابل بازگشت نیست.", backupReady: "فایل بررسی شد؛ هنوز هیچ داده‌ای تغییر نکرده است.", backupDownloaded: "فایل پشتیبان آماده و دانلود شد.", backupRestored: "پشتیبان در ذخیره‌سازی محلی جایگزین شد.", dataErased: "داده‌های محلی پاک شد.", dataWriteFailed: "ذخیره‌سازی انجام نشد. فضای ذخیره‌سازی مرورگر یا دسترسی آن را بررسی کن.", dataEraseFailed: "پاک‌کردن داده‌ها کامل نشد؛ دسترسی ذخیره‌سازی مرورگر را بررسی کن.", backupInvalid: "فایل پشتیبان JSON معتبر نیست.", backupUnsupported: "ساختار یا نسخهٔ این فایل پشتیبانی نمی‌شود؛ داده‌ای تغییر نکرده است.", backupInvalidData: "داده‌های داخل فایل قابل‌استفاده نیستند؛ داده‌ای تغییر نکرده است.", backupTooLarge: "فایل پشتیبان از سقف ۵ مگابایت بزرگ‌تر است.", backupPreviewLabel: "پیش‌نمایش فایل", backupExportDate: "زمان پشتیبان", backupBookmarks: "نشانک", backupCollections: "مجموعه", backupCollectionItems: "عضویت در مجموعه", backupReviews: "سابقهٔ مرور", exportBlocked: "به‌دلیل خطای ذخیره‌سازی، پشتیبان قابل‌اعتمادی ساخته نشد. ابتدا یک فایل پشتیبان معتبر را بازیابی کن."
   },
   en: {
@@ -84,6 +86,7 @@ const COPY = {
     feedback: "Feedback", feedbackCopy: "This early build still needs content review.",
     practice: "Practice this kanji",
     collectionsLabel: "Personal collections", showCollections: "Show collections", collectionName: "Collection name", collectionPlaceholder: "e.g. Confusing kanji", createCollection: "Create collection", createFirstCollection: "Create your first collection", collectionEmpty: "You have not created a collection yet.", collectionHelp: "Group kanji for your own review and focused study.", addToCollection: "Add to collection", removeFromCollection: "Remove from collection", collectionAdded: "Kanji added to collection.", collectionRemoved: "Kanji removed from collection.", collectionCreated: "Collection created.", collectionExists: "A collection with this name already exists.", collectionNameRequired: "Enter a name for the collection.", collectionLimit: "You have reached the collection limit.", collectionDeleted: "Collection deleted.", deleteCollection: "Delete collection", deleteConfirm: "Delete this collection? Kanji and review history will remain.", renameCollection: "Rename", saveCollectionName: "Save name", cancelCollectionRename: "Cancel", collectionRenamed: "Collection renamed.", clearCollection: "Remove all items", clearCollectionConfirm: "Remove every kanji from this collection? Bookmarks and review history will remain unchanged.", collectionCleared: "All kanji removed from the collection.", studyCollection: "Study first 20 items", openCollection: "Show kanji", allCharacters: "Show all kanji", collectionFilterHint: "Results are filtered to the selected collection.",
+    ankiImportTitle: "Anki text-file preview", ankiImportToggle: "Preview Anki text", ankiImportDescription: "Inspect a UTF-8 text export, choose the front/back fields, and review warnings. This step does not import or save learner data.", ankiFileLabel: "Anki text file (.txt, .tsv, or .csv)", ankiFrontField: "Front field", ankiBackField: "Back field", ankiRows: "Rows", ankiWarnings: "Rows with warnings", ankiDuplicates: "Duplicate rows", ankiEmpty: "Empty rows", ankiHtml: "HTML-like rows", ankiMedia: "Rows with media references", ankiSourceLine: "Source line", ankiTags: "Tags", ankiDeck: "Deck", ankiNoteType: "Note type", ankiRowWarnings: "Warnings", ankiNoRows: "There are no rows to preview.", ankiShowingFirst: "Showing only the first 30 rows.", ankiNotImported: "This is preview only; no notes or scheduled cards are imported yet. Packaged .apkg files and media are not supported.", ankiTooLarge: "The file exceeds the 10 MiB limit.", ankiInvalidUtf8: "The file must be valid UTF-8 text.", ankiNoRowsError: "No readable rows were found in the file.", ankiSeparatorError: "The delimiter could not be detected. Choose tab-separated text or a supported delimiter.", ankiMalformedError: "The file has invalid quotation or delimiter structure.", ankiUnsupportedError: "This file structure or delimiter is not supported.", ankiPreviewError: "The file could not be previewed.", ankiWarnFieldCount: "The number of fields differs from other rows", ankiWarnEmpty: "All content fields are empty", ankiWarnDuplicate: "The first content field is duplicated in this file", ankiWarnHtml: "Content may contain HTML; it is shown as plain text", ankiWarnMedia: "Media references were found; linked assets are not imported in this preview",
     dataControls: "Data", dataControlsHeading: "Local data and backups", dataLocalOnly: "Study data, bookmarks, and review history are currently stored only in this browser. Accounts and cloud sync are not enabled.", dataBackupGuidance: "Restoring replaces the current local data. Inspect the file first and download a backup of current data beforehand if you may need it.", exportData: "Download backup", importBackup: "Choose backup file", restoreBackup: "Replace with backup", eraseData: "Erase this browser's data", closeDataControls: "Close data controls", restoreBackupConfirm: "Replace the current local data with the data in this file?", eraseDataConfirm: "Erase all bookmarks, collections, and review history stored in this browser? This cannot be undone.", backupReady: "Backup validated; no data has changed yet.", backupDownloaded: "Backup file prepared and downloaded.", backupRestored: "Backup replaced the local data.", dataErased: "Local learner data was erased.", dataWriteFailed: "The data could not be saved. Check browser storage availability and permissions.", dataEraseFailed: "Data erasure did not complete. Check browser storage access.", backupInvalid: "The backup file is not valid JSON.", backupUnsupported: "This backup structure or version is not supported. No data was changed.", backupInvalidData: "The data in this file is not usable. No data was changed.", backupTooLarge: "The backup exceeds the 5 MB limit.", backupPreviewLabel: "File preview", backupExportDate: "Backup date", backupBookmarks: "Bookmarks", backupCollections: "Collections", backupCollectionItems: "Collection memberships", backupReviews: "Review records", exportBlocked: "A reliable backup cannot be created while storage is reporting an error. Restore a valid backup first."
   }
 } as const;
@@ -120,6 +123,12 @@ export default function App() {
   const [backupPreview, setBackupPreview] = useState<BackupPreview | null>(null);
   const [backupError, setBackupError] = useState("");
   const [dataMessage, setDataMessage] = useState("");
+  const [ankiPreviewOpen, setAnkiPreviewOpen] = useState(false);
+  const [ankiPreview, setAnkiPreview] = useState<AnkiTextPreview | null>(null);
+  const [ankiFileName, setAnkiFileName] = useState("");
+  const [ankiError, setAnkiError] = useState("");
+  const [ankiFrontFieldIndex, setAnkiFrontFieldIndex] = useState(0);
+  const [ankiBackFieldIndex, setAnkiBackFieldIndex] = useState(1);
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>("日");
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
   const [visibleResultCount, setVisibleResultCount] = useState(60);
@@ -286,6 +295,44 @@ export default function App() {
       const exists = previous.bookmarks.includes(character);
       return { ...previous, bookmarks: exists ? previous.bookmarks.filter(item => item !== character) : [...previous.bookmarks, character] };
     });
+  }
+
+  function ankiWarningLabel(code: AnkiImportWarningCode): string {
+    const labels: Record<AnkiImportWarningCode, string> = {
+      ROW_FIELD_COUNT_MISMATCH: t.ankiWarnFieldCount,
+      EMPTY_CONTENT_FIELDS: t.ankiWarnEmpty,
+      DUPLICATE_FIRST_FIELD_IN_FILE: t.ankiWarnDuplicate,
+      HTML_CONTENT_TREATED_AS_TEXT: t.ankiWarnHtml,
+      MEDIA_REFERENCES_NOT_INCLUDED: t.ankiWarnMedia
+    };
+    return labels[code];
+  }
+
+  async function inspectAnkiTextFile(file: File | undefined) {
+    setAnkiPreview(null);
+    setAnkiFileName("");
+    setAnkiError("");
+    if (!file) return;
+    setAnkiFileName(file.name);
+    if (file.size > MAX_ANKI_TEXT_BYTES) {
+      setAnkiError(t.ankiTooLarge);
+      return;
+    }
+    try {
+      const text = decodeAnkiTextExport(await file.arrayBuffer());
+      const preview = parseAnkiTextExport(text);
+      setAnkiPreview(preview);
+      setAnkiFrontFieldIndex(0);
+      setAnkiBackFieldIndex(Math.min(1, Math.max(0, preview.fieldLabels.length - 1)));
+    } catch (error) {
+      const code = error instanceof Error ? error.message : "";
+      setAnkiError(code === "ANKI_FILE_TOO_LARGE" ? t.ankiTooLarge
+        : code === "ANKI_INVALID_UTF8" ? t.ankiInvalidUtf8
+        : code === "ANKI_NO_DATA_ROWS" ? t.ankiNoRowsError
+        : code === "ANKI_SEPARATOR_NOT_DETECTED" ? t.ankiSeparatorError
+        : code === "ANKI_MALFORMED_QUOTED_FIELD" || code === "ANKI_UNCLOSED_QUOTED_FIELD" ? t.ankiMalformedError
+        : code.startsWith("ANKI_UNSUPPORTED") || code === "ANKI_INVALID_SPECIAL_COLUMN" ? t.ankiUnsupportedError : t.ankiPreviewError);
+    }
   }
 
   function downloadBackup() {
@@ -639,6 +686,64 @@ export default function App() {
               </div>}
           </section>}
         </div>
+        <section className="anki-import-entry" aria-labelledby="anki-import-heading">
+          <div className="anki-import-entry-header">
+            <div>
+              <h2 id="anki-import-heading">{t.ankiImportTitle}</h2>
+              <p>{t.ankiImportDescription}</p>
+            </div>
+            <button className="button-secondary" type="button" aria-expanded={ankiPreviewOpen} aria-controls="anki-import-preview" onClick={() => setAnkiPreviewOpen(open => !open)}>{ankiPreviewOpen ? (isFa ? "بستن پیش‌نمایش" : "Close preview") : t.ankiImportToggle}</button>
+          </div>
+          {ankiPreviewOpen && <div id="anki-import-preview" className="anki-import-panel">
+            <label className="anki-file-control">
+              <span>{t.ankiFileLabel}</span>
+              <input type="file" accept=".txt,.tsv,.csv,text/plain,text/tab-separated-values,text/csv" onChange={event => { const file = event.currentTarget.files?.[0]; void inspectAnkiTextFile(file); event.currentTarget.value = ""; }} />
+            </label>
+            {ankiFileName && <p className="anki-file-name" dir="auto">{ankiFileName}</p>}
+            {ankiError && <p className="anki-import-error" role="alert">{ankiError}</p>}
+            {ankiPreview && <>
+              <p className="anki-import-safe-note" role="note">{t.ankiNotImported}</p>
+              <dl className="anki-import-summary">
+                <div><dt>{t.ankiRows}</dt><dd>{fmt(ankiPreview.summary.totalRows, language)}</dd></div>
+                <div><dt>{t.ankiWarnings}</dt><dd>{fmt(ankiPreview.summary.rowsWithWarnings, language)}</dd></div>
+                <div><dt>{t.ankiDuplicates}</dt><dd>{fmt(ankiPreview.summary.duplicateRows, language)}</dd></div>
+                <div><dt>{t.ankiEmpty}</dt><dd>{fmt(ankiPreview.summary.emptyRows, language)}</dd></div>
+                <div><dt>{t.ankiHtml}</dt><dd>{fmt(ankiPreview.summary.htmlRows, language)}</dd></div>
+                <div><dt>{t.ankiMedia}</dt><dd>{fmt(ankiPreview.summary.mediaReferenceRows, language)}</dd></div>
+              </dl>
+              <div className="anki-field-mapping">
+                <label>
+                  <span>{t.ankiFrontField}</span>
+                  <select value={String(ankiFrontFieldIndex)} onChange={event => setAnkiFrontFieldIndex(Number(event.target.value))}>
+                    {ankiPreview.fieldLabels.map((label, index) => <option key={index} value={String(index)}>{label}</option>)}
+                  </select>
+                </label>
+                <label>
+                  <span>{t.ankiBackField}</span>
+                  <select value={String(ankiBackFieldIndex)} onChange={event => setAnkiBackFieldIndex(Number(event.target.value))}>
+                    {ankiPreview.fieldLabels.map((label, index) => <option key={index} value={String(index)}>{label}</option>)}
+                  </select>
+                </label>
+              </div>
+              {ankiPreview.rows.length === 0
+                ? <p>{t.ankiNoRows}</p>
+                : <div className="anki-preview-table-wrap">
+                    <table className="anki-preview-table">
+                      <thead><tr><th>{t.ankiSourceLine}</th><th>{t.ankiFrontField}</th><th>{t.ankiBackField}</th><th>{t.ankiTags}</th><th>{t.ankiDeck}</th><th>{t.ankiRowWarnings}</th></tr></thead>
+                      <tbody>{ankiPreview.rows.slice(0, 30).map((row, index) => <tr key={row.sourceLine + "-" + index}>
+                        <td>{fmt(row.sourceLine, language)}</td>
+                        <td><span dir="auto">{row.fields[ankiFrontFieldIndex] ?? ""}</span></td>
+                        <td><span dir="auto">{row.fields[ankiBackFieldIndex] ?? ""}</span></td>
+                        <td><span dir="auto">{row.tags.join(", ")}</span></td>
+                        <td><span dir="auto">{row.deck ?? ""}</span></td>
+                        <td>{row.warnings.length ? row.warnings.map(code => <span key={code} className="anki-row-warning">{ankiWarningLabel(code)}</span>) : "—"}</td>
+                      </tr>)}</tbody>
+                    </table>
+                  </div>}
+              {ankiPreview.rows.length > 30 && <p className="anki-preview-limit">{t.ankiShowingFirst}</p>}
+            </>}
+          </div>}
+        </section>
         <div className={"explore-layout" + (mobileDetailOpen ? " is-mobile-detail" : "")}>
           <section className="kanji-results" aria-label={t.explore}>
             <p className="result-count" role="status">{t.showingResults} {fmt(Math.min(visibleResultCount, filteredKanji.length), language)} {t.ofResults} {fmt(filteredKanji.length, language)} {t.results}</p>
