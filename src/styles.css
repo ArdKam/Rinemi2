@@ -293,6 +293,8 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
 .data-note { margin-top: var(--rinemi-space-6); padding: var(--rinemi-space-3) 0 0; border-top: 1px solid var(--line); color: var(--muted); font-size: var(--rinemi-font-size-control); line-height: var(--rinemi-line-height-body); }
 .app-footer { display: flex; flex-wrap: wrap; gap: var(--rinemi-space-2) var(--rinemi-space-4); align-items: center; justify-content: space-between; margin-top: var(--rinemi-space-8); padding-top: var(--rinemi-space-3); border-top: 1px solid var(--line); color: var(--muted); font-size: var(--rinemi-font-size-control); }
 .app-footer a { color: var(--muted-strong); text-underline-offset: 3px; }
+.app-footer .source-attribution { flex: 1 1 100%; max-width: 78ch; line-height: var(--rinemi-line-height-reading); overflow-wrap: anywhere; }
+.app-footer .source-attribution a { display: inline; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 @keyframes appear { from { opacity: .75; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
