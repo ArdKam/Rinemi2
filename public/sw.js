@@ -19,8 +19,10 @@ self.addEventListener("install", event => {
 self.addEventListener("activate", event => {
   event.waitUntil((async () => {
     const cacheNames = await caches.keys();
+    // Clear only stale versions for this exact app scope. Another Rinemi
+    // deployment on the same origin may have a different BASE_URL.
     await Promise.all(cacheNames
-      .filter(name => name.startsWith("rinemi2-app-shell:") && name !== CACHE_NAME)
+      .filter(name => name.startsWith(CACHE_PREFIX) && name !== CACHE_NAME)
       .map(name => caches.delete(name)));
     await self.clients.claim();
   })());
@@ -39,7 +41,11 @@ self.addEventListener("fetch", event => {
         const response = await fetch(request);
         if (response.ok && url.pathname === APP_BASE_PATH) {
           const cache = await caches.open(CACHE_NAME);
-          await cache.put(ENTRY_URL, response.clone());
+          try {
+            await cache.put(ENTRY_URL, response.clone());
+          } catch {
+            // Cache quota/private-mode failures must not break an online navigation.
+          }
         }
         return response;
       } catch {
@@ -57,7 +63,11 @@ self.addEventListener("fetch", event => {
     try {
       const response = await fetch(request);
       if (response.ok && response.type !== "opaque") {
-        await cache.put(request, response.clone());
+        try {
+          await cache.put(request, response.clone());
+        } catch {
+          // Preserve the successful network response when storage is full/unavailable.
+        }
       }
       return response;
     } catch {

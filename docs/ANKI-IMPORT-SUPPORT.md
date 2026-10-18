@@ -1,6 +1,6 @@
 # Rinemi 2 — Anki Import Support Matrix
 
-**Status:** the text-export parser and preview contract are under development. The current implementation is a pure parser/preview utility; it does **not** yet persist imported notes, create scheduled cards, or provide an import screen. Do not advertise Anki import as released until the end-to-end flow is implemented and accepted.
+**Status:** the text-export parser and a review UI with front/back field mapping and row warnings are implemented in the current feature branch. The preview does **not** persist imported notes, create scheduled cards, or change learner data. Do not advertise Anki import as released until the end-to-end persistence and scheduling flow is implemented and accepted.
 
 ## Supported input target for the first import slice
 
@@ -25,12 +25,12 @@
 - Preserve all parsed rows for review; do not silently discard duplicate first fields or extra columns.
 - Show source line, field values, and row-level warnings for differing column counts, empty content, duplicate first fields, HTML-like markup and media references.
 - Duplicate detection in the preview is a warning only. It does not choose an import/update policy and does not compare against the learner's stored cards.
-- File selection and preview must not write to local storage. The eventual UI must provide explicit field mapping, import counts, duplicate disposition, unsupported-content reporting, confirmation, cancellation and recoverable failure handling before writing data.
+- File selection, parsing, field mapping and preview do not write to local storage. The current UI reports counts, duplicate warnings and unsupported media/HTML limitations. The eventual import action must have explicit duplicate disposition, unsupported-content reporting, confirmation/cancellation and recoverable failure handling before writing data.
 - No imported note should overwrite an existing FSRS review record or change kanji identity implicitly.
 
 ## Fixture and test inventory
 
-The initial parser tests are in scripts/anki-import.test.ts and are run by npm test on the feature branch. They cover:
+Parser tests are in `scripts/anki-import.test.ts` and run in `npm test`. Browser preview tests are in `e2e/anki-preview.spec.ts` and verify field mapping, warnings, and no writes to local learner storage. They cover:
 - Anki-style headers plus tags/deck/GUID metadata columns.
 - Quoted CSV separators, escaped quote characters, and multiline fields.
 - Headerless tab-delimited plain text.
