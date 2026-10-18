@@ -543,7 +543,7 @@ The first functional vertical slice was merged into `main` at [`50c0ab8`](https:
 4. **Human-review the learner-facing content (P4/P6).** Review Persian glosses, Japanese readings and vocabulary examples; track stable content IDs, source, reviewer, review date, defects and corrections. Source gloss presence is not evidence of correct Persian teaching content.
 5. **Strengthen study-flow behavior (P6).** Validate interruption/recovery and session completion, unavailable/invalid content, safe repeated rating, stale-content prevention, and exact scheduler-write boundaries. Adaptive learner-model planning and broader recovery semantics are not implemented in this slice.
 6. **Finish saved-item management (P7).** Add collection rename and bulk operations only after validating the basic flow; test duplicate saves, removal semantics, large sets, zero results, keyboard navigation and mobile reachability.
-7. **Make builds reproducible.** Generate and review a committed npm lockfile, then change CI from `npm install` to `npm ci`; prove clean-checkout reproducibility before beta.
+7. **Reproducible dependency installation — implemented in this change.** A committed npm lockfile is generated from the declared dependencies; CI and the Pages deploy workflow use `npm ci`, so clean-checkout installation is verified by the PR workflows.
 8. **Define Anki import (P8).** Agree the supported export/version/media/history matrix, then build preview, field mapping, duplicate policy, dry-run, explicit confirmation and recoverable failure behavior.
 9. **Build the kanji-to-reading path (P9).** Select a licensed, level-appropriate, reviewable reading corpus; add vocabulary-to-reading links only after the Japanese and Persian content is checked.
 10. **Add progress and data controls (P10).** Define local backup/export/restore/erase behavior before account or sync work; add clear settings and privacy copy that match actual behavior.
@@ -557,7 +557,7 @@ The first functional vertical slice was merged into `main` at [`50c0ab8`](https:
 - [ ] Manual rendered-browser, usability and accessibility acceptance.
 - [ ] Human review of learner-facing Persian/Japanese starter content.
 - [ ] Selective source/license review complete.
-- [ ] Reproducible lockfile and clean-checkout install.
+- [x] Committed npm lockfile; CI and Pages deployment use `npm ci` and validate a clean install.
 - [ ] Recovery, expanded collections, import, and reading-transfer work.
 - [ ] Privacy/data lifecycle and offline/PWA acceptance as applicable.
 - [ ] Hosting configuration and public URL verified on the actual Vite build.
