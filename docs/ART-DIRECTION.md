@@ -1,7 +1,8 @@
 # Rinemi 2 — Art Direction and Design System
 
 **Status:** Approved written starting direction for Rinemi 2. The owner explicitly asked to skip image generation. This is a design baseline, not a claim that rendered UI has been verified; refine it against browser screenshots.  
-**Creative intent:** an adult, calm, Persian-first Japanese learning studio with editorial Japanese influence—not generic SaaS, anime, or decorative Japan-themed stock UI.
+**Creative intent:** an adult, calm, Persian-first Japanese learning studio with editorial Japanese influence—not generic SaaS, anime, or decorative Japan-themed stock UI.  
+**Token authority:** [`DESIGN-TOKENS.md`](DESIGN-TOKENS.md) defines semantic roles and [`../src/styles/design-tokens.css`](../src/styles/design-tokens.css) is the runtime source. The seed palette below is art-direction reference, not a second implementation palette.
 
 ## 1. Brand character
 
@@ -46,8 +47,8 @@ These are reference colors, not permission to ship without contrast testing.
 - **Canvas / paper:** warm background; should not be confused with an elevated dialog.
 - **Primary text / ink:** near-charcoal.
 - **Secondary text:** muted but comfortably readable; do not use faint gray merely for an elegant look.
-- **Primary action:** a restrained, dark-enough vermilion family as the proposed brand signature, subject to contrast evaluation across text/icon buttons and states.
-- **Secondary accent:** muted indigo for selected secondary emphasis and focus-family choices, never a substitute for a focus indicator.
+- **Primary action:** vermilion/coral is the semantic primary-action role in both themes; values are tuned separately per theme and validated by the token contrast check.
+- **Secondary actions and links:** muted indigo; focus indicators use a separate explicit focus token, not the same role as selection or action.
 - **Positive/progress:** desaturated moss used with explicit labels/icons, not color alone.
 - **Sakura:** subtle editorial annotation, rare illustrations, or decorative micro-accent—not body text and not a critical state on its own.
 - **Error/destructive:** semantic red family that remains distinct from the brand's ordinary primary action.
@@ -60,7 +61,7 @@ These are reference colors, not permission to ship without contrast testing.
 - Test disabled, selected, hover, focus-visible, pressed, loading, error and modal-overlay states.
 - Keep semantic color use consistent across the whole product.
 - Avoid per-component arbitrary colors and one-off overrides; fix the role/token instead.
-- The proposed vermilion action role is the working baseline. Exact light/dark token values must still pass contrast checks and rendered browser evaluation; generated mockups are not required.
+- Vermilion/coral as primary action and indigo as secondary/link roles are recorded in D-012 and implemented in the token sheet. Automated contrast checks pass for the current semantic token pairs; rendered-browser evaluation remains open. Generated mockups are not required.
 
 ## 4. Typography
 
