@@ -154,7 +154,7 @@ New scope requires a documented learner problem, expected benefit, content/sourc
 | P8 | Anki import and imported material | Safely import supported deck exports with preview and error reporting | P7, data identity design | IN PROGRESS — text-export support matrix and parser/preview utility merged in PR #26; import UI, field mapping, duplicate disposition, persistent imported-card identity/scheduling, failure recovery, and packaged-deck support remain open |
 | P9 | Vocabulary-to-reading continuity | Connect mastered/known kanji to words and short reading | P6, P7, content QA | NOT STARTED |
 | P10 | Progress, settings, account/data controls | Meaningful progress and understandable user control | P6 plus data contract | IN PROGRESS — local JSON backup export, validated restore preview, and browser-data erasure controls are implemented; manual acceptance/storage-failure review, full privacy/legal review, offline/PWA and account/sync conflict rules remain open |
-| P11 | Accessibility, responsive and localization acceptance | Verified Persian/English, mobile/desktop, themes, and keyboard behavior | P5–P10 in increments | NOT STARTED |
+| P11 | Accessibility, responsive and localization acceptance | Verified Persian/English, mobile/desktop, themes, and keyboard behavior | P5–P10 in increments | IN PROGRESS — 192/512px icons, manifest, scoped service worker, and a warm-cache offline browser test are proposed in PR work; manual assistive-technology acceptance, installed-device/update behavior, and cache-failure recovery remain open |
 | P12 | Beta hardening and release evidence | Frozen, repeatable candidate and truthful deployment evidence | All release gates | NOT STARTED |
 
 A phase may overlap only where its dependency is explicit. A phase must not be marked DONE simply because work started in a later phase.
@@ -406,7 +406,7 @@ This work starts in P3/P5 and is repeated for every feature; P11 is final integr
 - [ ] Run full automated suites from a clean checkout and preserve results.
 - [ ] Run critical end-to-end tests in a real browser across target viewport/language/theme combinations.
 - [ ] Verify live/preview asset hashes and behavior against the exact candidate where deployment is configured.
-- [ ] Check installation/update/offline behavior only for features actually claimed to work.
+- [ ] Validate install manifest/icons, scoped service-worker update, warm-cache offline learning, missing asset/cache failure, first-visit offline limitation, and actual mobile install behavior on the exact candidate SHA; do not claim full offline-first guarantees.
 - [ ] Test stale cache recovery, missing assets, network loss, failed imports, interrupted study and storage failures.
 - [ ] Complete security/privacy checks appropriate to the chosen architecture.
 - [ ] Complete manual content QA and the accessibility acceptance checklist.
@@ -464,7 +464,7 @@ The repo should maintain these artifacts as work advances:
 - [ ] Automated test matrix and browser screenshot baseline.
 - [ ] Accessibility issue log.
 - [x] Local data/backup/erasure contract drafted in `docs/LOCAL-DATA-AND-PRIVACY.md`; manual failure testing and privacy/legal review remain open.
-- [ ] Release checklist and exact-SHA evidence.
+- [x] Local PWA manifest, raster icons, and warm-cache offline browser test added on a feature branch; exact candidate CI and deployed-base-path offline checks still required before claiming install/offline acceptance.
 - [ ] Known limitations and public support/correction instructions.
 
 Avoid duplicating the same backlog across several docs. This roadmap owns phase status; specialist documents own their acceptance details.
