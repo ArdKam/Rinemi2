@@ -115,10 +115,11 @@ export default function App() {
   const [rateBusy, setRateBusy] = useState(false);
   const ratingLockRef = useRef(false);
   const [now, setNow] = useState(() => new Date());
+  const [systemTheme, setSystemTheme] = useState<"light" | "dark">(() => resolveThemePreference("system"));
   const language = store.language;
   const isFa = language === "fa";
   const t = COPY[language];
-  const resolvedTheme = resolveThemePreference(store.theme);
+  const resolvedTheme = store.theme === "system" ? systemTheme : store.theme;
   const themeActionLabel = resolvedTheme === "dark" ? t.light : t.dark;
   const currentCharacter = queue[sessionIndex] ?? null;
   const currentItem = currentCharacter ? BY_CHARACTER.get(currentCharacter) ?? null : null;
@@ -135,6 +136,14 @@ export default function App() {
     try { persistStore(store); setStorageWarning(false); }
     catch { setStorageWarning(true); }
   }, [store, persistAllowed]);
+  useEffect(() => {
+    if (store.theme !== "system" || typeof window.matchMedia !== "function") return;
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const syncSystemTheme = () => setSystemTheme(media.matches ? "dark" : "light");
+    syncSystemTheme();
+    media.addEventListener("change", syncSystemTheme);
+    return () => media.removeEventListener("change", syncSystemTheme);
+  }, [store.theme]);
   useEffect(() => {
     const id = window.setInterval(() => setNow(new Date()), 30_000);
     return () => window.clearInterval(id);
