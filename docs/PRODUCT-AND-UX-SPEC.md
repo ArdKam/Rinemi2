@@ -1,6 +1,6 @@
 # Rinemi 2 — Product and UX Specification
 
-**Status:** Proposed baseline; visual-concept selection is a separate required gate.  
+**Status:** Approved written Sumi Play baseline; image generation and visual-concept selection are optional and do not block implementation.  
 **Authority:** This document owns product intent, navigation, screen behavior, and user journeys. `ROADMAP.md` owns phase status and execution order.
 
 ## 1. Product intent
