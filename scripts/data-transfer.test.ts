@@ -39,7 +39,7 @@ test("backup parser rejects malformed JSON, unsupported envelopes, and malformed
     schemaVersion: 1,
     exportedAt: "2026-10-19T00:00:00.000Z",
     data: { version: 2, bookmarks: "not-an-array", reviews: {} }
-  })), /BACKUP_UNSUPPORTED_FORMAT/);
+  })), /BACKUP_INVALID_DATA/);
 });
 
 test("backup parser rejects oversized files before parsing", () => {
