@@ -1,7 +1,8 @@
 # Rinemi 2 — Art Direction and Design System
 
 **Status:** Approved written starting direction for Rinemi 2. The owner explicitly asked to skip image generation. This is a design baseline, not a claim that rendered UI has been verified; refine it against browser screenshots.  
-**Creative intent:** an adult, calm, Persian-first Japanese learning studio with editorial Japanese influence—not generic SaaS, anime, or decorative Japan-themed stock UI.
+**Creative intent:** an adult, calm, Persian-first Japanese learning studio with editorial Japanese influence—not generic SaaS, anime, or decorative Japan-themed stock UI.  
+**Token authority:** use [`DESIGN-TOKENS.md`](DESIGN-TOKENS.md) and [`../src/styles/design-tokens.css`](../src/styles/design-tokens.css) for canonical semantic token roles and runtime values. This document defines creative intent, not a second palette.
 
 ## 1. Brand character
 
@@ -60,7 +61,7 @@ These are reference colors, not permission to ship without contrast testing.
 - Test disabled, selected, hover, focus-visible, pressed, loading, error and modal-overlay states.
 - Keep semantic color use consistent across the whole product.
 - Avoid per-component arbitrary colors and one-off overrides; fix the role/token instead.
-- The proposed vermilion action role is the working baseline. Exact light/dark token values must still pass contrast checks and rendered browser evaluation; generated mockups are not required.
+- Vermilion/coral is the primary-action role in both themes; indigo is secondary emphasis and the focus family. Exact role names and runtime values are owned by the canonical token sheet, not duplicated here. Contrast checks and rendered-browser evaluation remain open; generated mockups are not required.
 
 ## 4. Typography
 
