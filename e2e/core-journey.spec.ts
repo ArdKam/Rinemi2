@@ -218,7 +218,7 @@ test("local backup can be downloaded, validated in preview, and restored after c
   await expect(restoreButton).toBeEnabled();
   page.once("dialog", dialog => dialog.accept());
   await restoreButton.click();
-  await expect(page.getByText("پشتیبان در ذخیره‌سازی محلی جایگزین شد.")).toBeVisible();
+  await expect(page.getByText("Backup replaced the local data.")).toBeVisible();
 
   const restored = await page.evaluate(() => JSON.parse(localStorage.getItem("rinemi2:local:v2") || "{}"));
   expect(restored.language).toBe("en");
@@ -232,7 +232,7 @@ test("invalid backup is rejected without replacing existing local data", async (
   await page.goto("/");
   await expect.poll(() => page.evaluate(() => localStorage.getItem("rinemi2:local:v2"))).not.toBeNull();
   const before = await page.evaluate(() => localStorage.getItem("rinemi2:local:v2"));
-  await page.getByRole("button", { name: "مدیریت داده‌ها" }).click();
+  await page.locator(".data-tools-toggle").click();
   await page.locator(".data-upload-control input").setInputFiles({
     name: "invalid.json",
     mimeType: "application/json",
@@ -264,7 +264,7 @@ test("local data erasure clears review, bookmark, collection, legacy and theme p
     localStorage.setItem("rinemi.theme", "dark");
   });
   await page.goto("/");
-  await page.getByRole("button", { name: "مدیریت داده‌ها" }).click();
+  await page.locator(".data-tools-toggle").click();
   page.once("dialog", dialog => dialog.accept());
   await page.getByRole("button", { name: "Erase this browser's data" }).click();
   await expect(page.getByText("Local learner data was erased.")).toBeVisible();
