@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import sourceDataset from "./data/kanji.json";
 import topicDataset from "./data/kanji-topics.json";
 import { EXAMPLES, PERSIAN_GLOSSES, STARTER_CHARACTERS } from "./content";
@@ -105,6 +105,7 @@ export default function App() {
   const [revealed, setRevealed] = useState(false);
   const [sessionRated, setSessionRated] = useState(0);
   const [rateBusy, setRateBusy] = useState(false);
+  const ratingLockRef = useRef(false);
   const [now, setNow] = useState(() => new Date());
   const language = store.language;
   const isFa = language === "fa";
@@ -148,7 +149,8 @@ export default function App() {
     setQueue(nextQueue); setSessionIndex(0); setRevealed(false); setSessionRated(0); setPage("learn");
   }
   function applyRating(rating: ReviewRating) {
-    if (!currentCharacter || !revealed || rateBusy) return;
+    if (!currentCharacter || !revealed || rateBusy || ratingLockRef.current) return;
+    ratingLockRef.current = true;
     setRateBusy(true);
     try {
       setStore(previous => recordRating(previous, currentCharacter, rating, new Date()));
@@ -157,7 +159,7 @@ export default function App() {
       setRevealed(false);
       setNow(new Date());
     } catch { setStorageWarning(true); }
-    finally { setRateBusy(false); }
+    finally { ratingLockRef.current = false; setRateBusy(false); }
   }
   function toggleBookmark(character: string) {
     setStore(previous => {
