@@ -73,6 +73,15 @@ This file records consequential decisions, not every implementation detail. Upda
 - **Consequence:** visual QA still requires actual screenshots and accessibility checks; a generated mockup is not evidence of application quality.
 - **Status:** ACCEPTED
 
+### D-012 — Semantic tokens and primary-action color
+- **Date:** 2026-10-18
+- **Decision:** maintain one runtime token source in `src/styles/design-tokens.css`. Use the vermilion/coral semantic role for primary actions in both light and dark themes, with separately tuned values; reserve indigo for secondary emphasis, links and the explicit focus role. Keep destructive/error roles separate from ordinary primary actions.
+- **Alternatives considered:** indigo primary in dark mode; component-specific palette overrides; duplicated theme maps in React/onboarding/pre-React UI.
+- **Reason:** a stable brand role should not change meaning across themes, while colors must be tuned for contrast on each surface. A single semantic source avoids drift as the application grows.
+- **Implementation consequence:** React, onboarding and the pre-React/loading shell must consume one token sheet and one document-root `data-theme` value set before first paint. Components use semantic roles rather than raw hex values.
+- **Verification required:** automated contrast checks, duplicate-palette scan, and rendered Persian RTL/English LTR light/dark screenshots after the app shell exists.
+- **Status:** ACCEPTED AS DESIGN CONTRACT; runtime integration and browser verification remain OPEN
+
 ## Open decisions
 
 ### Q-001 — First-run language
