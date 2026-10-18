@@ -36,10 +36,22 @@ for (const match of tags) {
   if (type === "link" && attrs.href) pendingAssets.push({ value: attrs.href, kind: "link" });
 }
 
-assert.ok(moduleSources.length > 0, "No compiled JavaScript module script was found");
+assert.ok(
+  moduleSources.some((source) => {
+    const url = new URL(source, baseUrl);
+    return url.origin === baseUrl.origin
+      && url.pathname.startsWith(`${baseUrl.pathname}assets/`)
+      && /\\.m?js$/i.test(url.pathname);
+  }),
+  `No compiled JavaScript bundle was found under ${baseUrl.pathname}assets/`
+);
 assert.ok(
   pendingAssets.some((asset) => new URL(asset.value, baseUrl).pathname.endsWith("/theme-bootstrap.js")),
   "Theme bootstrap script was not included in the deployed page"
+);
+assert.ok(
+  pendingAssets.some((asset) => new URL(asset.value, baseUrl).pathname.endsWith("/icon.svg")),
+  "Rinemi icon was not included in the deployed page"
 );
 
 const visited = new Set();
