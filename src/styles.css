@@ -227,7 +227,7 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--vermi
   .brand-copy strong { font-size: 18px; }
   .brand-copy span { font-size: 10px; }
   .header-tools { gap: 5px; }
-  .utility-button { min-height: 38px; padding: 6px 8px; }
+  .utility-button { min-height: var(--rinemi-size-target-min); padding: 7px 9px; }
   .theme-switch .utility-label { display: none; }
   .page-content { padding-top: 27px; }
   .today-heading { margin-bottom: 22px; }
