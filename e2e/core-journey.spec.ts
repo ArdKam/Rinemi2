@@ -48,6 +48,8 @@ test("Today starts a useful session and learning rating advances the queue", asy
   });
   expect(serifState).toBe("loaded");
   await expect(page.getByRole("heading", { name: "امروز، یک قدم به خواندن نزدیک‌تر." })).toBeVisible();
+  await expect(page.locator(".first-session-note")).toBeVisible();
+  await expect(page.locator(".overview-metrics")).toHaveCount(0);
   await expect(page.locator(".hero-kanji-glyph")).toHaveText("日");
   await page.screenshot({ path: "artifacts/today-fa-light.png", fullPage: true });
 
