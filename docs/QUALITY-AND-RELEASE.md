@@ -115,6 +115,12 @@ Review against the approved concept for hierarchy, type, whitespace, clipping, s
 
 A source-level review cannot substitute for opening the actual rendered app.
 
+### Design-token and theme consistency
+- The canonical runtime token source is `src/styles/design-tokens.css`; standard UI components must not define alternate palettes or replace semantic tokens with local color literals.
+- The resolved theme belongs on the document root as `data-theme` before first paint. The pre-React shell, React and onboarding must read the same root state and stylesheet.
+- Verify stored `light` / `dark` / `system` preference behavior, including no flash of the wrong theme on first load and a correct system-theme update while preference is `system`.
+- Before release, run an automated scan for duplicate palette values and an automated contrast check for text, actions, status surfaces, selection and focus in both themes.
+
 ## 7. Educational content acceptance
 
 Maintain a QA register with stable content IDs, source, reviewer, review date, status, defect severity and correction history.
@@ -165,6 +171,7 @@ A PR should contain:
 - changed paths and any `kanji5` source references;
 - tests run and exact result;
 - RTL/LTR, theme, viewport and keyboard checks where relevant;
+- canonical token source used, contrast results recorded, and no duplicate component palette introduced;
 - content/source/license implications;
 - migration/rollback behavior if any;
 - known limitations and risk;
