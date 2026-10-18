@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import sourceDataset from "./data/kanji.json";
 import topicDataset from "./data/kanji-topics.json";
 import { EXAMPLES, PERSIAN_GLOSSES, STARTER_CHARACTERS } from "./content";
-import { buildSessionQueue, countDueReviews, loadStore, persistStore, recordRating, type AppStore, type ReviewRating } from "./study";
+import { addCharacterToCollection, buildSessionQueue, countDueReviews, createCollection, deleteCollection, loadStore, persistStore, recordRating, removeCharacterFromCollection, type AppStore, type ReviewRating } from "./study";
 
 type Kanji = { id: string; character: string; meaning: string[]; on: string[]; kun: string[]; strokes: number; grade: number; jlpt: string | null; frequency: number; order: number };
 type Topic = { id: string; label: { fa: string; en: string }; characters: string };
@@ -43,7 +43,8 @@ const COPY = {
     storageWarning: "ذخیره‌سازی محلی در دسترس نیست یا دادهٔ ذخیره‌شده قابل‌خواندن نیست. تغییرها ممکن است ذخیره نشوند.",
     contentNote: "دادهٔ پایه از KANJIDIC2 آمده است. توضیح‌های فارسی فعلاً فقط برای مجموعهٔ آغازین نوشته شده‌اند و پیش از انتشار عمومی باید بازبینی شوند.",
     feedback: "بازخورد", feedbackCopy: "این نسخهٔ آغازین هنوز به بازبینی محتوایی نیاز دارد.",
-    practice: "تمرین همین کانجی"
+    practice: "تمرین همین کانجی",
+    collectionsLabel: "مجموعه‌های شخصی", showCollections: "نمایش مجموعه‌ها", collectionName: "نام مجموعه", collectionPlaceholder: "مثلاً کانجی‌های گیج‌کننده", createCollection: "ساخت مجموعه", createFirstCollection: "اولین مجموعه را بساز", collectionEmpty: "هنوز مجموعه‌ای نساخته‌ای.", collectionHelp: "کانجی‌ها را برای مرور و مطالعهٔ شخصی دسته‌بندی کن.", addToCollection: "افزودن به مجموعه", removeFromCollection: "حذف از این مجموعه", collectionAdded: "کانجی به مجموعه افزوده شد.", collectionRemoved: "کانجی از مجموعه حذف شد.", collectionCreated: "مجموعه ساخته شد.", collectionExists: "مجموعه‌ای با این نام وجود دارد.", collectionNameRequired: "یک نام برای مجموعه وارد کن.", collectionLimit: "به سقف تعداد مجموعه‌ها رسیده‌ای.", deleteCollection: "حذف مجموعه", deleteConfirm: "این مجموعه حذف شود؟ کانجی‌ها و سابقهٔ مرور حذف نمی‌شوند.", studyCollection: "مطالعهٔ ۲۰ مورد نخست", openCollection: "نمایش کانجی‌ها", allCharacters: "نمایش همهٔ کانجی‌ها", collectionFilterHint: "نتایج به مجموعهٔ انتخاب‌شده محدود شده‌اند."
   },
   en: {
     today: "Today", learn: "Learn", explore: "Explore", brand: "Kanji through meaning and use",
@@ -74,7 +75,8 @@ const COPY = {
     storageWarning: "Local storage is unavailable or saved data could not be read. Changes may not persist.",
     contentNote: "The base dataset is derived from KANJIDIC2. Persian explanations currently cover only the starter set and require review before public release.",
     feedback: "Feedback", feedbackCopy: "This early build still needs content review.",
-    practice: "Practice this kanji"
+    practice: "Practice this kanji",
+    collectionsLabel: "Personal collections", showCollections: "Show collections", collectionName: "Collection name", collectionPlaceholder: "e.g. Confusing kanji", createCollection: "Create collection", createFirstCollection: "Create your first collection", collectionEmpty: "You have not created a collection yet.", collectionHelp: "Group kanji for your own review and focused study.", addToCollection: "Add to collection", removeFromCollection: "Remove from collection", collectionAdded: "Kanji added to collection.", collectionRemoved: "Kanji removed from collection.", collectionCreated: "Collection created.", collectionExists: "A collection with this name already exists.", collectionNameRequired: "Enter a name for the collection.", collectionLimit: "You have reached the collection limit.", deleteCollection: "Delete collection", deleteConfirm: "Delete this collection? Kanji and review history will remain.", studyCollection: "Study first 20 items", openCollection: "Show kanji", allCharacters: "Show all kanji", collectionFilterHint: "Results are filtered to the selected collection."
   }
 } as const;
 const RATING_HINTS = {
@@ -99,6 +101,11 @@ export default function App() {
   const [level, setLevel] = useState("all");
   const [topicId, setTopicId] = useState("all");
   const [onlySaved, setOnlySaved] = useState(false);
+  const [collectionsOpen, setCollectionsOpen] = useState(false);
+  const [newCollectionName, setNewCollectionName] = useState("");
+  const [activeCollectionId, setActiveCollectionId] = useState<string | null>(null);
+  const [collectionTargetId, setCollectionTargetId] = useState("");
+  const [collectionMessage, setCollectionMessage] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>("日");
   const [queue, setQueue] = useState<string[]>([]);
   const [sessionIndex, setSessionIndex] = useState(0);
@@ -137,12 +144,16 @@ export default function App() {
       if (level !== "all" && item.jlpt !== level) return false;
       if (topicId !== "all" && !TOPIC_MEMBERS.get(topicId)?.has(item.character)) return false;
       if (onlySaved && !saved.has(item.character)) return false;
+      if (activeCollectionId) {
+        const collection = store.collections.find(candidate => candidate.id === activeCollectionId);
+        if (!collection || !collection.characters.includes(item.character)) return false;
+      }
       if (!needle) return true;
       const gloss = PERSIAN_GLOSSES[item.character];
       const haystack = [item.character, ...item.meaning, ...item.on, ...item.kun, item.jlpt ?? "", gloss?.fa ?? "", gloss?.en ?? ""].join(" ").toLocaleLowerCase();
       return haystack.includes(needle);
     }).sort((a, b) => a.order - b.order);
-  }, [query, level, topicId, onlySaved, store.bookmarks]);
+  }, [query, level, topicId, onlySaved, activeCollectionId, store.bookmarks, store.collections]);
 
   function startSession() {
     const nextQueue = buildSessionQueue(store, KANJI, STARTER_CHARACTERS, new Date());
@@ -166,6 +177,52 @@ export default function App() {
       const exists = previous.bookmarks.includes(character);
       return { ...previous, bookmarks: exists ? previous.bookmarks.filter(item => item !== character) : [...previous.bookmarks, character] };
     });
+  }
+
+  function createNamedCollection() {
+    try {
+      const next = createCollection(store, newCollectionName);
+      const created = next.collections[next.collections.length - 1];
+      setStore(next);
+      setNewCollectionName("");
+      setCollectionTargetId(created.id);
+      setActiveCollectionId(created.id);
+      setCollectionsOpen(true);
+      setCollectionMessage(t.collectionCreated);
+    } catch (error) {
+      const code = error instanceof Error ? error.message : "";
+      setCollectionMessage(code === "COLLECTION_NAME_DUPLICATE" ? t.collectionExists
+        : code === "COLLECTION_LIMIT_REACHED" ? t.collectionLimit : t.collectionNameRequired);
+    }
+  }
+  function toggleCollectionCharacter(collectionId: string, character: string) {
+    try {
+      const collection = store.collections.find(item => item.id === collectionId);
+      if (!collection) return;
+      if (collection.characters.includes(character)) {
+        setStore(removeCharacterFromCollection(store, collectionId, character));
+        setCollectionMessage(t.collectionRemoved);
+      } else {
+        setStore(addCharacterToCollection(store, collectionId, character));
+        setCollectionMessage(t.collectionAdded);
+      }
+    } catch {
+      setCollectionMessage(t.collectionLimit);
+    }
+  }
+  function beginCollectionStudy(collectionId: string) {
+    const collection = store.collections.find(item => item.id === collectionId);
+    if (!collection) return;
+    const characters = collection.characters.filter(character => BY_CHARACTER.has(character)).slice(0, 20);
+    if (!characters.length) {
+      setCollectionMessage(t.collectionEmpty);
+      return;
+    }
+    setQueue(characters);
+    setSessionIndex(0);
+    setSessionRated(0);
+    setRevealed(false);
+    setPage("learn");
   }
   useEffect(() => {
     const onKey = (event: globalThis.KeyboardEvent) => {
