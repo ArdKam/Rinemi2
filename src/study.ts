@@ -110,7 +110,7 @@ export function loadStore(): { store: AppStore; warning: boolean } {
       const current = parseStore(currentRaw);
       return current
         ? { store: { ...current, theme: themePreference ?? current.theme }, warning: false }
-        : { store: createFreshStore(), warning: true };
+        : { store: { ...createFreshStore(), theme: themePreference ?? "system" }, warning: true };
     }
     const legacyRaw = window.localStorage.getItem(LEGACY_STORAGE_KEY);
     if (legacyRaw === null) {
