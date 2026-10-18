@@ -26,7 +26,8 @@ The initial Persian glosses and vocabulary examples in src/content.ts are a sepa
 - TypeScript: Apache-2.0.
 - ts-fsrs 5.4.1: MIT.
 - Plus Jakarta Sans and Vazirmatn: SIL Open Font License 1.1.
-- Japanese serif/sans fonts are not bundled in this slice; verify glyph coverage and local font licensing before release.
+- Noto Serif JP regular subset is bundled at `public/fonts/NotoSerifJP-Regular.subset.woff2`, copied from `ArdKam/kanji5/frontend/src/assets/NotoSerifJP-Regular.subset.woff2` at blob SHA `6c4c4ff4bfdaae9b48a10cc44d6f3c2f197086f0` on 2026-10-18. Its OFL license is preserved at `public/fonts/NotoSerifJP-LICENSE-OFL.txt`, copied from blob SHA `02c8dec85e4a568f052d8aaa36b2ef93fa942e7f`.
+- Noto Sans JP remains a system-font fallback only; do not imply that all Japanese text uses a bundled sans font.
 
 The project does not yet have an owner-approved overall open-source license. Third-party licenses do not automatically license all Rinemi 2 project code.
 
