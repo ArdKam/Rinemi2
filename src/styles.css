@@ -75,6 +75,7 @@ a { color: inherit; }
 .utility-button:hover { background: var(--surface); color: var(--ink); }
 .theme-icon { display: inline-grid; place-items: center; flex: 0 0 auto; width: 18px; height: 18px; }
 .theme-icon svg { display: block; width: 18px; height: 18px; }
+.data-tools-icon { display: block; flex: 0 0 auto; width: 18px; height: 18px; }
 .page-content { min-height: 64vh; padding-top: var(--rinemi-space-8); }
 .today-page, .learn-page, .explore-page { animation: appear var(--rinemi-motion-standard) var(--rinemi-easing-standard); }
 .today-heading { max-width: 740px; margin-bottom: var(--rinemi-space-8); }
