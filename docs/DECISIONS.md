@@ -73,6 +73,16 @@ This file records consequential decisions, not every implementation detail. Upda
 - **Consequence:** visual QA still requires actual screenshots and accessibility checks; a generated mockup is not evidence of application quality.
 - **Status:** ACCEPTED
 
+
+### D-012 — Kanji5 is a capability reference, not the product template
+
+- **Date:** 2026-10-19
+- **Decision:** Rinemi 2 remains the canonical product and the only implementation target. Use Kanji5 selectively for verified educational data, learning behavior/contracts, memory-support capabilities and regression-test scenarios. Preserve Rinemi 2's editorial visual identity and simple information architecture.
+- **Reason:** retain high-value learning work without inheriting interface complexity, creating competing domain logic or turning the redesign into a wholesale migration.
+- **Consequences:** perform a current-main gap analysis before any reuse; record the exact source commit, paths, provenance/license, dependencies, target decision, adaptation, tests and acceptance evidence in [the reuse inventory](KANJI5-REUSE-INVENTORY.md). Prefer validated data transformation and explicit adapters. Do not wholesale-port presentation/CSS, duplicate FSRS/scheduling, learner-state, grading, recovery, adaptive-planning, persistence or sync authority, or migrate live data/keys without a separately tested plan. Add learning features in priority order, after core UX, content and release acceptance.
+- **Status:** ACCEPTED
+
+
 ## Open decisions
 
 ### Q-001 — First-run language
