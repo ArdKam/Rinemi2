@@ -29,7 +29,8 @@ This is a new, separate product implementation. It may selectively reuse verifie
 
 - **This file — [ROADMAP.md](../ROADMAP.md):** phase order, status, dependencies, release gates, scope.
 - **[Product & UX specification](PRODUCT-AND-UX-SPEC.md):** target users, navigation, screen inventory, user journeys, interaction rules.
-- **[Art direction & design system](ART-DIRECTION.md):** visual principles, type/color roles, component and illustration rules, mascot.
+- **[Art direction & design system](ART-DIRECTION.md):** creative intent, visual principles, components, illustration rules and mascot.
+- **[Design token contract](DESIGN-TOKENS.md):** semantic token policy, theme contract, typography/spacing/geometry rules and validation requirements; runtime values live in `../src/styles/design-tokens.css`.
 - **[Learning design](LEARNING-DESIGN.md):** teaching sequence, card pedagogy, practice modes, content quality and evidence requirements.
 - **[Reference & migration plan](REFERENCE-AND-MIGRATION.md):** what can be reused from `kanji5`, verification procedure, boundaries, licensing, data migration.
 - **[Quality & release plan](QUALITY-AND-RELEASE.md):** test matrix, accessibility, content QA, security, release and evidence.
@@ -226,19 +227,23 @@ Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.
 **Goal:** establish one tokenized visual language before polishing individual features.
 
 - [ ] Finalize brand signature, logo/mark placement and wordmark behavior in RTL.
-- [ ] Define palette roles, including primary action, secondary accent, focus, success, warning, error, informational, borders, surfaces, overlays, and disabled states.
+- [x] Establish the canonical runtime token sheet at `src/styles/design-tokens.css` for semantic colors, surfaces, actions, selection, focus, statuses, typography, spacing, radii, borders, elevation, layering and motion.
+- [x] Record the primary-action decision: vermilion/coral in both themes, indigo secondary, and separate destructive/error roles (D-012).
 - [ ] Verify text and control contrast in light/dark themes; do not rely on color alone for semantic status.
-- [ ] Define typography and line-height for Persian, English, kana, kanji, readings, dense dictionary entries, and large character displays.
-- [ ] Define spacing, radius, border, shadow/elevation, layout widths, breakpoints, layering, motion, focus and disabled tokens.
+- [x] Define typography and line-height roles for Persian, English, kana, kanji, readings, dense dictionary entries, and large character displays.
+- [x] Define spacing, radius, border, shadow/elevation, content width, layering, motion, focus and disabled tokens.
 - [ ] Set a default rule against unnecessary nested cards, decorative gradients, arbitrary badges, and component-level style patches.
 - [ ] Specify buttons, icon buttons, chips, segmented controls, search/filter fields, menus, dialogs, toasts, progress indicators, skeletons, error panels, lists, dictionary entries, review ratings, tabs and navigation.
 - [ ] Define interaction states: idle, hover, focus, active, selected, disabled, loading, success, warning, destructive, and failure.
 - [ ] Define reduced-motion alternatives and ensure motion communicates state or teaches a skill.
 - [ ] Create illustration and mascot standards; establish which screens merit custom artwork and which must remain typographic.
+- [ ] Add a pre-React theme bootstrap that resolves `rinemi.theme` and sets root `data-theme` before first paint.
+- [ ] Ensure React, onboarding and the pre-React/loading shell consume the same root theme and canonical token sheet; no independent palette or theme logic.
+- [ ] Remove duplicate palettes and local copies as components are introduced; allow standard UI color literals only in the token sheet.
 - [ ] Build a small rendered component gallery to verify tokens on actual devices and themes.
-- [ ] Add design QA screenshots to PRs when visual behavior changes.
+- [ ] Add automated contrast checks and design QA screenshots to PRs when visual behavior changes.
 
-**Acceptance:** one coherent token/component baseline; no parallel token set; core components render consistently in Persian RTL, English LTR, light and dark mode.
+**Acceptance:** one coherent token/component baseline; no parallel token set; theme is resolved before first paint and shared across the app shell, React and onboarding; core components render consistently in Persian RTL, English LTR, light and dark mode. P3 remains IN PROGRESS until rendered-browser and contrast evidence is recorded.
 
 ## P4 — Content/data audit and source adapters
 
