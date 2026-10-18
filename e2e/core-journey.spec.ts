@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 import fs from "node:fs";
 
 test.beforeEach(() => {
@@ -96,4 +97,35 @@ test("personal collections can add, filter, and remove kanji without altering bo
   expect(after.bookmarks).toEqual(before.bookmarks);
   expect(after.bookmarks).toContain("日");
   expect(after.collections[0].characters).toEqual([]);
+});
+
+
+test("primary screens have no serious or critical automated accessibility violations", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/");
+
+  async function assertNoBlockingViolations(label: string) {
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+      .analyze();
+    const blocking = results.violations.filter(violation => violation.impact === "critical" || violation.impact === "serious");
+    expect(blocking.map(violation => ({
+      id: violation.id,
+      impact: violation.impact,
+      description: violation.description,
+      nodes: violation.nodes.map(node => ({ target: node.target, summary: node.failureSummary }))
+    })), label).toEqual([]);
+  }
+
+  await assertNoBlockingViolations("Today · Persian · light");
+
+  await page.getByRole("button", { name: /شروع یادگیری/ }).click();
+  await page.getByRole("button", { name: /نمایش پاسخ/ }).click();
+  await assertNoBlockingViolations("Learning · Persian · light");
+
+  await page.getByRole("button", { name: "کاوش" }).click();
+  await page.getByRole("button", { name: "Switch to English" }).click();
+  await page.getByRole("button", { name: "Dark mode" }).click();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await assertNoBlockingViolations("Explore · English · dark · mobile");
 });
