@@ -453,11 +453,11 @@ The repo should maintain these artifacts as work advances:
 - [x] Product and UX specification exists; P1 acceptance and learner validation remain open.
 - [x] Art direction and design-system specification exists; rendered-browser acceptance remains open.
 - [x] Learning design and content-quality specification exists; learner-facing content QA remains open.
-- [ ] Reference/reuse inventory, source/license matrix, and selected source SHAs.
+- [x] Initial source/provenance matrix and source SHAs recorded in `docs/DATA-SOURCES.md`; independent license/ownership confirmation remains an open release gate.
 - [x] Decision log with date, status, alternatives and rationale; unresolved decisions remain recorded as open.
 - [ ] Screen/flow acceptance checklist.
 - [ ] Component gallery and approved visual references.
-- [ ] Content QA sampling register and correction queue.
+- [x] Starter content QA register created in `docs/CONTENT-QA-REGISTER.md` for all 44 seed kanji; all language-review statuses remain `NOT REVIEWED` until a human records evidence.
 - [ ] Anki import format/support matrix and test-fixture inventory.
 - [ ] Automated test matrix and browser screenshot baseline.
 - [ ] Accessibility issue log.
