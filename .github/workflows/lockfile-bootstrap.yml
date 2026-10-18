@@ -28,7 +28,7 @@ jobs:
 
       - name: Commit generated lockfile on this isolated tooling branch
         run: |
-          if git diff --quiet -- package-lock.json && test -f package-lock.json; then
+          if git ls-files --error-unmatch package-lock.json >/dev/null 2>&1 && git diff --quiet -- package-lock.json; then
             echo "package-lock.json is already up to date."
             exit 0
           fi
