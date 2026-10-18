@@ -7,6 +7,7 @@ const SYSTEM_COLOR_SCHEME_QUERY = "(prefers-color-scheme: dark)";
 export function resolveThemePreference(
   preference: ThemePreference,
   prefersDark = typeof window !== "undefined"
+    && typeof window.matchMedia === "function"
     && window.matchMedia(SYSTEM_COLOR_SCHEME_QUERY).matches
 ): ResolvedTheme {
   if (preference === "system") return prefersDark ? "dark" : "light";
