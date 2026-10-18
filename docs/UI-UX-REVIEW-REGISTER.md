@@ -120,6 +120,16 @@ No fresh screenshots were captured or visually inspected for this register entry
 - **Required evidence:** rendered screenshot review and regression evidence tied to the implementation PR; do not close this guardrail from a source diff alone.
 
 
+### UIUX-011 — Core screens need visual finishing to match the approved art direction
+
+- **Priority:** P1 — product-quality gate before broader release.
+- **Status:** IMPLEMENTED ON `feat/visual-finishing-pass`; NEEDS RENDERED VERIFICATION. Source changes are not visual acceptance.
+- **Evidence:** the visual review of the recorded desktop/mobile evidence for commit `63c42c0` identified a wireframe-like Today composition, utility controls competing with primary navigation, weak visual continuity in the learning card, unnecessary mobile header overhead, and global placement of the content-review notice. The current art-direction and token documents already define the intended calm editorial system, so a redesign or a second token set is not needed.
+- **Implementation scope:** reduce header height and the visual weight of utility controls; replace the fresh-account zero-counter row with concise first-session guidance; give Today one restrained focal surface; make the prompt, reveal, answer and rating controls read as one learning surface; use consistent line icons for theme, bookmark and search; compact mobile and short-height spacing without pinning actions over content; remove the content-review notice from the global footer while retaining the explicit source/content caveat in the relevant learning and Explore contexts.
+- **Non-goals:** no new learning features, no broad dashboard cards, no decorative gradients, no fixed rating bar, and no claim that content has been reviewed.
+- **Acceptance:** inspect artifacts from the exact PR head and deployed SHA where available. Review Today, unrevealed and revealed learning states, rating controls, Explore results and selected details at 320px, 360px, 390px, 844×390, tablet and desktop; cover Persian RTL / English LTR and light / dark. Confirm focus visibility, button states, text wrapping, contrast, rating reachability, and no horizontal overflow. Verify that a fresh account sees a clear first action without noisy zero counters, and that the content-provenance caveat remains visible in context.
+- **Required evidence:** save and actually inspect the screenshots, link the images/artifact and exact SHA here, and record any remaining defects. CI and screenshots merely existing are not enough to set this finding to VERIFIED FIX.
+
 ## 4. Implementation order
 
 1. **UIUX-001:** make mobile Explore selection reveal details predictably.

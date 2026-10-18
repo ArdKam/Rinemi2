@@ -24,7 +24,7 @@ const COPY = {
     kicker: "RINEMI · دفتر یادگیری ژاپنی", headline: "امروز، یک قدم به خواندن نزدیک‌تر.",
     intro: "مرورهای موعدرسیده را انجام بده و چند کانجی تازه را در واژه‌های واقعی ببین.",
     start: "شروع یادگیری", due: "مرور موعدرسیده", learned: "کانجی‌های مرورشده", saved: "ذخیره‌شده‌ها",
-    shortSession: "تمرین کوتاه امروز", newAvailable: "کانجی تازه از مجموعهٔ آغازین در دسترس است.",
+    shortSession: "تمرین کوتاه امروز", newAvailable: "کانجی تازه از مجموعهٔ آغازین در دسترس است.", firstSessionTitle: "شروع آرام، با چند کانجی", firstSessionText: "اول پاسخ را به یاد بیاور، بعد آن را آشکار کن و بر اساس میزان یادآوری امتیاز بده.",
     sun: "خورشید؛ روز", editorial: "از یک نشانه شروع کن", featuredNote: "日 در واژه‌هایی مثل 日本 و 毎日 دیده می‌شود؛ خواندن آن به واژه بستگی دارد.",
     missedDay: "جلسه‌ها کوتاه و پیوسته‌اند. روزی که برنگشتی، چیزی را از دست نداده‌ای.",
     starter: "مجموعهٔ آغازین فارسی", sourceOrder: "ترتیب فراوانی منبع",
@@ -48,7 +48,7 @@ const COPY = {
     langSwitch: "English", dark: "حالت تیره", light: "حالت روشن", systemAppearance: "هماهنگی با سیستم‌عامل",
     storageWarning: "ذخیره‌سازی محلی در دسترس نیست یا دادهٔ ذخیره‌شده قابل‌خواندن نیست. تغییرها ممکن است ذخیره نشوند.",
     contentNote: "دادهٔ پایه از KANJIDIC2 آمده است. توضیح‌های فارسی فعلاً فقط برای مجموعهٔ آغازین نوشته شده‌اند و پیش از انتشار عمومی باید بازبینی شوند.",
-    feedback: "بازخورد", feedbackCopy: "این نسخهٔ آغازین هنوز به بازبینی محتوایی نیاز دارد.",
+    feedback: "بازخورد",
     practice: "تمرین همین کانجی",
     collectionsLabel: "مجموعه‌های شخصی", showCollections: "نمایش مجموعه‌ها", collectionName: "نام مجموعه", collectionPlaceholder: "مثلاً کانجی‌های گیج‌کننده", createCollection: "ساخت مجموعه", createFirstCollection: "اولین مجموعه را بساز", collectionEmpty: "هنوز مجموعه‌ای نساخته‌ای.", collectionHelp: "کانجی‌ها را برای مرور و مطالعهٔ شخصی دسته‌بندی کن.", addToCollection: "افزودن به مجموعه", removeFromCollection: "حذف از این مجموعه", collectionAdded: "کانجی به مجموعه افزوده شد.", collectionRemoved: "کانجی از مجموعه حذف شد.", collectionCreated: "مجموعه ساخته شد.", collectionExists: "مجموعه‌ای با این نام وجود دارد.", collectionNameRequired: "یک نام برای مجموعه وارد کن.", collectionLimit: "به سقف تعداد مجموعه‌ها رسیده‌ای.", collectionDeleted: "مجموعه حذف شد.", deleteCollection: "حذف مجموعه", deleteConfirm: "این مجموعه حذف شود؟ کانجی‌ها و سابقهٔ مرور حذف نمی‌شوند.", renameCollection: "تغییر نام", saveCollectionName: "ذخیره نام", cancelCollectionRename: "لغو", collectionRenamed: "نام مجموعه تغییر کرد.", clearCollection: "حذف همهٔ موارد", clearCollectionConfirm: "همهٔ کانجی‌های این مجموعه حذف شوند؟ نشانک‌ها و سابقهٔ مرور تغییر نمی‌کنند.", collectionCleared: "همهٔ کانجی‌ها از مجموعه حذف شدند.", studyCollection: "مطالعهٔ ۲۰ مورد نخست", openCollection: "نمایش کانجی‌ها", allCharacters: "نمایش همهٔ کانجی‌ها", collectionFilterHint: "نتایج به مجموعهٔ انتخاب‌شده محدود شده‌اند.",
     ankiImportTitle: "پیش‌نمایش فایل متنی Anki", ankiImportToggle: "پیش‌نمایش Anki", ankiImportDescription: "فایل متنی UTF-8 را بررسی کن، ستون‌های روی کارت و پشت کارت را انتخاب کن و هشدارها را ببین. این مرحله هیچ داده‌ای را وارد یا ذخیره نمی‌کند.", ankiFileLabel: "فایل متن Anki (.txt، .tsv یا .csv)", ankiFrontField: "روی کارت", ankiBackField: "پشت کارت", ankiRows: "ردیف‌ها", ankiWarnings: "ردیف‌های دارای هشدار", ankiDuplicates: "ردیف‌های تکراری", ankiEmpty: "ردیف خالی", ankiHtml: "ردیف دارای HTML", ankiMedia: "ردیف دارای ارجاع رسانه", ankiSourceLine: "خط منبع", ankiTags: "برچسب‌ها", ankiDeck: "دسته", ankiNoteType: "نوع یادداشت", ankiRowWarnings: "هشدارها", ankiNoRows: "ردیفی برای پیش‌نمایش وجود ندارد.", ankiShowingFirst: "فقط ۳۰ ردیف نخست نمایش داده شده است.", ankiNotImported: "این فقط پیش‌نمایش است؛ هنوز هیچ یادداشت یا کارت زمان‌بندی‌شده‌ای وارد نمی‌شود. واردکردن فایل‌های بسته‌بندی‌شدهٔ .apkg و رسانه‌ها هم پشتیبانی نشده است.", ankiTooLarge: "فایل از سقف ۱۰ مگابایت بزرگ‌تر است.", ankiInvalidUtf8: "فایل باید متن UTF-8 معتبر باشد.", ankiNoRowsError: "ردیف قابل‌خواندنی در فایل پیدا نشد.", ankiSeparatorError: "جداکنندهٔ ستون‌ها قابل تشخیص نیست؛ یک فایل متنی جداشده با تب یا جداکنندهٔ پشتیبانی‌شده انتخاب کن.", ankiMalformedError: "ساختار نقل‌قول‌ها یا جداکننده‌های فایل معتبر نیست.", ankiUnsupportedError: "این ساختار یا جداکننده پشتیبانی نمی‌شود.", ankiPreviewError: "فایل قابل پیش‌نمایش نیست.", ankiWarnFieldCount: "تعداد ستون‌ها با ردیف‌های دیگر یکسان نیست", ankiWarnEmpty: "همهٔ فیلدهای محتوا خالی‌اند", ankiWarnDuplicate: "مقدار فیلد اول در این فایل تکراری است", ankiWarnHtml: "محتوا ممکن است HTML باشد؛ به‌صورت متن ساده نمایش داده می‌شود", ankiWarnMedia: "ارجاع رسانه وجود دارد؛ فایل رسانه همراه این پیش‌نمایش وارد نمی‌شود",
@@ -59,7 +59,7 @@ const COPY = {
     kicker: "RINEMI · JAPANESE STUDY JOURNAL", headline: "One step closer to reading Japanese.",
     intro: "Clear due reviews, then meet new kanji through useful vocabulary.",
     start: "Start studying", due: "Reviews due", learned: "Kanji reviewed", saved: "Saved",
-    shortSession: "Today's short session", newAvailable: "new characters are available from the starter set.",
+    shortSession: "Today's short session", newAvailable: "new characters are available from the starter set.", firstSessionTitle: "Your first session starts here", firstSessionText: "Recall first, reveal the answer, then rate how easily you remembered it.",
     sun: "sun; day", editorial: "Start with one character", featuredNote: "日 appears in words such as 日本 and 毎日. Its reading depends on the word.",
     missedDay: "Study in short, steady sessions. Missing a day does not mean you have failed.",
     starter: "Persian starter set", sourceOrder: "Source frequency order",
@@ -83,7 +83,7 @@ const COPY = {
     langSwitch: "فارسی", dark: "Dark mode", light: "Light mode", systemAppearance: "System appearance",
     storageWarning: "Local storage is unavailable or saved data could not be read. Changes may not persist.",
     contentNote: "The base dataset is derived from KANJIDIC2. Persian explanations currently cover only the starter set and require review before public release.",
-    feedback: "Feedback", feedbackCopy: "This early build still needs content review.",
+    feedback: "Feedback",
     practice: "Practice this kanji",
     collectionsLabel: "Personal collections", showCollections: "Show collections", collectionName: "Collection name", collectionPlaceholder: "e.g. Confusing kanji", createCollection: "Create collection", createFirstCollection: "Create your first collection", collectionEmpty: "You have not created a collection yet.", collectionHelp: "Group kanji for your own review and focused study.", addToCollection: "Add to collection", removeFromCollection: "Remove from collection", collectionAdded: "Kanji added to collection.", collectionRemoved: "Kanji removed from collection.", collectionCreated: "Collection created.", collectionExists: "A collection with this name already exists.", collectionNameRequired: "Enter a name for the collection.", collectionLimit: "You have reached the collection limit.", collectionDeleted: "Collection deleted.", deleteCollection: "Delete collection", deleteConfirm: "Delete this collection? Kanji and review history will remain.", renameCollection: "Rename", saveCollectionName: "Save name", cancelCollectionRename: "Cancel", collectionRenamed: "Collection renamed.", clearCollection: "Remove all items", clearCollectionConfirm: "Remove every kanji from this collection? Bookmarks and review history will remain unchanged.", collectionCleared: "All kanji removed from the collection.", studyCollection: "Study first 20 items", openCollection: "Show kanji", allCharacters: "Show all kanji", collectionFilterHint: "Results are filtered to the selected collection.",
     ankiImportTitle: "Anki text-file preview", ankiImportToggle: "Preview Anki text", ankiImportDescription: "Inspect a UTF-8 text export, choose the front/back fields, and review warnings. This step does not import or save learner data.", ankiFileLabel: "Anki text file (.txt, .tsv, or .csv)", ankiFrontField: "Front field", ankiBackField: "Back field", ankiRows: "Rows", ankiWarnings: "Rows with warnings", ankiDuplicates: "Duplicate rows", ankiEmpty: "Empty rows", ankiHtml: "HTML-like rows", ankiMedia: "Rows with media references", ankiSourceLine: "Source line", ankiTags: "Tags", ankiDeck: "Deck", ankiNoteType: "Note type", ankiRowWarnings: "Warnings", ankiNoRows: "There are no rows to preview.", ankiShowingFirst: "Showing only the first 30 rows.", ankiNotImported: "This is preview only; no notes or scheduled cards are imported yet. Packaged .apkg files and media are not supported.", ankiTooLarge: "The file exceeds the 10 MiB limit.", ankiInvalidUtf8: "The file must be valid UTF-8 text.", ankiNoRowsError: "No readable rows were found in the file.", ankiSeparatorError: "The delimiter could not be detected. Choose tab-separated text or a supported delimiter.", ankiMalformedError: "The file has invalid quotation or delimiter structure.", ankiUnsupportedError: "This file structure or delimiter is not supported.", ankiPreviewError: "The file could not be previewed.", ankiWarnFieldCount: "The number of fields differs from other rows", ankiWarnEmpty: "All content fields are empty", ankiWarnDuplicate: "The first content field is duplicated in this file", ankiWarnHtml: "Content may contain HTML; it is shown as plain text", ankiWarnMedia: "Media references were found; linked assets are not imported in this preview",
@@ -151,6 +151,7 @@ export default function App() {
   const currentItem = currentCharacter ? BY_CHARACTER.get(currentCharacter) ?? null : null;
   const dueCount = countDueReviews(store, now);
   const learnedCount = Object.keys(store.reviews).length;
+  const isFirstSession = learnedCount === 0 && store.bookmarks.length === 0 && dueCount === 0;
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -545,7 +546,7 @@ export default function App() {
       <div className="header-tools">
         <button className="utility-button language-switch" type="button" onClick={() => setStore(previous => ({ ...previous, language: isFa ? "en" : "fa" }))} aria-label={isFa ? "Switch to English" : "تغییر به فارسی"}>{t.langSwitch}</button>
         <button className="utility-button theme-switch" type="button" onClick={() => setStore(previous => ({ ...previous, theme: previous.theme === "light" ? "dark" : previous.theme === "dark" ? "system" : "light" }))} aria-label={store.theme === "light" ? t.dark : store.theme === "dark" ? t.systemAppearance : t.light} title={store.theme === "system" ? t.systemAppearance : undefined}>
-          <span aria-hidden="true">{resolveEffectiveTheme(store.theme) === "dark" ? "☼" : "◐"}</span><span className="utility-label">{store.theme === "light" ? t.dark : store.theme === "dark" ? t.systemAppearance : t.light}</span>
+          <span className="theme-icon" aria-hidden="true">{resolveEffectiveTheme(store.theme) === "dark" ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M20.2 15.2A8.5 8.5 0 0 1 8.8 3.8 8.7 8.7 0 1 0 20.2 15.2Z" /></svg> : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2.1M12 19.9V22M4.93 4.93l1.48 1.48m11.18 11.18 1.48 1.48M2 12h2.1m15.8 0H22M4.93 19.07l1.48-1.48M17.59 6.41l1.48-1.48" /></svg>}</span><span className="utility-label">{store.theme === "light" ? t.dark : store.theme === "dark" ? t.systemAppearance : t.light}</span>
         </button>
         <button className="utility-button data-tools-toggle" type="button" aria-expanded={dataToolsOpen} aria-controls="data-management-panel" onClick={() => setDataToolsOpen(open => !open)}>{t.dataControls}</button>
       </div>
@@ -594,11 +595,11 @@ export default function App() {
             </div>
             <div className="hero-kanji"><span className="hero-kanji-glyph" lang="ja">日</span><span className="hero-kanji-label">{t.sun}</span><span className="hero-kanji-note">{isFa ? "یک نشانه، چند کاربرد." : "One character, several uses."}</span></div>
           </div>
-          <div className="overview-metrics">
+          {isFirstSession ? <div className="first-session-note"><span className="first-session-mark" aria-hidden="true">一</span><div><strong>{t.firstSessionTitle}</strong><span>{t.firstSessionText}</span></div></div> : <div className="overview-metrics">
             <div><strong>{fmt(dueCount, language)}</strong><span>{t.due}</span></div>
             <div><strong>{fmt(learnedCount, language)}</strong><span>{t.learned}</span></div>
             <div><strong>{fmt(store.bookmarks.length, language)}</strong><span>{t.saved}</span></div>
-          </div>
+          </div>}
         </section>
         <section className="today-editorial" aria-label={isFa ? "یادگیری در کاربرد" : "Kanji in use"}>
           <div className="editorial-example"><div className="editorial-label"><span className="red-rule" />{t.editorial}</div><div className="editorial-word" lang="ja" dir="ltr">日本 <span>にほん</span></div><p>{isFa ? "ژاپن" : "Japan"}</p></div>
@@ -608,11 +609,11 @@ export default function App() {
       </section>}
 
       {page === "learn" && <section className="learn-page" aria-labelledby="learn-title">
-        <div className="learn-topline"><button className="text-link" type="button" onClick={() => setPage("today")}>← {t.back}</button><h1 className="eyebrow" id="learn-title">{t.recall}</h1></div>
+        <div className="learn-topline"><button className="text-link" type="button" onClick={() => setPage("today")}>{isFa ? "←" : "→"} {t.back}</button><h1 className="eyebrow" id="learn-title">{t.recall}</h1></div>
         {currentItem ? <>
           <div className="session-progress-line"><span className="session-counter" dir="ltr">{fmt(Math.min(sessionIndex + 1, queue.length), language)} / {fmt(queue.length, language)}</span><span>{t.progress}</span><div className="progress-track" role="progressbar" aria-label={t.progress} aria-valuemin={0} aria-valuemax={queue.length} aria-valuenow={Math.min(sessionIndex, queue.length)}><span style={{ width: (queue.length ? (sessionIndex / queue.length) * 100 : 0) + "%" }} /></div></div>
           <article className={"learning-sheet " + (revealed ? "is-revealed" : "")}>
-            <div className="learning-sheet-top"><span>{STARTER_CHARACTERS.some(character => character === currentItem.character) ? t.starter : t.explore}</span><button className={"bookmark-button " + (savedSet.has(currentItem.character) ? "is-saved" : "")} type="button" onClick={() => toggleBookmark(currentItem.character)} aria-pressed={savedSet.has(currentItem.character)} aria-label={savedSet.has(currentItem.character) ? t.removeSaved : t.bookmark}><span aria-hidden="true">{savedSet.has(currentItem.character) ? "♥" : "♡"}</span><span>{savedSet.has(currentItem.character) ? t.savedLabel : t.bookmark}</span></button></div>
+            <div className="learning-sheet-top"><span>{STARTER_CHARACTERS.some(character => character === currentItem.character) ? t.starter : t.explore}</span><button className={"bookmark-button " + (savedSet.has(currentItem.character) ? "is-saved" : "")} type="button" onClick={() => toggleBookmark(currentItem.character)} aria-pressed={savedSet.has(currentItem.character)} aria-label={savedSet.has(currentItem.character) ? t.removeSaved : t.bookmark}><svg className="bookmark-icon" viewBox="0 0 24 24" aria-hidden="true" fill={savedSet.has(currentItem.character) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3.75h12v16.5L12 16.5l-6 3.75z" /></svg><span>{savedSet.has(currentItem.character) ? t.savedLabel : t.bookmark}</span></button></div>
             <div className="prompt-area"><div className="prompt-kanji" lang="ja">{currentItem.character}</div><p className="prompt-question">{t.question}</p>{!revealed && <p className="prompt-hint">{t.hint}</p>}</div>
             {revealed ? <div className="answer-area" aria-live="polite">
               <div className="answer-heading"><span className="section-kicker">{glossFor(currentItem.character, language) ? t.meaning : t.sourceMeaning}</span><h2>{glossFor(currentItem.character, language) ?? currentItem.meaning[0] ?? "—"}</h2><p className="content-caveat">{glossFor(currentItem.character, language) ? t.glossNotice : t.sourceDisclaimer}</p></div>
@@ -627,7 +628,7 @@ export default function App() {
       {page === "explore" && <section className="explore-page" aria-labelledby="explore-title">
         <div className="explore-heading"><p className="eyebrow">{t.explore}</p><h1 id="explore-title">{t.searchTitle}</h1><p className="lede">{t.searchHelp}</p></div>
         <div className="explore-tools">
-          <label className="search-field"><span className="visually-hidden">{t.searchTitle}</span><span className="search-icon" aria-hidden="true">⌕</span><input value={query} onChange={event => setQuery(event.target.value)} placeholder={t.searchPlaceholder} autoComplete="off" />{query && <button type="button" className="clear-search" aria-label={t.clear} onClick={() => setQuery("")}>×</button>}</label>
+          <label className="search-field"><span className="visually-hidden">{t.searchTitle}</span><span className="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="10.8" cy="10.8" r="6.6" /><path d="m16 16 4.2 4.2" /></svg></span><input value={query} onChange={event => setQuery(event.target.value)} placeholder={t.searchPlaceholder} autoComplete="off" />{query && <button type="button" className="clear-search" aria-label={t.clear} onClick={() => setQuery("")}>×</button>}</label>
           <div className="filter-row">
             <label><span className="visually-hidden">{t.allLevels}</span><select value={level} onChange={event => setLevel(event.target.value)}><option value="all">{t.allLevels}</option>{(["N5", "N4", "N3", "N2", "N1"]).map(item => <option key={item} value={item}>{item}</option>)}</select></label>
             <label><span className="visually-hidden">{t.allTopics}</span><select value={topicId} onChange={event => setTopicId(event.target.value)}><option value="all">{t.allTopics}</option>{TOPICS.map(topic => <option key={topic.id} value={topic.id}>{localizedTopic(topic, language)}</option>)}</select></label>
@@ -793,6 +794,6 @@ export default function App() {
         <div className="data-note"><strong>{isFa ? "دادهٔ مرجع" : "Source data"}:</strong> {t.contentNote}</div>
       </section>}
     </main>
-    <footer className="app-footer"><span>Rinemi</span><span>{t.feedbackCopy}</span><a href="https://github.com/ArdKam/Rinemi2/issues" target="_blank" rel="noreferrer">{t.feedback}</a></footer>
+    <footer className="app-footer"><span>Rinemi</span><a href="https://github.com/ArdKam/Rinemi2/issues" target="_blank" rel="noreferrer">{t.feedback}</a></footer>
   </div>;
 }
