@@ -25,7 +25,7 @@ Not yet implemented or accepted:
 - Manual browser screenshot review and keyboard/focus, zoom, reduced-motion/forced-colors, screen-reader and broader usability acceptance.
 - Human review of Persian glosses, Japanese readings/examples and translations in the starter set; the register currently marks these unreviewed.
 - Independent license/provenance confirmation for the corpus, topic taxonomy, identity assets and bundled fonts; owner approval of the overall project license.
-- Multi-item collection selection/bulk add-remove and broader collection management; end-to-end Anki import (parser/support matrix exists, UI and persistence acceptance remain open); adaptive learner-model planning; and full reading-path integration.
+- Multi-item collection selection/bulk add-remove and broader collection management; end-to-end Anki import (text preview/field mapping exists, but no notes are persisted or scheduled); adaptive learner-model planning; and full reading-path integration.
 - Manual acceptance and storage-failure review of the backup/restore/erasure controls; complete privacy/legal review and offline/PWA acceptance.
 - Public beta or any claim of measured learning efficacy.
 
