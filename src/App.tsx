@@ -194,7 +194,7 @@ export default function App() {
   return <div className="app-shell">
     <header className="app-header">
       <button className="brand-lockup" type="button" onClick={() => setPage("today")} aria-label="Rinemi">
-        <span className="brand-mark" aria-hidden="true">凛</span>
+        <span className="brand-mark-shell" aria-hidden="true"><img className="brand-mark-light" src="/brand/rinemi-mark.svg" alt="" /><img className="brand-mark-dark" src="/brand/rinemi-mark-dark.svg" alt="" /></span>
         <span className="brand-copy"><strong>Rinemi</strong><span>{t.brand}</span></span>
       </button>
       <nav className="primary-nav" aria-label={isFa ? "ناوبری اصلی" : "Primary navigation"}>
