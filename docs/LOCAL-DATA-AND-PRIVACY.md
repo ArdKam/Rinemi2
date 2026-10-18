@@ -40,6 +40,7 @@ Erasure does not delete files already downloaded by the learner, files copied el
 - Treat a downloaded backup like a file containing personal learning data. The UI should explain that restore replaces the current local state and should allow cancellation before any mutation.
 - A valid JSON file may still contain semantically poor learning data; restored review metadata is preserved for continuity, not certified as educationally correct.
 - Data export/restore and erasure UI should be checked in Persian RTL and English LTR, light/dark themes, keyboard-only operation and narrow viewports.
+- The service-worker implementation is designed for a previously warmed app shell: while online, it caches successful same-origin GET assets; if a later same-origin request fails, it uses the cached response. A first visit without connectivity, a full cache, a deployment/update race, or an uncached route/resource may still fail.
 - Do not claim end-to-end account deletion, secure cryptographic erasure, multi-device backup, offline-first PWA guarantees or cloud recovery unless those capabilities are implemented and independently verified.
 
 ## Acceptance evidence still required
