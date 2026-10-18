@@ -16,13 +16,15 @@ jobs:
           node-version: 22
       - run: npm ci --no-audit --no-fund
       - run: node --check scripts/smoke-deployment.mjs
+      - run: node --check public/sw.js
       - run: npm test
       - run: npm run typecheck
       - run: npm run build
-      - run: npm run build:pages
       - run: npm run check:contrast
       - run: npx playwright install --with-deps chromium
       - run: npm run e2e
+      - run: npm run e2e:offline
+      - run: npm run build:pages
       - uses: actions/upload-artifact@v4
         if: always()
         with:
