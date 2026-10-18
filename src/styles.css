@@ -266,13 +266,13 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
   .page-content { padding-top: var(--rinemi-space-6); }
   .today-heading { margin-bottom: var(--rinemi-space-5); }
   h1 { font-size: var(--rinemi-font-size-page-title-mobile); line-height: var(--rinemi-line-height-reading); }
-  .lede { font-size: var(--rinemi-font-size-control); }
+  .lede { font-size: var(--rinemi-font-size-base); }
   .overview-primary { grid-template-columns: minmax(0, 1fr); }
   .overview-copy { padding: var(--rinemi-space-6) 0 var(--rinemi-space-6); }
   html[dir="rtl"] .overview-copy { padding: var(--rinemi-space-6) 0 var(--rinemi-space-6); }
-  .overview-copy h2 { font-size: var(--rinemi-font-size-xl); }
+  .overview-copy h2 { font-size: var(--rinemi-font-size-overview-title-mobile); }
   .hero-kanji { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: var(--rinemi-space-4); justify-content: start; border-inline-start: 0; border-top: 1px solid var(--line); padding: var(--rinemi-space-4) 0; text-align: start; }
-  .hero-kanji-glyph { grid-row: 1 / span 2; font-size: var(--rinemi-font-size-kanji-reference); }
+  .hero-kanji-glyph { grid-row: 1 / span 2; font-size: var(--rinemi-font-size-kanji-display-mobile); }
   .hero-kanji-label { align-self: end; }
   .hero-kanji-note { align-self: start; }
   .overview-metrics > div { padding: var(--rinemi-space-3) var(--rinemi-space-2); gap: var(--rinemi-space-1); }
@@ -285,7 +285,7 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
   .prompt-kanji { font-size: var(--rinemi-font-size-kanji-prompt-mobile); }
   .prompt-question { font-size: var(--rinemi-font-size-lg); }
   .answer-readings > div { padding: var(--rinemi-space-3) var(--rinemi-space-2); }
-  .answer-readings strong { font-size: var(--rinemi-font-size-control); }
+  .answer-readings strong { font-size: var(--rinemi-font-size-base); }
   .vocab-row { grid-template-columns: auto minmax(0, auto); gap: var(--rinemi-space-1) var(--rinemi-space-3); }
   .vocab-row > span:last-child { grid-column: 1 / -1; }
   .rating-grid { gap: var(--rinemi-space-1); }
