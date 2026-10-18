@@ -1,23 +1,62 @@
 # Rinemi 2
 
-Rinemi 2 is a clean, separately developed Persian-first kanji learning studio. Its goal is to help learners understand kanji, retrieve meanings and readings, connect characters to useful vocabulary, and transfer that knowledge into Japanese reading.
+Rinemi 2 is a separately developed, Persian-first kanji learning studio. Its intended journey connects understanding a kanji, retrieving it, learning how it appears in vocabulary, and gradually transferring that knowledge into Japanese reading.
 
-**Current state:** planning and specification only. Application UI and engine integration have not been implemented.
+## Current implementation
 
-## Start here
+**Status:** first functional vertical slice is in review on `feat/app-vertical-slice`. It is not production-ready and has not been deployed.
 
-1. [Roadmap and release gates](ROADMAP.md) — canonical phase order and status.
-2. [Product and UX specification](docs/PRODUCT-AND-UX-SPEC.md) — target learner, navigation, journeys, and screen behaviors.
-3. [Art direction and design system](docs/ART-DIRECTION.md) — visual identity, typography, semantic color, motion, illustrations, and mascot.
-4. [Learning design](docs/LEARNING-DESIGN.md) — educational information hierarchy, practice behavior, content quality, and evidence.
-5. [Reference and migration plan](docs/REFERENCE-AND-MIGRATION.md) — safe reuse of verified material from `ArdKam/kanji5`.
-6. [Quality and release plan](docs/QUALITY-AND-RELEASE.md) — accessibility, test matrix, security/privacy, and release evidence.
-7. [Decision log](docs/DECISIONS.md) — durable decisions and unresolved questions.
+Included in this slice:
+- Three primary destinations: Today, Learn and Explore.
+- Persian RTL by default; English LTR switch and light/dark theme.
+- Responsive editorial layout based on the written Sumi Play direction.
+- Learning card with reveal, review progress and Again/Hard/Good/Easy ratings.
+- Local FSRS scheduling, due-review queue and local browser storage.
+- Search over 2,136 kanji, topic/JLPT filters, detail view and local bookmarks.
+- Small Persian gloss and vocabulary seed set, clearly distinguished from unreviewed source glosses.
+- Data-integrity checks and GitHub Actions typecheck/build workflow.
 
-## Hard boundary
+Not yet implemented or accepted:
+- Browser screenshot review and manual usability/accessibility acceptance.
+- Reviewed Persian content beyond the editorial seed set.
+- Personal collections, Anki import, adaptive learner-model planning and reading-path integration.
+- Lockfile reproducibility, PWA/offline acceptance, full backup/export/deletion workflows and production hosting.
+- Public beta or a claim of measured learning efficacy.
 
-`ArdKam/kanji5` is reference-only. Do not write to, merge into, deploy, or alter the configuration of that repository. All Rinemi 2 changes belong in this repository and must be verified against its own commit SHA.
+## Run locally
 
-## Current status
+Requires Node.js 22 or newer.
 
-The initial planning documents live on `docs/product-blueprint-roadmap` pending review. No application code or production deployment is claimed. The written Sumi Play direction is the approved starting point. Image generation is optional and explicitly skipped; the first implementation slice must be verified in a real browser before expanding.
+```bash
+npm install
+npm run dev
+```
+
+Checks:
+
+```bash
+npm test
+npm run typecheck
+npm run build
+```
+
+The repository currently does not include a committed npm lockfile. Generate and review one before beta/release, then use `npm ci` in CI.
+
+## Source of truth
+
+1. [Roadmap and release gates](ROADMAP.md)
+2. [Product and UX specification](docs/PRODUCT-AND-UX-SPEC.md)
+3. [Art direction and design system](docs/ART-DIRECTION.md)
+4. [Learning design and content QA](docs/LEARNING-DESIGN.md)
+5. [Reference and migration policy](docs/REFERENCE-AND-MIGRATION.md)
+6. [Quality and release policy](docs/QUALITY-AND-RELEASE.md)
+7. [Data-source provenance](docs/DATA-SOURCES.md)
+8. [Decision log](docs/DECISIONS.md)
+
+## Repository boundary
+
+`ArdKam/Rinemi2` is the only implementation target. `ArdKam/kanji5` is read-only reference material for this effort; no changes are to be made there. Reused datasets and assets need provenance and license review before public release.
+
+## Product and data limitations
+
+The base corpus is identified as KANJIDIC2-derived Jōyō data and retains source English glosses/readings. Only a small starter subset has separate learner-facing Persian glosses and vocabulary examples, and that subset still requires independent human review. The presence of a record in the corpus does not mean it is fully taught or human-reviewed in Persian.
