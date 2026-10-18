@@ -2,8 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import sourceDataset from "./data/kanji.json";
 import topicDataset from "./data/kanji-topics.json";
 import { EXAMPLES, PERSIAN_GLOSSES, STARTER_CHARACTERS } from "./content";
-import { addCharacterToCollection, buildSessionQueue, clearCollectionCharacters, countDueReviews, createCollection, deleteCollection, loadStore, persistStore, recordRating, removeCharacterFromCollection, renameCollection, resolveEffectiveTheme, type AppStore, type ReviewRating } from "./study";
+import { addCharacterToCollection, buildSessionQueue, clearCollectionCharacters, countDueReviews, createCollection, createFreshStore, deleteCollection, eraseLocalData, loadStore, persistStore, recordRating, removeCharacterFromCollection, renameCollection, resolveEffectiveTheme, type AppStore, type ReviewRating } from "./study";
 import { applyThemePreference } from "./theme";
+import { createBackupFile, MAX_BACKUP_BYTES, parseBackupFile, type BackupPreview } from "./data-transfer";
 
 type Kanji = { id: string; character: string; meaning: string[]; on: string[]; kun: string[]; strokes: number; grade: number; jlpt: string | null; frequency: number; order: number };
 type Topic = { id: string; label: { fa: string; en: string }; characters: string };
@@ -47,7 +48,8 @@ const COPY = {
     contentNote: "دادهٔ پایه از KANJIDIC2 آمده است. توضیح‌های فارسی فعلاً فقط برای مجموعهٔ آغازین نوشته شده‌اند و پیش از انتشار عمومی باید بازبینی شوند.",
     feedback: "بازخورد", feedbackCopy: "این نسخهٔ آغازین هنوز به بازبینی محتوایی نیاز دارد.",
     practice: "تمرین همین کانجی",
-    collectionsLabel: "مجموعه‌های شخصی", showCollections: "نمایش مجموعه‌ها", collectionName: "نام مجموعه", collectionPlaceholder: "مثلاً کانجی‌های گیج‌کننده", createCollection: "ساخت مجموعه", createFirstCollection: "اولین مجموعه را بساز", collectionEmpty: "هنوز مجموعه‌ای نساخته‌ای.", collectionHelp: "کانجی‌ها را برای مرور و مطالعهٔ شخصی دسته‌بندی کن.", addToCollection: "افزودن به مجموعه", removeFromCollection: "حذف از این مجموعه", collectionAdded: "کانجی به مجموعه افزوده شد.", collectionRemoved: "کانجی از مجموعه حذف شد.", collectionCreated: "مجموعه ساخته شد.", collectionExists: "مجموعه‌ای با این نام وجود دارد.", collectionNameRequired: "یک نام برای مجموعه وارد کن.", collectionLimit: "به سقف تعداد مجموعه‌ها رسیده‌ای.", collectionDeleted: "مجموعه حذف شد.", deleteCollection: "حذف مجموعه", deleteConfirm: "این مجموعه حذف شود؟ کانجی‌ها و سابقهٔ مرور حذف نمی‌شوند.", renameCollection: "تغییر نام", saveCollectionName: "ذخیره نام", cancelCollectionRename: "لغو", collectionRenamed: "نام مجموعه تغییر کرد.", clearCollection: "حذف همهٔ موارد", clearCollectionConfirm: "همهٔ کانجی‌های این مجموعه حذف شوند؟ نشانک‌ها و سابقهٔ مرور تغییر نمی‌کنند.", collectionCleared: "همهٔ کانجی‌ها از مجموعه حذف شدند.", studyCollection: "مطالعهٔ ۲۰ مورد نخست", openCollection: "نمایش کانجی‌ها", allCharacters: "نمایش همهٔ کانجی‌ها", collectionFilterHint: "نتایج به مجموعهٔ انتخاب‌شده محدود شده‌اند."
+    collectionsLabel: "مجموعه‌های شخصی", showCollections: "نمایش مجموعه‌ها", collectionName: "نام مجموعه", collectionPlaceholder: "مثلاً کانجی‌های گیج‌کننده", createCollection: "ساخت مجموعه", createFirstCollection: "اولین مجموعه را بساز", collectionEmpty: "هنوز مجموعه‌ای نساخته‌ای.", collectionHelp: "کانجی‌ها را برای مرور و مطالعهٔ شخصی دسته‌بندی کن.", addToCollection: "افزودن به مجموعه", removeFromCollection: "حذف از این مجموعه", collectionAdded: "کانجی به مجموعه افزوده شد.", collectionRemoved: "کانجی از مجموعه حذف شد.", collectionCreated: "مجموعه ساخته شد.", collectionExists: "مجموعه‌ای با این نام وجود دارد.", collectionNameRequired: "یک نام برای مجموعه وارد کن.", collectionLimit: "به سقف تعداد مجموعه‌ها رسیده‌ای.", collectionDeleted: "مجموعه حذف شد.", deleteCollection: "حذف مجموعه", deleteConfirm: "این مجموعه حذف شود؟ کانجی‌ها و سابقهٔ مرور حذف نمی‌شوند.", renameCollection: "تغییر نام", saveCollectionName: "ذخیره نام", cancelCollectionRename: "لغو", collectionRenamed: "نام مجموعه تغییر کرد.", clearCollection: "حذف همهٔ موارد", clearCollectionConfirm: "همهٔ کانجی‌های این مجموعه حذف شوند؟ نشانک‌ها و سابقهٔ مرور تغییر نمی‌کنند.", collectionCleared: "همهٔ کانجی‌ها از مجموعه حذف شدند.", studyCollection: "مطالعهٔ ۲۰ مورد نخست", openCollection: "نمایش کانجی‌ها", allCharacters: "نمایش همهٔ کانجی‌ها", collectionFilterHint: "نتایج به مجموعهٔ انتخاب‌شده محدود شده‌اند.",
+    dataControls: "مدیریت داده‌ها", dataControlsHeading: "پشتیبان‌گیری و داده‌های محلی", dataLocalOnly: "یادگیری، نشانک‌ها و سابقهٔ مرور فعلاً فقط در همین مرورگر ذخیره می‌شوند؛ حساب و همگام‌سازی ابری فعال نیست.", dataBackupGuidance: "بازگردانی، دادهٔ محلی فعلی را جایگزین می‌کند. ابتدا فایل را بررسی کن و در صورت نیاز از دادهٔ فعلی پشتیبان بگیر.", exportData: "دانلود پشتیبان", importBackup: "انتخاب فایل پشتیبان", restoreBackup: "جایگزینی با پشتیبان", eraseData: "پاک‌کردن داده‌های این مرورگر", closeDataControls: "بستن مدیریت داده‌ها", restoreBackupConfirm: "داده‌های محلی فعلی با داده‌های داخل این فایل جایگزین شوند؟", eraseDataConfirm: "همهٔ نشانک‌ها، مجموعه‌ها و سابقهٔ مرور این مرورگر پاک شوند؟ این کار قابل بازگشت نیست.", backupReady: "فایل بررسی شد؛ هنوز هیچ داده‌ای تغییر نکرده است.", backupDownloaded: "فایل پشتیبان آماده و دانلود شد.", backupRestored: "پشتیبان در ذخیره‌سازی محلی جایگزین شد.", dataErased: "داده‌های محلی پاک شد.", dataWriteFailed: "ذخیره‌سازی انجام نشد. فضای ذخیره‌سازی مرورگر یا دسترسی آن را بررسی کن.", dataEraseFailed: "پاک‌کردن داده‌ها کامل نشد؛ دسترسی ذخیره‌سازی مرورگر را بررسی کن.", backupInvalid: "فایل پشتیبان JSON معتبر نیست.", backupUnsupported: "ساختار یا نسخهٔ این فایل پشتیبانی نمی‌شود؛ داده‌ای تغییر نکرده است.", backupInvalidData: "داده‌های داخل فایل قابل‌استفاده نیستند؛ داده‌ای تغییر نکرده است.", backupTooLarge: "فایل پشتیبان از سقف ۵ مگابایت بزرگ‌تر است.", backupPreviewLabel: "پیش‌نمایش فایل", backupExportDate: "زمان پشتیبان", backupBookmarks: "نشانک", backupCollections: "مجموعه", backupCollectionItems: "عضویت در مجموعه", backupReviews: "سابقهٔ مرور", exportBlocked: "به‌دلیل خطای ذخیره‌سازی، پشتیبان قابل‌اعتمادی ساخته نشد. ابتدا یک فایل پشتیبان معتبر را بازیابی کن."
   },
   en: {
     today: "Today", learn: "Learn", explore: "Explore", brand: "Kanji through meaning and use",
@@ -79,7 +81,8 @@ const COPY = {
     contentNote: "The base dataset is derived from KANJIDIC2. Persian explanations currently cover only the starter set and require review before public release.",
     feedback: "Feedback", feedbackCopy: "This early build still needs content review.",
     practice: "Practice this kanji",
-    collectionsLabel: "Personal collections", showCollections: "Show collections", collectionName: "Collection name", collectionPlaceholder: "e.g. Confusing kanji", createCollection: "Create collection", createFirstCollection: "Create your first collection", collectionEmpty: "You have not created a collection yet.", collectionHelp: "Group kanji for your own review and focused study.", addToCollection: "Add to collection", removeFromCollection: "Remove from collection", collectionAdded: "Kanji added to collection.", collectionRemoved: "Kanji removed from collection.", collectionCreated: "Collection created.", collectionExists: "A collection with this name already exists.", collectionNameRequired: "Enter a name for the collection.", collectionLimit: "You have reached the collection limit.", collectionDeleted: "Collection deleted.", deleteCollection: "Delete collection", deleteConfirm: "Delete this collection? Kanji and review history will remain.", renameCollection: "Rename", saveCollectionName: "Save name", cancelCollectionRename: "Cancel", collectionRenamed: "Collection renamed.", clearCollection: "Remove all items", clearCollectionConfirm: "Remove every kanji from this collection? Bookmarks and review history will remain unchanged.", collectionCleared: "All kanji removed from the collection.", studyCollection: "Study first 20 items", openCollection: "Show kanji", allCharacters: "Show all kanji", collectionFilterHint: "Results are filtered to the selected collection."
+    collectionsLabel: "Personal collections", showCollections: "Show collections", collectionName: "Collection name", collectionPlaceholder: "e.g. Confusing kanji", createCollection: "Create collection", createFirstCollection: "Create your first collection", collectionEmpty: "You have not created a collection yet.", collectionHelp: "Group kanji for your own review and focused study.", addToCollection: "Add to collection", removeFromCollection: "Remove from collection", collectionAdded: "Kanji added to collection.", collectionRemoved: "Kanji removed from collection.", collectionCreated: "Collection created.", collectionExists: "A collection with this name already exists.", collectionNameRequired: "Enter a name for the collection.", collectionLimit: "You have reached the collection limit.", collectionDeleted: "Collection deleted.", deleteCollection: "Delete collection", deleteConfirm: "Delete this collection? Kanji and review history will remain.", renameCollection: "Rename", saveCollectionName: "Save name", cancelCollectionRename: "Cancel", collectionRenamed: "Collection renamed.", clearCollection: "Remove all items", clearCollectionConfirm: "Remove every kanji from this collection? Bookmarks and review history will remain unchanged.", collectionCleared: "All kanji removed from the collection.", studyCollection: "Study first 20 items", openCollection: "Show kanji", allCharacters: "Show all kanji", collectionFilterHint: "Results are filtered to the selected collection.",
+    dataControls: "Data", dataControlsHeading: "Local data and backups", dataLocalOnly: "Study data, bookmarks, and review history are currently stored only in this browser. Accounts and cloud sync are not enabled.", dataBackupGuidance: "Restoring replaces the current local data. Inspect the file first and download a backup of current data beforehand if you may need it.", exportData: "Download backup", importBackup: "Choose backup file", restoreBackup: "Replace with backup", eraseData: "Erase this browser's data", closeDataControls: "Close data controls", restoreBackupConfirm: "Replace the current local data with the data in this file?", eraseDataConfirm: "Erase all bookmarks, collections, and review history stored in this browser? This cannot be undone.", backupReady: "Backup validated; no data has changed yet.", backupDownloaded: "Backup file prepared and downloaded.", backupRestored: "Backup replaced the local data.", dataErased: "Local learner data was erased.", dataWriteFailed: "The data could not be saved. Check browser storage availability and permissions.", dataEraseFailed: "Data erasure did not complete. Check browser storage access.", backupInvalid: "The backup file is not valid JSON.", backupUnsupported: "This backup structure or version is not supported. No data was changed.", backupInvalidData: "The data in this file is not usable. No data was changed.", backupTooLarge: "The backup exceeds the 5 MB limit.", backupPreviewLabel: "File preview", backupExportDate: "Backup date", backupBookmarks: "Bookmarks", backupCollections: "Collections", backupCollectionItems: "Collection memberships", backupReviews: "Review records", exportBlocked: "A reliable backup cannot be created while storage is reporting an error. Restore a valid backup first."
   }
 } as const;
 const RATING_HINTS = {
@@ -111,6 +114,10 @@ export default function App() {
   const [collectionMessage, setCollectionMessage] = useState("");
   const [editingCollectionId, setEditingCollectionId] = useState<string | null>(null);
   const [editingCollectionName, setEditingCollectionName] = useState("");
+  const [dataToolsOpen, setDataToolsOpen] = useState(false);
+  const [backupPreview, setBackupPreview] = useState<BackupPreview | null>(null);
+  const [backupError, setBackupError] = useState("");
+  const [dataMessage, setDataMessage] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>("日");
   const [queue, setQueue] = useState<string[]>([]);
   const [sessionIndex, setSessionIndex] = useState(0);
@@ -184,6 +191,104 @@ export default function App() {
     });
   }
 
+  function downloadBackup() {
+    setDataMessage("");
+    setBackupError("");
+    if (storageWarning) {
+      setDataMessage(t.exportBlocked);
+      return;
+    }
+    try {
+      const payload = createBackupFile(store);
+      const url = URL.createObjectURL(new Blob([payload], { type: "application/json;charset=utf-8" }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "rinemi-local-backup-" + new Date().toISOString().slice(0, 10) + ".json";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 0);
+      setDataMessage(t.backupDownloaded);
+    } catch {
+      setDataMessage(t.dataWriteFailed);
+    }
+  }
+  async function inspectBackupFile(file: File | undefined) {
+    setBackupPreview(null);
+    setBackupError("");
+    setDataMessage("");
+    if (!file) return;
+    if (file.size > MAX_BACKUP_BYTES) {
+      setBackupError(t.backupTooLarge);
+      return;
+    }
+    try {
+      const preview = parseBackupFile(await file.text());
+      setBackupPreview(preview);
+      setDataMessage(t.backupReady);
+    } catch (error) {
+      const code = error instanceof Error ? error.message : "";
+      setBackupError(code === "BACKUP_TOO_LARGE" ? t.backupTooLarge
+        : code === "BACKUP_INVALID_JSON" ? t.backupInvalid
+        : code === "BACKUP_INVALID_DATA" ? t.backupInvalidData : t.backupUnsupported);
+    }
+  }
+  function restoreBackup() {
+    if (!backupPreview) return;
+    if (!window.confirm(t.restoreBackupConfirm)) return;
+    try {
+      persistStore(backupPreview.store);
+      setStore(backupPreview.store);
+      setStorageWarning(false);
+      setQueue([]);
+      setSessionIndex(0);
+      setSessionRated(0);
+      setRevealed(false);
+      setPage("today");
+      setBackupPreview(null);
+      setBackupError("");
+      setDataMessage(backupPreview.store.language === "fa" ? "پشتیبان در ذخیره‌سازی محلی جایگزین شد." : "Backup replaced the local data.");
+    } catch {
+      setStorageWarning(true);
+      setDataMessage(t.dataWriteFailed);
+    }
+  }
+  function eraseBrowserData() {
+    if (!window.confirm(t.eraseDataConfirm)) return;
+    try {
+      eraseLocalData();
+    } catch {
+      setStorageWarning(true);
+      setDataMessage(t.dataEraseFailed);
+      return;
+    }
+
+    const fresh = createFreshStore();
+    setStore(fresh);
+    setStorageWarning(false);
+    setPage("today");
+    setQueue([]);
+    setSessionIndex(0);
+    setSessionRated(0);
+    setRevealed(false);
+    setQuery("");
+    setLevel("all");
+    setTopicId("all");
+    setOnlySaved(false);
+    setActiveCollectionId(null);
+    setSelectedCharacter("日");
+    setBackupPreview(null);
+    setBackupError("");
+    try {
+      // Reinitialize an empty versioned store after deleting every prior data key.
+      persistStore(fresh);
+      setDataMessage(fresh.language === "fa" ? "داده‌های محلی پاک شد." : "Local learner data was erased.");
+    } catch {
+      // Personal records have already been removed; the warning concerns reinitializing storage.
+      setStorageWarning(true);
+      setDataMessage(fresh.language === "fa" ? "داده‌های محلی پاک شد." : "Local learner data was erased.");
+    }
+  }
   function createNamedCollection() {
     try {
       const next = createCollection(store, newCollectionName);
@@ -294,8 +399,39 @@ export default function App() {
         <button className="utility-button theme-switch" type="button" onClick={() => setStore(previous => ({ ...previous, theme: previous.theme === "light" ? "dark" : previous.theme === "dark" ? "system" : "light" }))} aria-label={store.theme === "light" ? t.dark : store.theme === "dark" ? t.systemAppearance : t.light} title={store.theme === "system" ? t.systemAppearance : undefined}>
           <span aria-hidden="true">{resolveEffectiveTheme(store.theme) === "dark" ? "☼" : "◐"}</span><span className="utility-label">{store.theme === "light" ? t.dark : store.theme === "dark" ? t.systemAppearance : t.light}</span>
         </button>
+        <button className="utility-button data-tools-toggle" type="button" aria-expanded={dataToolsOpen} aria-controls="data-management-panel" onClick={() => setDataToolsOpen(open => !open)}>{t.dataControls}</button>
       </div>
     </header>
+
+    {dataToolsOpen && <section id="data-management-panel" className="data-management-panel" aria-labelledby="data-management-heading">
+      <div className="data-management-heading">
+        <div><p className="eyebrow">{t.dataControls}</p><h2 id="data-management-heading">{t.dataControlsHeading}</h2></div>
+        <button className="detail-close" type="button" onClick={() => setDataToolsOpen(false)} aria-label={t.closeDataControls}>×</button>
+      </div>
+      <p className="data-management-note">{t.dataLocalOnly}</p>
+      <p className="data-management-note">{t.dataBackupGuidance}</p>
+      <div className="data-management-actions">
+        <button className="button-secondary" type="button" onClick={downloadBackup} disabled={storageWarning}>{t.exportData}</button>
+        <label className="data-upload-control">
+          <span>{t.importBackup}</span>
+          <input type="file" accept=".json,application/json" onChange={event => { const file = event.currentTarget.files?.[0]; void inspectBackupFile(file); event.currentTarget.value = ""; }} />
+        </label>
+        <button className="button-secondary" type="button" onClick={restoreBackup} disabled={!backupPreview}>{t.restoreBackup}</button>
+        <button className="button-secondary data-erase-button" type="button" onClick={eraseBrowserData}>{t.eraseData}</button>
+      </div>
+      {backupPreview && <div className="data-backup-preview" role="status">
+        <strong>{t.backupPreviewLabel}</strong>
+        <span>{t.backupExportDate}: <time dateTime={backupPreview.exportedAt}>{backupPreview.exportedAt.slice(0, 10)}</time></span>
+        <span>{fmt(backupPreview.counts.bookmarks, language)} {t.backupBookmarks}</span>
+        <span>{fmt(backupPreview.counts.collections, language)} {t.backupCollections}</span>
+        <span>{fmt(backupPreview.counts.collectionItems, language)} {t.backupCollectionItems}</span>
+        <span>{fmt(backupPreview.counts.reviewRecords, language)} {t.backupReviews}</span>
+        {backupPreview.store.collections.slice(0, 10).map(collection => <span key={collection.id}>{collection.name} · {fmt(collection.characters.length, language)}</span>)}
+        {backupPreview.counts.collections > 10 && <span>{isFa ? fmt(backupPreview.counts.collections - 10, language) + " مجموعهٔ دیگر" : fmt(backupPreview.counts.collections - 10, language) + " more collections"}</span>}
+      </div>}
+      {backupError && <p className="data-management-error" role="alert">{backupError}</p>}
+      {dataMessage && <p className="data-management-message" role="status">{dataMessage}</p>}
+    </section>}
 
     <main id="main-content" className="page-content">
       {storageWarning && <div className="status-banner" role="status">{t.storageWarning}</div>}
