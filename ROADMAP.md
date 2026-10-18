@@ -241,7 +241,8 @@ Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.
 - [ ] Ensure React, onboarding and the pre-React/loading shell consume the same root theme and canonical token sheet; no independent palette or theme logic.
 - [ ] Remove duplicate palettes and local copies as components are introduced; allow standard UI color literals only in the token sheet.
 - [ ] Build a small rendered component gallery to verify tokens on actual devices and themes.
-- [ ] Add automated contrast checks and design QA screenshots to PRs when visual behavior changes.
+- [x] Add a standalone semantic-token contrast checker at `scripts/check-design-token-contrast.mjs`.
+- [ ] Wire the checker into CI and add rendered design QA screenshots to PRs when visual behavior changes.
 
 **Acceptance:** one coherent token/component baseline; no parallel token set; theme is resolved before first paint and shared across the app shell, React and onboarding; core components render consistently in Persian RTL, English LTR, light and dark mode. P3 remains IN PROGRESS until rendered-browser and contrast evidence is recorded.
 
