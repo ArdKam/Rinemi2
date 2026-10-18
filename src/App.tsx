@@ -124,7 +124,7 @@ export default function App() {
   const [revealed, setRevealed] = useState(false);
   const [sessionRated, setSessionRated] = useState(0);
   const [rateBusy, setRateBusy] = useState(false);
-  const ratingLockRef = useRef(false);
+  const ratingLockRef = useRef<string | null>(null);
   const [now, setNow] = useState(() => new Date());
   const language = store.language;
   const isFa = language === "fa";
@@ -169,20 +169,31 @@ export default function App() {
 
   function startSession() {
     const nextQueue = buildSessionQueue(store, KANJI, STARTER_CHARACTERS, new Date());
+    ratingLockRef.current = null;
     setQueue(nextQueue); setSessionIndex(0); setRevealed(false); setSessionRated(0); setPage("learn");
   }
   function applyRating(rating: ReviewRating) {
-    if (!currentCharacter || !revealed || rateBusy || ratingLockRef.current) return;
-    ratingLockRef.current = true;
+    if (!currentCharacter || !revealed || rateBusy || ratingLockRef.current === currentCharacter) return;
+    // Keep this character locked after a successful review so a repeated event cannot
+    // submit a second rating before React commits the next prompt. New sessions reset it.
+    ratingLockRef.current = currentCharacter;
     setRateBusy(true);
     try {
-      setStore(previous => recordRating(previous, currentCharacter, rating, new Date()));
+      const nextStore = recordRating(store, currentCharacter, rating, new Date());
+      // Do not advance the learning session unless the review record can be persisted.
+      persistStore(nextStore);
+      setStorageWarning(false);
+      setStore(nextStore);
       setSessionRated(value => value + 1);
       setSessionIndex(index => index + 1);
       setRevealed(false);
       setNow(new Date());
-    } catch { setStorageWarning(true); }
-    finally { ratingLockRef.current = false; setRateBusy(false); }
+    } catch {
+      ratingLockRef.current = null;
+      setStorageWarning(true);
+    } finally {
+      setRateBusy(false);
+    }
   }
   function toggleBookmark(character: string) {
     setStore(previous => {
@@ -352,6 +363,7 @@ export default function App() {
       setCollectionMessage(t.collectionEmpty);
       return;
     }
+    ratingLockRef.current = null;
     setQueue(characters);
     setSessionIndex(0);
     setSessionRated(0);
@@ -362,7 +374,10 @@ export default function App() {
     const onKey = (event: globalThis.KeyboardEvent) => {
       if (page !== "learn" || event.altKey || event.ctrlKey || event.metaKey) return;
       const target = event.target;
-      if (target instanceof HTMLElement && (target.isContentEditable || /INPUT|TEXTAREA|SELECT/.test(target.tagName))) return;
+      if (target instanceof HTMLElement && (
+        target.isContentEditable
+        || target.closest("button, a, input, textarea, select, [role='button'], [role='link']") !== null
+      )) return;
       if (event.code === "Space" && currentItem && !revealed) { event.preventDefault(); setRevealed(true); }
       if (revealed && !rateBusy && ["1", "2", "3", "4"].includes(event.key)) {
         event.preventDefault();
@@ -565,7 +580,7 @@ export default function App() {
                 {store.collections.find(collection => collection.id === collectionTargetId)?.characters.includes(selectedItem.character) ? t.removeFromCollection : t.addToCollection}
               </button>}
             </div> : <button className="text-link detail-study" type="button" onClick={() => { setCollectionsOpen(true); setCollectionMessage(""); }}>{t.createFirstCollection}</button>}
-            {STARTER_CHARACTERS.some(character => character === selectedItem.character) && <button className="text-link detail-study" type="button" onClick={() => { setQueue([selectedItem.character]); setSessionIndex(0); setSessionRated(0); setRevealed(false); setPage("learn"); }}>{t.practice} ←</button>}
+            {STARTER_CHARACTERS.some(character => character === selectedItem.character) && <button className="text-link detail-study" type="button" onClick={() => { ratingLockRef.current = null; setQueue([selectedItem.character]); setSessionIndex(0); setSessionRated(0); setRevealed(false); setPage("learn"); }}>{t.practice} ←</button>}
           </aside>}
         </div>
         <div className="data-note"><strong>{isFa ? "دادهٔ مرجع" : "Source data"}:</strong> {t.contentNote}</div>
