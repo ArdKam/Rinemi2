@@ -1,6 +1,6 @@
 # Rinemi 2 — Product Redesign & Rebuild Roadmap
 
-**Status:** Planning baseline; no application implementation is authorized by this document alone.  
+**Status:** Planning baseline approved for direct implementation from the written Sumi Play direction; image generation is optional and not a blocker. Application implementation starts in focused vertical slices.  
 **Planning date:** 2026-10-18  
 **Target repository:** `ArdKam/Rinemi2`  
 **Reference-only repository:** `ArdKam/kanji5` — do not modify it.  
@@ -54,7 +54,7 @@ Passing unit tests is not enough to mark visual, educational, content, or deploy
 
 ### 0.4 Operating principles
 
-1. **Design before scaffolding.** Complete the brief and choose a visual concept before implementation. Produce three genuinely distinct concept directions and wait for the owner’s selection. Do not build the UI before this gate.
+1. **Use the approved written art direction.** The owner explicitly asked to skip image generation; do not block implementation on mockups. Treat the Sumi Play written direction in `docs/ART-DIRECTION.md` as the approved baseline, implement a small real vertical slice, then inspect rendered browser results and refine before expanding.
 2. **Show rendered evidence.** Important design decisions must be checked in a running browser at target sizes, not inferred from source code or a tool’s completion message.
 3. **Depth before breadth.** The core kanji-to-reading journey outranks new domains and feature count.
 4. **One obvious next action.** Minimize competing primary buttons, dashboards, chips, and panels.
@@ -144,7 +144,7 @@ New scope requires a documented learner problem, expected benefit, content/sourc
 |---|---|---|---|---|
 | P0 | Repository and evidence baseline | Separate, safe working boundary and verified reference baseline | None | NOT STARTED |
 | P1 | Product/UX blueprint | Agreed journeys, scope, screen inventory, and success criteria | P0 | NOT STARTED |
-| P2 | Visual concept selection | Three credible visual directions; owner selects one | P1 | BLOCKED until selection |
+| P2 | Visual direction baseline | Written Sumi Play direction accepted; generated visual concepts optional | P1 | DONE — image generation explicitly skipped by owner |
 | P3 | Art direction and design system | Approved tokens, type, components, illustration and mascot rules | P2 | NOT STARTED |
 | P4 | Content/data audit and source adapters | Trusted content foundation with provenance and failure handling | P0, parallel to P1–P3 | NOT STARTED |
 | P5 | Shell, navigation, onboarding, Today | First usable product skeleton with real content density | P3, P4 | NOT STARTED |
@@ -159,7 +159,7 @@ New scope requires a documented learner problem, expected benefit, content/sourc
 A phase may overlap only where its dependency is explicit. A phase must not be marked DONE simply because work started in a later phase.
 
 ### Gate A — Before implementation
-Required: P0 and P1 complete, plus the selected visual direction from P2. No app scaffold or UI implementation before this gate.
+Required: P0/P1 planning baseline, written Sumi Play direction, repo isolation, and a small implementation/test plan. Image mockups are optional. Start with a narrow vertical slice; review its browser rendering before broadening scope.
 
 ### Gate B — Before learning-card integration
 Required: approved visual system, a verified content contract, card information hierarchy, and an agreed exercise/review state model. All ratings and learner-state transitions must have a clear, tested authoritative owner.
@@ -539,6 +539,6 @@ Planning baseline only; no UI, application code, engine integration, import pars
 6. [ ] Build vertical Slice A only after Gate A.
 7. [ ] Keep `kanji5` untouched throughout.
 
-**First implementation task after planning approval:** deliver the selected visual concept and a browser-verifiable prototype of Today + the two learning-card states using real Japanese characters and realistic Persian/English content. Do not scaffold the full app first.
+**First implementation task after planning approval:** deliver a browser-verifiable prototype of Today + the two learning-card states using real Japanese characters and realistic Persian/English content. Start with a minimal vertical slice, not the full application; refine from actual browser renders. Do not wait for generated mockups.
 
 **Release policy:** only the verified state of the target repository and exact candidate commit determines completion. This roadmap is a plan, not evidence that work is implemented or deployed.
