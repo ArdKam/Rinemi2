@@ -100,32 +100,74 @@ test("personal collections can add, filter, and remove kanji without altering bo
 });
 
 
-test("primary screens have no serious or critical automated accessibility violations", async ({ page }) => {
+for (const viewport of [
+  { name: "small phone portrait", width: 320, height: 640 },
+  { name: "typical phone portrait", width: 390, height: 844 },
+  { name: "compact landscape", width: 844, height: 390 },
+  { name: "desktop", width: 1365, height: 768 }
+]) {
+  test("responsive layout and review actions remain usable at " + viewport.name, async ({ page }, testInfo) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await page.goto("/");
+    await expect(page.getByRole("heading", { name: "امروز، یک قدم به خواندن نزدیک‌تر." })).toBeVisible();
+
+    const overflowsBefore = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
+    expect(overflowsBefore, "No horizontal overflow on Today").toBe(false);
+    await page.screenshot({ path: testInfo.outputPath("today.png"), fullPage: true });
+
+    await page.getByRole("button", { name: /شروع یادگیری/ }).click();
+    await expect(page.locator(".prompt-kanji")).toHaveText("日");
+    await page.getByRole("button", { name: /نمایش پاسخ/ }).click();
+    const again = page.getByRole("button", { name: /دوباره/ });
+    await again.scrollIntoViewIfNeeded();
+    await expect(again).toBeVisible();
+
+    const measurements = await page.evaluate(() => {
+      const targets = [...document.querySelectorAll("button, select, input:not([type='checkbox'])")]
+        .filter(element => {
+          const rect = element.getBoundingClientRect();
+          const style = getComputedStyle(element);
+          return rect.width > 0 && rect.height > 0 && style.visibility !== "hidden";
+        })
+        .map(element => {
+          const rect = element.getBoundingClientRect();
+          return { tag: element.tagName, label: element.getAttribute("aria-label") || element.textContent?.trim() || "", width: rect.width, height: rect.height };
+        });
+      const checkboxLabel = document.querySelector(".saved-filter")?.getBoundingClientRect();
+      return {
+        width: document.documentElement.scrollWidth,
+        viewportWidth: window.innerWidth,
+        viewportHeight: window.innerHeight,
+        targets,
+        checkboxLabel: checkboxLabel ? { width: checkboxLabel.width, height: checkboxLabel.height } : null
+      };
+    });
+    expect(measurements.width).toBeLessThanOrEqual(measurements.viewportWidth + 1);
+    expect(measurements.targets.filter(target => target.width < 44 || target.height < 44), JSON.stringify(measurements.targets, null, 2)).toEqual([]);
+    expect(measurements.checkboxLabel === null || measurements.checkboxLabel.height >= 44).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath("revealed-card.png"), fullPage: true });
+  });
+}
+
+test("primary screens pass automated WCAG 2.1/2.2 A/AA checks", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/");
 
-  async function assertNoBlockingViolations(label: string) {
-    const results = await new AxeBuilder({ page })
+  async function expectNoViolations(label: string) {
+    const scan = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
       .analyze();
-    const blocking = results.violations.filter(violation => violation.impact === "critical" || violation.impact === "serious");
-    expect(blocking.map(violation => ({
-      id: violation.id,
-      impact: violation.impact,
-      description: violation.description,
-      nodes: violation.nodes.map(node => ({ target: node.target, summary: node.failureSummary }))
-    })), label).toEqual([]);
+    expect(scan.violations, label + "\n" + JSON.stringify(scan.violations, null, 2)).toEqual([]);
   }
 
-  await assertNoBlockingViolations("Today · Persian · light");
-
+  await expectNoViolations("Today · Persian · light");
   await page.getByRole("button", { name: /شروع یادگیری/ }).click();
   await page.getByRole("button", { name: /نمایش پاسخ/ }).click();
-  await assertNoBlockingViolations("Learning · Persian · light");
+  await expectNoViolations("Learning · Persian · light");
 
   await page.getByRole("button", { name: "کاوش" }).click();
   await page.getByRole("button", { name: "Switch to English" }).click();
   await page.getByRole("button", { name: "Dark mode" }).click();
   await page.setViewportSize({ width: 390, height: 844 });
-  await assertNoBlockingViolations("Explore · English · dark · mobile");
+  await expectNoViolations("Explore · English · dark · mobile");
 });
