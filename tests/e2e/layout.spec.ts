@@ -33,6 +33,14 @@ for (const viewport of viewports) {
       if (!action || !nav) throw new Error("Expected review action and primary navigation.");
       const actionRect = action.getBoundingClientRect();
       const navRect = nav.getBoundingClientRect();
+      const cardBody = document.querySelector(".study-card__body");
+      if (!cardBody) throw new Error("Expected study card body.");
+      const cardBodyStyle = getComputedStyle(cardBody);
+      const cardBodyGeometry = {
+        overflowY: cardBodyStyle.overflowY,
+        clientHeight: cardBody.clientHeight,
+        scrollHeight: cardBody.scrollHeight
+      };
       const buttons = [...document.querySelectorAll("button")].map((button) => {
         const rect = button.getBoundingClientRect();
         return { width: rect.width, height: rect.height };
@@ -40,11 +48,14 @@ for (const viewport of viewports) {
       return {
         actionBottom: actionRect.bottom,
         navTop: navRect.top,
+        cardBodyGeometry,
         buttons
       };
     });
 
     expect(geometry.actionBottom).toBeLessThanOrEqual(geometry.navTop + 1);
+    expect(geometry.cardBodyGeometry.overflowY).toBe("visible");
+    expect(geometry.cardBodyGeometry.scrollHeight).toBeLessThanOrEqual(geometry.cardBodyGeometry.clientHeight + 1);
     expect(geometry.buttons.every((button) => button.width >= 44 && button.height >= 44)).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
 
