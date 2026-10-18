@@ -99,13 +99,13 @@ This file records consequential decisions, not every implementation detail. Upda
 - **Must resolve by:** before P9 content authoring.
 - **Status:** OPEN
 
-### Q-005 — Deployment target
-- **Question:** which isolated preview and eventual production host should Rinemi2 use?
-- **Rule:** no assumption of shared Pages configuration or path with `kanji5`; verify ownership, deployment permissions and artifact behavior first.
-- **Current evidence:** after the first merge to `main`, branch-based GitHub Pages reported a successful deployment, but its artifact was built by Jekyll from the source tree rather than the Vite `dist/` output. The public runtime is therefore unverified.
-- **Tracking:** [Issue #7](https://github.com/ArdKam/Rinemi2/issues/7) records the misconfigured/unverified Pages deployment and required acceptance checks.
+### Q-005 — Production release target and hosting model
+- **Question:** which isolated host and operational model should serve a future public beta/production release?
+- **Decision already made:** GitHub Pages is accepted as the isolated public preview target only; it publishes the Vite `dist/` artifact under `/Rinemi2/`.
+- **Current evidence:** commit [`9e2f01f`](https://github.com/ArdKam/Rinemi2/commit/9e2f01f36e1d74e49043788414a1e87c30dd1a06) passed main CI and the live deployment smoke test, including HTTP 200 for both base-prefixed brand marks. This verifies the preview artifact and static resources, not a production operating model.
+- **Tracking:** [Issue #7](https://github.com/ArdKam/Rinemi2/issues/7) remains open for manual browser/UX acceptance of the preview.
 - **Must resolve by:** before P12 release configuration or any public-beta claim.
-- **Status:** OPEN — hosting is not approved as a release target; do not count the existing Pages deployment as accepted.
+- **Status:** OPEN — production host and release readiness remain undecided; preview deployment is verified.
 
 ## Decision-change template
 
@@ -129,4 +129,4 @@ Copy this template for consequential decisions:
 - **Reason:** the current branch/Jekyll publication serves source entry points and fails to load the React application.
 - **Scope:** this approves repairing the existing public preview URL; it does not approve a public beta or declare the product production-ready.
 - **Acceptance:** change the repository Pages source to GitHub Actions, pass the post-deployment HTTP smoke test, and complete the manual browser matrix in the quality/release plan.
-- **Status:** ACCEPTED FOR PREVIEW; DEPLOYMENT NOT YET VERIFIED
+- **Status:** ACCEPTED FOR PREVIEW; DEPLOYMENT AND STATIC-ASSET SMOKE TEST VERIFIED ON `9e2f01f`. MANUAL BROWSER ACCEPTANCE AND PUBLIC-BETA READINESS REMAIN OPEN.

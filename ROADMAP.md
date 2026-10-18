@@ -1,6 +1,6 @@
 # Rinemi 2 — Product Redesign & Rebuild Roadmap
 
-**Status:** the first functional vertical slice is merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37); post-merge CI passed. The project is still pre-release: manual browser/accessibility/content acceptance is incomplete, and the current branch/Jekyll Pages deployment is not a valid app build. A dedicated Vite `dist/` deployment workflow and post-deployment asset smoke test are defined in the repository. Before that workflow can publish, Pages Source must be changed to **GitHub Actions** in repository Settings. The public runtime remains unverified until the deployment smoke test and manual browser acceptance pass; see [issue #7](https://github.com/ArdKam/Rinemi2/issues/7).  
+**Status:** the first functional vertical slice is merged into `main`. The public preview at [`https://ardkam.github.io/Rinemi2/`](https://ardkam.github.io/Rinemi2/) is now published from the Vite `dist/` artifact. Main CI and post-deployment asset smoke test passed on [commit `9e2f01f`](https://github.com/ArdKam/Rinemi2/commit/9e2f01f36e1d74e49043788414a1e87c30dd1a06); manual visual/UX/accessibility acceptance and the broader release gates remain open. See [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39164602025), [deployment evidence](https://github.com/ArdKam/Rinemi2/actions/runs/39164602046), and [issue #7](https://github.com/ArdKam/Rinemi2/issues/7).  
 **Planning date:** 2026-10-18  
 **Target repository:** `ArdKam/Rinemi2`  
 **Reference-only repository:** `ArdKam/kanji5` — do not modify it.  
@@ -526,7 +526,7 @@ Do not accept new scope just because a competing app has the feature or a protot
 
 ## 9. Current execution status (2026-10-18)
 
-The first functional vertical slice was merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37). The post-merge [CI run](https://github.com/ArdKam/Rinemi2/actions/runs/39160367180) passed its automated checks, including Playwright end-to-end tests (11/11). This is evidence for the merged code tree, not for production readiness or a verified hosted runtime.
+The first functional vertical slice was merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37). The latest [main CI run](https://github.com/ArdKam/Rinemi2/actions/runs/39164602025) and [GitHub Pages deployment/smoke test](https://github.com/ArdKam/Rinemi2/actions/runs/39164602046) passed on commit [`9e2f01f`](https://github.com/ArdKam/Rinemi2/commit/9e2f01f36e1d74e49043788414a1e87c30dd1a06). The live smoke test verified the entry page and 11 same-origin resources, including both brand marks. This verifies asset reachability and the deployment artifact, not complete visual acceptance, educational quality or production readiness.
 
 ### Implemented in the current slice
 
@@ -537,7 +537,7 @@ The first functional vertical slice was merged into `main` at [`50c0ab8`](https:
 
 ### Remaining work in execution order
 
-1. **Resolve the hosting blocker before any public-beta claim.** The default branch-based GitHub Pages workflow reported success, but the published artifact was a Jekyll/source-tree artifact, not the Vite `dist/` build. The actual application runtime is unverified. [Issue #7](https://github.com/ArdKam/Rinemi2/issues/7) tracks this. Public hosting has not been approved as a release target; do not treat the reported Pages deployment as a working application.
+1. **Finish manual live-browser acceptance before any public-beta claim.** The hosting mechanism is now verified: commit `9e2f01f` is deployed from Vite `dist/`, and the live smoke test passed for the page plus 11 same-origin resources. Issue #7 remains open only for manual review of the rendered application: React interaction, Persian RTL / English LTR, light/dark, mobile, refresh/navigation, focus/keyboard, and browser console/network errors. The preview is not yet a public-beta or production-readiness claim.
 2. **Finish manual browser/UX/accessibility acceptance (P3/P5/P11).** Review retained screenshots at small/typical phone, compact landscape and desktop; Persian RTL and English LTR; light and dark; learning card before/after reveal; detail, filters, empty states and collections. Perform keyboard/focus, zoom, screen-reader and reduced-motion checks. CI coverage is useful but does not replace these reviews.
 3. **Complete data and licensing readiness (P0/P4).** Finish the selective reuse inventory and confirm attribution/share-alike obligations for the Jōyō corpus, topic taxonomy, font files and adapted identity assets. Keep the overall project license decision open until explicitly approved.
 4. **Human-review the learner-facing content (P4/P6).** Review Persian glosses, Japanese readings and vocabulary examples; track stable content IDs, source, reviewer, review date, defects and corrections. Source gloss presence is not evidence of correct Persian teaching content.
@@ -560,7 +560,8 @@ The first functional vertical slice was merged into `main` at [`50c0ab8`](https:
 - [ ] Reproducible lockfile and clean-checkout install.
 - [ ] Recovery, expanded collections, import, and reading-transfer work.
 - [ ] Privacy/data lifecycle and offline/PWA acceptance as applicable.
-- [ ] Hosting configuration and public URL verified on the actual Vite build.
+- [x] Hosting configuration and public URL verified on the actual Vite build; live asset smoke test passed on `9e2f01f`.
+- [ ] Manual live-browser visual/interaction acceptance across Persian RTL / English LTR, light/dark, mobile/desktop and keyboard/focus states.
 - [ ] Candidate release evidence assembled and beta gate approved.
 
 **Repository boundary:** `ArdKam/kanji5` remains reference-only. All implementation and documentation changes must remain in `ArdKam/Rinemi2`.
