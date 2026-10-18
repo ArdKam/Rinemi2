@@ -13,7 +13,7 @@ Included in this slice:
 - Learning card with reveal, review progress and Again/Hard/Good/Easy ratings.
 - Local FSRS scheduling, due-review queue and local browser storage.
 - Search over 2,136 kanji, topic/JLPT filters, detail view and local bookmarks.
-- Named local collections with add/remove, collection filtering and focused sessions (first 20 items per session).
+- Named local collections with add/remove, rename, confirmed bulk-clear and deletion, collection filtering and focused sessions (first 20 items per session).
 - Local JSON backup download, validated restore preview with explicit replacement confirmation, and local learner-data erasure.
 - Versioned local storage migration from v1 to v2 that preserves review records and bookmarks.
 - Small Persian gloss and vocabulary seed set, clearly distinguished from unreviewed source glosses.
@@ -25,13 +25,14 @@ Not yet implemented or accepted:
 - Manual browser screenshot review and keyboard/focus, zoom, reduced-motion/forced-colors, screen-reader and broader usability acceptance.
 - Human review of Persian glosses, Japanese readings/examples and translations in the starter set; the register currently marks these unreviewed.
 - Independent license/provenance confirmation for the corpus, topic taxonomy, identity assets and bundled fonts; owner approval of the overall project license.
-- Broader collection bulk selection/management; Anki import; adaptive learner-model planning; and full reading-path integration.
+- Multi-item collection selection/bulk add-remove and broader collection management; end-to-end Anki import (parser/support matrix exists, UI and persistence acceptance remain open); adaptive learner-model planning; and full reading-path integration.
 - Manual acceptance and storage-failure review of the backup/restore/erasure controls; complete privacy/legal review and offline/PWA acceptance.
 - Public beta or any claim of measured learning efficacy.
 
 ## Verification and deployment status
 
-- Main [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39166049955) and [Pages deployment + static and live Chromium smoke tests](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054) passed on commit [`de3b9ef`](https://github.com/ArdKam/Rinemi2/commit/de3b9efb89698e395346be8fcdd77ef11517f87c).
+- At the latest checked main snapshot on 2026-10-19, commit [`63c42c0`](https://github.com/ArdKam/Rinemi2/commit/63c42c0106218d6bfaf6cca3296c34cf95776e9d) passed [main CI](https://github.com/ArdKam/Rinemi2/actions/runs/39169365213) and the [Pages deployment, smoke test, and live Chromium verification](https://github.com/ArdKam/Rinemi2/actions/runs/39169365252). This confirms the pipeline checks for that SHA, not manual visual/accessibility acceptance.
+- The earlier detailed [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39166049955) and [Pages browser run](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054) passed on commit [`de3b9ef`](https://github.com/ArdKam/Rinemi2/commit/de3b9efb89698e395346be8fcdd77ef11517f87c).
 - The Pages workflow publishes only Vite's `dist/` under `/Rinemi2/`; all 11 same-origin static resources returned HTTP 200 in that recorded run, including both brand marks, compiled JavaScript, CSS, theme bootstrap, icon and fonts.
 - The recorded live Chromium check verified React mounts, Today renders, a review can be revealed/rated and advanced, Persian RTL switches to English LTR, the system → light → dark theme cycle works, both brand images load, and a 390px mobile viewport has no horizontal overflow. It reported no page/console errors or failed/escaped same-origin resources; screenshots were retained in the workflow artifact. This evidence belongs to the cited SHA/run and is not a claim about every later commit.
 - Issue [#7](https://github.com/ArdKam/Rinemi2/issues/7) tracks the remaining manual accessibility/usability acceptance. Use the [manual acceptance checklist](docs/MANUAL-RELEASE-ACCEPTANCE.md); automated tests do not replace human keyboard, zoom, forced-colors or screen-reader review.
@@ -69,7 +70,8 @@ A committed npm lockfile pins the dependency tree. Use `npm ci` for local setup 
 9. [Manual release acceptance checklist](docs/MANUAL-RELEASE-ACCEPTANCE.md)
 10. [Local data and privacy contract](docs/LOCAL-DATA-AND-PRIVACY.md)
 11. [Anki import support matrix](docs/ANKI-IMPORT-SUPPORT.md)
-12. [Decision log](docs/DECISIONS.md)
+12. [UI/UX review register](docs/UI-UX-REVIEW-REGISTER.md)
+13. [Decision log](docs/DECISIONS.md)
 
 ## Repository boundary
 

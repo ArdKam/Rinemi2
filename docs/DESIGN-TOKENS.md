@@ -92,6 +92,8 @@ Run the source-level check with `node scripts/check-design-token-contrast.mjs`. 
 
 The source-level token check validates declared color pairs only. The current feature branch now also has Playwright coverage for the four language/theme combinations, system-theme changes, responsive target sizes, and font loading. Rendered screenshot review, broader keyboard/manual accessibility review, and final release-matrix acceptance are still required.
 
+Before marking token or component styling accepted, consult [the UI/UX review register](UI-UX-REVIEW-REGISTER.md). Passing token-level contrast does not establish that Explore detail, the revealed learning card, long dictionary strings, focus states, or short-viewport layouts are visually usable. Capture and inspect these actual component states in both themes and language directions, then attach evidence to the relevant finding.
+
 ## 9. Implementation checklist
 
 - [x] Create one token sheet for shared colors, semantic roles, type, spacing, radius, focus, borders, elevation, layering and motion.

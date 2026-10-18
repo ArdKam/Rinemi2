@@ -115,6 +115,8 @@ Review against the approved concept for hierarchy, type, whitespace, clipping, s
 
 A source-level review cannot substitute for opening the actual rendered app.
 
+Before visual regression acceptance, use [the UI/UX review register](UI-UX-REVIEW-REGISTER.md) as a required regression list. Every still-open P1 finding must either be fixed and verified or receive an explicit disposition before beta. Inspect current screenshots of selected Explore detail on mobile, the revealed learning card and ratings on short viewports, long dictionary results, and large result sets. The screenshot matrix must be tied to the current commit; old CI screenshots prove only the states and commit they captured.
+
 ## 7. Educational content acceptance
 
 Maintain a QA register with stable content IDs, source, reviewer, review date, status, defect severity and correction history.
@@ -173,6 +175,8 @@ A PR should contain:
 - confirmation that no changes were made to `kanji5`.
 
 A PR may not merge with a known P0 defect simply because the UI looks complete.
+
+The [UI/UX review register](UI-UX-REVIEW-REGISTER.md) is part of the release evidence set. Review its current finding statuses before freezing a candidate SHA; unresolved P1 findings must be linked to issues or explicitly dispositioned by the project owner.
 
 ## 11. Release gate
 
