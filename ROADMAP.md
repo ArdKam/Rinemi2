@@ -1,6 +1,6 @@
 # Rinemi 2 — Product Redesign & Rebuild Roadmap
 
-**Status:** the first functional vertical slice is merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37); post-merge CI passed. The project is still pre-release: manual browser/accessibility/content acceptance is incomplete, and GitHub Pages currently has an unverified source-tree deployment tracked by [issue #7](https://github.com/ArdKam/Rinemi2/issues/7). Public hosting and beta are not accepted until the deployment artifact and actual runtime are verified.  
+**Status:** the first functional vertical slice is merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37); post-merge CI passed. The project is still pre-release: manual browser/accessibility/content acceptance is incomplete, and the current branch/Jekyll Pages deployment is not a valid app build. A dedicated Vite `dist/` deployment workflow and post-deployment asset smoke test are defined in the repository. Before that workflow can publish, Pages Source must be changed to **GitHub Actions** in repository Settings. The public runtime remains unverified until the deployment smoke test and manual browser acceptance pass; see [issue #7](https://github.com/ArdKam/Rinemi2/issues/7).  
 **Planning date:** 2026-10-18  
 **Target repository:** `ArdKam/Rinemi2`  
 **Reference-only repository:** `ArdKam/kanji5` — do not modify it.  

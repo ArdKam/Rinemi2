@@ -4,7 +4,7 @@ Rinemi 2 is a separately developed, Persian-first kanji learning studio. Its int
 
 ## Current implementation
 
-**Status:** the first functional vertical slice is merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37). It is not production-ready. A GitHub Pages run reported success, but its artifact was built from the source tree by Jekyll rather than from Vite's `dist/`; the actual application runtime at the published URL remains unverified.
+**Status:** the first functional vertical slice is merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37). It is not production-ready. GitHub Pages has been serving the source tree through Jekyll instead of Vite's `dist/`, so the public application runtime remains unverified. The repository now defines an explicit Vite-to-Pages deployment workflow; the repository Pages source must be switched to **GitHub Actions** before that workflow can publish.
 
 Included in this slice:
 - Three primary destinations: Today, Learn and Explore.
@@ -30,8 +30,9 @@ Not yet implemented or accepted:
 
 - The post-merge [Rinemi2 CI run](https://github.com/ArdKam/Rinemi2/actions/runs/39160367180) passed on the merged code tree, including data/unit tests, TypeScript typecheck, Vite build, contrast checks and Playwright end-to-end tests (11/11).
 - Browser screenshots were captured in CI, but manual visual, usability and accessibility acceptance is still open. Automated green checks do not close those release gates.
-- The unexpected branch-based Pages deployment is tracked in [issue #7](https://github.com/ArdKam/Rinemi2/issues/7). Do not treat `https://ardkam.github.io/Rinemi2/` as a verified working application until a deliberate Vite `dist/` deployment and browser smoke test pass.
-- Hosting/public beta remains a release blocker until the hosting configuration and actual runtime are verified; this is not a production-readiness claim.
+- `.github/workflows/deploy-pages.yml` builds the app with the `/Rinemi2/` base path, publishes only `dist/`, and checks the deployed HTML, module bundle, theme bootstrap, stylesheets, icons and local CSS assets for successful responses.
+- **Required one-time setting:** open repository **Settings → Pages → Build and deployment → Source** and select **GitHub Actions**. The GitHub connection used for this change cannot modify that repository setting. Until it is changed, the new workflow cannot replace the old branch/Jekyll deployment.
+- Keep [issue #7](https://github.com/ArdKam/Rinemi2/issues/7) open until the Actions deployment and post-deployment smoke test pass, then verify Persian RTL / English LTR, light/dark themes, mobile layout and refresh behavior in a real browser. A passing deploy or smoke test alone does not establish production readiness.
 
 ## Run locally
 

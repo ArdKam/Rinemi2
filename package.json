@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc --noEmit && vite build",
+    "build:pages": "tsc --noEmit && vite build --base=/Rinemi2/",
     "typecheck": "tsc --noEmit",
     "test": "node scripts/check-data.mjs && node scripts/check-style-token-aliases.mjs && node --experimental-strip-types --test scripts/study.test.ts && npm run check:contrast",
     "preview": "vite preview --host 0.0.0.0",
