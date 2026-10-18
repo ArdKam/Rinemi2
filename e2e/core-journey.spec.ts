@@ -284,32 +284,57 @@ test("local data erasure clears review, bookmark, collection, legacy and theme p
 
 
 
-test("mobile Explore opens the selected kanji directly and returns to the same results context", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
-  await page.getByRole("button", { name: "کاوش" }).click();
-  const query = page.getByPlaceholder("مثلاً 日، nichi، خورشید…");
-  await query.fill("a");
-  const results = page.locator(".kanji-result");
-  await expect.poll(() => results.count()).toBeGreaterThan(1);
+for (const viewport of [
+  { name: "320px phone", width: 320, height: 640 },
+  { name: "390px phone", width: 390, height: 844 }
+]) {
+  test("mobile Explore restores scroll and supports browser Back, Escape, and its Back action at " + viewport.name, async ({ page }) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await page.goto("/");
+    await page.getByRole("button", { name: "کاوش" }).click();
+    const query = page.getByPlaceholder("مثلاً 日، nichi، خورشید…");
+    await query.fill("a");
+    const results = page.locator(".kanji-result");
+    await expect.poll(() => results.count()).toBeGreaterThan(12);
 
-  const chosen = results.nth(1);
-  const character = await chosen.locator(".result-glyph").textContent();
-  await chosen.click();
-  await expect(page.locator(".explore-layout")).toHaveClass(/is-mobile-detail/);
-  await expect(page.locator(".kanji-results")).toBeHidden();
-  await expect(page.locator(".kanji-detail")).toBeVisible();
-  await expect(page.locator(".kanji-detail")).toBeFocused();
-  await expect(page.locator(".detail-character")).toHaveText(character ?? "");
-  await expect(page.getByRole("button", { name: "بازگشت به نتایج" })).toBeVisible();
+    const chosen = results.nth(12);
+    const character = await chosen.locator(".result-glyph").textContent();
+    await chosen.scrollIntoViewIfNeeded();
+    const returnScrollY = await page.evaluate(() => window.scrollY);
+    await chosen.click();
+    await expect(page.locator(".explore-layout")).toHaveClass(/is-mobile-detail/);
+    await expect(page.locator(".kanji-results")).toBeHidden();
+    await expect(page.locator(".kanji-detail")).toBeVisible();
+    await expect(page.locator(".kanji-detail")).toBeFocused();
+    await expect(page.locator(".detail-character")).toHaveText(character ?? "");
+    await expect(page.getByRole("button", { name: "بازگشت به نتایج" })).toBeVisible();
 
-  await page.getByRole("button", { name: "بازگشت به نتایج" }).click();
-  await expect(page.locator(".explore-layout")).not.toHaveClass(/is-mobile-detail/);
-  await expect(page.locator(".kanji-results")).toBeVisible();
-  await expect(query).toHaveValue("a");
-  await expect(page.locator(".kanji-result.is-selected .result-glyph")).toHaveText(character ?? "");
-  await expect(page.locator(".kanji-result.is-selected")).toBeFocused();
-});
+    // Browser Back should dismiss the mobile detail state rather than leave Explore.
+    await page.evaluate(() => window.history.back());
+    await expect(page.locator(".explore-layout")).not.toHaveClass(/is-mobile-detail/);
+    await expect(page.locator(".kanji-results")).toBeVisible();
+    await expect(query).toHaveValue("a");
+    await expect(page.locator(".kanji-result.is-selected .result-glyph")).toHaveText(character ?? "");
+    await expect(page.locator(".kanji-result.is-selected")).toBeFocused();
+    await expect.poll(async () => Math.abs(await page.evaluate(() => window.scrollY) - returnScrollY)).toBeLessThan(3);
+
+    // Escape follows the same return path and preserves the result context.
+    await page.locator(".kanji-result.is-selected").click();
+    await expect(page.locator(".explore-layout")).toHaveClass(/is-mobile-detail/);
+    await page.keyboard.press("Escape");
+    await expect(page.locator(".explore-layout")).not.toHaveClass(/is-mobile-detail/);
+    await expect(page.locator(".kanji-result.is-selected")).toBeFocused();
+    await expect.poll(async () => Math.abs(await page.evaluate(() => window.scrollY) - returnScrollY)).toBeLessThan(3);
+
+    // The explicit Back action must also return focus and scroll to the originating result.
+    await page.locator(".kanji-result.is-selected").click();
+    await expect(page.locator(".explore-layout")).toHaveClass(/is-mobile-detail/);
+    await page.getByRole("button", { name: "بازگشت به نتایج" }).click();
+    await expect(page.locator(".explore-layout")).not.toHaveClass(/is-mobile-detail/);
+    await expect(page.locator(".kanji-result.is-selected")).toBeFocused();
+    await expect.poll(async () => Math.abs(await page.evaluate(() => window.scrollY) - returnScrollY)).toBeLessThan(3);
+  });
+}
 
 test("Explore continues past 240 results and exposes a reading cue on each result row", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
