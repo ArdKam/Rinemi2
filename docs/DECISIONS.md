@@ -78,9 +78,9 @@ This file records consequential decisions, not every implementation detail. Upda
 - **Decision:** maintain one runtime token source in `src/styles/design-tokens.css`. Use the vermilion/coral semantic role for primary actions in both light and dark themes, with separately tuned values; reserve indigo for secondary emphasis, links and the explicit focus role. Keep destructive/error roles separate from ordinary primary actions.
 - **Alternatives considered:** indigo primary in dark mode; component-specific palette overrides; duplicated theme maps in React/onboarding/pre-React UI.
 - **Reason:** a stable brand role should not change meaning across themes, while colors must be tuned for contrast on each surface. A single semantic source avoids drift as the application grows.
-- **Implementation consequence:** React, onboarding and the pre-React/loading shell must consume one token sheet and one document-root `data-theme` value set before first paint. Components use semantic roles rather than raw hex values.
-- **Verification required:** automated contrast checks, duplicate-palette scan, and rendered Persian RTL/English LTR light/dark screenshots after the app shell exists.
-- **Status:** ACCEPTED AS DESIGN CONTRACT; runtime integration and browser verification remain OPEN
+- **Implementation consequence:** the current shell's global CSS uses semantic token aliases, a blocking token stylesheet and a pre-React bootstrap resolve the stored/system preference into document-root `data-theme`, and React uses a shared resolver to stay in sync. The future onboarding screen must follow the same contract.
+- **Verification required:** automated contrast CI and preference/bootstrap regression tests; rendered Persian RTL/English LTR light/dark screenshots and manual contrast review remain required before P3 can close.
+- **Status:** ACCEPTED AND INTEGRATED IN THE DESIGN-SYSTEM CANDIDATE; browser-rendered acceptance remains OPEN
 
 ## Open decisions
 
