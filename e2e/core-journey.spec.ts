@@ -229,6 +229,7 @@ test("local backup can be downloaded, validated in preview, and restored after c
 
 test("invalid backup is rejected without replacing existing local data", async ({ page }) => {
   await page.goto("/");
+  await expect.poll(() => page.evaluate(() => localStorage.getItem("rinemi2:local:v2"))).not.toBeNull();
   const before = await page.evaluate(() => localStorage.getItem("rinemi2:local:v2"));
   await page.getByRole("button", { name: "مدیریت داده‌ها" }).click();
   await page.locator(".data-upload-control input").setInputFiles({
