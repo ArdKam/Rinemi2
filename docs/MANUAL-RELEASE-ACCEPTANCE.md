@@ -1,6 +1,6 @@
 # Rinemi 2 — Manual Release Acceptance Checklist
 
-**Purpose:** record human checks that automation cannot certify. This checklist supplements, and does not replace, the automated Playwright/axe tests and the release criteria in `ROADMAP.md` and `docs/QUALITY-AND-RELEASE.md`.
+**Purpose:** record human checks that automation cannot certify. This checklist supplements, and does not replace, the automated Playwright/axe tests and the release criteria in `ROADMAP.md` and `docs/QUALITY-AND-RELEASE.md`. Use [the UI/UX review register](UI-UX-REVIEW-REGISTER.md) as the persistent finding list; record status and evidence against the exact commit being accepted.
 
 **Current status:** NOT RUN / NOT ACCEPTED. Do not mark a check as passed without recording the reviewer, date, browser/assistive technology, commit, and findings.
 
@@ -54,6 +54,22 @@ For each item, record PASS, FAIL, or NOT RUN and attach a concise observation. �
 - [ ] Create a collection, add a kanji, open the collection, remove the item, and verify bookmark and review history remain unchanged.
 - [ ] Inspect empty collections, duplicate collection names, long names, and the maximum/limit error if reachable.
 - [ ] Verify controls remain usable at mobile width and keyboard-only.
+
+## UI/UX review-register regression checks
+
+Run these checks alongside the broader acceptance sections above. Findings and their evidence requirements are tracked in [UI/UX review register](UI-UX-REVIEW-REGISTER.md).
+
+- [ ] **UIUX-001 — Mobile Explore detail:** at 320px and 390px widths, select a result from a long list. Confirm the detail appears immediately; Back/close restores query, filters, scroll position and keyboard focus.
+- [ ] **UIUX-002 — Shortcut ownership:** focus Back, bookmark, reveal, and rating controls. Space must perform the focused control's native action; the global reveal shortcut must not steal activation. Confirm shortcuts do not fire from text/form controls.
+- [ ] **UIUX-003 — Review ratings:** inspect the revealed card at 320×640, 390×844 and 844×390. Record whether ratings are easy to reach after the core meaning and useful examples. Confirm sticky controls never cover content.
+- [ ] **UIUX-004 — Result disambiguation:** inspect long Persian and English meanings, available Japanese readings, saved state, focus state and similar candidates in both RTL/LTR and light/dark.
+- [ ] **UIUX-005 — Result continuation:** use a query/topic returning more than 240 results. Confirm there is an accessible path to all results and query/filter/selection state remains coherent.
+- [ ] **UIUX-006 — Compact landscape:** inspect Today, prompt, revealed card, Explore, selected detail, collections and dialogs at 844×390; test virtual-keyboard-reduced height where supported.
+- [ ] **UIUX-007 — Rendered evidence:** save and inspect current screenshots across language/theme/viewport states. Record deployed SHA, browser/OS, screenshot paths and manual outcomes; do not reuse prior-run screenshots as proof of the current build.
+- [ ] **UIUX-008 — Documentation consistency:** confirm README, roadmap, open PRs and deployment evidence describe current main accurately, distinguishing implemented behavior from branch-only work.
+- [ ] **UIUX-009 — Today clarity:** ask an unfamiliar reviewer what to do next on a new-learner and returning-learner state; record hesitation and whether featured editorial content is confused with scheduled work.
+
+A check can be PASS only after a current run and evidence are recorded. A design choice that deliberately differs from a recommendation must be documented as dispositioned in the review register with rationale.
 
 ## Required handoff
 
