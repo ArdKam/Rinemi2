@@ -18,6 +18,13 @@
   --rinemi-font-size-3xl: 1.875rem;
   --rinemi-font-size-4xl: 2.25rem;
   --rinemi-font-size-kanji-display: clamp(4rem, 16vw, 8rem);
+  --rinemi-font-size-meta: 0.8125rem;
+  --rinemi-font-size-control: 0.875rem;
+  --rinemi-font-size-instruction: 1rem;
+  --rinemi-font-size-editorial-kanji: clamp(2rem, 3vw, 2.5rem);
+  --rinemi-font-size-kanji-reference: clamp(3rem, 7vw, 4.75rem);
+  --rinemi-font-size-kanji-prompt: clamp(6.5rem, 17vw, 10.875rem);
+  --rinemi-font-size-kanji-prompt-mobile: clamp(6rem, 28vw, 8.75rem);
 
   --rinemi-font-weight-regular: 400;
   --rinemi-font-weight-medium: 500;
