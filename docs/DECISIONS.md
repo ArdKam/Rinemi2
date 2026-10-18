@@ -30,10 +30,10 @@ This file records consequential decisions, not every implementation detail. Upda
 - **Reason:** content quality and learning transfer are the intended product differentiators.
 - **Status:** ACCEPTED
 
-### D-005 — Design-before-scaffold gate
+### D-005 — Written art direction before scaffold
 - **Date:** 2026-10-18
-- **Decision:** create three distinct visual concepts for representative screens and wait for owner selection before app UI scaffolding.
-- **Reason:** avoid drifting into an unselected, generic design through incremental coding.
+- **Decision:** use the established written Sumi Play direction as the approved starting point. Image generation and visual mockup selection are optional; implementation must be inspected in a real browser before the product is expanded.
+- **Reason:** avoid making image generation a dependency while maintaining an explicit design system and a rendered-UI quality gate.
 - **Status:** ACCEPTED
 
 ### D-006 — Reuse learning behavior selectively
@@ -64,6 +64,13 @@ This file records consequential decisions, not every implementation detail. Upda
 - **Date:** 2026-10-18
 - **Decision:** software tests, feature presence and usage metrics do not prove improved learning. Public educational claims require appropriate outcome evidence.
 - **Reason:** distinguish product quality from efficacy.
+- **Status:** ACCEPTED
+
+### D-011 — Skip generated visual concepts
+- **Date:** 2026-10-18
+- **Decision:** do not block implementation on generated mockups; translate the existing written design brief into the first real UI slice and improve it from browser rendering evidence.
+- **Reason:** the owner explicitly asked to continue without image generation.
+- **Consequence:** visual QA still requires actual screenshots and accessibility checks; a generated mockup is not evidence of application quality.
 - **Status:** ACCEPTED
 
 ## Open decisions
