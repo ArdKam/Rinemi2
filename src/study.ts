@@ -88,6 +88,15 @@ function parseStore(raw: string): AppStore | null {
     reviews: normalizeReviews(parsed.reviews)
   };
 }
+export function normalizeStoreSnapshot(value: unknown): AppStore | null {
+  try {
+    const raw = JSON.stringify(value);
+    return typeof raw === "string" ? parseStore(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
 function isThemePreference(value: unknown): value is ThemePreference {
   return value === "light" || value === "dark" || value === "system";
 }
@@ -127,8 +136,31 @@ export function loadStore(): { store: AppStore; warning: boolean } {
 }
 export function persistStore(store: AppStore): void {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(THEME_PREFERENCE_KEY, store.theme);
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...store, version: 2 }));
+  const storage = window.localStorage;
+  const previousStore = storage.getItem(STORAGE_KEY);
+  const previousTheme = storage.getItem(THEME_PREFERENCE_KEY);
+  try {
+    storage.setItem(STORAGE_KEY, JSON.stringify({ ...store, version: 2 }));
+    storage.setItem(THEME_PREFERENCE_KEY, store.theme);
+  } catch (error) {
+    // Best-effort rollback prevents a failed restore/write from leaving mismatched keys.
+    try {
+      if (previousStore === null) storage.removeItem(STORAGE_KEY);
+      else storage.setItem(STORAGE_KEY, previousStore);
+      if (previousTheme === null) storage.removeItem(THEME_PREFERENCE_KEY);
+      else storage.setItem(THEME_PREFERENCE_KEY, previousTheme);
+    } catch {
+      // Surface the original storage failure; callers already show a recoverable warning.
+    }
+    throw error;
+  }
+}
+
+export function eraseLocalData(): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(STORAGE_KEY);
+  window.localStorage.removeItem(LEGACY_STORAGE_KEY);
+  window.localStorage.removeItem(THEME_PREFERENCE_KEY);
 }
 function createId(): string {
   try {
