@@ -231,7 +231,7 @@ test("system theme follows OS preference changes and can be persisted as an expl
 
   await page.getByRole("button", { name: "حالت روشن" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
-  await expect(page.evaluate(() => localStorage.getItem("rinemi.theme"))).resolves.toBe("light");
+  await expect.poll(() => page.evaluate(() => localStorage.getItem("rinemi.theme"))).toBe("light");
 });
 
 test("saved language and theme are applied before the React module boots", async ({ page }) => {
