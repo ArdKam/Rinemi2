@@ -96,12 +96,12 @@ export function loadStore(): { store: AppStore; warning: boolean } {
     const currentRaw = window.localStorage.getItem(STORAGE_KEY);
     if (currentRaw !== null) {
       const current = parseStore(currentRaw);
-      return current ? { store: current, warning: false } : { store: createFreshStore(), warning: true };
+      return current ? { store: current, warning: false } : { store: freshStoreWithThemePreference(), warning: true };
     }
     const legacyRaw = window.localStorage.getItem(LEGACY_STORAGE_KEY);
     if (legacyRaw === null) return { store: freshStoreWithThemePreference(), warning: false };
     const legacy = parseStore(legacyRaw);
-    return legacy ? { store: legacy, warning: false } : { store: createFreshStore(), warning: true };
+    return legacy ? { store: legacy, warning: false } : { store: freshStoreWithThemePreference(), warning: true };
   } catch {
     return { store: freshStoreWithThemePreference(), warning: true };
   }
