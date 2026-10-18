@@ -324,7 +324,7 @@ test("Explore continues past 240 results and exposes a reading cue on each resul
   await expect(page.locator(".kanji-result")).toHaveCount(300);
   await expect(page.locator(".load-more-results")).toBeVisible();
   await expect(page.locator(".list-limit")).toHaveCount(0);
-  await expect(page.locator(".result-count")).toContainText("از");
+  await expect(page.locator(".result-count[role=\"status\"]")).toContainText("از");
 });
 
 
