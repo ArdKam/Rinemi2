@@ -11,7 +11,7 @@ assert.ok(homeResponse.ok, `Homepage returned HTTP ${homeResponse.status}: ${bas
 const html = await homeResponse.text();
 
 assert.match(html, /id=["']root["']/i, "Deployed HTML is missing the React root element");
-assert.doesNotMatch(html, /(?:src|href)=["'][^"']*\/src\/main\.tsx(?:[?"'#]|$)/i,
+assert.doesNotMatch(html, /\/src\/main\.tsx(?:[?#"']|$)/i,
   "The deployment is serving the source TypeScript entry instead of a compiled bundle");
 
 const tags = [...html.matchAll(/<(script|link)\b[^>]*>/gi)];
@@ -45,7 +45,7 @@ assert.ok(
 const visited = new Set();
 while (pendingAssets.length) {
   const asset = pendingAssets.shift();
-  const url = new URL(asset.value, baseUrl);
+  const url = new URL(asset.value, asset.relativeTo ?? baseUrl);
   if (url.protocol !== "http:" && url.protocol !== "https:") continue;
   if (url.origin !== baseUrl.origin) continue;
 
@@ -68,7 +68,7 @@ while (pendingAssets.length) {
     for (const match of body.matchAll(/url\(\s*["']?([^"'\)]+)["']?\s*\)/gi)) {
       const value = match[1].trim();
       if (!value || /^(?:data:|blob:|#)/i.test(value)) continue;
-      pendingAssets.push({ value, kind: "css-asset" });
+      pendingAssets.push({ value, kind: "css-asset", relativeTo: url.href });
     }
   }
 
