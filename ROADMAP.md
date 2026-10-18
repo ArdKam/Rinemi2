@@ -229,17 +229,17 @@ Required: all P0 acceptance checks from [Quality & Release](docs/QUALITY-AND-REL
 - [ ] Finalize brand signature, logo/mark placement and wordmark behavior in RTL.
 - [x] Establish the canonical runtime token sheet at `src/styles/design-tokens.css` for semantic colors, surfaces, actions, selection, focus, statuses, typography, spacing, radii, borders, elevation, layering and motion.
 - [x] Record the primary-action decision: vermilion/coral in both themes, indigo secondary, and separate destructive/error roles (D-012).
-- [ ] Verify text and control contrast in light/dark themes; do not rely on color alone for semantic status.
+- [x] Add automated text/action/status/selection/focus contrast checks across semantic token pairs in both themes (70 pairs currently checked); rendered control and screenshot verification remains open.
 - [x] Define typography and line-height roles for Persian, English, kana, kanji, readings, dense dictionary entries, and large character displays.
 - [x] Define spacing, radius, border, shadow/elevation, content width, layering, motion, focus and disabled tokens.
 - [ ] Set a default rule against unnecessary nested cards, decorative gradients, arbitrary badges, and component-level style patches.
 - [ ] Specify buttons, icon buttons, chips, segmented controls, search/filter fields, menus, dialogs, toasts, progress indicators, skeletons, error panels, lists, dictionary entries, review ratings, tabs and navigation.
 - [ ] Define interaction states: idle, hover, focus, active, selected, disabled, loading, success, warning, destructive, and failure.
-- [ ] Define reduced-motion alternatives and ensure motion communicates state or teaches a skill.
+- [x] Define reduced-motion alternatives for current transitions and ensure the reduced-motion path disables non-essential page animation.
 - [ ] Create illustration and mascot standards; establish which screens merit custom artwork and which must remain typographic.
-- [ ] Add a pre-React theme bootstrap that resolves `rinemi.theme` and sets root `data-theme` before first paint.
-- [ ] Ensure React, onboarding and the pre-React/loading shell consume the same root theme and canonical token sheet; no independent palette or theme logic.
-- [ ] Remove duplicate palettes and local copies as components are introduced; allow standard UI color literals only in the token sheet.
+- [x] Add a pre-React theme bootstrap that resolves `rinemi.theme` (with legacy-store fallback) and sets root `data-theme` before first paint.
+- [x] Make the current React shell adopt the shared root theme and canonical token sheet; React updates the same preference and `data-theme` instead of inventing a second palette. Onboarding remains unimplemented and must use this contract when added.
+- [x] Remove the duplicated light/dark hex palette from the current global app CSS; remaining compatibility aliases refer to semantic tokens. Continue component-level migration as new surfaces are added.
 - [ ] Build a small rendered component gallery to verify tokens on actual devices and themes.
 - [x] Add a standalone semantic-token contrast checker at `scripts/check-design-token-contrast.mjs`.
 - [x] Wire the standalone semantic-token contrast checker into GitHub Actions.
