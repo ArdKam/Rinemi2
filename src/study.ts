@@ -88,6 +88,15 @@ function parseStore(raw: string): AppStore | null {
     reviews: normalizeReviews(parsed.reviews)
   };
 }
+export function normalizeStoreSnapshot(value: unknown): AppStore | null {
+  try {
+    const raw = JSON.stringify(value);
+    return typeof raw === "string" ? parseStore(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
 function isThemePreference(value: unknown): value is ThemePreference {
   return value === "light" || value === "dark" || value === "system";
 }
