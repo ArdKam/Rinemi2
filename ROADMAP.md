@@ -153,7 +153,7 @@ New scope requires a documented learner problem, expected benefit, content/sourc
 | P7 | Explore, Dictionary, detail, bookmarks | Find and save kanji without search/filter overload | P5, P4 | IN PROGRESS — search/filter/detail/bookmarks and named collections exist; rename, confirmed clear-all and deletion are implemented; mobile detail flow, complete result browsing, broader bulk management and rendered acceptance remain open |
 | P8 | Anki import and imported material | Safely import supported deck exports with preview and error reporting | P7, data identity design | IN PROGRESS — text-export support matrix and parser/preview utility merged in PR #26; import UI, field mapping, duplicate disposition, persistent imported-card identity/scheduling, failure recovery, and packaged-deck support remain open |
 | P9 | Vocabulary-to-reading continuity | Connect mastered/known kanji to words and short reading | P6, P7, content QA | NOT STARTED |
-| P10 | Progress, settings, account/data controls | Meaningful progress and understandable user control | P6 plus data contract | IN REVIEW — local JSON backup, validated restore preview, and browser-data erasure are proposed in PR #22; CI and acceptance remain pending, while privacy/legal and offline/PWA gates remain open |
+| P10 | Progress, settings, account/data controls | Meaningful progress and understandable user control | P6 plus data contract | IN PROGRESS — local JSON backup export, validated restore preview, and browser-data erasure controls are implemented; manual acceptance/storage-failure review, full privacy/legal review, offline/PWA and account/sync conflict rules remain open |
 | P11 | Accessibility, responsive and localization acceptance | Verified Persian/English, mobile/desktop, themes, and keyboard behavior | P5–P10 in increments | NOT STARTED |
 | P12 | Beta hardening and release evidence | Frozen, repeatable candidate and truthful deployment evidence | All release gates | NOT STARTED |
 
@@ -548,7 +548,7 @@ The first functional vertical slice was merged into `main` at [`50c0ab8`](https:
 7. **Reproducible dependency installation — implemented.** A committed npm lockfile pins the dependency tree; CI and the Pages deployment workflow now use `npm ci`, with clean-checkout install validation required on this PR.
 8. **Complete end-to-end Anki import (P8).** The initial text-export support matrix and parser/preview utility are merged. Next implement the reviewable import UI, explicit field mapping, duplicate policy, dry-run/cancel semantics, persistent imported-card identity with FSRS scheduling, and recoverable storage failures. Keep .apkg/.colpkg and media out of scope until their own parser/fixture/recovery gates pass.
 9. **Build the kanji-to-reading path (P9).** Select a licensed, level-appropriate, reviewable reading corpus; add vocabulary-to-reading links only after the Japanese and Persian content is checked.
-10. **Add progress and data controls (P10).** Define local backup/export/restore/erase behavior before account or sync work; add clear settings and privacy copy that match actual behavior.
+10. **Validate data controls and finish P10.** Local JSON backup, restore preview, and data erasure are implemented on main. Record manual acceptance of replacement confirmation, storage failure/rollback, and erase; finish privacy/legal review, offline/PWA behavior, and account/sync/conflict policy before adding server-backed account features.
 11. **Complete beta hardening (P12).** Freeze one candidate SHA, rerun automated and browser checks from a clean checkout, attach exact screenshots/results, resolve all blocking issues, verify the chosen deployment artifact and actual runtime, and publish known limitations.
 
 ### Current execution checklist
@@ -560,8 +560,8 @@ The first functional vertical slice was merged into `main` at [`50c0ab8`](https:
 - [ ] Human review of learner-facing Persian/Japanese starter content.
 - [ ] Selective source/license review complete.
 - [x] Committed npm lockfile; CI and Pages deployment use `npm ci` and validate clean installs.
-- [ ] Adaptive/recovery semantics, remaining collection bulk operations, Anki import, and reading-transfer work; basic rename and confirmed clear-all are merged in PR #21.
-- [ ] Manual acceptance of local backup/restore/erasure, full privacy/legal review, storage-failure handling, and offline/PWA acceptance; local-data controls are in review in PR #22.
+- [ ] Adaptive/recovery semantics, remaining collection bulk operations, end-to-end Anki import, and reading-transfer work; collection rename/clear/delete are implemented but still need rendered UX acceptance.
+- [ ] Manual acceptance of the implemented local backup/restore/erasure controls, full privacy/legal review, storage-failure/rollback behavior, and offline/PWA acceptance.
 - [x] Hosting configuration and public URL verified on the actual Vite build; static asset and live Chromium journey checks passed on `de3b9ef`.
 - [x] Automated live preview runtime check covers React mount, the core review flow, locale/theme changes, brand assets, mobile width and runtime/network errors.
 - [ ] Manual accessibility/usability acceptance: keyboard-only/focus, zoom, reduced-motion/forced-colors, screen-reader, Explore/collections and non-happy-path review.
