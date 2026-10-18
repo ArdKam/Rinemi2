@@ -44,7 +44,7 @@ const COPY = {
     contentNote: "دادهٔ پایه از KANJIDIC2 آمده است. توضیح‌های فارسی فعلاً فقط برای مجموعهٔ آغازین نوشته شده‌اند و پیش از انتشار عمومی باید بازبینی شوند.",
     feedback: "بازخورد", feedbackCopy: "این نسخهٔ آغازین هنوز به بازبینی محتوایی نیاز دارد.",
     practice: "تمرین همین کانجی",
-    collectionsLabel: "مجموعه‌های شخصی", showCollections: "نمایش مجموعه‌ها", collectionName: "نام مجموعه", collectionPlaceholder: "مثلاً کانجی‌های گیج‌کننده", createCollection: "ساخت مجموعه", createFirstCollection: "اولین مجموعه را بساز", collectionEmpty: "هنوز مجموعه‌ای نساخته‌ای.", collectionHelp: "کانجی‌ها را برای مرور و مطالعهٔ شخصی دسته‌بندی کن.", addToCollection: "افزودن به مجموعه", removeFromCollection: "حذف از این مجموعه", collectionAdded: "کانجی به مجموعه افزوده شد.", collectionRemoved: "کانجی از مجموعه حذف شد.", collectionCreated: "مجموعه ساخته شد.", collectionExists: "مجموعه‌ای با این نام وجود دارد.", collectionNameRequired: "یک نام برای مجموعه وارد کن.", collectionLimit: "به سقف تعداد مجموعه‌ها رسیده‌ای.", deleteCollection: "حذف مجموعه", deleteConfirm: "این مجموعه حذف شود؟ کانجی‌ها و سابقهٔ مرور حذف نمی‌شوند.", studyCollection: "مطالعهٔ ۲۰ مورد نخست", openCollection: "نمایش کانجی‌ها", allCharacters: "نمایش همهٔ کانجی‌ها", collectionFilterHint: "نتایج به مجموعهٔ انتخاب‌شده محدود شده‌اند."
+    collectionsLabel: "مجموعه‌های شخصی", showCollections: "نمایش مجموعه‌ها", collectionName: "نام مجموعه", collectionPlaceholder: "مثلاً کانجی‌های گیج‌کننده", createCollection: "ساخت مجموعه", createFirstCollection: "اولین مجموعه را بساز", collectionEmpty: "هنوز مجموعه‌ای نساخته‌ای.", collectionHelp: "کانجی‌ها را برای مرور و مطالعهٔ شخصی دسته‌بندی کن.", addToCollection: "افزودن به مجموعه", removeFromCollection: "حذف از این مجموعه", collectionAdded: "کانجی به مجموعه افزوده شد.", collectionRemoved: "کانجی از مجموعه حذف شد.", collectionCreated: "مجموعه ساخته شد.", collectionExists: "مجموعه‌ای با این نام وجود دارد.", collectionNameRequired: "یک نام برای مجموعه وارد کن.", collectionLimit: "به سقف تعداد مجموعه‌ها رسیده‌ای.", collectionDeleted: "مجموعه حذف شد.", deleteCollection: "حذف مجموعه", deleteConfirm: "این مجموعه حذف شود؟ کانجی‌ها و سابقهٔ مرور حذف نمی‌شوند.", studyCollection: "مطالعهٔ ۲۰ مورد نخست", openCollection: "نمایش کانجی‌ها", allCharacters: "نمایش همهٔ کانجی‌ها", collectionFilterHint: "نتایج به مجموعهٔ انتخاب‌شده محدود شده‌اند."
   },
   en: {
     today: "Today", learn: "Learn", explore: "Explore", brand: "Kanji through meaning and use",
@@ -76,7 +76,7 @@ const COPY = {
     contentNote: "The base dataset is derived from KANJIDIC2. Persian explanations currently cover only the starter set and require review before public release.",
     feedback: "Feedback", feedbackCopy: "This early build still needs content review.",
     practice: "Practice this kanji",
-    collectionsLabel: "Personal collections", showCollections: "Show collections", collectionName: "Collection name", collectionPlaceholder: "e.g. Confusing kanji", createCollection: "Create collection", createFirstCollection: "Create your first collection", collectionEmpty: "You have not created a collection yet.", collectionHelp: "Group kanji for your own review and focused study.", addToCollection: "Add to collection", removeFromCollection: "Remove from collection", collectionAdded: "Kanji added to collection.", collectionRemoved: "Kanji removed from collection.", collectionCreated: "Collection created.", collectionExists: "A collection with this name already exists.", collectionNameRequired: "Enter a name for the collection.", collectionLimit: "You have reached the collection limit.", deleteCollection: "Delete collection", deleteConfirm: "Delete this collection? Kanji and review history will remain.", studyCollection: "Study first 20 items", openCollection: "Show kanji", allCharacters: "Show all kanji", collectionFilterHint: "Results are filtered to the selected collection."
+    collectionsLabel: "Personal collections", showCollections: "Show collections", collectionName: "Collection name", collectionPlaceholder: "e.g. Confusing kanji", createCollection: "Create collection", createFirstCollection: "Create your first collection", collectionEmpty: "You have not created a collection yet.", collectionHelp: "Group kanji for your own review and focused study.", addToCollection: "Add to collection", removeFromCollection: "Remove from collection", collectionAdded: "Kanji added to collection.", collectionRemoved: "Kanji removed from collection.", collectionCreated: "Collection created.", collectionExists: "A collection with this name already exists.", collectionNameRequired: "Enter a name for the collection.", collectionLimit: "You have reached the collection limit.", collectionDeleted: "Collection deleted.", deleteCollection: "Delete collection", deleteConfirm: "Delete this collection? Kanji and review history will remain.", studyCollection: "Study first 20 items", openCollection: "Show kanji", allCharacters: "Show all kanji", collectionFilterHint: "Results are filtered to the selected collection."
   }
 } as const;
 const RATING_HINTS = {
@@ -323,6 +323,45 @@ export default function App() {
           </div>
           <p className="result-count">{fmt(filteredKanji.length, language)} {t.results}</p>
         </div>
+        <div className="collections-entry">
+          <button className="collections-toggle" type="button" aria-expanded={collectionsOpen} onClick={() => setCollectionsOpen(open => !open)}>
+            <span>{t.collectionsLabel}</span><span className="collections-count">{fmt(store.collections.length, language)}</span><span aria-hidden="true">{collectionsOpen ? "−" : "+"}</span>
+          </button>
+          {activeCollectionId && <p className="collection-filter-status">{t.collectionFilterHint} <button className="text-link" type="button" onClick={() => setActiveCollectionId(null)}>{t.allCharacters}</button></p>}
+          {collectionsOpen && <section className="collections-panel" aria-labelledby="collections-heading">
+            <div className="collections-panel-heading">
+              <div><h2 id="collections-heading">{t.collectionsLabel}</h2><p>{t.collectionHelp}</p></div>
+              <button className="text-link" type="button" onClick={() => setActiveCollectionId(null)}>{t.allCharacters}</button>
+            </div>
+            <form className="collection-create-form" onSubmit={event => { event.preventDefault(); createNamedCollection(); }}>
+              <label className="collection-name-field">
+                <span>{t.collectionName}</span>
+                <input value={newCollectionName} onChange={event => setNewCollectionName(event.target.value)} maxLength={60} placeholder={t.collectionPlaceholder} />
+              </label>
+              <button className="button-secondary collection-create-button" type="submit">{t.createCollection}</button>
+            </form>
+            {collectionMessage && <p className="collection-message" role="status">{collectionMessage}</p>}
+            {store.collections.length === 0
+              ? <p className="collection-empty">{t.collectionEmpty}</p>
+              : <div className="collection-list">
+                {store.collections.map(collection => <article className={"collection-row " + (activeCollectionId === collection.id ? "is-active" : "")} key={collection.id}>
+                  <button className="collection-open" type="button" aria-pressed={activeCollectionId === collection.id} onClick={() => setActiveCollectionId(current => current === collection.id ? null : collection.id)}>
+                    <strong>{collection.name}</strong><span>{fmt(collection.characters.length, language)}</span>
+                  </button>
+                  <div className="collection-actions">
+                    <button className="text-link" type="button" disabled={collection.characters.length === 0} onClick={() => beginCollectionStudy(collection.id)}>{t.studyCollection}</button>
+                    <button className="text-link collection-delete" type="button" onClick={() => {
+                      if (!window.confirm(t.deleteConfirm)) return;
+                      setStore(previous => deleteCollection(previous, collection.id));
+                      setActiveCollectionId(current => current === collection.id ? null : current);
+                      setCollectionTargetId(current => current === collection.id ? "" : current);
+                      setCollectionMessage(t.collectionDeleted);
+                    }}>{t.deleteCollection}</button>
+                  </div>
+                </article>)}
+              </div>}
+          </section>}
+        </div>
         <div className="explore-layout">
           <div className="kanji-results" role="list" aria-label={t.explore}>
             {filteredKanji.slice(0, 240).map(item => {
@@ -341,6 +380,15 @@ export default function App() {
             {(EXAMPLES[selectedItem.character] ?? []).length > 0 && <section className="detail-examples"><p className="section-kicker">{t.example}</p>{(EXAMPLES[selectedItem.character] ?? []).map(example => <div className="detail-example" key={example.word}><strong lang="ja" dir="ltr">{example.word}</strong><span lang="ja" dir="ltr">{example.reading}</span><small>{language === "fa" ? example.fa : example.en}</small></div>)}</section>}
             <div className="detail-facts"><div><span>{t.strokes}</span><strong>{fmt(selectedItem.strokes, language)}</strong></div><div><span>{t.grade}</span><strong>{selectedItem.grade ? fmt(selectedItem.grade, language) : "—"}</strong></div><div><span>{t.jlpt}</span><strong>{selectedItem.jlpt ?? "—"}</strong></div><div><span>{t.frequency}</span><strong>{fmt(selectedItem.frequency, language)}</strong></div></div>
             <button className={"button-secondary detail-bookmark " + (savedSet.has(selectedItem.character) ? "is-saved" : "")} type="button" onClick={() => toggleBookmark(selectedItem.character)} aria-pressed={savedSet.has(selectedItem.character)}>{savedSet.has(selectedItem.character) ? t.removeSaved : t.bookmark}</button>
+            {store.collections.length > 0 ? <div className="detail-collection-control">
+              <label><span>{t.addToCollection}</span><select value={collectionTargetId} onChange={event => setCollectionTargetId(event.target.value)}>
+                <option value="">—</option>
+                {store.collections.map(collection => <option key={collection.id} value={collection.id}>{collection.name}</option>)}
+              </select></label>
+              {collectionTargetId && <button className="button-secondary" type="button" onClick={() => toggleCollectionCharacter(collectionTargetId, selectedItem.character)}>
+                {store.collections.find(collection => collection.id === collectionTargetId)?.characters.includes(selectedItem.character) ? t.removeFromCollection : t.addToCollection}
+              </button>}
+            </div> : <button className="text-link detail-study" type="button" onClick={() => { setCollectionsOpen(true); setCollectionMessage(""); }}>{t.createFirstCollection}</button>}
             {STARTER_CHARACTERS.some(character => character === selectedItem.character) && <button className="text-link detail-study" type="button" onClick={() => { setQueue([selectedItem.character]); setSessionIndex(0); setSessionRated(0); setRevealed(false); setPage("learn"); }}>{t.practice} ←</button>}
           </aside>}
         </div>
