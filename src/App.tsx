@@ -13,6 +13,8 @@ const KANJI = (sourceDataset as unknown as { kanji: Kanji[] }).kanji;
 const TOPICS = (topicDataset as unknown as { topics: Topic[] }).topics;
 const BY_CHARACTER = new Map(KANJI.map(item => [item.character, item]));
 const TOPIC_MEMBERS = new Map(TOPICS.map(topic => [topic.id, new Set(topic.characters.trim().split(/\s+/))]));
+const BRAND_MARK_LIGHT = `${import.meta.env.BASE_URL}brand/rinemi-mark.svg`;
+const BRAND_MARK_DARK = `${import.meta.env.BASE_URL}brand/rinemi-mark-dark.svg`;
 
 const COPY = {
   fa: {
@@ -253,7 +255,7 @@ export default function App() {
     <a className="skip-link" href="#main-content">{isFa ? "رفتن به محتوای اصلی" : "Skip to main content"}</a>
     <header className="app-header">
       <button className="brand-lockup" type="button" onClick={() => setPage("today")} aria-label="Rinemi">
-        <span className="brand-mark-shell" aria-hidden="true"><img className="brand-mark-light" src="/brand/rinemi-mark.svg" alt="" /><img className="brand-mark-dark" src="/brand/rinemi-mark-dark.svg" alt="" /></span>
+        <span className="brand-mark-shell" aria-hidden="true"><img className="brand-mark-light" src={BRAND_MARK_LIGHT} alt="" /><img className="brand-mark-dark" src={BRAND_MARK_DARK} alt="" /></span>
         <span className="brand-copy"><strong>Rinemi</strong><span>{t.brand}</span></span>
       </button>
       <nav className="primary-nav" aria-label={isFa ? "ناوبری اصلی" : "Primary navigation"}>

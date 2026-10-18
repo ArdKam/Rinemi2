@@ -74,6 +74,15 @@ while (pendingAssets.length) {
 
   if (asset.kind === "module") {
     assert.doesNotMatch(body, /<!doctype\s+html/i, `Module URL returned HTML instead of JavaScript: ${url.href}`);
+
+    for (const brandAsset of ["brand/rinemi-mark.svg", "brand/rinemi-mark-dark.svg"]) {
+      const expectedPath = `${baseUrl.pathname}${brandAsset}`;
+      assert.ok(
+        body.includes(expectedPath),
+        `Compiled app does not reference the base-prefixed brand asset ${expectedPath}`
+      );
+      pendingAssets.push({ value: brandAsset, kind: "brand-asset" });
+    }
   }
 
   if (/\.css(?:$|\?)/i.test(url.href)) {
