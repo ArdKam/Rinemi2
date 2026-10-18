@@ -29,3 +29,9 @@ The initial Persian glosses and vocabulary examples in src/content.ts are a sepa
 - Japanese serif/sans fonts are not bundled in this slice; verify glyph coverage and local font licensing before release.
 
 The project does not yet have an owner-approved overall open-source license. Third-party licenses do not automatically license all Rinemi 2 project code.
+
+## Rinemi identity assets
+
+- The brand mark is adapted from `ArdKam/kanji5/rinemi-mark.svg`, inspected on 2026-10-18 at blob SHA `67889ff0e8eef30035f7674f2e398b7b1ee94ff0`.
+- The favicon is adapted from `ArdKam/kanji5/icon.svg`, inspected at blob SHA `9c84619ec2e41ac15c01f8fef772ab9a06dd19a3`.
+- A dark-surface variant was derived by adjusting the mark stroke to pale indigo to maintain visibility on the dark canvas. The original source repository remains unchanged.
