@@ -55,6 +55,7 @@
   --rinemi-border-width-focus: 2px;
   --rinemi-focus-offset: 2px;
 
+  --rinemi-size-target-min: 44px;
   --rinemi-content-width-reading: 68ch;
   --rinemi-content-width-page: 72rem;
 
