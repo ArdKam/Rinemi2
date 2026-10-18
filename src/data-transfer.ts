@@ -60,7 +60,7 @@ function normalizeBackupStore(value: unknown): AppStore | null {
   for (const [character, item] of Object.entries(value.reviews)) {
     if (!character || !isRecord(item) || !isRecord(item.card)) continue;
     const due = item.card.due;
-    if (!due || !Number.isFinite(new Date(due as string | number | Date).getTime())) continue;
+    if (!due || !Number.isFinite(new Date(due as string | number).getTime())) continue;
     reviews[character] = {
       card: item.card as unknown as AppStore["reviews"][string]["card"],
       reviews: Math.max(0, Number(item.reviews) || 0),
