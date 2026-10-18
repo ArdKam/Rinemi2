@@ -1,6 +1,6 @@
 # Rinemi 2 — Art Direction and Design System
 
-**Status:** Directional specification; do not treat it as approval of final UI. P2 requires three rendered concepts and owner selection before application scaffolding.  
+**Status:** Approved written starting direction for Rinemi 2. The owner explicitly asked to skip image generation. This is a design baseline, not a claim that rendered UI has been verified; refine it against browser screenshots.  
 **Creative intent:** an adult, calm, Persian-first Japanese learning studio with editorial Japanese influence—not generic SaaS, anime, or decorative Japan-themed stock UI.
 
 ## 1. Brand character
@@ -60,7 +60,7 @@ These are reference colors, not permission to ship without contrast testing.
 - Test disabled, selected, hover, focus-visible, pressed, loading, error and modal-overlay states.
 - Keep semantic color use consistent across the whole product.
 - Avoid per-component arbitrary colors and one-off overrides; fix the role/token instead.
-- The final action color and full light/dark values are not locked until P2/P3 rendered concepts are evaluated.
+- The proposed vermilion action role is the working baseline. Exact light/dark token values must still pass contrast checks and rendered browser evaluation; generated mockups are not required.
 
 ## 4. Typography
 
