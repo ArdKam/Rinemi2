@@ -24,7 +24,7 @@ The source and documentation review checked the main baseline above, including `
 
 The recorded GitHub Actions live Chromium journey on commit `de3b9efb89698e395346be8fcdd77ef11517f87c` verifies a prior deployment's minimum learner journey, locale/theme switching, asset loading, and no horizontal overflow at a 390px viewport. It is **historical smoke-test evidence**, not visual acceptance of every state in this register. See [the recorded deployment and browser run](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054).
 
-The current main code/evidence snapshot is `36b1373fea55fda205c0e328621e3b8d6ce9c581`; see [main CI](https://github.com/ArdKam/Rinemi2/actions/runs/39172536333) and [Pages deployment/live verification](https://github.com/ArdKam/Rinemi2/actions/runs/39172536262) for its exact-SHA pipeline records.
+The current main code/evidence snapshot is `36b1373fea55fda205c0e328621e3b8d6ce9c581`; [main CI](https://github.com/ArdKam/Rinemi2/actions/runs/39172536333) and [Pages deployment/live verification](https://github.com/ArdKam/Rinemi2/actions/runs/39172536262) both passed on this exact SHA.
 
 Responsive screenshots from [run 39172388405](https://github.com/ArdKam/Rinemi2/actions/runs/39172388405) were downloaded and visually inspected for 320px portrait, 390px portrait, compact landscape, and desktop. The 320px revealed-card capture confirms the answer meaning heading is focusable and the skip link is not over the content after the screenshot was corrected to begin at the scroll origin. It also shows the Today inset fix. This is useful partial rendered evidence, not completion of the full Persian RTL/English LTR × light/dark × viewport matrix, not manual screen-reader acceptance, and not proof of teaching quality or legal approval.
 
