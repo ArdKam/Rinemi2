@@ -62,6 +62,7 @@ A committed npm lockfile pins the dependency tree. Use `npm ci` for local setup 
 5. [Reference and migration policy](docs/REFERENCE-AND-MIGRATION.md)
 6. [Quality and release policy](docs/QUALITY-AND-RELEASE.md)
 7. [Data-source provenance](docs/DATA-SOURCES.md)
+8. [Starter content QA register](docs/CONTENT-QA-REGISTER.md)
 8. [Decision log](docs/DECISIONS.md)
 
 ## Repository boundary
