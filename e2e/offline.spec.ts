@@ -9,6 +9,8 @@ test("installable manifest is valid and a warmed app shell can continue studying
   expect(manifest.scope).toBe("./");
   expect(manifest.display).toBe("standalone");
   expect(manifest.icons.some((icon: { src: string; sizes: string }) => icon.src === "./icon.svg" && icon.sizes === "any")).toBe(true);
+  const iconResponses = await Promise.all(["/icon-192.png", "/icon-512.png", "/icon.svg"].map(path => page.request.get(path)));
+  expect(iconResponses.map(response => response.status())).toEqual([200, 200, 200]);
 
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "امروز، یک قدم به خواندن نزدیک‌تر." })).toBeVisible();
