@@ -72,7 +72,7 @@ test("keyboard focus is visible and the language switch changes direction", asyn
   await expect(skipLink).toBeFocused();
   expect(await skipLink.evaluate((element) => getComputedStyle(element).outlineStyle)).toBe("solid");
 
-  await page.getByRole("button", { name: "تغییر زبان به انگلیسی" }).click();
+  await page.getByRole("button", { name: "EN — تغییر زبان به انگلیسی" }).click();
   await expect(page.locator(".app-shell")).toHaveAttribute("dir", "ltr");
   await expect(page.getByRole("heading", { name: "Start with one small step." })).toBeVisible();
 });
