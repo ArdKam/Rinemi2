@@ -150,7 +150,7 @@ New scope requires a documented learner problem, expected benefit, content/sourc
 | P5 | Shell, navigation, onboarding, Today | First usable product skeleton with real content density | P3, P4 | IN PROGRESS — code slice exists; rendered-browser verification and onboarding remain open |
 | P6 | Learning card and practice journey | End-to-end learning, recall, feedback, ratings and recovery | P5, P4 | IN PROGRESS — reveal/rating/local FSRS slice exists; full recovery/adaptive semantics and browser QA remain open |
 | P7 | Explore, Dictionary, detail, bookmarks | Find and save kanji without search/filter overload | P5, P4 | IN PROGRESS — search/filter/detail/bookmarks and named collections exist; rename and confirmed clear-all merged in PR #21; broader bulk management and manual acceptance remain open |
-| P8 | Anki import and imported material | Safely import supported deck exports with preview and error reporting | P7, data identity design | NOT STARTED |
+| P8 | Anki import and imported material | Safely import supported deck exports with preview and error reporting | P7, data identity design | IN PROGRESS — Anki text-export support matrix and parser/preview utility are in this PR; no import UI, persistent imported cards, custom-card scheduling, or packaged-deck support is implemented yet |
 | P9 | Vocabulary-to-reading continuity | Connect mastered/known kanji to words and short reading | P6, P7, content QA | NOT STARTED |
 | P10 | Progress, settings, account/data controls | Meaningful progress and understandable user control | P6 plus data contract | IN REVIEW — local JSON backup, validated restore preview, and browser-data erasure are proposed in PR #22; CI and acceptance remain pending, while privacy/legal and offline/PWA gates remain open |
 | P11 | Accessibility, responsive and localization acceptance | Verified Persian/English, mobile/desktop, themes, and keyboard behavior | P5–P10 in increments | NOT STARTED |
@@ -458,7 +458,7 @@ The repo should maintain these artifacts as work advances:
 - [x] Manual release acceptance checklist exists in `docs/MANUAL-RELEASE-ACCEPTANCE.md`; the checks themselves remain NOT RUN until a human records evidence.
 - [ ] Component gallery and approved visual references.
 - [x] Starter content QA register created in `docs/CONTENT-QA-REGISTER.md` for all 44 seed kanji; all language-review statuses remain `NOT REVIEWED` until a human records evidence.
-- [ ] Anki import format/support matrix and test-fixture inventory.
+- [x] Anki text-import support matrix and parser test inventory in `docs/ANKI-IMPORT-SUPPORT.md` and `scripts/anki-import.test.ts`; end-to-end UI/persistence acceptance remains open.
 - [ ] Automated test matrix and browser screenshot baseline.
 - [ ] Accessibility issue log.
 - [x] Local data/backup/erasure contract drafted in `docs/LOCAL-DATA-AND-PRIVACY.md`; manual failure testing and privacy/legal review remain open.
