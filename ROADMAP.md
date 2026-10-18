@@ -1,6 +1,6 @@
 # Rinemi 2 — Product Redesign & Rebuild Roadmap
 
-**Status:** the first functional vertical slice is merged into `main`. The public preview at [`https://ardkam.github.io/Rinemi2/`](https://ardkam.github.io/Rinemi2/) is now published from the Vite `dist/` artifact. Main CI and post-deployment asset smoke test passed on [commit `9e2f01f`](https://github.com/ArdKam/Rinemi2/commit/9e2f01f36e1d74e49043788414a1e87c30dd1a06); manual visual/UX/accessibility acceptance and the broader release gates remain open. See [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39164602025), [deployment evidence](https://github.com/ArdKam/Rinemi2/actions/runs/39164602046), and [issue #7](https://github.com/ArdKam/Rinemi2/issues/7).  
+**Status:** the first functional vertical slice is merged into `main`. The public preview at [`https://ardkam.github.io/Rinemi2/`](https://ardkam.github.io/Rinemi2/) is published from the Vite `dist/` artifact. Main CI, the post-deployment asset smoke test, and the real Chromium journey on the published URL passed on commit [`de3b9ef`](https://github.com/ArdKam/Rinemi2/commit/de3b9efb89698e395346be8fcdd77ef11517f87c). Keyboard/screen-reader/accessibility acceptance and the broader release gates remain open. See [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39166049955), [deployment and live-browser evidence](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054), and [issue #7](https://github.com/ArdKam/Rinemi2/issues/7).  
 **Planning date:** 2026-10-18  
 **Target repository:** `ArdKam/Rinemi2`  
 **Reference-only repository:** `ArdKam/kanji5` — do not modify it.  
@@ -526,7 +526,7 @@ Do not accept new scope just because a competing app has the feature or a protot
 
 ## 9. Current execution status (2026-10-18)
 
-The first functional vertical slice was merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37). The latest [main CI run](https://github.com/ArdKam/Rinemi2/actions/runs/39164602025) and [GitHub Pages deployment/smoke test](https://github.com/ArdKam/Rinemi2/actions/runs/39164602046) passed on commit [`9e2f01f`](https://github.com/ArdKam/Rinemi2/commit/9e2f01f36e1d74e49043788414a1e87c30dd1a06). The live smoke test verified the entry page and 11 same-origin resources, including both brand marks. This verifies asset reachability and the deployment artifact, not complete visual acceptance, educational quality or production readiness.
+The first functional vertical slice was merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37). Main [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39166049955) and [GitHub Pages deployment plus live Chromium test](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054) passed on commit [`de3b9ef`](https://github.com/ArdKam/Rinemi2/commit/de3b9efb89698e395346be8fcdd77ef11517f87c). The live checks verified the deployed entry page and 11 same-origin static resources and exercised the actual React learning flow, locale/theme changes, logo rendering and mobile-width behavior. This is evidence of preview runtime behavior, not complete manual accessibility acceptance, educational quality or production readiness.
 
 ### Implemented in the current slice
 
@@ -537,7 +537,7 @@ The first functional vertical slice was merged into `main` at [`50c0ab8`](https:
 
 ### Remaining work in execution order
 
-1. **Finish manual live-browser acceptance before any public-beta claim.** The hosting mechanism is now verified: commit `9e2f01f` is deployed from Vite `dist/`, and the live smoke test passed for the page plus 11 same-origin resources. Issue #7 remains open only for manual review of the rendered application: React interaction, Persian RTL / English LTR, light/dark, mobile, refresh/navigation, focus/keyboard, and browser console/network errors. The preview is not yet a public-beta or production-readiness claim.
+1. **Finish manual accessibility/usability acceptance before any public-beta claim.** Hosting, static assets, and a minimal live Chromium learner journey are verified on commit `de3b9ef`: React mounts; reveal/rating advances the queue; Persian RTL / English LTR and system → light → dark work; both marks load; and the narrow mobile viewport has no horizontal overflow or observed runtime/network errors. Issue #7 remains open for manual keyboard/focus, zoom, reduced-motion/forced-colors, screen-reader, and less-common Explore/collection/empty/error states. The preview is not a public-beta or production-readiness claim.
 2. **Finish manual browser/UX/accessibility acceptance (P3/P5/P11).** Review retained screenshots at small/typical phone, compact landscape and desktop; Persian RTL and English LTR; light and dark; learning card before/after reveal; detail, filters, empty states and collections. Perform keyboard/focus, zoom, screen-reader and reduced-motion checks. CI coverage is useful but does not replace these reviews.
 3. **Complete data and licensing readiness (P0/P4).** Finish the selective reuse inventory and confirm attribution/share-alike obligations for the Jōyō corpus, topic taxonomy, font files and adapted identity assets. Keep the overall project license decision open until explicitly approved.
 4. **Human-review the learner-facing content (P4/P6).** Review Persian glosses, Japanese readings and vocabulary examples; track stable content IDs, source, reviewer, review date, defects and corrections. Source gloss presence is not evidence of correct Persian teaching content.
@@ -560,8 +560,9 @@ The first functional vertical slice was merged into `main` at [`50c0ab8`](https:
 - [x] Committed npm lockfile; CI and Pages deployment use `npm ci` and validate clean installs.
 - [ ] Recovery, expanded collections, import, and reading-transfer work.
 - [ ] Privacy/data lifecycle and offline/PWA acceptance as applicable.
-- [x] Hosting configuration and public URL verified on the actual Vite build; live asset smoke test passed on `9e2f01f`.
-- [ ] Manual live-browser visual/interaction acceptance across Persian RTL / English LTR, light/dark, mobile/desktop and keyboard/focus states.
+- [x] Hosting configuration and public URL verified on the actual Vite build; static asset and live Chromium journey checks passed on `de3b9ef`.
+- [x] Automated live preview runtime check covers React mount, the core review flow, locale/theme changes, brand assets, mobile width and runtime/network errors.
+- [ ] Manual accessibility/usability acceptance: keyboard-only/focus, zoom, reduced-motion/forced-colors, screen-reader, Explore/collections and non-happy-path review.
 - [ ] Candidate release evidence assembled and beta gate approved.
 
 **Repository boundary:** `ArdKam/kanji5` remains reference-only. All implementation and documentation changes must remain in `ArdKam/Rinemi2`.

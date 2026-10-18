@@ -4,7 +4,7 @@ Rinemi 2 is a separately developed, Persian-first kanji learning studio. Its int
 
 ## Current implementation
 
-**Status:** the first functional vertical slice is merged into `main`; the current preview is published from the Vite `dist/` artifact at [Rinemi 2 on GitHub Pages](https://ardkam.github.io/Rinemi2/). Deployment and post-deployment asset smoke test are verified on commit [`9e2f01f`](https://github.com/ArdKam/Rinemi2/commit/9e2f01f36e1d74e49043788414a1e87c30dd1a06). The app is still **pre-release**: manual visual/usability/accessibility acceptance, learner-facing content review, licensing, reproducible installs, privacy/data lifecycle, offline/PWA acceptance and major roadmap features remain open.
+**Status:** the first functional vertical slice is merged into `main`; the preview is published from the Vite `dist/` artifact at [Rinemi 2 on GitHub Pages](https://ardkam.github.io/Rinemi2/). Static assets and a real Chromium journey against the public URL passed on commit [`de3b9ef`](https://github.com/ArdKam/Rinemi2/commit/de3b9efb89698e395346be8fcdd77ef11517f87c). The app is still **pre-release**: manual keyboard/screen-reader/accessibility acceptance, broader usability review, learner-facing content review, source/licensing review, privacy/data lifecycle, offline/PWA acceptance and major roadmap features remain open.
 
 Included in this slice:
 - Three primary destinations: Today, Learn and Explore.
@@ -28,10 +28,10 @@ Not yet implemented or accepted:
 
 ## Verification and deployment status
 
-- The latest [main CI run](https://github.com/ArdKam/Rinemi2/actions/runs/39164602025) and [Pages deployment + live smoke test](https://github.com/ArdKam/Rinemi2/actions/runs/39164602046) passed on commit [`9e2f01f`](https://github.com/ArdKam/Rinemi2/commit/9e2f01f36e1d74e49043788414a1e87c30dd1a06).
-- The Pages workflow publishes only Vite's `dist/` under `/Rinemi2/`. The live smoke test received HTTP 200 for the page and 11 same-origin resources, including both light/dark brand marks, the compiled JS bundle, CSS, theme bootstrap, icon and fonts.
-- Browser journey screenshots and automated axe checks are generated in CI. Manual visual/UX/accessibility acceptance remains open; automated checks do not establish production readiness.
-- [Issue #7](https://github.com/ArdKam/Rinemi2/issues/7) now tracks the remaining manual live-browser acceptance rather than the resolved deployment/asset 404s.
+- Main [CI]( https://github.com/ArdKam/Rinemi2/actions/runs/39166049955 ) and [Pages deployment + static and live Chromium smoke tests]( https://github.com/ArdKam/Rinemi2/actions/runs/39166050054 ) passed on commit [`de3b9ef`](https://github.com/ArdKam/Rinemi2/commit/de3b9efb89698e395346be8fcdd77ef11517f87c).
+- The Pages workflow publishes only Vite's `dist/` under `/Rinemi2/`; all 11 same-origin static resources return HTTP 200, including both brand marks, the compiled JS bundle, CSS, theme bootstrap, icon and fonts.
+- The live Chromium check verifies React mounts, Today renders, a review can be revealed/rated and advanced, Persian RTL can switch to English LTR, the actual system → light → dark theme cycle works, both brand images load, and a 390px mobile viewport has no horizontal overflow. It also checks that no page errors, console errors or failed/escaped same-origin resources occur; screenshots are retained in the workflow artifact.
+- Manual keyboard/focus, zoom, reduced-motion/high-contrast, screen-reader and broader usability acceptance remain open. See [issue #7](https://github.com/ArdKam/Rinemi2/issues/7); automated live checks are not production-readiness approval.
 
 ## Run locally
 
