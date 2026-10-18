@@ -9,10 +9,11 @@
     "build": "tsc --noEmit && vite build",
     "build:pages": "tsc --noEmit && vite build --base=/Rinemi2/",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/check-data.mjs && node scripts/check-style-token-aliases.mjs && node --experimental-strip-types --test scripts/study.test.ts scripts/content.test.ts scripts/data-transfer.test.ts scripts/anki-import.test.ts && npm run check:contrast",
+    "test": "node scripts/check-data.mjs && node scripts/check-font-licenses.mjs && node scripts/check-style-token-aliases.mjs && node --experimental-strip-types --test scripts/study.test.ts scripts/content.test.ts scripts/data-transfer.test.ts scripts/anki-import.test.ts && npm run check:contrast",
     "preview": "vite preview --host 0.0.0.0",
     "e2e": "playwright test",
-    "check:contrast": "node scripts/check-design-token-contrast.mjs"
+    "check:contrast": "node scripts/check-design-token-contrast.mjs",
+    "check:font-licenses": "node scripts/check-font-licenses.mjs"
   },
   "dependencies": {
     "@fontsource-variable/plus-jakarta-sans": "5.3.0",
