@@ -282,11 +282,11 @@ export default function App() {
     try {
       // Reinitialize an empty versioned store after deleting every prior data key.
       persistStore(fresh);
-      setDataMessage(fresh.language === "fa" ? "داده‌های محلی پاک شد." : "Local learner data was erased.");
+      setDataMessage(t.dataErased);
     } catch {
       // Personal records have already been removed; the warning concerns reinitializing storage.
       setStorageWarning(true);
-      setDataMessage(fresh.language === "fa" ? "داده‌های محلی پاک شد." : "Local learner data was erased.");
+      setDataMessage(t.dataErased);
     }
   }
   function createNamedCollection() {
