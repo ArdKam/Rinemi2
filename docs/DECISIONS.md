@@ -102,8 +102,10 @@ This file records consequential decisions, not every implementation detail. Upda
 ### Q-005 — Deployment target
 - **Question:** which isolated preview and eventual production host should Rinemi2 use?
 - **Rule:** no assumption of shared Pages configuration or path with `kanji5`; verify ownership, deployment permissions and artifact behavior first.
-- **Must resolve by:** before P12 release configuration.
-- **Status:** OPEN
+- **Current evidence:** after the first merge to `main`, branch-based GitHub Pages reported a successful deployment, but its artifact was built by Jekyll from the source tree rather than the Vite `dist/` output. The public runtime is therefore unverified.
+- **Tracking:** [Issue #7](https://github.com/ArdKam/Rinemi2/issues/7) records the misconfigured/unverified Pages deployment and required acceptance checks.
+- **Must resolve by:** before P12 release configuration or any public-beta claim.
+- **Status:** OPEN — hosting is not approved as a release target; do not count the existing Pages deployment as accepted.
 
 ## Decision-change template
 
