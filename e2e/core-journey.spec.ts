@@ -282,6 +282,52 @@ test("local data erasure clears review, bookmark, collection, legacy and theme p
 });
 
 
+
+
+test("mobile Explore opens the selected kanji directly and returns to the same results context", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "کاوش" }).click();
+  const query = page.getByPlaceholder("مثلاً 日، nichi، خورشید…");
+  await query.fill("a");
+  const results = page.locator(".kanji-result");
+  await expect.poll(() => results.count()).toBeGreaterThan(1);
+
+  const chosen = results.nth(1);
+  const character = await chosen.locator(".result-glyph").textContent();
+  await chosen.click();
+  await expect(page.locator(".explore-layout")).toHaveClass(/is-mobile-detail/);
+  await expect(page.locator(".kanji-results")).toBeHidden();
+  await expect(page.locator(".kanji-detail")).toBeVisible();
+  await expect(page.locator(".kanji-detail")).toBeFocused();
+  await expect(page.locator(".detail-character")).toHaveText(character ?? "");
+  await expect(page.getByRole("button", { name: "بازگشت به نتایج" })).toBeVisible();
+
+  await page.getByRole("button", { name: "بازگشت به نتایج" }).click();
+  await expect(page.locator(".explore-layout")).not.toHaveClass(/is-mobile-detail/);
+  await expect(page.locator(".kanji-results")).toBeVisible();
+  await expect(query).toHaveValue("a");
+  await expect(page.locator(".kanji-result.is-selected .result-glyph")).toHaveText(character ?? "");
+  await expect(page.locator(".kanji-result.is-selected")).toBeFocused();
+});
+
+test("Explore continues past 240 results and exposes a reading cue on each result row", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "کاوش" }).click();
+  await expect(page.locator(".kanji-result")).toHaveCount(60);
+  await expect(page.locator(".result-reading").first()).toBeVisible();
+
+  for (let pageNumber = 0; pageNumber < 4; pageNumber += 1) {
+    await page.locator(".load-more-results").click();
+  }
+  await expect(page.locator(".kanji-result")).toHaveCount(300);
+  await expect(page.locator(".load-more-results")).toBeVisible();
+  await expect(page.locator(".list-limit")).toHaveCount(0);
+  await expect(page.locator(".result-count[role=\"status\"]")).toContainText("از");
+});
+
+
 for (const viewport of [
   { name: "small phone portrait", width: 320, height: 640 },
   { name: "typical phone portrait", width: 390, height: 844 },
