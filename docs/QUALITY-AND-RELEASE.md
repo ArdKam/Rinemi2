@@ -115,6 +115,13 @@ Review against the approved concept for hierarchy, type, whitespace, clipping, s
 
 A source-level review cannot substitute for opening the actual rendered app.
 
+### Design-token and theme consistency
+- The runtime color/type/spacing/geometry authority is `src/styles/design-tokens.css`; the root roadmap links to the design-token contract for usage rules.
+- The current app candidate loads the shared token sheet and app stylesheet before a pre-React script resolves `rinemi.theme` (`light` / `dark` / `system`) into root `data-theme` before the React entry point. The former v2/v1 local-store theme fields remain migration fallbacks.
+- Automated regression tests cover theme resolution, saved-preference priority, system-theme change handling, cleanup, browser chrome color and script order. These tests do not prove the absence of a perceptible theme flash in every browser.
+- CI checks 70 semantic text/action/status/selection/focus pairs. Visual QA must still inspect translucent overlays, borders on actual surfaces, focus-ring shape, font loading, and mixed Persian/Japanese content.
+- Links and secondary actions use indigo tokens; primary actions use vermilion/coral; warning/error/destructive and focus/selection have separate roles.
+
 ## 7. Educational content acceptance
 
 Maintain a QA register with stable content IDs, source, reviewer, review date, status, defect severity and correction history.
