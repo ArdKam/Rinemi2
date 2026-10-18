@@ -82,7 +82,7 @@ Every interactive component must define only the states relevant to its behavior
 
 Target WCAG 2.2 AA: at least 4.5:1 for ordinary text and 3:1 for large text. Essential non-text UI boundaries and focus indicators must remain perceivable against adjacent colors, with a 3:1 target where the WCAG criterion applies. Do not treat a color token as proven accessible simply because it looks strong.
 
-Before a theme/token change is accepted:
+Run the source-level check with `node scripts/check-design-token-contrast.mjs`. Before a theme/token change is accepted:
 
 1. Run automated contrast calculations for primary, secondary and muted text, primary/destructive action labels, all status labels against their status surface, links, selected states and focus indicators.
 2. Check hover, pressed, disabled, loading, empty, warning, error and overlay states in both themes.
@@ -99,5 +99,6 @@ The initial values in the CSS are a starting baseline. Browser-rendered contrast
 - [ ] Add a pre-React theme bootstrap that sets the root attribute before first paint.
 - [ ] Make the future React app, onboarding and loading shell consume the same root theme and token sheet.
 - [ ] Remove duplicate palettes and local copies as components are introduced.
-- [ ] Add token/contrast checks and a rendered component gallery.
+- [x] Add a standalone semantic-token contrast checker at `scripts/check-design-token-contrast.mjs`.
+- [ ] Wire the checker into CI and build a rendered component gallery.
 - [ ] Validate Persian RTL / English LTR, light / dark, mobile / desktop, keyboard focus and reduced motion.
