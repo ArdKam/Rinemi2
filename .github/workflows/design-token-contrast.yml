@@ -1,0 +1,32 @@
+name: Design token contrast
+
+on:
+  pull_request:
+    paths:
+      - "src/styles/design-tokens.css"
+      - "scripts/check-design-token-contrast.mjs"
+      - ".github/workflows/design-token-contrast.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/styles/design-tokens.css"
+      - "scripts/check-design-token-contrast.mjs"
+      - ".github/workflows/design-token-contrast.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  token-contrast:
+    name: Check semantic token contrast
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate contrast in both themes
+        run: node scripts/check-design-token-contrast.mjs
