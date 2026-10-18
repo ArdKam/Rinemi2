@@ -9,6 +9,33 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
+test("both brand marks load in light and dark themes", async ({ page }) => {
+  const brandResponses = new Map<string, number>();
+  page.on("response", response => {
+    const pathname = new URL(response.url()).pathname;
+    if (pathname.endsWith("/brand/rinemi-mark.svg") || pathname.endsWith("/brand/rinemi-mark-dark.svg")) {
+      brandResponses.set(pathname, response.status());
+    }
+  });
+
+  await page.goto("/");
+  const lightMark = page.locator(".brand-mark-light");
+  const darkMark = page.locator(".brand-mark-dark");
+
+  await expect.poll(() => lightMark.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+  await expect.poll(() => darkMark.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+  await expect(lightMark).toBeVisible();
+  await expect(darkMark).toBeHidden();
+
+  await page.getByRole("button", { name: "حالت تیره" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(lightMark).toBeHidden();
+  await expect(darkMark).toBeVisible();
+
+  expect(brandResponses.get("/brand/rinemi-mark.svg")).toBe(200);
+  expect(brandResponses.get("/brand/rinemi-mark-dark.svg")).toBe(200);
+});
+
 test("Today starts a useful session and learning rating advances the queue", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/");
