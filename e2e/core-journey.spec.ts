@@ -21,7 +21,7 @@ test("Today starts a useful session and learning rating advances the queue", asy
   await expect(page.locator(".answer-heading h2")).toHaveText("خورشید؛ روز");
   await page.screenshot({ path: "artifacts/learning-revealed-fa-light.png", fullPage: true });
 
-  await page.getByRole("button", { name: "به یاد آوردم" }).click();
+  await page.getByRole("button", { name: "به یاد آوردم", exact: true }).click();
   await expect(page.locator(".prompt-kanji")).toHaveText("一");
 });
 
