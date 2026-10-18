@@ -79,7 +79,8 @@ test("personal collections can add, filter, and remove kanji without altering bo
   await page.getByRole("button", { name: "افزودن به مجموعه" }).click();
   await expect(page.getByText("کانجی به مجموعه افزوده شد.")).toBeVisible();
 
-  await page.getByRole("button", { name: "نمایش کانجی‌ها" }).click();
+  await page.getByRole("button", { name: /کانجی‌های مهم/ }).click();
+  await page.screenshot({ path: "artifacts/collections-fa-light.png", fullPage: true });
   await expect(page.locator(".kanji-result")).toHaveCount(1);
   await expect(page.locator(".kanji-result").first()).toContainText("日");
 
