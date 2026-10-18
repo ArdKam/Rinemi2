@@ -1,6 +1,6 @@
 # Rinemi 2 — Product Redesign & Rebuild Roadmap
 
-**Status:** Planning baseline approved for direct implementation from the written Sumi Play direction; image generation is optional and not a blocker. Application implementation starts in focused vertical slices.  
+**Status:** the first functional vertical slice is merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37); post-merge CI passed. The project is still pre-release: manual browser/accessibility/content acceptance is incomplete, and GitHub Pages currently has an unverified source-tree deployment tracked by [issue #7](https://github.com/ArdKam/Rinemi2/issues/7). Public hosting and beta are not accepted until the deployment artifact and actual runtime are verified.  
 **Planning date:** 2026-10-18  
 **Target repository:** `ArdKam/Rinemi2`  
 **Reference-only repository:** `ArdKam/kanji5` — do not modify it.  
@@ -524,20 +524,45 @@ Do not accept new scope just because a competing app has the feature or a protot
 
 ---
 
-## 9. Initial execution status
+## 9. Current execution status (2026-10-18)
 
-Planning baseline only; no UI, application code, engine integration, import parser, sync, or production deployment has been declared complete.
+The first functional vertical slice was merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37). The post-merge [CI run](https://github.com/ArdKam/Rinemi2/actions/runs/39160367180) passed its automated checks, including Playwright end-to-end tests (11/11). This is evidence for the merged code tree, not for production readiness or a verified hosted runtime.
 
-**Current execution order:**
+### Implemented in the current slice
 
-1. [x] Planning documents created and cross-linked; continue to update status as implementation evidence arrives.
-2. [ ] Complete the selective P0 reuse inventory and verify license obligations before public release.
-3. [x] Define primary journeys, screen states and acceptance criteria; validate through browser and learner testing as slices are delivered.
-4. [x] Use the user's existing written Sumi Play direction as the P2 baseline; image generation is skipped and is not a blocker.
-5. [ ] Continue P3/P4 in small reviewable increments, including font sourcing, semantic-token contrast, and human review of starter content.
-6. [x] Implement the first Slice A code candidate on `feat/app-vertical-slice`; CI data tests/typecheck/build and real-browser review remain release checks.
-7. [ ] Keep `kanji5` untouched throughout.
+- Today, Learn, and Explore navigation; Persian RTL default and English LTR; light/dark/system theme preference.
+- Learning-card reveal and Again/Hard/Good/Easy ratings, local FSRS scheduling, and a due-review queue.
+- 2,136-entry Jōyō corpus, search/JLPT/topic filters, kanji detail, bookmarks, and basic named collections.
+- Versioned local-storage migration, semantic design tokens, token contrast validation, unit/data tests and browser E2E coverage.
 
-**Current implementation checkpoint:** the first vertical slice now includes Today, Learn, Explore, the Jōyō corpus, local FSRS scheduling, search/filters/detail and bookmarks. Validate the real rendering across RTL/LTR, themes, and viewport sizes before expanding; do not wait for generated mockups or claim browser QA until it has actually been performed.
+### Remaining work in execution order
 
-**Release policy:** only the verified state of the target repository and exact candidate commit determines completion. This roadmap is a plan, not evidence that work is implemented or deployed.
+1. **Resolve the hosting blocker before any public-beta claim.** The default branch-based GitHub Pages workflow reported success, but the published artifact was a Jekyll/source-tree artifact, not the Vite `dist/` build. The actual application runtime is unverified. [Issue #7](https://github.com/ArdKam/Rinemi2/issues/7) tracks this. Public hosting has not been approved as a release target; do not treat the reported Pages deployment as a working application.
+2. **Finish manual browser/UX/accessibility acceptance (P3/P5/P11).** Review retained screenshots at small/typical phone, compact landscape and desktop; Persian RTL and English LTR; light and dark; learning card before/after reveal; detail, filters, empty states and collections. Perform keyboard/focus, zoom, screen-reader and reduced-motion checks. CI coverage is useful but does not replace these reviews.
+3. **Complete data and licensing readiness (P0/P4).** Finish the selective reuse inventory and confirm attribution/share-alike obligations for the Jōyō corpus, topic taxonomy, font files and adapted identity assets. Keep the overall project license decision open until explicitly approved.
+4. **Human-review the learner-facing content (P4/P6).** Review Persian glosses, Japanese readings and vocabulary examples; track stable content IDs, source, reviewer, review date, defects and corrections. Source gloss presence is not evidence of correct Persian teaching content.
+5. **Strengthen study-flow behavior (P6).** Validate interruption/recovery and session completion, unavailable/invalid content, safe repeated rating, stale-content prevention, and exact scheduler-write boundaries. Adaptive learner-model planning and broader recovery semantics are not implemented in this slice.
+6. **Finish saved-item management (P7).** Add collection rename and bulk operations only after validating the basic flow; test duplicate saves, removal semantics, large sets, zero results, keyboard navigation and mobile reachability.
+7. **Make builds reproducible.** Generate and review a committed npm lockfile, then change CI from `npm install` to `npm ci`; prove clean-checkout reproducibility before beta.
+8. **Define Anki import (P8).** Agree the supported export/version/media/history matrix, then build preview, field mapping, duplicate policy, dry-run, explicit confirmation and recoverable failure behavior.
+9. **Build the kanji-to-reading path (P9).** Select a licensed, level-appropriate, reviewable reading corpus; add vocabulary-to-reading links only after the Japanese and Persian content is checked.
+10. **Add progress and data controls (P10).** Define local backup/export/restore/erase behavior before account or sync work; add clear settings and privacy copy that match actual behavior.
+11. **Complete beta hardening (P12).** Freeze one candidate SHA, rerun automated and browser checks from a clean checkout, attach exact screenshots/results, resolve all blocking issues, verify the chosen deployment artifact and actual runtime, and publish known limitations.
+
+### Current execution checklist
+
+- [x] Written product/design/learning/quality specifications are present.
+- [x] First functional application slice is merged to `main`.
+- [x] Automated post-merge CI passed on the merged code tree.
+- [ ] Manual rendered-browser, usability and accessibility acceptance.
+- [ ] Human review of learner-facing Persian/Japanese starter content.
+- [ ] Selective source/license review complete.
+- [ ] Reproducible lockfile and clean-checkout install.
+- [ ] Recovery, expanded collections, import, and reading-transfer work.
+- [ ] Privacy/data lifecycle and offline/PWA acceptance as applicable.
+- [ ] Hosting configuration and public URL verified on the actual Vite build.
+- [ ] Candidate release evidence assembled and beta gate approved.
+
+**Repository boundary:** `ArdKam/kanji5` remains reference-only. All implementation and documentation changes must remain in `ArdKam/Rinemi2`.
+
+**Release policy:** a merge, green CI run, successful Pages workflow, or source artifact alone is not proof of a working hosted application. Completion must be recorded against the exact candidate commit and the evidence required by the relevant release gate.

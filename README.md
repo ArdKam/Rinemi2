@@ -4,7 +4,7 @@ Rinemi 2 is a separately developed, Persian-first kanji learning studio. Its int
 
 ## Current implementation
 
-**Status:** first functional vertical slice is in review on `feat/app-vertical-slice`. It is not production-ready and has not been deployed.
+**Status:** the first functional vertical slice is merged into `main` at [`50c0ab8`](https://github.com/ArdKam/Rinemi2/commit/50c0ab8ea028da8e803ac2b2cd5d1b1a2bc01a37). It is not production-ready. A GitHub Pages run reported success, but its artifact was built from the source tree by Jekyll rather than from Vite's `dist/`; the actual application runtime at the published URL remains unverified.
 
 Included in this slice:
 - Three primary destinations: Today, Learn and Explore.
@@ -25,6 +25,13 @@ Not yet implemented or accepted:
 - Collection rename, bulk operations and comprehensive collection management; Anki import; adaptive learner-model planning; and full reading-path integration.
 - Lockfile reproducibility, PWA/offline acceptance, full backup/export/deletion workflows and production hosting.
 - Public beta or a claim of measured learning efficacy.
+
+## Verification and deployment status
+
+- The post-merge [Rinemi2 CI run](https://github.com/ArdKam/Rinemi2/actions/runs/39160367180) passed on the merged code tree, including data/unit tests, TypeScript typecheck, Vite build, contrast checks and Playwright end-to-end tests (11/11).
+- Browser screenshots were captured in CI, but manual visual, usability and accessibility acceptance is still open. Automated green checks do not close those release gates.
+- The unexpected branch-based Pages deployment is tracked in [issue #7](https://github.com/ArdKam/Rinemi2/issues/7). Do not treat `https://ardkam.github.io/Rinemi2/` as a verified working application until a deliberate Vite `dist/` deployment and browser smoke test pass.
+- Hosting/public beta remains a release blocker until the hosting configuration and actual runtime are verified; this is not a production-readiness claim.
 
 ## Run locally
 
