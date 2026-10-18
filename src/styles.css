@@ -19,7 +19,6 @@
   --line-soft: var(--rinemi-color-border-subtle);
   --vermilion: var(--rinemi-color-action-primary-bg);
   --vermilion-hover: var(--rinemi-color-action-primary-hover-bg);
-  --vermilion-soft: color-mix(in srgb, var(--rinemi-color-action-primary-bg) 10%, var(--rinemi-color-bg-surface));
   --indigo: var(--rinemi-color-action-secondary-fg);
   --moss: var(--rinemi-color-success-fg);
   --focus: var(--rinemi-color-focus-ring);
@@ -44,8 +43,8 @@
 
 html { min-width: 320px; background: var(--canvas); scroll-behavior: smooth; }
 body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--canvas); color: var(--ink); }
-button, input, select { font: inherit; }
-button { color: inherit; }
+button, input, select, textarea { font: inherit; min-height: 44px; }
+button { min-width: 44px; color: inherit; cursor: pointer; }
 button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 button:disabled { opacity: .6; cursor: wait; }
 a { color: inherit; }
@@ -109,7 +108,7 @@ h1 { margin-bottom: 14px; font-size: clamp(32px, 4.1vw, 48px); line-height: 1.45
 .today-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 9px 22px; padding: 15px 0; color: var(--muted); font-size: 12px; }
 .status-banner { margin-top: 14px; padding: 12px 14px; border-inline-start: 3px solid var(--vermilion); background: var(--surface); color: var(--ink); font-size: 13px; line-height: 1.7; }
 .learn-topline { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
-.text-link { padding: 4px 0; border: 0; background: transparent; color: var(--rinemi-color-link); font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.text-link { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 4px 0; border: 0; background: transparent; color: var(--rinemi-color-link); font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .session-progress-line { display: flex; align-items: center; gap: 18px; margin-bottom: 16px; color: var(--muted); font-size: 12px; }
 .progress-track { width: min(260px, 42%); height: 4px; overflow: hidden; background: var(--line); }
 .progress-track span { display: block; height: 100%; background: var(--vermilion); transition: width 180ms ease; }
