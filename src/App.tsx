@@ -268,9 +268,8 @@ export default function App() {
       </div>
     </header>
 
-    {storageWarning && <div className="status-banner" role="status">{t.storageWarning}</div>}
-
     <main id="main-content" className="page-content">
+      {storageWarning && <div className="status-banner" role="status">{t.storageWarning}</div>}
       {page === "today" && <section className="today-page" aria-labelledby="today-title">
         <div className="today-heading"><p className="eyebrow">{t.kicker}</p><h1 id="today-title">{t.headline}</h1><p className="lede">{t.intro}</p></div>
         <section className="study-overview" aria-label={isFa ? "خلاصهٔ یادگیری" : "Study summary"}>
@@ -296,7 +295,7 @@ export default function App() {
       </section>}
 
       {page === "learn" && <section className="learn-page" aria-labelledby="learn-title">
-        <div className="learn-topline"><button className="text-link" type="button" onClick={() => setPage("today")}>← {t.back}</button><p className="eyebrow" id="learn-title">{t.recall}</p></div>
+        <div className="learn-topline"><button className="text-link" type="button" onClick={() => setPage("today")}>← {t.back}</button><h1 className="eyebrow" id="learn-title">{t.recall}</h1></div>
         {currentItem ? <>
           <div className="session-progress-line"><span className="session-counter" dir="ltr">{fmt(Math.min(sessionIndex + 1, queue.length), language)} / {fmt(queue.length, language)}</span><span>{t.progress}</span><div className="progress-track" role="progressbar" aria-label={t.progress} aria-valuemin={0} aria-valuemax={queue.length} aria-valuenow={Math.min(sessionIndex, queue.length)}><span style={{ width: (queue.length ? (sessionIndex / queue.length) * 100 : 0) + "%" }} /></div></div>
           <article className={"learning-sheet " + (revealed ? "is-revealed" : "")}>
