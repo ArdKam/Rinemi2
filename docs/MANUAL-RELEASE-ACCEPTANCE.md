@@ -47,6 +47,22 @@ For each item, record PASS, FAIL, or NOT RUN and attach a concise observation. �
 - [ ] Trigger an empty result, storage warning or other recoverable error where possible; verify the message is discoverable and is not announced repeatedly.
 - [ ] Check Persian RTL and English LTR with the actual Japanese character/reading content. Record screen reader and voice/language settings.
 
+## PWA installation and warm-cache offline behavior
+
+- [ ] On the deployed HTTPS URL, inspect the manifest link and both 192px/512px icons under the `/Rinemi2/` base path; confirm there are no root-path 404s.
+- [ ] Install the app on a supported desktop/mobile browser, open the installed version, and record the browser/OS and outcome; test update/reload after a new deployment.
+- [ ] With a warm online session, visit Today, Learn and Explore and reveal a card. Disable connectivity, reload/navigate and verify only the resources actually cached remain available; record missing-resource behavior explicitly.
+- [ ] Re-enable connectivity and confirm network-first behavior refreshes changed assets after an update; check for stale JS/CSS, a mixed-version shell, failed service-worker update, and recovery after cache clear/unregister.
+- [ ] Where possible, simulate denied/full browser storage and confirm cache-write failures do not break an otherwise successful online response.
+- [ ] Do not infer cold-start offline support: first visit without network and uncached resources are intentionally not guaranteed by the current warm-cache contract.
+
+## Source attribution and content/legal acceptance
+
+- [ ] Confirm the persistent footer attribution names KANJIDIC2/EDRDG and the licence/source links resolve to the official EDRDG statement and the repository provenance record.
+- [ ] Confirm source attribution and OFL 1.1 notices are present in the published artifact for Noto Serif JP, Plus Jakarta Sans and Vazirmatn. This verifies notice delivery only; it is not an owner/legal decision on the exact font binaries or reserved-font-name implications.
+- [ ] Obtain owner/legal approval for the exact copied KANJIDIC2-derived subset and CC BY-SA 4.0/share-alike obligations, the hand-curated topic taxonomy, identity assets/marks, font-binary provenance and the overall project license; record the decision in issue #25.
+- [ ] Review the 44 starter content records for Japanese readings/usage and Persian/English teaching explanations, record reviewers/date/source evidence in the content QA register, and update issue #24.
+
 ## Explore and collection usability
 
 - [ ] Search by character and text; clear query and filters; verify zero-results recovery.
@@ -68,6 +84,7 @@ Run these checks alongside the broader acceptance sections above. Findings and e
 - [ ] **UIUX-007 — Rendered evidence:** save and inspect current screenshots across language/theme/viewport states. Record deployed SHA, browser/OS, screenshot paths, and manual outcomes; do not reuse prior-run screenshots as proof of the current build.
 - [ ] **UIUX-008 — Documentation consistency:** confirm README, roadmap, open PRs, and deployment evidence describe current main accurately, distinguishing implemented behavior from branch-only work.
 - [ ] **UIUX-009 — Today clarity:** ask an unfamiliar reviewer what to do next on a new-learner and returning-learner state; record hesitation and whether featured editorial content is confused with scheduled work.
+- [ ] **PWA acceptance:** perform the installation, update, warm-cache offline, cache recovery, and base-path checks listed above on the exact candidate SHA.
 
 A check can be PASS only after a current run and evidence are recorded. A design choice that deliberately differs from a recommendation must be dispositioned in the register with rationale.
 
