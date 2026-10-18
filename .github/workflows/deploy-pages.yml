@@ -74,9 +74,29 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install locked dependencies for live browser verification
+        run: npm ci --no-audit --no-fund
+
+      - name: Install Chromium for live browser verification
+        run: npx playwright install --with-deps chromium
+
       - name: Deploy the Vite artifact
         id: deployment
         uses: actions/deploy-pages@v4
 
       - name: Smoke-test the live deployment
         run: node scripts/smoke-deployment.mjs "${{ steps.deployment.outputs.page_url }}"
+
+      - name: Verify the live React application in Chromium
+        env:
+          RINEMI_DEPLOY_URL: ${{ steps.deployment.outputs.page_url }}
+        run: npx playwright test --config=playwright.preview.config.ts
+
+      - name: Upload live-preview browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rinemi2-live-preview-evidence
+          path: artifacts/live-preview-*.png
+          if-no-files-found: ignore
+          retention-days: 14
