@@ -8,7 +8,7 @@ Rinemi 2 is a separately developed, Persian-first kanji learning studio. Its int
 
 Included in this slice:
 - Three primary destinations: Today, Learn and Explore.
-- Persian RTL by default; English LTR switch and light/dark theme.
+- Persian RTL by default; English LTR switch and light/dark/system theme preference (system follows the operating system).
 - Responsive editorial layout based on the written Sumi Play direction.
 - Learning card with reveal, review progress and Again/Hard/Good/Easy ratings.
 - Local FSRS scheduling, due-review queue and local browser storage.
@@ -17,6 +17,7 @@ Included in this slice:
 - Versioned local storage migration from v1 to v2 that preserves review records and bookmarks.
 - Small Persian gloss and vocabulary seed set, clearly distinguished from unreviewed source glosses.
 - Unit/data tests, Playwright browser journey tests, and CI screenshot artifacts.
+- Shared spacing, typography, radius, motion and focus tokens; semantic CSS consumers; system-theme bootstrap and browser `theme-color` synchronization.
 
 Not yet implemented or accepted:
 - Browser screenshot review and manual usability/accessibility acceptance.
