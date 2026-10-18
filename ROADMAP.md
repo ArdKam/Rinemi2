@@ -142,11 +142,11 @@ New scope requires a documented learner problem, expected benefit, content/sourc
 
 | Phase | Name | Outcome | Dependency | Status |
 |---|---|---|---|---|
-| P0 | Repository and evidence baseline | Separate, safe working boundary and verified reference baseline | None | NOT STARTED |
-| P1 | Product/UX blueprint | Agreed journeys, scope, screen inventory, and success criteria | P0 | NOT STARTED |
+| P0 | Repository and evidence baseline | Separate, safe working boundary and verified reference baseline | None | IN PROGRESS |
+| P1 | Product/UX blueprint | Journeys, scope, screen inventory, and success criteria drafted in specs | P0 | IN PROGRESS — planning docs drafted |
 | P2 | Visual direction baseline | Written Sumi Play direction accepted; generated visual concepts optional | P1 | DONE — image generation explicitly skipped by owner |
-| P3 | Art direction and design system | Approved tokens, type, components, illustration and mascot rules | P2 | NOT STARTED |
-| P4 | Content/data audit and source adapters | Trusted content foundation with provenance and failure handling | P0, parallel to P1–P3 | NOT STARTED |
+| P3 | Art direction and design system | Translate written direction into tokens/components, then browser-verify | P2 | IN PROGRESS |
+| P4 | Content/data audit and source adapters | Trusted content foundation with provenance and failure handling | P0, parallel to P1–P3 | IN PROGRESS |
 | P5 | Shell, navigation, onboarding, Today | First usable product skeleton with real content density | P3, P4 | NOT STARTED |
 | P6 | Learning card and practice journey | End-to-end learning, recall, feedback, ratings and recovery | P5, P4 | NOT STARTED |
 | P7 | Explore, Dictionary, detail, bookmarks | Find and save kanji without search/filter overload | P5, P4 | NOT STARTED |
@@ -208,20 +208,18 @@ Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.
 - [ ] Define a minimal set of useful product metrics: first session completion, time to first useful exercise, review completion, return after a missed day, search success, import success/error rates, and content correction reports.
 - [ ] Document any analytics as privacy-preserving, optional where appropriate, and never a prerequisite for core learning.
 
-**Acceptance:** every primary destination and flow has an explicit purpose, entry/exit states, failure behavior, and measurable usability acceptance. No build starts before the visual-concept gate.
+**Acceptance:** every primary destination and flow has an explicit purpose, entry/exit states, failure behavior, and measurable usability acceptance. Image mockups are optional; actual rendered UI verification is mandatory.
 
-## P2 — Visual concept selection
+## P2 — Visual direction baseline (DONE — image generation skipped)
 
-**Goal:** choose an art direction through rendered concepts, not adjectives alone.
+**Goal:** use the user's established written Sumi Play direction as the starting point without depending on generated mockups.
 
-- [ ] Produce exactly three distinct but brand-relevant visual directions for the same representative screen set: Today, unrevealed learning card, revealed card, Explore/detail, and mobile view.
-- [ ] Each direction must use realistic Persian and Japanese content, not English-only placeholder copy.
-- [ ] Include light and dark variants in enough detail to compare hierarchy and contrast.
-- [ ] Compare educational clarity, uniqueness, warmth, seriousness, RTL quality, mobile density, illustration cost, and implementation complexity.
-- [ ] Select one direction with the owner before UI scaffolding.
-- [ ] Record selected direction, rejected alternatives, trade-offs, and exceptions in [Decision Log](DECISIONS.md).
+- [x] Adopt the written direction: warm paper, sumi charcoal, restrained vermilion action accent, muted indigo and sakura as secondary accents, editorial Japanese typography, native Persian RTL, generous whitespace, restrained surfaces, and a calm nonchalant cat companion used selectively.
+- [x] Do not generate mockups or block implementation on image generation; the owner explicitly asked to skip it.
+- [ ] Validate the direction on actual rendered screens in-browser, including Persian RTL/English LTR, light/dark themes, mobile and desktop.
+- [ ] Refine palette and components based on contrast/accessibility checks and real content density.
 
-**Acceptance:** selected concept is explicit; no code-generated screen is treated as final without browser verification.
+**Acceptance:** written art direction is the baseline; the real browser-rendered slice becomes the visual target for refinement. A generated picture is optional, not acceptance evidence.
 
 ## P3 — Art direction and design system
 
@@ -534,8 +532,8 @@ Planning baseline only; no UI, application code, engine integration, import pars
 1. [ ] Review this roadmap and specialist plan documents for internal consistency.
 2. [ ] Complete P0 reference/reuse inventory using current evidence.
 3. [ ] Complete P1 journeys and acceptance criteria.
-4. [ ] Produce and compare the three visual concepts for P2; wait for the owner’s selection.
-5. [ ] Start P3/P4 in small reviewable increments.
+4. [x] Use the user's existing written Sumi Play direction as the P2 baseline; image generation is skipped and is not a blocker.
+5. [ ] Continue P3/P4 in small reviewable increments.
 6. [ ] Build vertical Slice A only after Gate A.
 7. [ ] Keep `kanji5` untouched throughout.
 
