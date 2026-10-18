@@ -11,11 +11,11 @@ test("Today starts a useful session and learning rating advances the queue", asy
   await expect(page).toHaveTitle(/Rinemi/);
   await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
   await expect(page.locator(".brand-mark-light")).toBeVisible();
-  const serifLoaded = await page.evaluate(async () => {
+  const serifState = await page.evaluate(async () => {
     await document.fonts.ready;
-    return document.fonts.check('400 72px "Noto Serif JP"');
+    return Array.from(document.fonts).find(face => face.family.includes("Noto Serif JP"))?.status ?? "missing";
   });
-  expect(serifLoaded).toBe(true);
+  expect(serifState).toBe("loaded");
   await expect(page.getByRole("heading", { name: "امروز، یک قدم به خواندن نزدیک‌تر." })).toBeVisible();
   await expect(page.locator(".hero-kanji-glyph")).toHaveText("日");
   await page.screenshot({ path: "artifacts/today-fa-light.png", fullPage: true });
@@ -23,7 +23,7 @@ test("Today starts a useful session and learning rating advances the queue", asy
   await page.getByRole("button", { name: /شروع یادگیری/ }).click();
   await expect(page.locator(".prompt-kanji")).toHaveText("日");
   await page.getByRole("button", { name: /نمایش پاسخ/ }).click();
-  await expect(page.getByText("معنای یادگیرنده")).toBeVisible();
+  await expect(page.getByText("معنای فارسی آغازین")).toBeVisible();
   await expect(page.locator(".answer-heading h2")).toHaveText("خورشید؛ روز");
   await page.screenshot({ path: "artifacts/learning-revealed-fa-light.png", fullPage: true });
 
