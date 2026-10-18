@@ -41,7 +41,7 @@ assert.ok(
     const url = new URL(source, baseUrl);
     return url.origin === baseUrl.origin
       && url.pathname.startsWith(`${baseUrl.pathname}assets/`)
-      && /\\.m?js$/i.test(url.pathname);
+      && /\.m?js$/i.test(url.pathname);
   }),
   `No compiled JavaScript bundle was found under ${baseUrl.pathname}assets/`
 );
