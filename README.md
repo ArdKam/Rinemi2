@@ -20,4 +20,4 @@ Rinemi 2 is a clean, separately developed Persian-first kanji learning studio. I
 
 ## Current status
 
-The initial planning documents live on `docs/product-blueprint-roadmap` pending review. No application code or production deployment is claimed. The first implementation gate requires an agreed product blueprint and an owner-selected visual direction before UI scaffolding starts.
+The initial planning documents live on `docs/product-blueprint-roadmap` pending review. No application code or production deployment is claimed. The written Sumi Play direction is the approved starting point. Image generation is optional and explicitly skipped; the first implementation slice must be verified in a real browser before expanding.
