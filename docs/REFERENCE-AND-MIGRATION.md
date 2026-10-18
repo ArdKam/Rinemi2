@@ -23,6 +23,22 @@ Classify candidate material as one of:
 
 Every decision needs a row in the reuse inventory: item/path, exact inspected commit SHA, purpose, authority, upstream license, dependencies, test coverage, target decision, adaptation plan and reviewer.
 
+
+### Default priority and ordering
+
+The detailed candidate/status register is [`docs/KANJI5-REUSE-INVENTORY.md`](KANJI5-REUSE-INVENTORY.md). Read it before every inspection or extraction and update it as decisions are verified. The register lists audit candidates; it does not mean any candidate has passed data, legal, architectural or UX acceptance.
+
+Use this default sequence:
+
+1. **First, establish the gap on current Rinemi 2.** Rinemi 2 already has its own 2,136-kanji corpus, topic/JLPT filtering, a reveal-and-rate study loop, local `ts-fsrs` scheduling, bookmarks, named collections, backup/restore and local-data erasure. Check the current implementation, open PRs, tests and rendered pages before proposing work; don't recreate an existing capability just because Kanji5 has a parallel version.
+2. **Audit high-value educational data.** Compare topic assignments, vocabulary examples, word-specific readings, component/visual-structure information and stroke-order resources field-by-field. Transfer only validated gaps or demonstrably better sourced content. Record provenance and license; treat source glosses as source glosses, not reviewed Persian teaching content.
+3. **Reproduce the learning behavior deliberately.** Learn from Kanji5's Meaning, Reading, Production, Vocabulary and Context contracts, learner-model/planner behavior and recovery rules. Start with a crisp recall target and reliable answer feedback; add a mode only when its content, grading contract and maintenance cost are acceptable.
+4. **Add memory aids and reference depth progressively.** Mnemonics, component breakdown and similar-kanji contrasts must be trustworthy, clearly labeled and subordinate to the core answer. The review card is not the entire dictionary.
+5. **Defer broader reading pathways and complex integrations until the core passes acceptance.** A Reading Lab, additional adaptive modes, account/sync or broader import support must solve a specific learner need and have their own content/data/security acceptance. Feature parity by itself is not a reason to expand scope.
+
+For every candidate, choose one explicit outcome: reuse unchanged, reuse through an adapter, transform/re-author, reference only, or exclude. Do not turn this priority order into a claim that any phase is already complete; `ROADMAP.md` remains authoritative for phase status.
+
+
 ## 3. Priority audit targets
 
 Inspect selectively, not by blindly copying the repository:
