@@ -20,13 +20,15 @@ Included in this slice:
 - Unit/data tests, Playwright browser journey tests, automated axe checks, and CI screenshot artifacts.
 - Shared spacing, typography, radius, motion and focus tokens; semantic CSS consumers; system-theme bootstrap and browser `theme-color` synchronization.
 - Committed `package-lock.json`; CI and Pages install dependencies with `npm ci`.
+- PWA install/offline groundwork: web manifest, 192/512px app icons, base-path-scoped service worker and warm-cache offline browser tests. Release acceptance remains pending.
 
 Not yet implemented or accepted:
 - Manual browser screenshot review and keyboard/focus, zoom, reduced-motion/forced-colors, screen-reader and broader usability acceptance.
 - Human review of Persian glosses, Japanese readings/examples and translations in the starter set; the register currently marks these unreviewed.
 - Independent license/provenance confirmation for the corpus, topic taxonomy, identity assets and bundled fonts; owner approval of the overall project license.
 - Multi-item collection selection/bulk add-remove and broader collection management; end-to-end Anki import (text preview/field mapping exists, but no notes are persisted or scheduled); adaptive learner-model planning; and full reading-path integration.
-- Manual acceptance and storage-failure review of the backup/restore/erasure controls; complete privacy/legal review and offline/PWA acceptance.
+- Manual installation/update/cache-recovery checks for the PWA, plus keyboard/screen-reader/zoom/forced-colors acceptance and storage-failure review of backup/restore/erasure controls.
+- Complete privacy/legal review; cold-start offline use, sync and cloud recovery are not claimed.
 - Public beta or any claim of measured learning efficacy.
 
 ## Verification and deployment status
