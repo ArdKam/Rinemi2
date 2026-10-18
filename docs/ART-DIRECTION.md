@@ -183,6 +183,13 @@ Review:
 - hierarchy, rhythm, typography, density, spacing, content accuracy, clipping, scroll position, contrast, visual consistency, and action clarity.
 - If a screenshot differs from the approved design, record the difference and resolve it. A running app screenshot is required; source inspection alone is insufficient.
 
+
+### Review-register requirements
+
+Before accepting any major screen or responsive refinement, consult the [UI/UX review register](UI-UX-REVIEW-REGISTER.md) and capture the relevant finding states. In particular, do not treat Explore as visually accepted until both the results view and a selected kanji detail are inspected on mobile; do not treat the learning card as accepted until the revealed state and review-action reachability are inspected on short screens; and do not treat dictionary rows as accepted until long Persian/English glosses and Japanese readings are reviewed.
+
+For every major change, inspect current rendered screenshots for Persian RTL and English LTR, light and dark themes, narrow phone, typical phone, compact landscape, tablet/desktop, and relevant selected/focused/empty/error states. Save and inspect the exact screenshot used as evidence, link it to the commit and finding ID, and keep unverified layout risks open. Source inspection and automated assertions alone are not rendered visual acceptance.
+
 ## 11. What not to introduce
 
 Do not create parallel visual systems or add another token library without a documented gap. Avoid gradients, glassmorphism, excessive rounding, excessive shadows, arbitrary status badges, multiple competing accent colors, icons without clear semantics, and one-off inline styles. Existing palette names are not a reason to use every color frequently.
