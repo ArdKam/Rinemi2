@@ -2,8 +2,11 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import fs from "node:fs";
 
-test.beforeEach(() => {
+test.beforeEach(async ({ page }) => {
   fs.mkdirSync("artifacts", { recursive: true });
+  await page.addInitScript(() => {
+    if (!localStorage.getItem("rinemi.theme")) localStorage.setItem("rinemi.theme", "light");
+  });
 });
 
 test("Today starts a useful session and learning rating advances the queue", async ({ page }) => {
@@ -173,6 +176,64 @@ test("primary screens pass automated WCAG 2.1/2.2 A/AA checks", async ({ page })
 });
 
 
+test("all language/theme pairs render and keep browser chrome color synchronized", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const combinations = [
+    { language: "fa", theme: "light", direction: "rtl" },
+    { language: "fa", theme: "dark", direction: "rtl" },
+    { language: "en", theme: "light", direction: "ltr" },
+    { language: "en", theme: "dark", direction: "ltr" }
+  ] as const;
+
+  for (const combination of combinations) {
+    await page.goto("/");
+    await page.evaluate(({ language, theme }) => {
+      const previous = JSON.parse(localStorage.getItem("rinemi2:local:v2") || "{}");
+      localStorage.setItem("rinemi.theme", theme);
+      localStorage.setItem("rinemi2:local:v2", JSON.stringify({
+        ...previous,
+        version: 2,
+        language,
+        theme,
+        bookmarks: previous.bookmarks ?? [],
+        collections: previous.collections ?? [],
+        reviews: previous.reviews ?? {}
+      }));
+    }, combination);
+    await page.reload();
+    await expect(page.locator("html")).toHaveAttribute("dir", combination.direction);
+    await expect(page.locator("html")).toHaveAttribute("data-theme", combination.theme);
+    await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute(
+      "content",
+      combination.theme === "dark" ? "#1D2022" : "#F7F4EE"
+    );
+    await expect(page.getByRole("button", { name: combination.language === "fa" ? "یادگیری" : "Learn" })).toBeVisible();
+    await page.screenshot({ path: `artifacts/theme-${combination.language}-${combination.theme}.png`, fullPage: true });
+  }
+});
+
+test("system theme follows OS preference changes and can be persisted as an explicit preference", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.goto("/");
+  await page.evaluate(() => {
+    const previous = JSON.parse(localStorage.getItem("rinemi2:local:v2") || "{}");
+    localStorage.setItem("rinemi.theme", "system");
+    localStorage.setItem("rinemi2:local:v2", JSON.stringify({ ...previous, version: 2, language: "fa", theme: "system" }));
+  });
+  await page.reload();
+
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute("content", "#1D2022");
+
+  await page.emulateMedia({ colorScheme: "light" });
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute("content", "#F7F4EE");
+
+  await page.getByRole("button", { name: "حالت روشن" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.evaluate(() => localStorage.getItem("rinemi.theme"))).resolves.toBe("light");
+});
+
 test("saved language and theme are applied before the React module boots", async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem("rinemi2:local:v2", JSON.stringify({
@@ -183,6 +244,7 @@ test("saved language and theme are applied before the React module boots", async
       collections: [],
       reviews: {}
     }));
+    localStorage.setItem("rinemi.theme", "dark");
   });
   await page.route("**/src/main.tsx", route => route.abort());
   await page.goto("/", { waitUntil: "domcontentloaded" });
