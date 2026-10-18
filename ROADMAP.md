@@ -27,14 +27,15 @@ This is a new, separate product implementation. It may selectively reuse verifie
 
 ### 0.2 Source-of-truth documents
 
-- **This file — [ROADMAP.md](../ROADMAP.md):** phase order, status, dependencies, release gates, scope.
-- **[Product & UX specification](PRODUCT-AND-UX-SPEC.md):** target users, navigation, screen inventory, user journeys, interaction rules.
-- **[Art direction & design system](ART-DIRECTION.md):** visual principles, type/color roles, component and illustration rules, mascot.
-- **[Learning design](LEARNING-DESIGN.md):** teaching sequence, card pedagogy, practice modes, content quality and evidence requirements.
-- **[Reference & migration plan](REFERENCE-AND-MIGRATION.md):** what can be reused from `kanji5`, verification procedure, boundaries, licensing, data migration.
-- **[Quality & release plan](QUALITY-AND-RELEASE.md):** test matrix, accessibility, content QA, security, release and evidence.
-- **[Decision log](DECISIONS.md):** consequential decisions, alternatives, reasons, open questions.
-- **[README.md](../README.md):** concise entry point and current status.
+- **This file — [ROADMAP.md](ROADMAP.md):** phase order, status, dependencies, release gates, scope.
+- **[Product & UX specification](docs/PRODUCT-AND-UX-SPEC.md):** target users, navigation, screen inventory, user journeys, interaction rules.
+- **[Art direction](docs/ART-DIRECTION.md):** creative intent, visual principles, components, illustration rules and mascot.
+- **[Design token contract](docs/DESIGN-TOKENS.md):** semantic token policy, primary-action decision, typography/spacing/geometry rules, theme contract and validation; runtime values live in `src/styles/design-tokens.css`.
+- **[Learning design](docs/LEARNING-DESIGN.md):** teaching sequence, card pedagogy, practice modes, content quality and evidence requirements.
+- **[Reference & migration plan](docs/REFERENCE-AND-MIGRATION.md):** what can be reused from `kanji5`, verification procedure, boundaries, licensing, data migration.
+- **[Quality & release plan](docs/QUALITY-AND-RELEASE.md):** test matrix, accessibility, content QA, security, release and evidence.
+- **[Decision log](docs/DECISIONS.md):** consequential decisions, alternatives, reasons, open questions.
+- **[README.md](README.md):** concise entry point and current status.
 
 If documents conflict, this roadmap governs execution order; the specialist specification governs the details in its own domain. Update the decision log when a scope or architecture decision changes.
 
@@ -226,19 +227,22 @@ Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.
 **Goal:** establish one tokenized visual language before polishing individual features.
 
 - [ ] Finalize brand signature, logo/mark placement and wordmark behavior in RTL.
-- [ ] Define palette roles, including primary action, secondary accent, focus, success, warning, error, informational, borders, surfaces, overlays, and disabled states.
-- [ ] Verify text and control contrast in light/dark themes; do not rely on color alone for semantic status.
-- [ ] Define typography and line-height for Persian, English, kana, kanji, readings, dense dictionary entries, and large character displays.
-- [ ] Define spacing, radius, border, shadow/elevation, layout widths, breakpoints, layering, motion, focus and disabled tokens.
-- [ ] Set a default rule against unnecessary nested cards, decorative gradients, arbitrary badges, and component-level style patches.
-- [ ] Specify buttons, icon buttons, chips, segmented controls, search/filter fields, menus, dialogs, toasts, progress indicators, skeletons, error panels, lists, dictionary entries, review ratings, tabs and navigation.
-- [ ] Define interaction states: idle, hover, focus, active, selected, disabled, loading, success, warning, destructive, and failure.
-- [ ] Define reduced-motion alternatives and ensure motion communicates state or teaches a skill.
-- [ ] Create illustration and mascot standards; establish which screens merit custom artwork and which must remain typographic.
-- [ ] Build a small rendered component gallery to verify tokens on actual devices and themes.
-- [ ] Add design QA screenshots to PRs when visual behavior changes.
+- [x] Create the canonical runtime token sheet at `src/styles/design-tokens.css` for semantic colors, surfaces, actions, selection, focus, statuses, typography, spacing, radii, borders, elevation, layering and motion.
+- [x] Record the primary-action decision: vermilion/coral in both themes, indigo for secondary actions and links, and separate destructive/error roles (D-012).
+- [x] Add automated contrast checks for text, actions, status surfaces, selection and focus; current checker evaluates 70 semantic pairs across both themes.
+- [x] Define type families/scale, spacing, radius, border, target size, shadow/elevation, layering, motion and focus tokens.
+- [x] Add a pre-React bootstrap that reads `rinemi.theme` (with legacy-store fallback) and resolves `data-theme` before React mounts.
+- [x] Make the current React shell use the shared preference resolver and document-root theme; preserve existing local-store preferences during migration.
+- [x] Remove the duplicated light/dark hex palette from the current global CSS; compatibility aliases now point to semantic tokens. Continue migrating individual component spacing/type values incrementally.
+- [x] Define reduced-motion behavior and use semantic roles for links, secondary actions, warning feedback, primary actions and review statuses.
+- [x] Add the contrast and theme-bootstrap checks to GitHub Actions and the `npm test` command.
+- [ ] Specify and verify the full component state matrix for dialogs, toasts, menus, empty/error/loading states, tabs, filters, navigation and import components as they are implemented.
+- [ ] Implement onboarding using the same token sheet and preference contract; onboarding is not yet part of the current app slice.
+- [ ] Build a rendered token/component gallery and inspect it in a real browser.
+- [ ] Review actual screenshots in Persian RTL / English LTR, light / dark, mobile / desktop, keyboard focus, reduced motion, dense vocabulary and storage-warning states.
+- [ ] Confirm actual font loading, glyph coverage, overlay opacity, all interactive border/focus boundaries and contrast in the rendered UI.
 
-**Acceptance:** one coherent token/component baseline; no parallel token set; core components render consistently in Persian RTL, English LTR, light and dark mode.
+**Acceptance:** one semantic token source; no duplicate app palette; the preference is resolved before React starts; current React and global styles read the shared token contract; no standard component needs a local duplicate palette. P3 remains **IN PROGRESS** until browser-rendered and manual accessibility evidence is recorded.
 
 ## P4 — Content/data audit and source adapters
 
