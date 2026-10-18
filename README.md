@@ -4,11 +4,12 @@ Rinemi 2 is a separately developed, Persian-first kanji learning studio. Its int
 
 ## Current implementation
 
-**Status:** first functional vertical slice is in review on `feat/app-vertical-slice`. It is not production-ready and has not been deployed.
+**Status:** the functional learning/discovery slice is under review on `feat/app-vertical-slice`; semantic-token and pre-React theme integration is being reviewed separately on `feat/design-system-runtime-v4`. Neither candidate is production-ready or deployed.
 
 Included in this slice:
 - Three primary destinations: Today, Learn and Explore.
 - Persian RTL by default; English LTR switch and light/dark theme.
+- Shared semantic token sheet and a pre-React resolver for saved/system theme preference, wired into the current React shell on the design-system candidate branch.
 - Responsive editorial layout based on the written Sumi Play direction.
 - Learning card with reveal, review progress and Again/Hard/Good/Easy ratings.
 - Local FSRS scheduling, due-review queue and local browser storage.
@@ -27,7 +28,7 @@ Not yet implemented or accepted:
 
 ## Run locally
 
-Requires Node.js 22 or newer.
+Requires Node.js 22.12 or newer; CI uses Node.js 24.
 
 ```bash
 npm install
@@ -49,12 +50,13 @@ The repository currently does not include a committed npm lockfile. Generate and
 
 1. [Roadmap and release gates](ROADMAP.md)
 2. [Product and UX specification](docs/PRODUCT-AND-UX-SPEC.md)
-3. [Art direction and design system](docs/ART-DIRECTION.md)
-4. [Learning design and content QA](docs/LEARNING-DESIGN.md)
-5. [Reference and migration policy](docs/REFERENCE-AND-MIGRATION.md)
-6. [Quality and release policy](docs/QUALITY-AND-RELEASE.md)
-7. [Data-source provenance](docs/DATA-SOURCES.md)
-8. [Decision log](docs/DECISIONS.md)
+3. [Art direction](docs/ART-DIRECTION.md)
+4. [Design token contract](docs/DESIGN-TOKENS.md) — canonical semantic roles, theme integration and validation policy; runtime tokens live in `src/styles/design-tokens.css`.
+5. [Learning design and content QA](docs/LEARNING-DESIGN.md)
+6. [Reference and migration policy](docs/REFERENCE-AND-MIGRATION.md)
+7. [Quality and release policy](docs/QUALITY-AND-RELEASE.md)
+8. [Data-source provenance](docs/DATA-SOURCES.md)
+9. [Decision log](docs/DECISIONS.md)
 
 ## Repository boundary
 
