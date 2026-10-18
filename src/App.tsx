@@ -108,6 +108,7 @@ export default function App() {
   const [storageWarning, setStorageWarning] = useState(initial.warning);
   const [persistAllowed] = useState(!initial.warning);
   const [page, setPage] = useState<Page>("today");
+  const previousPageRef = useRef<Page | null>(null);
   const [query, setQuery] = useState("");
   const [level, setLevel] = useState("all");
   const [topicId, setTopicId] = useState("all");
@@ -158,6 +159,13 @@ export default function App() {
     document.documentElement.dir = isFa ? "rtl" : "ltr";
     return applyThemePreference(store.theme);
   }, [language, isFa, store.theme]);
+  useEffect(() => {
+    const previousPage = previousPageRef.current;
+    previousPageRef.current = page;
+    if (previousPage === null || previousPage === page) return;
+    const headingId = page === "today" ? "today-title" : page === "learn" ? "learn-title" : "explore-title";
+    document.getElementById(headingId)?.focus({ preventScroll: true });
+  }, [page]);
   useEffect(() => {
     if (!persistAllowed) return;
     try { persistStore(store); setStorageWarning(false); }
@@ -548,7 +556,7 @@ export default function App() {
         <button className="utility-button theme-switch" type="button" onClick={() => setStore(previous => ({ ...previous, theme: previous.theme === "light" ? "dark" : previous.theme === "dark" ? "system" : "light" }))} aria-label={store.theme === "light" ? t.dark : store.theme === "dark" ? t.systemAppearance : t.light} title={store.theme === "system" ? t.systemAppearance : undefined}>
           <span className="theme-icon" aria-hidden="true">{resolveEffectiveTheme(store.theme) === "dark" ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M20.2 15.2A8.5 8.5 0 0 1 8.8 3.8 8.7 8.7 0 1 0 20.2 15.2Z" /></svg> : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2.1M12 19.9V22M4.93 4.93l1.48 1.48m11.18 11.18 1.48 1.48M2 12h2.1m15.8 0H22M4.93 19.07l1.48-1.48M17.59 6.41l1.48-1.48" /></svg>}</span><span className="utility-label">{store.theme === "light" ? t.dark : store.theme === "dark" ? t.systemAppearance : t.light}</span>
         </button>
-        <button className="utility-button data-tools-toggle" type="button" aria-expanded={dataToolsOpen} aria-controls="data-management-panel" onClick={() => setDataToolsOpen(open => !open)}>{t.dataControls}</button>
+        <button className="utility-button data-tools-toggle" type="button" aria-label={t.dataControls} aria-expanded={dataToolsOpen} aria-controls="data-management-panel" onClick={() => setDataToolsOpen(open => !open)}><svg className="data-tools-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /><circle cx="9" cy="6" r="2" fill="var(--surface)" /><circle cx="15" cy="12" r="2" fill="var(--surface)" /><circle cx="8" cy="18" r="2" fill="var(--surface)" /></svg><span className="data-tools-label">{t.dataControls}</span></button>
       </div>
     </header>
 
@@ -585,7 +593,7 @@ export default function App() {
     <main id="main-content" className="page-content">
       {storageWarning && <div className="status-banner" role="status">{t.storageWarning}</div>}
       {page === "today" && <section className="today-page" aria-labelledby="today-title">
-        <div className="today-heading"><p className="eyebrow">{t.kicker}</p><h1 id="today-title">{t.headline}</h1><p className="lede">{t.intro}</p></div>
+        <div className="today-heading"><p className="eyebrow">{t.kicker}</p><h1 id="today-title" tabIndex={-1}>{t.headline}</h1><p className="lede">{t.intro}</p></div>
         <section className="study-overview" aria-label={isFa ? "خلاصهٔ یادگیری" : "Study summary"}>
           <div className="overview-primary">
             <div className="overview-copy">
@@ -609,7 +617,7 @@ export default function App() {
       </section>}
 
       {page === "learn" && <section className="learn-page" aria-labelledby="learn-title">
-        <div className="learn-topline"><button className="text-link" type="button" onClick={() => setPage("today")}>{isFa ? "←" : "→"} {t.back}</button><h1 className="eyebrow" id="learn-title">{t.recall}</h1></div>
+        <div className="learn-topline"><button className="text-link" type="button" onClick={() => setPage("today")}>{isFa ? "←" : "→"} {t.back}</button><h1 className="eyebrow" id="learn-title" tabIndex={-1}>{t.recall}</h1></div>
         {currentItem ? <>
           <div className="session-progress-line"><span className="session-counter" dir="ltr">{fmt(Math.min(sessionIndex + 1, queue.length), language)} / {fmt(queue.length, language)}</span><span>{t.progress}</span><div className="progress-track" role="progressbar" aria-label={t.progress} aria-valuemin={0} aria-valuemax={queue.length} aria-valuenow={Math.min(sessionIndex, queue.length)}><span style={{ width: (queue.length ? (sessionIndex / queue.length) * 100 : 0) + "%" }} /></div></div>
           <article className={"learning-sheet " + (revealed ? "is-revealed" : "")}>
@@ -626,7 +634,7 @@ export default function App() {
       </section>}
 
       {page === "explore" && <section className="explore-page" aria-labelledby="explore-title">
-        <div className="explore-heading"><p className="eyebrow">{t.explore}</p><h1 id="explore-title">{t.searchTitle}</h1><p className="lede">{t.searchHelp}</p></div>
+        <div className="explore-heading"><p className="eyebrow">{t.explore}</p><h1 id="explore-title" tabIndex={-1}>{t.searchTitle}</h1><p className="lede">{t.searchHelp}</p></div>
         <div className="explore-tools">
           <label className="search-field"><span className="visually-hidden">{t.searchTitle}</span><span className="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="10.8" cy="10.8" r="6.6" /><path d="m16 16 4.2 4.2" /></svg></span><input value={query} onChange={event => setQuery(event.target.value)} placeholder={t.searchPlaceholder} autoComplete="off" />{query && <button type="button" className="clear-search" aria-label={t.clear} onClick={() => setQuery("")}>×</button>}</label>
           <div className="filter-row">
