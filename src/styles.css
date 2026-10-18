@@ -947,7 +947,8 @@ p:last-child {
   .header-control,
   .nav-item,
   .rating-button {
-    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+    /* Avoid low-contrast intermediate frames when light/dark tokens switch. */
+    transition: border-color 120ms ease;
   }
 }
 
