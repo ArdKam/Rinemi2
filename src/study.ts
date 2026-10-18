@@ -1,4 +1,5 @@
 import { createEmptyCard, fsrs, Rating } from "ts-fsrs";
+import { readThemePreference, type ThemePreference } from "./theme";
 
 export type ReviewRating = "Again" | "Hard" | "Good" | "Easy";
 type SavedCard = { due: string | Date; last_review?: string | Date; state: number; [key: string]: unknown };
@@ -7,7 +8,7 @@ export type SavedCollection = { id: string; name: string; characters: string[]; 
 export type AppStore = {
   version: 2;
   language: "fa" | "en";
-  theme: "light" | "dark";
+  theme: ThemePreference;
   bookmarks: string[];
   collections: SavedCollection[];
   reviews: Record<string, ReviewRecord>;
@@ -27,7 +28,7 @@ const scheduler = fsrs({
 });
 
 export function createFreshStore(): AppStore {
-  return { version: 2, language: "fa", theme: "light", bookmarks: [], collections: [], reviews: {} };
+  return { version: 2, language: "fa", theme: "system", bookmarks: [], collections: [], reviews: {} };
 }
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
@@ -76,7 +77,7 @@ function parseStore(raw: string): AppStore | null {
   try { parsed = JSON.parse(raw); } catch { return null; }
   if (!isRecord(parsed) || (parsed.version !== 1 && parsed.version !== 2) || !isRecord(parsed.reviews) || !Array.isArray(parsed.bookmarks)) return null;
   const language = parsed.language === "en" ? "en" : "fa";
-  const theme = parsed.theme === "dark" ? "dark" : "light";
+  const theme = readThemePreference(parsed.theme);
   return {
     version: 2,
     language,
@@ -86,24 +87,30 @@ function parseStore(raw: string): AppStore | null {
     reviews: normalizeReviews(parsed.reviews)
   };
 }
+function freshStoreWithThemePreference(): AppStore {
+  return { ...createFreshStore(), theme: readThemePreference() };
+}
 export function loadStore(): { store: AppStore; warning: boolean } {
-  if (typeof window === "undefined") return { store: createFreshStore(), warning: false };
+  if (typeof window === "undefined") return { store: freshStoreWithThemePreference(), warning: false };
   try {
     const currentRaw = window.localStorage.getItem(STORAGE_KEY);
     if (currentRaw !== null) {
       const current = parseStore(currentRaw);
-      return current ? { store: current, warning: false } : { store: createFreshStore(), warning: true };
+      return current ? { store: current, warning: false } : { store: freshStoreWithThemePreference(), warning: true };
     }
     const legacyRaw = window.localStorage.getItem(LEGACY_STORAGE_KEY);
-    if (legacyRaw === null) return { store: createFreshStore(), warning: false };
+    if (legacyRaw === null) return { store: freshStoreWithThemePreference(), warning: false };
     const legacy = parseStore(legacyRaw);
-    return legacy ? { store: legacy, warning: false } : { store: createFreshStore(), warning: true };
+    return legacy ? { store: legacy, warning: false } : { store: freshStoreWithThemePreference(), warning: true };
   } catch {
-    return { store: createFreshStore(), warning: true };
+    return { store: freshStoreWithThemePreference(), warning: true };
   }
 }
 export function persistStore(store: AppStore): void {
-  if (typeof window !== "undefined") window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...store, version: 2 }));
+  if (typeof window !== "undefined") {
+    window.localStorage.setItem("rinemi.theme", store.theme);
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...store, version: 2 }));
+  }
 }
 function createId(): string {
   try {
