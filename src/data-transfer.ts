@@ -1,5 +1,5 @@
-import type { AppStore } from "./study";
-import { normalizeStoreSnapshot } from "./study";
+import type { AppStore } from "./study.ts";
+import { normalizeStoreSnapshot } from "./study.ts";
 
 export const RINEMI_BACKUP_FORMAT = "rinemi2-local-backup";
 export const RINEMI_BACKUP_SCHEMA_VERSION = 1;
