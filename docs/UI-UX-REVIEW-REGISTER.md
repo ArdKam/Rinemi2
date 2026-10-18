@@ -3,7 +3,7 @@
 **Status:** Active; source review recorded on 2026-10-19. Rendered-browser visual acceptance remains outstanding.  
 **Scope:** Responsive UI, core learning flow, Explore/dictionary, keyboard interaction, design-system execution, and documentation accuracy.  
 **Target repository:** `ArdKam/Rinemi2`.  
-**Review baseline:** `ce6356b9d253465c48db96bad7e26e0ed2199f41` (main, checked 2026-10-19).  
+**Review baseline:** `63c42c0106218d6bfaf6cca3296c34cf95776e9d` (main, checked 2026-10-19).  
 **Public preview:** https://ardkam.github.io/Rinemi2/
 
 This register preserves review findings between inspections. It is the canonical place to track UI/UX findings, severity, evidence, disposition, and acceptance criteria. The product and UX specification owns intended behavior; the art direction and design-token contract own visual rules; the roadmap owns phase order and release status; this register owns the durable list of review findings and their verification state.
@@ -19,7 +19,7 @@ This register preserves review findings between inspections. It is the canonical
 
 ## 2. Audit snapshot and evidence limits
 
-The source and documentation review checked the main baseline above, including `src/App.tsx`, `src/styles.css`, `e2e/core-journey.spec.ts`, `docs/PRODUCT-AND-UX-SPEC.md`, `docs/ART-DIRECTION.md`, `docs/DESIGN-TOKENS.md`, `docs/MANUAL-RELEASE-ACCEPTANCE.md`, `docs/QUALITY-AND-RELEASE.md`, `README.md`, and `ROADMAP.md`.
+The source and documentation review checked the main baseline above, including `src/App.tsx`, `src/styles.css`, `e2e/core-journey.spec.ts`, `e2e/keyboard-transaction.spec.ts`, `docs/PRODUCT-AND-UX-SPEC.md`, `docs/ART-DIRECTION.md`, `docs/DESIGN-TOKENS.md`, `docs/MANUAL-RELEASE-ACCEPTANCE.md`, `docs/QUALITY-AND-RELEASE.md`, `README.md`, and `ROADMAP.md`.
 
 The recorded GitHub Actions live Chromium journey on commit `de3b9efb89698e395346be8fcdd77ef11517f87c` verifies a prior deployment's minimum learner journey, locale/theme switching, asset loading, and no horizontal overflow at a 390px viewport. It is **historical smoke-test evidence**, not visual acceptance of the current main commit or every state in this register. See [the recorded deployment and browser run](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054).
 
@@ -31,20 +31,20 @@ No fresh screenshots were captured or visually inspected for this register entry
 
 - **Priority:** P1 — high-impact core discovery flow.
 - **Status:** NEEDS RENDERED VERIFICATION; implementation change required if reproduced as expected.
-- **Evidence:** `src/App.tsx` renders the results section before the selected kanji's `.kanji-detail` panel (see [results](https://github.com/ArdKam/Rinemi2/blob/main/src/App.tsx#L542) and [detail panel](https://github.com/ArdKam/Rinemi2/blob/main/src/App.tsx#L552)). `src/styles.css` converts `.explore-layout` to one column at 680px and changes the detail panel from sticky to static (see [responsive rule](https://github.com/ArdKam/Rinemi2/blob/main/src/styles.css#L313)). The list may render up to 240 rows.
+- **Evidence:** `src/App.tsx` renders the results section before the selected kanji's `.kanji-detail` panel (see [results](https://github.com/ArdKam/Rinemi2/blob/main/src/App.tsx#L557) and [detail panel](https://github.com/ArdKam/Rinemi2/blob/main/src/App.tsx#L567)). `src/styles.css` converts `.explore-layout` to one column at 680px and changes the detail panel from sticky to static (see [responsive rule](https://github.com/ArdKam/Rinemi2/blob/main/src/styles.css#L313)). The list may render up to 240 rows.
 - **User impact:** on a phone, selecting a row may leave its detail far below the list, making the tap appear ineffective and forcing a long scroll.
 - **Recommendation:** implement a deliberate mobile selection pattern: either a dedicated detail view with a clear Back action, a focused bottom sheet/dialog with correct focus behavior, or an equivalent pattern that makes selected details immediately apparent. Preserve query, active filters, collection selection, and selected character on return. Avoid leaving selected detail below a long result list.
 - **Acceptance:** at 320px and 390px widths, select a result while the list is long; detail becomes immediately visible without traversing results. Verify Back/close returns to the same query/filter/scroll context; keyboard focus returns to the originating row; Escape works where applicable; browser Back is coherent; there is no horizontal overflow; Persian RTL and English LTR both work.
 - **Required evidence:** current-run screenshots of results, selected-detail state, and return-to-results state in both language directions, plus a Playwright regression test.
 
-### UIUX-002 — Global Space shortcut can hijack native button activation
+### UIUX-002 — Verify native keyboard activation after the Space-shortcut fix
 
 - **Priority:** P1 — keyboard interaction defect.
-- **Status:** OPEN; source-level behavior identified.
-- **Evidence:** the global keyboard handler in `src/App.tsx` intercepts Space to reveal the card. It excludes inputs, textareas, selects, and contenteditable targets, but does not exclude buttons, links, or other native interactive controls (see [keyboard handler](https://github.com/ArdKam/Rinemi2/blob/main/src/App.tsx#L362)).
-- **User impact:** when a button such as Back or the bookmark control has focus, pressing Space can reveal the answer instead of activating the focused control. Global shortcuts can also compete with assistive technology and expected browser behavior.
-- **Recommendation:** preserve native keyboard behavior on interactive elements. Restrict Space to an explicitly defined non-interactive context, or rely on the reveal button's native keyboard activation. Keep numeric rating shortcuts only where focus is not inside a control that uses those keys, and document shortcuts near the task when needed.
-- **Acceptance:** keyboard-only walkthrough verifies Tab / Shift+Tab focus order; Space activates the focused button normally; Space reveals only in the intended prompt context; Enter works as expected; numeric shortcuts do not trigger from text fields or focused buttons; no focus trap occurs in detail/dialog/drawer states.
+- **Status:** NEEDS RENDERED / MANUAL VERIFICATION; source fix is present on current main.
+- **Evidence:** the earlier source baseline allowed the global Space shortcut to take precedence over native buttons. Main commit [`63c42c0`](https://github.com/ArdKam/Rinemi2/commit/63c42c0106218d6bfaf6cca3296c34cf95776e9d) now excludes native interactive controls from the global shortcut through `target.closest(...)`; it also adds [a focused Playwright regression test](https://github.com/ArdKam/Rinemi2/blob/main/e2e/keyboard-transaction.spec.ts). CI passed on this commit, but a full manual keyboard/screen-reader check and the deployed runtime still need acceptance.
+- **User impact if regressed:** when Back, bookmark, reveal, or rating controls have focus, Space must perform the control's expected action rather than an unrelated global shortcut.
+- **Recommendation:** retain the guard and regression test. Recheck its behavior with real keyboard focus in both languages and with assistive technology; keep shortcuts from firing in text/form controls.
+- **Acceptance:** keyboard-only walkthrough verifies Tab / Shift+Tab focus order; Space activates the focused button normally; Space reveals only in the intended prompt context; Enter works as expected; numeric shortcuts do not trigger from text fields or focused buttons; no focus trap occurs in detail/dialog/drawer states. Record the deployed SHA and result.
 
 ### UIUX-003 — Learning rating reachability is not proven by the current viewport test
 
@@ -108,12 +108,13 @@ No fresh screenshots were captured or visually inspected for this register entry
 
 ## 4. Implementation order
 
-1. **UIUX-002 and UIUX-001:** fix keyboard shortcut ownership and make mobile Explore selection reveal details predictably.
-2. **UIUX-003:** inspect real revealed-card screenshots and reduce unnecessary scrolling without compromising educational order.
-3. **UIUX-004 and UIUX-005:** improve result disambiguation and remove the arbitrary browsing ceiling with an accessible continuation pattern.
-4. **UIUX-006 and UIUX-007:** perform the full responsive and manual accessibility acceptance pass.
-5. **UIUX-008:** keep documents and status claims synchronized with main, open PRs, and the deployed artifact.
-6. **UIUX-009:** validate Today with short usability tasks, then refine only where evidence shows confusion.
+1. **UIUX-001:** make mobile Explore selection reveal details predictably.
+2. **UIUX-002:** run the keyboard regression test on the current deployed build and complete manual focus/keyboard acceptance for the source fix.
+3. **UIUX-003:** inspect real revealed-card screenshots and reduce unnecessary scrolling without compromising educational order.
+4. **UIUX-004 and UIUX-005:** improve result disambiguation and remove the arbitrary browsing ceiling with an accessible continuation pattern.
+5. **UIUX-006 and UIUX-007:** perform the full responsive and manual accessibility acceptance pass.
+6. **UIUX-008:** keep documents and status claims synchronized with main, open PRs, and the deployed artifact.
+7. **UIUX-009:** validate Today with short usability tasks, then refine only where evidence shows confusion.
 
 Fix sequencing may change if the current browser run reveals a more severe blocker, but every change must retain the finding ID and record why the order changed.
 
