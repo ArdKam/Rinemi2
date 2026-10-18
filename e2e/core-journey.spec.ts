@@ -21,6 +21,7 @@ test("Today starts a useful session and learning rating advances the queue", asy
   await page.screenshot({ path: "artifacts/today-fa-light.png", fullPage: true });
 
   await page.getByRole("button", { name: /شروع یادگیری/ }).click();
+  await expect(page.locator(".session-counter")).toHaveText("۱ / ۵");
   await expect(page.locator(".prompt-kanji")).toHaveText("日");
   await page.getByRole("button", { name: /نمایش پاسخ/ }).click();
   await expect(page.getByText("معنای فارسی آغازین")).toBeVisible();
