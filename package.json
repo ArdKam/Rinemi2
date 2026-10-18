@@ -12,7 +12,8 @@
     "test": "node scripts/check-data.mjs && node scripts/check-style-token-aliases.mjs && node --experimental-strip-types --test scripts/study.test.ts scripts/content.test.ts scripts/data-transfer.test.ts scripts/anki-import.test.ts && npm run check:contrast",
     "preview": "vite preview --host 0.0.0.0",
     "e2e": "playwright test",
-    "check:contrast": "node scripts/check-design-token-contrast.mjs"
+    "check:contrast": "node scripts/check-design-token-contrast.mjs",
+    "e2e:offline": "playwright test --config=playwright.offline.config.ts"
   },
   "dependencies": {
     "@fontsource-variable/plus-jakarta-sans": "5.3.0",
