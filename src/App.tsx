@@ -125,6 +125,9 @@ export default function App() {
   const [visibleResultCount, setVisibleResultCount] = useState(60);
   const selectedResultRef = useRef<HTMLButtonElement | null>(null);
   const detailRef = useRef<HTMLElement | null>(null);
+  const mobileDetailOpenRef = useRef(false);
+  const mobileDetailScrollYRef = useRef<number | null>(null);
+  const previousMobileDetailOpenRef = useRef(false);
   const [queue, setQueue] = useState<string[]>([]);
   const [sessionIndex, setSessionIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
@@ -178,16 +181,77 @@ export default function App() {
   }, [query, level, topicId, onlySaved, activeCollectionId]);
 
   useEffect(() => {
-    if (page !== "explore" || !window.matchMedia("(max-width: 680px)").matches) return;
+    mobileDetailOpenRef.current = mobileDetailOpen;
+  }, [mobileDetailOpen]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (window.history.state?.rinemiMobileDetail) {
+        mobileDetailOpenRef.current = true;
+        setMobileDetailOpen(true);
+      } else if (mobileDetailOpenRef.current) {
+        mobileDetailOpenRef.current = false;
+        setMobileDetailOpen(false);
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  useEffect(() => {
+    if (!mobileDetailOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape" || !window.matchMedia("(max-width: 680px)").matches) return;
+      const target = event.target;
+      if (target instanceof HTMLElement && target.closest("input, textarea, select, [contenteditable='true']")) return;
+      event.preventDefault();
+      closeMobileDetail();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileDetailOpen]);
+
+  useEffect(() => {
+    if (page === "explore" || !mobileDetailOpen) return;
+    const currentState = window.history.state as Record<string, unknown> | null;
+    if (currentState && typeof currentState === "object" && currentState.rinemiMobileDetail) {
+      const nextState = { ...currentState };
+      delete nextState.rinemiMobileDetail;
+      window.history.replaceState(nextState, "");
+    }
+    mobileDetailOpenRef.current = false;
+    setMobileDetailOpen(false);
+  }, [mobileDetailOpen, page]);
+
+  useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 680px)").matches;
+    if (page !== "explore" || !isMobile) {
+      if (page !== "explore") previousMobileDetailOpenRef.current = false;
+      return;
+    }
     if (mobileDetailOpen && selectedCharacter) {
       const detail = detailRef.current;
       if (!detail) return;
       detail.scrollIntoView({ block: "start", behavior: "auto" });
       detail.focus({ preventScroll: true });
-    } else if (selectedCharacter) {
+      previousMobileDetailOpenRef.current = true;
+    } else if (previousMobileDetailOpenRef.current && selectedCharacter) {
       selectedResultRef.current?.focus({ preventScroll: true });
+      const returnScrollY = mobileDetailScrollYRef.current;
+      if (returnScrollY !== null) window.scrollTo({ top: returnScrollY, behavior: "auto" });
+      mobileDetailScrollYRef.current = null;
+      previousMobileDetailOpenRef.current = false;
     }
   }, [mobileDetailOpen, page, selectedCharacter]);
+
+  function closeMobileDetail() {
+    if (window.matchMedia("(max-width: 680px)").matches && window.history.state?.rinemiMobileDetail) {
+      window.history.back();
+      return;
+    }
+    mobileDetailOpenRef.current = false;
+    setMobileDetailOpen(false);
+  }
 
   function startSession() {
     const nextQueue = buildSessionQueue(store, KANJI, STARTER_CHARACTERS, new Date());
@@ -582,8 +646,16 @@ export default function App() {
               const gloss = glossFor(item.character, language);
               const reading = item.on[0] ?? item.kun[0] ?? "";
               return <button ref={item.character === selectedCharacter ? selectedResultRef : undefined} key={item.character} type="button" className={"kanji-result " + (selectedCharacter === item.character ? "is-selected" : "")} onClick={() => {
+                const isMobile = window.matchMedia("(max-width: 680px)").matches;
                 setSelectedCharacter(item.character);
-                setMobileDetailOpen(window.matchMedia("(max-width: 680px)").matches);
+                if (isMobile) {
+                  mobileDetailScrollYRef.current = window.scrollY;
+                  const currentState = window.history.state;
+                  const baseState = currentState && typeof currentState === "object" ? currentState as Record<string, unknown> : {};
+                  window.history.pushState({ ...baseState, rinemiMobileDetail: true }, "");
+                  mobileDetailOpenRef.current = true;
+                }
+                setMobileDetailOpen(isMobile);
               }} aria-pressed={selectedCharacter === item.character}>
                 <span className="result-glyph" lang="ja">{item.character}</span><span className="result-copy"><strong lang={gloss ? language : "en"} dir="auto">{gloss ?? item.meaning.slice(0, 2).join(" · ")}</strong>{reading && <small className="result-reading" lang="ja" dir="ltr">{reading}</small>}<small className="result-metadata">{item.jlpt ?? "Jōyō"} · {fmt(item.strokes, language)} {t.strokes.toLocaleLowerCase()}</small></span>{savedSet.has(item.character) && <span className="saved-dot" aria-label={t.savedLabel}>♥</span>}
               </button>;
@@ -593,8 +665,8 @@ export default function App() {
           </section>
           {selectedItem && <aside ref={detailRef} tabIndex={-1} className="kanji-detail" aria-labelledby="detail-title">
             <div className="detail-topline"><span className="eyebrow">{t.detail}</span><button type="button" className={"detail-close" + (mobileDetailOpen ? " detail-back" : "")} onClick={() => {
-              if (mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches) setMobileDetailOpen(false);
-              else { setSelectedCharacter(null); setMobileDetailOpen(false); }
+              if (mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches) closeMobileDetail();
+              else { setSelectedCharacter(null); mobileDetailOpenRef.current = false; setMobileDetailOpen(false); }
             }} aria-label={mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches ? t.backToResults : t.close}><span className="detail-close-glyph" aria-hidden="true">{mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches ? "←" : "×"}</span><span className="detail-back-label">{t.backToResults}</span></button></div>
             <div className="detail-character" lang="ja">{selectedItem.character}</div><h2 id="detail-title">{selectedGloss ?? selectedItem.meaning.slice(0, 2).join(" · ")}</h2><p className="content-caveat">{selectedGloss ? t.glossNotice : t.sourceDisclaimer}</p>
             <div className="detail-property"><span>{t.on}</span><strong lang="ja" dir="ltr">{selectedItem.on.slice(0, 5).join(" · ") || "—"}</strong></div><div className="detail-property"><span>{t.kun}</span><strong lang="ja" dir="ltr">{selectedItem.kun.slice(0, 5).join(" · ") || "—"}</strong></div>
