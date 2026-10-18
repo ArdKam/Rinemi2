@@ -379,7 +379,17 @@ for (const viewport of [
     expect(overflowsBefore, "No horizontal overflow on Today").toBe(false);
     await page.screenshot({ path: testInfo.outputPath("today.png"), fullPage: true });
 
+    if (viewport.width <= 680) {
+      const overviewPadding = await page.locator(".overview-copy").evaluate(element => {
+        const style = getComputedStyle(element);
+        return Math.min(parseFloat(style.paddingInlineStart), parseFloat(style.paddingInlineEnd));
+      });
+      expect(overviewPadding, "Today content remains inset from the card edge on mobile").toBeGreaterThanOrEqual(12);
+    }
+
     await page.getByRole("button", { name: /شروع یادگیری/ }).click();
+    await expect(page.locator("#learn-title")).toBeFocused();
+    await expect(page.locator(".skip-link")).not.toBeFocused();
     await expect(page.locator(".prompt-kanji")).toHaveText("日");
     await page.getByRole("button", { name: /نمایش پاسخ/ }).click();
     const again = page.getByRole("button", { name: /دوباره/ });

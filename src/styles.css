@@ -75,6 +75,7 @@ a { color: inherit; }
 .utility-button:hover { background: var(--surface); color: var(--ink); }
 .theme-icon { display: inline-grid; place-items: center; flex: 0 0 auto; width: 18px; height: 18px; }
 .theme-icon svg { display: block; width: 18px; height: 18px; }
+.data-tools-icon { display: block; flex: 0 0 auto; width: 18px; height: 18px; }
 .page-content { min-height: 64vh; padding-top: var(--rinemi-space-8); }
 .today-page, .learn-page, .explore-page { animation: appear var(--rinemi-motion-standard) var(--rinemi-easing-standard); }
 .today-heading { max-width: 740px; margin-bottom: var(--rinemi-space-8); }
@@ -325,7 +326,9 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
   .brand-copy strong { font-size: var(--rinemi-font-size-lg); }
   .brand-copy span { display: none; }
   .header-tools { gap: var(--rinemi-space-1); }
-  .header-tools { flex-wrap: wrap; justify-content: flex-end; }
+  .header-tools { flex-wrap: nowrap; justify-content: flex-end; }
+  .data-tools-icon { display: block; flex: 0 0 auto; width: 18px; height: 18px; }
+  .data-tools-label { display: inline; }
   .utility-button { min-height: 44px; padding: var(--rinemi-space-1) var(--rinemi-space-2); }
   .theme-switch .utility-label { display: none; }
   .page-content { padding-top: var(--rinemi-space-6); }
@@ -333,8 +336,7 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
   h1 { font-size: var(--rinemi-font-size-page-title-mobile); line-height: var(--rinemi-line-height-reading); }
   .lede { font-size: var(--rinemi-font-size-base); }
   .overview-primary { grid-template-columns: minmax(0, 1fr); }
-  .overview-copy { padding: var(--rinemi-space-6) 0 var(--rinemi-space-6); }
-  html[dir="rtl"] .overview-copy { padding: var(--rinemi-space-6) 0 var(--rinemi-space-6); }
+  .overview-copy { padding: var(--rinemi-space-6) var(--rinemi-space-4); }
   .overview-copy h2 { font-size: var(--rinemi-font-size-overview-title-mobile); }
   .hero-kanji { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: var(--rinemi-space-4); justify-content: start; border-inline-start: 0; border-top: 1px solid var(--line); padding: var(--rinemi-space-4) 0; text-align: start; }
   .hero-kanji-glyph { grid-row: 1 / span 2; font-size: var(--rinemi-font-size-kanji-display-mobile); }
@@ -399,6 +401,8 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
 @media (max-width: 360px) {
   .app-shell { padding-inline: var(--rinemi-space-3); }
   .brand-copy span { max-width: 136px; overflow: hidden; text-overflow: ellipsis; }
+  .data-tools-label { display: none; }
+  .data-tools-toggle { width: 44px; padding-inline: var(--rinemi-space-2); }
   .language-switch { font-size: var(--rinemi-font-size-meta); }
   .prompt-kanji { font-size: var(--rinemi-font-size-kanji-prompt-mobile); }
   .rating-button { padding-inline: var(--rinemi-space-1); }
