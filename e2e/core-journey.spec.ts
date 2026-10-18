@@ -207,7 +207,7 @@ test("all language/theme pairs render and keep browser chrome color synchronized
       "content",
       combination.theme === "dark" ? "#1D2022" : "#F7F4EE"
     );
-    await expect(page.getByRole("button", { name: combination.language === "fa" ? "یادگیری" : "Learn" })).toBeVisible();
+    await expect(page.getByRole("button", { name: combination.language === "fa" ? "یادگیری" : "Learn", exact: true })).toBeVisible();
     await page.screenshot({ path: `artifacts/theme-${combination.language}-${combination.theme}.png`, fullPage: true });
   }
 });
