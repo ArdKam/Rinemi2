@@ -53,7 +53,11 @@ a { color: inherit; }
 .app-shell { width: min(100%, 1180px); margin: 0 auto; padding: 0 36px 28px; }
 .app-header { display: flex; align-items: center; gap: 32px; min-height: 92px; border-bottom: 1px solid var(--line); }
 .brand-lockup { display: inline-flex; align-items: center; gap: 11px; flex-shrink: 0; padding: 0; background: transparent; border: 0; text-align: start; cursor: pointer; }
-.brand-mark { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 50%; font: 500 23px/1 var(--jp-serif); color: var(--vermilion); }
+.brand-mark-shell { display: block; width: 44px; height: 44px; flex-shrink: 0; }
+.brand-mark-shell img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.brand-mark-dark { display: none !important; }
+:root[data-theme="dark"] .brand-mark-light { display: none !important; }
+:root[data-theme="dark"] .brand-mark-dark { display: block !important; }
 .brand-copy { display: grid; gap: 1px; }
 .brand-copy strong { font: 700 19px/1.2 "Plus Jakarta Sans Variable", "Plus Jakarta Sans", sans-serif; letter-spacing: -.045em; }
 .brand-copy span { color: var(--muted); font-size: 11px; white-space: nowrap; }
@@ -219,7 +223,7 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--vermi
 @media (max-width: 680px) {
   .app-shell { padding-inline: 18px; padding-bottom: 22px; }
   .app-header { min-height: 0; gap: 14px; }
-  .brand-mark { width: 35px; height: 35px; font-size: 20px; }
+  .brand-mark-shell { width: 39px; height: 39px; }
   .brand-copy strong { font-size: 18px; }
   .brand-copy span { font-size: 10px; }
   .header-tools { gap: 5px; }
