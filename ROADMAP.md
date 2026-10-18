@@ -27,15 +27,15 @@ This is a new, separate product implementation. It may selectively reuse verifie
 
 ### 0.2 Source-of-truth documents
 
-- **This file — [ROADMAP.md](../ROADMAP.md):** phase order, status, dependencies, release gates, scope.
-- **[Product & UX specification](PRODUCT-AND-UX-SPEC.md):** target users, navigation, screen inventory, user journeys, interaction rules.
-- **[Art direction & design system](ART-DIRECTION.md):** creative intent, visual principles, components, illustration rules and mascot.
-- **[Design token contract](DESIGN-TOKENS.md):** semantic token policy, theme contract, typography/spacing/geometry rules and validation requirements; runtime values live in `../src/styles/design-tokens.css`.
-- **[Learning design](LEARNING-DESIGN.md):** teaching sequence, card pedagogy, practice modes, content quality and evidence requirements.
-- **[Reference & migration plan](REFERENCE-AND-MIGRATION.md):** what can be reused from `kanji5`, verification procedure, boundaries, licensing, data migration.
-- **[Quality & release plan](QUALITY-AND-RELEASE.md):** test matrix, accessibility, content QA, security, release and evidence.
-- **[Decision log](DECISIONS.md):** consequential decisions, alternatives, reasons, open questions.
-- **[README.md](../README.md):** concise entry point and current status.
+- **This file — [ROADMAP.md](ROADMAP.md):** phase order, status, dependencies, release gates, scope.
+- **[Product & UX specification](docs/PRODUCT-AND-UX-SPEC.md):** target users, navigation, screen inventory, user journeys, interaction rules.
+- **[Art direction & design system](docs/ART-DIRECTION.md):** creative intent, visual principles, components, illustration rules and mascot.
+- **[Design token contract](docs/DESIGN-TOKENS.md):** semantic token policy, theme contract, typography/spacing/geometry rules and validation requirements; runtime values live in `src/styles/design-tokens.css`.
+- **[Learning design](docs/LEARNING-DESIGN.md):** teaching sequence, card pedagogy, practice modes, content quality and evidence requirements.
+- **[Reference & migration plan](docs/REFERENCE-AND-MIGRATION.md):** what can be reused from `kanji5`, verification procedure, boundaries, licensing, data migration.
+- **[Quality & release plan](docs/QUALITY-AND-RELEASE.md):** test matrix, accessibility, content QA, security, release and evidence.
+- **[Decision log](docs/DECISIONS.md):** consequential decisions, alternatives, reasons, open questions.
+- **[README.md](README.md):** concise entry point and current status.
 
 If documents conflict, this roadmap governs execution order; the specialist specification governs the details in its own domain. Update the decision log when a scope or architecture decision changes.
 
@@ -169,7 +169,7 @@ Required: approved visual system, a verified content contract, card information 
 Required: supported-format matrix, fixture corpus, import preview, duplicate behavior, partial-failure behavior, source provenance, and no-loss acceptance tests.
 
 ### Gate D — Before public beta
-Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.md), manual Persian content QA, accessibility and responsive evidence, privacy/security review, working backup/restore and deletion story, clear limitation copy, and one frozen candidate SHA verified end to end.
+Required: all P0 acceptance checks from [Quality & Release](docs/QUALITY-AND-RELEASE.md), manual Persian content QA, accessibility and responsive evidence, privacy/security review, working backup/restore and deletion story, clear limitation copy, and one frozen candidate SHA verified end to end.
 
 ---
 
