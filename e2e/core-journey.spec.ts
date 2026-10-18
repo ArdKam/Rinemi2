@@ -392,6 +392,10 @@ for (const viewport of [
     await expect(page.locator(".skip-link")).not.toBeFocused();
     await expect(page.locator(".prompt-kanji")).toHaveText("日");
     await page.getByRole("button", { name: /نمایش پاسخ/ }).click();
+    await expect(page.locator("#answer-meaning-title")).toBeFocused();
+    await expect(page.locator(".skip-link")).not.toBeFocused();
+    const skipLinkBottom = await page.locator(".skip-link").evaluate(element => element.getBoundingClientRect().bottom);
+    expect(skipLinkBottom, "The skip link stays hidden after the reveal control is removed").toBeLessThanOrEqual(0);
     const again = page.getByRole("button", { name: /دوباره/ });
     await again.scrollIntoViewIfNeeded();
     await expect(again).toBeVisible();

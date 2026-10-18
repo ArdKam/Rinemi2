@@ -168,6 +168,16 @@ export default function App() {
     const headingId = page === "today" ? "today-title" : page === "learn" ? "learn-title" : "explore-title";
     document.getElementById(headingId)?.focus({ preventScroll: true });
   }, [page]);
+
+  const previousRevealedRef = useRef(false);
+  useEffect(() => {
+    const wasRevealed = previousRevealedRef.current;
+    previousRevealedRef.current = revealed;
+    if (!revealed || wasRevealed || page !== "learn") return;
+    // The reveal button is removed when the answer renders. Move focus into
+    // the newly revealed content so focus does not fall back to the page shell.
+    document.getElementById("answer-meaning-title")?.focus({ preventScroll: true });
+  }, [page, revealed]);
   useEffect(() => {
     if (!persistAllowed) return;
     try { persistStore(store); setStorageWarning(false); }
@@ -626,7 +636,7 @@ export default function App() {
             <div className="learning-sheet-top"><span>{STARTER_CHARACTERS.some(character => character === currentItem.character) ? t.starter : t.explore}</span><button className={"bookmark-button " + (savedSet.has(currentItem.character) ? "is-saved" : "")} type="button" onClick={() => toggleBookmark(currentItem.character)} aria-pressed={savedSet.has(currentItem.character)} aria-label={savedSet.has(currentItem.character) ? t.removeSaved : t.bookmark}><svg className="bookmark-icon" viewBox="0 0 24 24" aria-hidden="true" fill={savedSet.has(currentItem.character) ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3.75h12v16.5L12 16.5l-6 3.75z" /></svg><span>{savedSet.has(currentItem.character) ? t.savedLabel : t.bookmark}</span></button></div>
             <div className="prompt-area"><div className="prompt-kanji" lang="ja">{currentItem.character}</div><p className="prompt-question">{t.question}</p>{!revealed && <p className="prompt-hint">{t.hint}</p>}</div>
             {revealed ? <div className="answer-area" aria-live="polite">
-              <div className="answer-heading"><span className="section-kicker">{glossFor(currentItem.character, language) ? t.meaning : t.sourceMeaning}</span><h2>{glossFor(currentItem.character, language) ?? currentItem.meaning[0] ?? "—"}</h2><p className="content-caveat">{glossFor(currentItem.character, language) ? t.glossNotice : t.sourceDisclaimer}</p></div>
+              <div className="answer-heading"><span className="section-kicker">{glossFor(currentItem.character, language) ? t.meaning : t.sourceMeaning}</span><h2 id="answer-meaning-title" tabIndex={-1}>{glossFor(currentItem.character, language) ?? currentItem.meaning[0] ?? "—"}</h2><p className="content-caveat">{glossFor(currentItem.character, language) ? t.glossNotice : t.sourceDisclaimer}</p></div>
               <div className="answer-readings"><div><span>{t.on}</span><strong lang="ja" dir="ltr">{currentItem.on.slice(0, 3).join(" · ") || "—"}</strong></div><div><span>{t.kun}</span><strong lang="ja" dir="ltr">{currentItem.kun.slice(0, 3).join(" · ") || "—"}</strong></div></div>
               {(EXAMPLES[currentItem.character] ?? []).length > 0 && <div className="vocabulary-example"><p className="section-kicker">{t.example}</p>{(EXAMPLES[currentItem.character] ?? []).slice(0, 2).map(example => <div className="vocab-row" key={example.word}><strong lang="ja" dir="ltr">{example.word}</strong><span lang="ja" dir="ltr">{example.reading}</span><span>{language === "fa" ? example.fa : example.en}</span></div>)}</div>}
               <div className="rating-area"><p>{t.askRating}</p><div className="rating-grid" dir="ltr">{(["Again", "Hard", "Good", "Easy"] as const).map((rating, index) => <button key={rating} className={"rating-button rating-" + rating.toLowerCase()} type="button" disabled={rateBusy} onClick={() => applyRating(rating)} title={RATING_HINTS[language][rating]} aria-label={t[rating] + " — " + RATING_HINTS[language][rating]}><strong>{t[rating]}</strong><small>{index + 1}</small></button>)}</div></div>
