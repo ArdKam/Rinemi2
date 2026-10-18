@@ -30,7 +30,7 @@ describe("Rinemi responsive shell", () => {
   it("switches the UI to English LTR without losing the current navigation model", () => {
     const { container } = render(<App />);
 
-    fireEvent.click(screen.getByRole("button", { name: "تغییر زبان به انگلیسی" }));
+    fireEvent.click(screen.getByRole("button", { name: "EN — تغییر زبان به انگلیسی" }));
 
     expect(container.querySelector(".app-shell")).toHaveAttribute("dir", "ltr");
     expect(screen.getByRole("heading", { name: "Start with one small step." })).toBeVisible();
