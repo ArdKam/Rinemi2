@@ -156,7 +156,7 @@ New scope requires a documented learner problem, expected benefit, content/sourc
 | P8 | Anki import and imported material | Safely import supported deck exports with preview and error reporting | P7, data identity design | IN PROGRESS — text parser/support matrix are merged in PR #26; this branch adds preview UI, field mapping and warnings with no writes; duplicate disposition, persistent imported-card identity/FSRS scheduling, failure recovery, and packaged-deck support remain open |
 | P9 | Vocabulary-to-reading continuity | Connect mastered/known kanji to words and short reading | P6, P7, content QA | NOT STARTED |
 | P10 | Progress, settings, account/data controls | Meaningful progress and understandable user control | P6 plus data contract | IN PROGRESS — local JSON backup export, validated restore preview, and browser-data erasure controls are implemented; manual acceptance/storage-failure review, full privacy/legal review, offline/PWA and account/sync conflict rules remain open |
-| P11 | Accessibility, responsive and localization acceptance | Verified Persian/English, mobile/desktop, themes, and keyboard behavior | P5–P10 in increments | NOT STARTED |
+| P11 | Accessibility, responsive and localization acceptance | Verified Persian/English, mobile/desktop, themes, and keyboard behavior | P5–P10 in increments | IN PROGRESS — manifest, 192/512px icons, scoped service worker and warm-cache offline E2E are implemented; exact-SHA deployed-base-path verification, human assistive-technology acceptance, installed-device/update behavior, and cache-failure recovery remain open |
 | P12 | Beta hardening and release evidence | Frozen, repeatable candidate and truthful deployment evidence | All release gates | NOT STARTED |
 
 A phase may overlap only where its dependency is explicit. A phase must not be marked DONE simply because work started in a later phase.
@@ -408,7 +408,7 @@ This work starts in P3/P5 and is repeated for every feature; P11 is final integr
 - [ ] Run full automated suites from a clean checkout and preserve results.
 - [ ] Run critical end-to-end tests in a real browser across target viewport/language/theme combinations.
 - [ ] Verify live/preview asset hashes and behavior against the exact candidate where deployment is configured.
-- [ ] Check installation/update/offline behavior only for features actually claimed to work.
+- [ ] Verify manifest/icons, exact service-worker scope, warm-cache offline study, update behavior, missing-resource/cache failure, and mobile install behavior on the exact candidate SHA. Do not claim cold-start offline-first guarantees.
 - [ ] Test stale cache recovery, missing assets, network loss, failed imports, interrupted study and storage failures.
 - [ ] Complete security/privacy checks appropriate to the chosen architecture.
 - [ ] Complete manual content QA and the accessibility acceptance checklist.
@@ -466,7 +466,7 @@ The repo should maintain these artifacts as work advances:
 - [ ] Automated test matrix and browser screenshot baseline.
 - [ ] Accessibility issue log.
 - [x] Local data/backup/erasure contract drafted in `docs/LOCAL-DATA-AND-PRIVACY.md`; manual failure testing and privacy/legal review remain open.
-- [ ] Release checklist and exact-SHA evidence.
+- [x] PWA manifest/icons and warm-cache offline E2E added; exact-SHA CI and deployed-base-path verification remain required before acceptance.
 - [ ] Known limitations and public support/correction instructions.
 
 Avoid duplicating the same backlog across several docs. This roadmap owns phase status; specialist documents own their acceptance details.
@@ -563,7 +563,7 @@ The first functional vertical slice was merged into `main` at [`50c0ab8`](https:
 - [ ] Selective source/license review complete.
 - [x] Committed npm lockfile; CI and Pages deployment use `npm ci` and validate clean installs.
 - [ ] Adaptive/recovery semantics, remaining collection bulk operations, end-to-end Anki import, and reading-transfer work; collection rename/clear/delete are implemented but still need rendered UX acceptance.
-- [ ] Manual acceptance of the implemented local backup/restore/erasure controls, full privacy/legal review, storage-failure/rollback behavior, and offline/PWA acceptance.
+- [ ] Manual acceptance of local backup/restore/erasure and PWA install/update/cache behavior; full privacy/legal review; storage-failure/rollback behavior.
 - [x] Hosting configuration and public URL verified on the actual Vite build; static asset and live Chromium journey checks passed on `de3b9ef`.
 - [x] Automated live preview runtime check covers React mount, the core review flow, locale/theme changes, brand assets, mobile width and runtime/network errors.
 - [ ] Manual accessibility/usability acceptance: keyboard-only/focus, zoom, reduced-motion/forced-colors, screen-reader, Explore/collections and non-happy-path review.

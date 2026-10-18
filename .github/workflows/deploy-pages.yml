@@ -32,6 +32,9 @@ jobs:
       - name: Validate deployment smoke test syntax
         run: node --check scripts/smoke-deployment.mjs
 
+      - name: Validate service-worker syntax
+        run: node --check public/sw.js
+
       - name: Run data and unit tests
         run: npm test
 
@@ -46,6 +49,12 @@ jobs:
 
       - name: Run end-to-end browser tests
         run: npm run e2e
+
+      - name: Build regular-root output for offline verification
+        run: npm run build
+
+      - name: Verify warm-cache offline learning in production preview
+        run: npm run e2e:offline
 
       - name: Build the GitHub Pages artifact
         run: npm run build:pages
