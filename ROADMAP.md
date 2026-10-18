@@ -142,14 +142,14 @@ New scope requires a documented learner problem, expected benefit, content/sourc
 
 | Phase | Name | Outcome | Dependency | Status |
 |---|---|---|---|---|
-| P0 | Repository and evidence baseline | Separate, safe working boundary and verified reference baseline | None | IN PROGRESS |
-| P1 | Product/UX blueprint | Journeys, scope, screen inventory, and success criteria drafted in specs | P0 | IN PROGRESS — planning docs drafted |
+| P0 | Repository and evidence baseline | Separate, safe working boundary and verified reference baseline | None | IN PROGRESS — source corpus and topic taxonomy provenance recorded; reuse inventory remains open |
+| P1 | Product/UX blueprint | Journeys, scope, screen inventory, and success criteria drafted in specs | P0 | DONE — planning baseline documented; open product decisions remain tracked |
 | P2 | Visual direction baseline | Written Sumi Play direction accepted; generated visual concepts optional | P1 | DONE — image generation explicitly skipped by owner |
-| P3 | Art direction and design system | Translate written direction into tokens/components, then browser-verify | P2 | IN PROGRESS |
-| P4 | Content/data audit and source adapters | Trusted content foundation with provenance and failure handling | P0, parallel to P1–P3 | IN PROGRESS |
-| P5 | Shell, navigation, onboarding, Today | First usable product skeleton with real content density | P3, P4 | NOT STARTED |
-| P6 | Learning card and practice journey | End-to-end learning, recall, feedback, ratings and recovery | P5, P4 | NOT STARTED |
-| P7 | Explore, Dictionary, detail, bookmarks | Find and save kanji without search/filter overload | P5, P4 | NOT STARTED |
+| P3 | Art direction and design system | Translate written direction into tokens/components, then browser-verify | P2 | IN PROGRESS — first semantic tokens/responsive styles implemented; browser visual QA pending |
+| P4 | Content/data audit and source adapters | Trusted content foundation with provenance and failure handling | P0, parallel to P1–P3 | IN PROGRESS — corpus/topic integrity checks and attribution added; human content QA pending |
+| P5 | Shell, navigation, onboarding, Today | First usable product skeleton with real content density | P3, P4 | IN PROGRESS — code slice exists; rendered-browser verification and onboarding remain open |
+| P6 | Learning card and practice journey | End-to-end learning, recall, feedback, ratings and recovery | P5, P4 | IN PROGRESS — reveal/rating/local FSRS slice exists; full recovery/adaptive semantics and browser QA remain open |
+| P7 | Explore, Dictionary, detail, bookmarks | Find and save kanji without search/filter overload | P5, P4 | IN PROGRESS — search/filter/detail/bookmarks and named collections exist; final browser QA and bulk management remain open |
 | P8 | Anki import and imported material | Safely import supported deck exports with preview and error reporting | P7, data identity design | NOT STARTED |
 | P9 | Vocabulary-to-reading continuity | Connect mastered/known kanji to words and short reading | P6, P7, content QA | NOT STARTED |
 | P10 | Progress, settings, account/data controls | Meaningful progress and understandable user control | P6 plus data contract | NOT STARTED |
@@ -312,11 +312,12 @@ Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.
 - [ ] Provide a clear detail hierarchy: character and essential meaning, common readings in use, vocabulary, structure, stroke-order reference, lookalikes, and source/reference notes.
 - [ ] Distinguish what is useful to learn now from what is useful to consult.
 - [ ] Make search empty/no-match/offline/failure states actionable.
-- [ ] Add a bookmark action in both detail and relevant learning contexts.
-- [ ] Build saved-items view with search, filters, creation/rename/delete for collections, add/remove and bulk selection, confirmation for destructive bulk actions, and focused practice from a collection.
-- [ ] Treat bookmarks and collections as organization only; they must not silently alter due dates, mastery or scheduler state.
+- [x] Add a bookmark action in both detail and relevant learning contexts.
+- [x] Create/delete named collections, add/remove a kanji, filter Explore by a chosen collection, and start a focused session of up to 20 items.
+- [x] Treat bookmarks and collections as organization only; the collection contract tests verify they do not mutate scheduler records or bookmarks.
+- [ ] Add collection rename, bulk selection/add/remove and richer saved-item management only after the basic workflow is browser-verified.
 - [ ] Avoid adding a tag, badge, chip or icon where the same information is already visually obvious.
-- [ ] Verify large collections, zero results, duplicate saves, keyboard navigation and mobile reachability.
+- [ ] Verify large collections, zero results, duplicate saves, keyboard navigation and mobile reachability in the rendered browser.
 - [ ] Establish persistence/export semantics and conflict behavior before syncing saved state across devices.
 
 **Acceptance:** learners can locate a character, understand its essential information, save it, find it later, and start study from saved items without losing search context.
@@ -529,14 +530,14 @@ Planning baseline only; no UI, application code, engine integration, import pars
 
 **Current execution order:**
 
-1. [ ] Review this roadmap and specialist plan documents for internal consistency.
-2. [ ] Complete P0 reference/reuse inventory using current evidence.
-3. [ ] Complete P1 journeys and acceptance criteria.
+1. [x] Planning documents created and cross-linked; continue to update status as implementation evidence arrives.
+2. [ ] Complete the selective P0 reuse inventory and verify license obligations before public release.
+3. [x] Define primary journeys, screen states and acceptance criteria; validate through browser and learner testing as slices are delivered.
 4. [x] Use the user's existing written Sumi Play direction as the P2 baseline; image generation is skipped and is not a blocker.
-5. [ ] Continue P3/P4 in small reviewable increments.
-6. [ ] Build vertical Slice A only after Gate A.
+5. [ ] Continue P3/P4 in small reviewable increments, including font sourcing, semantic-token contrast, and human review of starter content.
+6. [x] Implement the first Slice A code candidate on `feat/app-vertical-slice`; CI data tests/typecheck/build and real-browser review remain release checks.
 7. [ ] Keep `kanji5` untouched throughout.
 
-**First implementation task after planning approval:** deliver a browser-verifiable prototype of Today + the two learning-card states using real Japanese characters and realistic Persian/English content. Start with a minimal vertical slice, not the full application; refine from actual browser renders. Do not wait for generated mockups.
+**Current implementation checkpoint:** the first vertical slice now includes Today, Learn, Explore, the Jōyō corpus, local FSRS scheduling, search/filters/detail and bookmarks. Validate the real rendering across RTL/LTR, themes, and viewport sizes before expanding; do not wait for generated mockups or claim browser QA until it has actually been performed.
 
 **Release policy:** only the verified state of the target repository and exact candidate commit determines completion. This roadmap is a plan, not evidence that work is implemented or deployed.

@@ -206,3 +206,13 @@ When a defect appears:
 5. Verify on the same scenario and the closest neighboring states.
 6. Record the finding and evidence; mark reopened only when it reproduces on the target branch.
 7. Never cite a failed PR candidate as proof that current main is broken, or cite a stale successful build as proof of current health.
+
+
+## Semantic token and automated accessibility gates
+
+- CI must run `npm run check:contrast` against the canonical `src/styles/design-tokens.css` and verify that every `--rinemi-*` alias consumed by the app resolves to a declared token.
+- Core browser journeys must run at small phone, typical phone, compact landscape and desktop viewport classes with horizontal-overflow assertions.
+- Core controls must retain comfortable target size; this implementation uses a 44 CSS-pixel minimum for button/select and text-input controls, with larger touch surfaces where appropriate.
+- Axe-based browser checks cover Today, revealed learning and Explore in representative Persian/English and light/dark states. Any exception must be explicit, narrowly scoped, and tracked to resolution.
+- Automated accessibility tools do not prove conformance. Manual keyboard, focus order, screen-reader, zoom, RTL/LTR and actual-render checks remain required.
+- Saved language/theme preference bootstrap runs before the React module so a returning learner does not intentionally wait for hydration to get the correct document direction/theme. Storage failures must fall back safely without blocking app startup.
