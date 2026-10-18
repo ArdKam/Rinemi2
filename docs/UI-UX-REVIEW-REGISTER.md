@@ -3,7 +3,7 @@
 **Status:** Active; source review recorded on 2026-10-19. Rendered-browser visual acceptance remains outstanding.  
 **Scope:** Responsive UI, core learning flow, Explore/dictionary, keyboard interaction, design-system execution, and documentation accuracy.  
 **Target repository:** `ArdKam/Rinemi2`.  
-**Review baseline:** `54abf8b9f47dbb1690176584dbdc3c972448f734` (main, source-level check on 2026-10-19; no fresh screenshots visually inspected for this comparative review).  
+**Review baseline:** `ea40361fbe2d8fe81f15b3d481804357b45a5d8e` (integrated main application-code snapshot checked on 2026-10-19).  
 **Public preview:** https://ardkam.github.io/Rinemi2/
 
 This register preserves review findings between inspections. It is the canonical place to track UI/UX findings, severity, evidence, disposition, and acceptance criteria. The product and UX specification owns intended behavior; the art direction and design-token contract own visual rules; the roadmap owns phase order and release status; this register owns the durable list of review findings and their verification state.
@@ -24,17 +24,17 @@ The source and documentation review checked the main baseline above, including `
 
 The recorded GitHub Actions live Chromium journey on commit `de3b9efb89698e395346be8fcdd77ef11517f87c` verifies a prior deployment's minimum learner journey, locale/theme switching, asset loading, and no horizontal overflow at a 390px viewport. It is **historical smoke-test evidence**, not visual acceptance of every state in this register. See [the recorded deployment and browser run](https://github.com/ArdKam/Rinemi2/actions/runs/39166050054).
 
-For the review baseline `63c42c0`, [main CI](https://github.com/ArdKam/Rinemi2/actions/runs/39169365213) and [the GitHub Pages deployment workflow](https://github.com/ArdKam/Rinemi2/actions/runs/39169365252) both completed successfully. This confirms the pipeline result for that SHA; it does not substitute for a human inspection of screenshots or all interaction states.
+For the current integration snapshot `ea40361`, the code now includes the merged mobile Explore return fix, result-reading/continuation updates, responsive visual-finishing pass, read-only Anki preview, full bundled-font notices, persistent KANJIDIC2 attribution and PWA warm-cache shell. See its [main CI run](https://github.com/ArdKam/Rinemi2/actions/runs/39171426062) and [Pages deployment/live verification](https://github.com/ArdKam/Rinemi2/actions/runs/39171426069) for exact-SHA evidence.
 
-No fresh screenshots were captured or visually inspected for this register entry. Consequently, layout-related findings below are source-based risks or validation gaps until a current build is captured in a real browser. Do not describe this document as a completed screenshot audit.
+The visual-finishing PR's [CI screenshot artifact](https://github.com/ArdKam/Rinemi2/actions/runs/39171122230) from head `86eb56e4698ca0d598df5a91e51282e9252df384` was downloaded and visually inspected for Today (Persian/light), the revealed card at small-phone width, and the revealed card at compact landscape. The sampled screens have a calmer hierarchy and rating controls remain in the flow without horizontal clipping. This is partial evidence from the PR head—not the full RTL/LTR × light/dark × viewport matrix, not a keyboard/screen-reader audit, and not a substitute for checking the current deployed SHA. Remaining findings stay open until their exact acceptance criteria pass.
 
 ## 3. Findings
 
-### UIUX-001 — Mobile Explore selection does not bring the selected detail into view
+### UIUX-001 — Mobile Explore return context requires rendered verification
 
 - **Priority:** P1 — high-impact core discovery flow.
-- **Status:** NEEDS RENDERED VERIFICATION; implementation change required if reproduced as expected.
-- **Evidence:** `src/App.tsx` renders the results section before the selected kanji's `.kanji-detail` panel (see [results](https://github.com/ArdKam/Rinemi2/blob/main/src/App.tsx#L557) and [detail panel](https://github.com/ArdKam/Rinemi2/blob/main/src/App.tsx#L567)). `src/styles.css` converts `.explore-layout` to one column at 680px and changes the detail panel from sticky to static (see [responsive rule](https://github.com/ArdKam/Rinemi2/blob/main/src/styles.css#L313)). The list may render up to 240 rows.
+- **Status:** NEEDS RENDERED / MANUAL VERIFICATION; implementation and regression coverage are merged.
+- **Evidence:** PR #33 merged the mobile detail pattern with browser-history state, Escape handling, and return focus/scroll restoration. Playwright exercises a long filtered result set at 320px and 390px, including browser Back, Escape and the explicit Back action. Source/test coverage removes the original code-level gap, but the deployed UI still needs both-language and filter-context acceptance.
 - **User impact:** on a phone, selecting a row may leave its detail far below the list, making the tap appear ineffective and forcing a long scroll.
 - **Recommendation:** implement a deliberate mobile selection pattern: either a dedicated detail view with a clear Back action, a focused bottom sheet/dialog with correct focus behavior, or an equivalent pattern that makes selected details immediately apparent. Preserve query, active filters, collection selection, and selected character on return. Avoid leaving selected detail below a long result list.
 - **Acceptance:** at 320px and 390px widths, select a result while the list is long; detail becomes immediately visible without traversing results. Verify Back/close returns to the same query/filter/scroll context; keyboard focus returns to the originating row; Escape works where applicable; browser Back is coherent; there is no horizontal overflow; Persian RTL and English LTR both work.
@@ -44,7 +44,7 @@ No fresh screenshots were captured or visually inspected for this register entry
 
 - **Priority:** P1 — keyboard interaction defect.
 - **Status:** NEEDS RENDERED / MANUAL VERIFICATION; source fix is present on current main.
-- **Evidence:** the earlier source baseline allowed the global Space shortcut to take precedence over native buttons. Main commit [`63c42c0`](https://github.com/ArdKam/Rinemi2/commit/63c42c0106218d6bfaf6cca3296c34cf95776e9d) now excludes native interactive controls from the global shortcut through `target.closest(...)`; it also adds [a focused Playwright regression test](https://github.com/ArdKam/Rinemi2/blob/main/e2e/keyboard-transaction.spec.ts). CI passed on this commit, but a full manual keyboard/screen-reader check and the deployed runtime still need acceptance.
+- **Evidence:** the global Space shortcut excludes native interactive controls through `target.closest(...)` and a focused Playwright regression test covers this. Main CI is green on previous integration snapshots, but a full manual keyboard/screen-reader check on the currently deployed runtime remains outstanding.
 - **User impact if regressed:** when Back, bookmark, reveal, or rating controls have focus, Space must perform the control's expected action rather than an unrelated global shortcut.
 - **Recommendation:** retain the guard and regression test. Recheck its behavior with real keyboard focus in both languages and with assistive technology; keep shortcuts from firing in text/form controls.
 - **Acceptance:** keyboard-only walkthrough verifies Tab / Shift+Tab focus order; Space activates the focused button normally; Space reveals only in the intended prompt context; Enter works as expected; numeric shortcuts do not trigger from text fields or focused buttons; no focus trap occurs in detail/dialog/drawer states. Record the deployed SHA and result.
@@ -61,8 +61,8 @@ No fresh screenshots were captured or visually inspected for this register entry
 ### UIUX-004 — Dictionary rows do not expose enough reading information and truncate long glosses
 
 - **Priority:** P1 — discovery quality.
-- **Status:** OPEN; source-level content hierarchy identified.
-- **Evidence:** in `src/App.tsx`, each result row shows a gloss, level/stroke metadata, and saved state, but no reading. In `src/styles.css`, `.result-copy strong` uses single-line truncation with ellipsis (see [row styles](https://github.com/ArdKam/Rinemi2/blob/main/src/styles.css#L231)).
+- **Status:** NEEDS RENDERED VERIFICATION; result-level reading/gloss cues are merged.
+- **Evidence:** the Explore result implementation now exposes available reading information alongside the gloss and keeps secondary metadata quieter. The UI change is covered by the core journey E2E, but visually similar candidates, long Persian/English meanings, Japanese wrapping and saved/focus states still need review in RTL/LTR and both themes.
 - **User impact:** users cannot efficiently distinguish candidates by reading, and similar meanings can become indistinguishable when truncated.
 - **Recommendation:** retain the kanji as the dominant glyph; provide a common reading when the data contains a usable value; allow the primary gloss up to two lines where needed; keep level/strokes as quieter metadata. Do not show empty or misleading readings, and avoid turning every row into a dense multi-field card.
 - **Acceptance:** test short and long Persian glosses, English glosses, Japanese readings, and mixed-script content. Similar candidates remain distinguishable; text is not clipped; row heights remain orderly; row focus and saved state remain understandable in RTL/LTR and both themes.
@@ -70,8 +70,8 @@ No fresh screenshots were captured or visually inspected for this register entry
 ### UIUX-005 — Explore stops at 240 rows rather than offering a complete browsing path
 
 - **Priority:** P1 — information access.
-- **Status:** OPEN; implementation and specification are misaligned.
-- **Evidence:** `src/App.tsx` renders `filteredKanji.slice(0, 240)` and provides a message asking the user to refine the search when there are more results. The UX specification calls for paginated or virtualized results that remain keyboard navigable and retain query state.
+- **Status:** NEEDS RENDERED VERIFICATION; the arbitrary 240-row ceiling has been replaced by incremental continuation.
+- **Evidence:** PR #30 removed the hard stop and added a continuation path, with E2E coverage proving a result beyond the first 240 can be reached. Manual review still needs a broad query/topic, screen-reader/keyboard continuity, stable selected identity, query/filter retention and performance on a lower-powered phone.
 - **User impact:** browsing a broad topic or imprecise search has an arbitrary stopping point even though the corpus contains 2,136 kanji.
 - **Recommendation:** introduce incremental pagination or virtualization with accessible keyboard navigation, stable result identity, retained query/filter state, and a clear indication of result totals and current range. Choose virtualization only if needed for performance.
 - **Acceptance:** users can reach every matching record without inventing a more specific search; query, filters, active collection, and selected item persist as intended; keyboard navigation and screen-reader semantics remain logical when more results load.
@@ -79,8 +79,8 @@ No fresh screenshots were captured or visually inspected for this register entry
 ### UIUX-006 — Compact landscape and short-viewport behavior need explicit validation
 
 - **Priority:** P2 — responsive quality and accessibility.
-- **Status:** NEEDS RENDERED VERIFICATION.
-- **Evidence:** the responsive stylesheet has width-based breakpoints but no explicit short-viewport rule. The E2E suite includes an 844×390 class, but manual acceptance must inspect actual behavior, not only horizontal overflow and control dimensions.
+- **Status:** NEEDS RENDERED / MANUAL VERIFICATION; responsive finishing and screenshot coverage are merged.
+- **Evidence:** PR #37 adds compact short-height/mobile styling and responsive Playwright coverage. The inspected artifact includes a 320px portrait revealed card and an 844×390 compact-landscape revealed card with ratings visible and no horizontal clipping. Dialogs, virtual-keyboard height, RTL/LTR, both themes and focus order remain to be accepted manually.
 - **User impact:** on landscape phones or when a virtual keyboard reduces height, the wrapped header, progress line, prompt, answer, and rating controls may leave little useful space in the viewport.
 - **Recommendation:** keep the header and study navigation compact at short heights, protect the prompt and primary action, and give dialogs/drawers a single predictable scroll owner. Allow vertical scrolling where necessary; prevent controls from being obscured or displaced without purpose.
 - **Acceptance:** manually inspect Today, prompt, revealed answer, rating controls, Explore, kanji detail, collection editing, and dialogs at 844×390 and with the virtual keyboard where supported.
@@ -96,7 +96,7 @@ No fresh screenshots were captured or visually inspected for this register entry
 ### UIUX-008 — Documentation status must stay synchronized with implemented behavior
 
 - **Priority:** P1 — inspection reliability.
-- **Status:** IN PROGRESS through this documentation change; recheck all statuses before merge.
+- **Status:** IN PROGRESS in this synchronization PR; exact-SHA implementation/deployment statuses are being reconciled here. Keep this finding open for future syncs if a code, PR or deployment change makes the records stale.
 - **Evidence:** main's roadmap lists collection rename and bulk-clear as merged, while README and detailed roadmap items did not consistently reflect these changes. Main now includes Anki text-export parser/tests and a support matrix, but end-to-end import UI and persistence acceptance remain open.
 - **Recommendation:** use `ROADMAP.md` for current phase status and this register for UX findings; use the README only as a concise summary. Distinguish implemented collection rename/clear/delete from unimplemented multi-item selection/bulk add-remove. Distinguish Anki parser and support-matrix infrastructure from a user-accessible end-to-end import flow. Keep all verification claims tied to the exact commit and deployment.
 - **Acceptance:** README, phase status, and open-work summary are checked against current main and open PRs. Report the deployed SHA only after successful deployment and live verification.
@@ -123,8 +123,8 @@ No fresh screenshots were captured or visually inspected for this register entry
 ### UIUX-011 — Core screens need visual finishing to match the approved art direction
 
 - **Priority:** P1 — product-quality gate before broader release.
-- **Status:** IMPLEMENTED ON `feat/visual-finishing-pass`; NEEDS RENDERED VERIFICATION. Source changes are not visual acceptance.
-- **Evidence:** the visual review of the recorded desktop/mobile evidence for commit `63c42c0` identified a wireframe-like Today composition, utility controls competing with primary navigation, weak visual continuity in the learning card, unnecessary mobile header overhead, and global placement of the content-review notice. The current art-direction and token documents already define the intended calm editorial system, so a redesign or a second token set is not needed.
+- **Status:** IMPLEMENTATION MERGED (`d094147`); PARTIAL RENDERED EVIDENCE INSPECTED, full acceptance still open.
+- **Evidence:** the earlier review for commit `63c42c0` identified a wireframe-like Today composition, utility controls competing with primary navigation, weak visual continuity in the learning card, unnecessary mobile header overhead, and global placement of the content-review notice. The current art-direction/tokens already define the intended calm editorial system, so a second design system is not needed. The merged implementation was tested by CI on PR head `86eb56e4698ca0d598df5a91e51282e9252df384`; selected current screenshots were visually inspected from [run 39171122230](https://github.com/ArdKam/Rinemi2/actions/runs/39171122230).
 - **Implementation scope:** reduce header height and the visual weight of utility controls; replace the fresh-account zero-counter row with concise first-session guidance; give Today one restrained focal surface; make the prompt, reveal, answer and rating controls read as one learning surface; use consistent line icons for theme, bookmark and search; compact mobile and short-height spacing without pinning actions over content; remove the content-review notice from the global footer while retaining the explicit source/content caveat in the relevant learning and Explore contexts.
 - **Non-goals:** no new learning features, no broad dashboard cards, no decorative gradients, no fixed rating bar, and no claim that content has been reviewed.
 - **Acceptance:** inspect artifacts from the exact PR head and deployed SHA where available. Review Today, unrevealed and revealed learning states, rating controls, Explore results and selected details at 320px, 360px, 390px, 844×390, tablet and desktop; cover Persian RTL / English LTR and light / dark. Confirm focus visibility, button states, text wrapping, contrast, rating reachability, and no horizontal overflow. Verify that a fresh account sees a clear first action without noisy zero counters, and that the content-provenance caveat remains visible in context.
@@ -132,11 +132,10 @@ No fresh screenshots were captured or visually inspected for this register entry
 
 ## 4. Implementation order
 
-1. **UIUX-001:** make mobile Explore selection reveal details predictably.
-2. **UIUX-002:** run the keyboard regression test on the current deployed build and complete manual focus/keyboard acceptance for the source fix.
-3. **UIUX-003:** inspect real revealed-card screenshots and reduce unnecessary scrolling without compromising educational order.
-4. **UIUX-004 and UIUX-005:** improve result disambiguation and remove the arbitrary browsing ceiling with an accessible continuation pattern.
-5. **UIUX-006 and UIUX-007:** perform the full responsive and manual accessibility acceptance pass.
+1. **UIUX-007:** complete the integrated manual screenshot/accessibility pass on the current deployed SHA; the implementation and sampled PR screenshot artifact are not the complete matrix.
+2. **UIUX-001 and UIUX-002:** test real keyboard navigation, result/detail return context, Back/Escape, focus, scroll and shortcut ownership across RTL/LTR and themes.
+3. **UIUX-003 and UIUX-006:** complete the full rating-reachability/short-viewport matrix (320×640, 390×844, 844×390, tablet/desktop) including virtual keyboard and focus visibility.
+4. **UIUX-004 and UIUX-005:** inspect result disambiguation and continuation beyond 240 with keyboard, screen reader, long meanings and low-powered/mobile performance.
 6. **UIUX-008:** keep documents and status claims synchronized with main, open PRs, and the deployed artifact.
 7. **UIUX-009:** validate Today with short usability tasks, then refine only where evidence shows confusion.
 8. **UIUX-010:** apply the Kanji5 reuse guardrail during feature transfers and verify the resulting visual hierarchy with current rendered screenshots.
