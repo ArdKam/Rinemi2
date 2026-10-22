@@ -362,7 +362,7 @@ test("English mobile Explore shows selected detail before secondary tools", asyn
   await page.goto("/");
   await page.getByRole("button", { name: "Switch to English", exact: true }).click();
   await page.getByRole("button", { name: "Explore", exact: true }).click();
-  const query = page.getByPlaceholder("e.g. 日, nichi, sun…");
+  const query = page.getByPlaceholder("Try 日, nichi, sun…");
   await query.fill("a");
   const result = page.locator(".kanji-result").first();
   await expect(result).toBeVisible();
