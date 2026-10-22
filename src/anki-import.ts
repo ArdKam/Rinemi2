@@ -281,15 +281,21 @@ export function parseAnkiTextExport(text: string): AnkiTextPreview {
 
   const firstWidth = rawRows[0].fields.length;
   const width = parsed.headers.columns.length || firstWidth;
-  const specialIndexes = new Set([
+  const declaredSpecialIndexes = [
     parsed.headers.tagsColumn,
     parsed.headers.notetypeColumn,
     parsed.headers.deckColumn,
     parsed.headers.guidColumn
-  ].filter((value): value is number => value !== null));
+  ].filter((value): value is number => value !== null);
+  if (parsed.headers.columns.length > 0
+    && declaredSpecialIndexes.some(index => index >= parsed.headers.columns.length)) {
+    throw new Error("ANKI_UNSUPPORTED_SPECIAL_COLUMN");
+  }
+  const specialIndexes = new Set(declaredSpecialIndexes);
 
   const normalIndexes = Array.from({ length: Math.max(width, ...rawRows.map(row => row.fields.length)) }, (_, index) => index)
     .filter(index => !specialIndexes.has(index));
+  if (normalIndexes.length === 0) throw new Error("ANKI_UNSUPPORTED_NO_CONTENT_FIELDS");
   const fieldLabels = normalIndexes.map((index, labelIndex) => {
     const declared = parsed.headers.columns[index];
     return declared || "Field " + (labelIndex + 1);
