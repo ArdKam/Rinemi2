@@ -603,3 +603,47 @@ test("saved language and theme are applied before the React module boots", async
   await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 });
+
+
+test("forced-colors mode uses system colors and keeps keyboard focus visible", async ({ page }) => {
+  await page.emulateMedia({ forcedColors: "active" });
+  await page.goto("/");
+
+  await expect(page.getByRole("heading", { name: "امروز، یک قدم به خواندن نزدیک‌تر." })).toBeVisible();
+  const start = page.getByRole("button", { name: /شروع یادگیری/ });
+  await start.focus();
+
+  const state = await page.evaluate(() => {
+    const root = getComputedStyle(document.documentElement);
+    const button = document.querySelector<HTMLButtonElement>(".button-primary");
+    if (!button) throw new Error("Primary learning action is missing");
+    const buttonStyle = getComputedStyle(button);
+    return {
+      forcedColors: matchMedia("(forced-colors: active)").matches,
+      canvasToken: root.getPropertyValue("--rinemi-color-bg-canvas").trim(),
+      textToken: root.getPropertyValue("--rinemi-color-text-primary").trim(),
+      focusToken: root.getPropertyValue("--rinemi-color-focus-ring").trim(),
+      pageBackground: root.backgroundColor,
+      pageText: root.color,
+      actionBackground: buttonStyle.backgroundColor,
+      actionText: buttonStyle.color,
+      focusStyle: buttonStyle.outlineStyle,
+      focusWidth: buttonStyle.outlineWidth,
+      focusColor: buttonStyle.outlineColor,
+      actionShadow: buttonStyle.boxShadow
+    };
+  });
+
+  expect(state.forcedColors).toBe(true);
+  expect(state.canvasToken).toBe("Canvas");
+  expect(state.textToken).toBe("CanvasText");
+  expect(state.focusToken).toBe("Highlight");
+  expect(state.pageBackground).not.toBe("rgba(0, 0, 0, 0)");
+  expect(state.pageText).not.toBe(state.pageBackground);
+  expect(state.actionBackground).not.toBe("rgba(0, 0, 0, 0)");
+  expect(state.actionText).not.toBe(state.actionBackground);
+  expect(state.focusStyle).toBe("solid");
+  expect(state.focusWidth).toBe("2px");
+  expect(state.focusColor).not.toBe("rgba(0, 0, 0, 0)");
+  expect(state.actionShadow).toBe("none");
+});
