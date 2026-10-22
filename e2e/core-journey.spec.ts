@@ -299,7 +299,7 @@ for (const viewport of [
   { name: "320px phone", width: 320, height: 640 },
   { name: "390px phone", width: 390, height: 844 }
 ]) {
-  test("mobile Explore restores scroll and supports browser Back, Escape, and its Back action at " + viewport.name, async ({ page }) => {
+  test("mobile Explore restores scroll and supports browser Back, Escape, and its Back action at " + viewport.name, async ({ page }, testInfo) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     await page.goto("/");
     await page.getByRole("button", { name: "کاوش" }).click();
@@ -327,6 +327,7 @@ for (const viewport of [
     expect(detailTop, "Selected kanji detail precedes collections controls").toBeLessThan(collectionsTop);
     expect(detailTop, "Selected kanji detail precedes Anki preview tools").toBeLessThan(ankiTop);
     await expect(page.getByRole("button", { name: "بازگشت به نتایج" })).toBeVisible();
+    await page.screenshot({ path: testInfo.outputPath("selected-detail-before-secondary-tools.png"), fullPage: true });
 
     // Browser Back should dismiss the mobile detail state rather than leave Explore.
     await page.evaluate(() => window.history.back());
@@ -356,7 +357,7 @@ for (const viewport of [
 }
 
 
-test("English mobile Explore shows selected detail before secondary tools", async ({ page }) => {
+test("English mobile Explore shows selected detail before secondary tools", async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   await page.getByRole("button", { name: "Switch to English", exact: true }).click();
@@ -373,6 +374,10 @@ test("English mobile Explore shows selected detail before secondary tools", asyn
   expect(detailTop, "LTR detail appears before collections").toBeLessThan(collectionsTop);
   expect(detailTop, "LTR detail appears before Anki tools").toBeLessThan(ankiTop);
   await expect(page.getByRole("button", { name: "Back to results", exact: true })).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath("selected-detail-before-secondary-tools.png"), fullPage: true });
+  await page.getByRole("button", { name: "Back to results", exact: true }).click();
+  await expect(page.locator(".kanji-results")).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath("return-to-results.png"), fullPage: true });
 });
 
 test("Explore continues past 240 results and exposes a reading cue on each result row", async ({ page }) => {
