@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 360" width="340" height="360">
+  <defs>
+    <filter id="pencil-grain" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency=".82" numOctaves="2" seed="17" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0" result="mono"/>
+      <feComponentTransfer in="mono" result="grain">
+        <feFuncA type="table" tableValues="0 .09"/>
+      </feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="grain" mode="multiply"/>
+    </filter>
+  </defs>
+
+  <!-- This is a small UI illustration, not a logo. Keep the owner's face and markings consistent. -->
+  <g filter="url(#pencil-grain)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Tail sits behind the body; its front curl is redrawn below. -->
+    <path d="M220 273 C251 267 281 273 299 289 C315 304 310 322 293 333 C272 346 233 343 202 333 L185 320 C193 300 202 284 220 273Z"
+      fill="#393936" stroke="#393936" stroke-width="2.1"/>
+
+    <!-- One continuous body/head silhouette: intentionally no neck seam. -->
+    <path d="M78 166 C68 146 66 120 74 97 L91 64 C89 43 91 23 101 19
+      C112 17 132 33 147 43 C163 39 182 40 199 43
+      C212 30 231 15 243 18 C255 21 260 45 262 67
+      C279 91 288 118 290 146 C292 166 285 186 277 202
+      C282 229 278 258 264 284 C248 310 221 328 186 331
+      C152 335 117 327 94 308 C73 290 64 260 65 226
+      C65 204 69 184 78 166Z"
+      fill="#F8F0DE" stroke="#3D3B36" stroke-width="2.2"/>
+
+    <!-- Ear interiors remain small and quiet. -->
+    <path d="M96 58 C96 41 98 29 103 26 C111 28 127 40 139 48 C125 49 110 54 96 65Z"
+      fill="#D9B28A" opacity=".86"/>
+    <path d="M102 30 C110 34 120 41 127 47" fill="none" stroke="#B88D6A" stroke-width="1.15" opacity=".58"/>
+
+    <!-- The viewer-right marking is one connected visual identity across forehead and flank. -->
+    <path d="M190 45 C210 31 231 16 243 20 C254 23 258 47 261 68
+      C278 91 287 118 289 145 C290 164 283 184 274 202
+      C279 230 274 257 260 282 C245 305 223 321 197 326
+      C187 324 178 321 170 316 C181 301 194 287 208 269
+      C223 251 231 234 226 216 C222 200 212 189 203 175
+      C194 162 192 145 198 128 C204 107 198 79 190 45Z"
+      fill="#3A3936" opacity=".96"/>
+
+    <!-- A soft line of fur separates the flank from the belly without becoming a hard stripe. -->
+    <path d="M170 316 C177 301 191 287 207 269 C221 251 230 232 226 216"
+      fill="none" stroke="#5A5750" stroke-width="1.25" opacity=".72"/>
+
+    <!-- Face: narrow, half-lidded eyes; keep these shapes unchanged across future poses. -->
+    <path d="M111 116 C123 107 143 107 156 117 C145 131 126 131 116 122Z"
+      fill="#FAF4E7" stroke="#3A3936" stroke-width="1.45"/>
+    <ellipse cx="135" cy="119" rx="11.2" ry="12.2" fill="#171716"/>
+    <path d="M111 116 C124 108 142 108 156 117" fill="none" stroke="#3A3936" stroke-width="1.8"/>
+
+    <path d="M202 117 C215 107 235 108 247 116 L242 123 C231 131 213 130 202 117Z"
+      fill="#FAF4E7" stroke="#3A3936" stroke-width="1.45"/>
+    <ellipse cx="224" cy="119" rx="11.2" ry="12.2" fill="#171716"/>
+    <path d="M202 117 C215 108 234 108 247 116" fill="none" stroke="#3A3936" stroke-width="1.8"/>
+
+    <path d="M165 137 Q174 130 183 137 L174 146Z" fill="#D9A17F" stroke="#9E755F" stroke-width=".9"/>
+    <path d="M174 146 L174 154 M174 154 C171 160 166 162 161 161 M174 154 C179 161 185 162 190 160"
+      fill="none" stroke="#3A3936" stroke-width="1.7"/>
+
+    <g fill="none" stroke="#6A6257" stroke-width="1.05" opacity=".95">
+      <path d="M112 143 C91 139 71 139 52 143"/>
+      <path d="M114 151 C91 152 73 157 57 163"/>
+      <path d="M238 143 C258 139 278 139 298 143"/>
+      <path d="M237 151 C259 152 277 157 294 163"/>
+    </g>
+
+    <!-- Belly spot and minimal paw lines. -->
+    <circle cx="188" cy="253" r="17.5" fill="#D9A17F" opacity=".76"/>
+    <path d="M121 286 C129 300 135 311 135 320 C135 325 132 329 128 331"
+      fill="none" stroke="#5D554A" stroke-width="1.1" opacity=".84"/>
+    <path d="M161 304 C164 315 163 325 158 331" fill="none" stroke="#5D554A" stroke-width="1.1" opacity=".84"/>
+    <path d="M179 319 C180 325 179 329 176 331" fill="none" stroke="#5D554A" stroke-width="1.1" opacity=".84"/>
+
+    <!-- Tail curl at the base echoes the original silhouette. -->
+    <path d="M214 310 C238 298 264 291 284 298 C296 303 297 314 287 322
+      C270 333 237 336 207 329 C196 327 188 323 183 319 C192 316 202 313 214 310Z"
+      fill="#393936" stroke="#3A3936" stroke-width="1.7"/>
+
+    <!-- Small tea bowl: a quiet context prop for an empty state, never the focal point. -->
+    <path d="M38 291 C39 304 48 316 62 317 C76 317 85 305 87 291Z"
+      fill="#EAE0CA" stroke="#6C6253" stroke-width="1.4"/>
+    <ellipse cx="62.5" cy="291" rx="24.5" ry="6.6" fill="#F6EDDA" stroke="#6C6253" stroke-width="1.4"/>
+    <ellipse cx="62.5" cy="291.5" rx="19" ry="3.7" fill="#87927B" opacity=".78"/>
+    <path d="M48 306 C57 311 68 311 77 306" fill="none" stroke="#B2A58E" stroke-width="1" opacity=".8"/>
+    <path d="M22 322 C42 320 65 322 87 322 M92 325 C120 326 147 329 174 327"
+      fill="none" stroke="#B8AD9B" stroke-width="1.05" opacity=".58"/>
+  </g>
+</svg>
