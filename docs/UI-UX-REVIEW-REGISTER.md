@@ -3,7 +3,7 @@
 **Status:** Active; source review recorded on 2026-10-19. Rendered-browser visual acceptance remains outstanding.  
 **Scope:** Responsive UI, core learning flow, Explore/dictionary, keyboard interaction, design-system execution, and documentation accuracy.  
 **Target repository:** `ArdKam/Rinemi2`.  
-**Review baseline:** `36b1373fea55fda205c0e328621e3b8d6ce9c581` (current integrated main code and evidence-capture snapshot checked on 2026-10-19).  
+**Review baseline:** `36b1373fea55fda205c0e328621e3b8d6ce9c581` (historical review baseline from 2026-10-19; current application-code and rendered-evidence status is recorded in Section 2 below).  
 **Public preview:** https://ardkam.github.io/Rinemi2/
 
 This register preserves review findings between inspections. It is the canonical place to track UI/UX findings, severity, evidence, disposition, and acceptance criteria. The product and UX specification owns intended behavior; the art direction and design-token contract own visual rules; the roadmap owns phase order and release status; this register owns the durable list of review findings and their verification state.
