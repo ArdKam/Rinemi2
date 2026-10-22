@@ -33,12 +33,12 @@ Responsive screenshots from [run 39172388405](https://github.com/ArdKam/Rinemi2/
 ### UIUX-001 — Mobile Explore return context requires rendered verification
 
 - **Priority:** P1 — high-impact core discovery flow.
-- **Status:** NEEDS RENDERED / MANUAL VERIFICATION; implementation and regression coverage are merged.
-- **Evidence:** PR #33 adds browser-history state for mobile detail, Escape handling, and return focus/scroll restoration. Playwright tests long filtered result sets at 320px and 390px, including browser Back, Escape and explicit Back. The deployed interface still needs both-language and filter-context acceptance.
-- **User impact:** on a phone, selecting a row may leave its detail far below the list, making the tap appear ineffective and forcing a long scroll.
-- **Recommendation:** implement a deliberate mobile selection pattern: either a dedicated detail view with a clear Back action, a focused bottom sheet/dialog with correct focus behavior, or an equivalent pattern that makes selected details immediately apparent. Preserve query, active filters, collection selection, and selected character on return. Avoid leaving selected detail below a long result list.
-- **Acceptance:** at 320px and 390px widths, select a result while the list is long; detail becomes immediately visible without traversing results. Verify Back/close returns to the same query/filter/scroll context; keyboard focus returns to the originating row; Escape works where applicable; browser Back is coherent; there is no horizontal overflow; Persian RTL and English LTR both work.
-- **Required evidence:** current-run screenshots of results, selected-detail state, and return-to-results state in both language directions, plus a Playwright regression test.
+- **Status:** OPEN — rendered evidence reviewed on 2026-10-22 identified a concrete ordering defect; focused correction proposed on fix/mobile-explore-detail-priority-20261022.
+- **Evidence:** the current deployed screenshot for main 8e79f400acc2169f40aa1478e78e5f74017724ba showed the selected mobile detail below the collections and Anki preview sections. The existing mobile state hides the results list, but because the detail region is later in DOM order, the learner must still scroll past unrelated secondary tools to reach the selected kanji. Browser Back, Escape and focus/scroll restoration tests already exist.
+- **User impact:** the tap can appear ineffective on a phone and learners must traverse irrelevant controls to see the kanji they selected.
+- **Recommendation:** keep Explore's primary path ordered as search/filters → results or selected detail → secondary collections → optional Anki text preview. Preserve query, active filters, collection selection, and selected character on return; do not build another dialog or duplicate the detail UI.
+- **Acceptance:** at 320px and 390px widths, selecting a result places the selected detail before collections and Anki controls with no extra scroll past those tools. Verify Back/close returns to the same query/filter/scroll context; keyboard focus returns to the originating row; Escape works; browser Back is coherent; there is no horizontal overflow; Persian RTL and English LTR both work.
+- **Required evidence:** current-run screenshots of results, selected-detail state, and return-to-results state in both language directions, plus Playwright assertions that the detail precedes secondary tools. Retain manual screen-reader/keyboard acceptance as a separate release gate.
 
 ### UIUX-002 — Verify native keyboard activation after the Space-shortcut fix
 
