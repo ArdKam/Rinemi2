@@ -4,6 +4,8 @@
 
 **Current status:** NOT RUN / NOT ACCEPTED. Do not mark a check as passed without recording the reviewer, date, browser/assistive technology, commit, and findings.
 
+**Automated evidence checkpoint (2026-10-23):** application-code SHA `65e92fc8c539a92d4cc13841e653a563e96d2e8b` passed [main CI](https://github.com/ArdKam/Rinemi2/actions/runs/39854370909) and [Pages deployment/live Chromium verification](https://github.com/ArdKam/Rinemi2/actions/runs/39854370784). The run includes Playwright, offline checks, a live smoke test, and Chromium verification. Screenshot artifacts for the editorial correction and mobile Explore detail were inspected from [PR #46 CI](https://github.com/ArdKam/Rinemi2/actions/runs/39839681292) and [PR #47 CI](https://github.com/ArdKam/Rinemi2/actions/runs/39841371594). These are partial automated/rendered evidence only; they **do not** change the manual checklist's NOT RUN / NOT ACCEPTED status.
+
 ## Recording a run
 
 - Commit SHA:
