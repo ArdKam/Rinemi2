@@ -646,4 +646,24 @@ test("forced-colors mode uses system colors and keeps keyboard focus visible", a
   expect(state.focusWidth).toBe("2px");
   expect(state.focusColor).not.toBe("rgba(0, 0, 0, 0)");
   expect(state.actionShadow).toBe("none");
+
+  // Secondary links must remain readable when hovered under user-selected high-contrast palettes.
+  await page.getByRole("button", { name: "کاوش" }).click();
+  await page.getByPlaceholder("مثلاً 日، nichi، خورشید…").fill("日");
+  await page.locator(".kanji-result").first().click();
+  const bookmark = page.locator(".detail-bookmark");
+  await bookmark.hover();
+  const secondaryState = await bookmark.evaluate(button => {
+    const root = getComputedStyle(document.documentElement);
+    const style = getComputedStyle(button);
+    return {
+      hoverBackgroundToken: root.getPropertyValue("--rinemi-color-action-secondary-hover-bg").trim(),
+      pageBackground: root.backgroundColor,
+      buttonBackground: style.backgroundColor,
+      buttonText: style.color
+    };
+  });
+  expect(secondaryState.hoverBackgroundToken).toBe("Canvas");
+  expect(secondaryState.buttonBackground).toBe(secondaryState.pageBackground);
+  expect(secondaryState.buttonText).not.toBe(secondaryState.buttonBackground);
 });
