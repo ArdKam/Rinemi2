@@ -6,7 +6,8 @@
       <feComponentTransfer in="mono" result="grain">
         <feFuncA type="table" tableValues="0 .09"/>
       </feComponentTransfer>
-      <feBlend in="SourceGraphic" in2="grain" mode="multiply"/>
+      <feComposite in="grain" in2="SourceAlpha" operator="in" result="clipped-grain"/>
+      <feBlend in="SourceGraphic" in2="clipped-grain" mode="multiply"/>
     </filter>
   </defs>
 
