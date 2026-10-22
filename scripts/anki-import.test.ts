@@ -91,20 +91,20 @@ test("rejects malformed or unsupported input without silently guessing", () => {
 test("rejects metadata column indexes outside declared columns", () => {
   assert.throws(() => parseAnkiTextExport([
     "#separator:Tab",
-    "#columns:Front\\tBack",
+    "#columns:Front\tBack",
     "#tags column:3",
-    "front\\tback\\ttags"
-  ].join("\\n")), /ANKI_UNSUPPORTED_SPECIAL_COLUMN/);
+    "front\tback\ttags"
+  ].join("\n")), /ANKI_UNSUPPORTED_SPECIAL_COLUMN/);
 });
 
 test("rejects metadata-only exports with no content fields to map", () => {
   assert.throws(() => parseAnkiTextExport([
     "#separator:Tab",
-    "#columns:Tags\\tDeck",
+    "#columns:Tags\tDeck",
     "#tags column:1",
     "#deck column:2",
-    "beginner\\tJapanese"
-  ].join("\\n")), /ANKI_UNSUPPORTED_NO_CONTENT_FIELDS/);
+    "beginner\tJapanese"
+  ].join("\n")), /ANKI_UNSUPPORTED_NO_CONTENT_FIELDS/);
 });
 
 test("rejects invalid UTF-8 and oversized uploads before parsing", () => {
