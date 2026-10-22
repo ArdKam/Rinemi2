@@ -74,6 +74,59 @@ test("Today starts a useful session and learning rating advances the queue", asy
   await expect(page.locator(".prompt-kanji")).toHaveText("一");
 });
 
+test("empty learning state loads its decorative mascot and keeps the recovery action clear", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.addInitScript(() => {
+    const starter = [
+      "日", "一", "国", "会", "人", "年", "大", "十", "二", "本",
+      "中", "長", "出", "三", "同", "時", "事", "自", "行", "社",
+      "見", "月", "金", "学", "生", "前", "後", "東", "水", "山",
+      "川", "木", "火", "雨", "花", "食", "読", "書", "語", "電",
+      "車", "道", "今", "家"
+    ];
+    const now = new Date().toISOString();
+    const due = "2999-01-01T00:00:00.000Z";
+    const reviews = Object.fromEntries(starter.map(character => [character, {
+      card: { due, state: 2 },
+      reviews: 1,
+      lapses: 0,
+      lastReviewedAt: now
+    }]));
+    localStorage.setItem("rinemi.theme", "light");
+    localStorage.setItem("rinemi2:local:v2", JSON.stringify({
+      version: 2, language: "fa", theme: "light", bookmarks: [], collections: [], reviews
+    }));
+  });
+
+  await page.goto("/");
+  await page.getByRole("button", { name: /شروع یادگیری/ }).click();
+
+  const emptyState = page.locator(".session-empty");
+  const mascot = emptyState.locator(".mascot-empty-illustration");
+  await expect(emptyState.getByRole("heading", {
+    name: "فعلاً مرور موعدرسیده یا کانجی تازه‌ای از مجموعهٔ آغازین باقی نمانده است."
+  })).toBeVisible();
+  await expect(mascot).toBeVisible();
+  await expect(mascot).toHaveAttribute("alt", "");
+  await expect(mascot).toHaveAttribute("aria-hidden", "true");
+  await expect.poll(() => mascot.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+  await expect(emptyState.getByRole("button", { name: /کاوش کانجی‌ها/ })).toBeVisible();
+  await page.screenshot({ path: "artifacts/mascot-empty-fa-light.png", fullPage: true });
+
+  await page.getByRole("button", { name: "حالت تیره" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(mascot).toBeVisible();
+  await page.screenshot({ path: "artifacts/mascot-empty-fa-dark.png", fullPage: true });
+
+  await page.getByRole("button", { name: "Switch to English" }).click();
+  await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+  await expect(emptyState.getByRole("heading", { name: "No due reviews or new characters from the starter set are available right now." })).toBeVisible();
+  await expect(emptyState.getByRole("button", { name: /Explore kanji/ })).toBeVisible();
+  await expect(mascot).toBeVisible();
+  await page.screenshot({ path: "artifacts/mascot-empty-en-dark.png", fullPage: true });
+});
+
+
 test("Explore can search, bookmark, switch language/theme, and fit mobile width", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
