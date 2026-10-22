@@ -327,6 +327,9 @@ for (const viewport of [
     expect(detailTop, "Selected kanji detail precedes collections controls").toBeLessThan(collectionsTop);
     expect(detailTop, "Selected kanji detail precedes Anki preview tools").toBeLessThan(ankiTop);
     await expect(page.getByRole("button", { name: "بازگشت به نتایج" })).toBeVisible();
+    // Full-page captures of fixed skip links are only representative from scroll origin.
+    await page.evaluate(() => { document.documentElement.scrollTop = 0; document.body.scrollTop = 0; });
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
     await page.screenshot({ path: testInfo.outputPath("selected-detail-before-secondary-tools.png"), fullPage: true });
 
     // Browser Back should dismiss the mobile detail state rather than leave Explore.
@@ -374,9 +377,14 @@ test("English mobile Explore shows selected detail before secondary tools", asyn
   expect(detailTop, "LTR detail appears before collections").toBeLessThan(collectionsTop);
   expect(detailTop, "LTR detail appears before Anki tools").toBeLessThan(ankiTop);
   await expect(page.getByRole("button", { name: "Back to results", exact: true })).toBeVisible();
+  // Full-page captures of fixed skip links are only representative from scroll origin.
+  await page.evaluate(() => { document.documentElement.scrollTop = 0; document.body.scrollTop = 0; });
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await page.screenshot({ path: testInfo.outputPath("selected-detail-before-secondary-tools.png"), fullPage: true });
   await page.getByRole("button", { name: "Back to results", exact: true }).click();
   await expect(page.locator(".kanji-results")).toBeVisible();
+  await page.evaluate(() => { document.documentElement.scrollTop = 0; document.body.scrollTop = 0; });
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await page.screenshot({ path: testInfo.outputPath("return-to-results.png"), fullPage: true });
 });
 
