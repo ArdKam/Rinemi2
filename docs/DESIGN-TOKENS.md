@@ -94,7 +94,19 @@ The source-level token check validates declared color pairs only. The current fe
 
 Before marking token or component styling accepted, consult [the UI/UX review register](UI-UX-REVIEW-REGISTER.md). Passing token-level contrast does not establish that Explore detail, the revealed learning card, long dictionary strings, focus states, or short-viewport layouts are visually usable. Capture and inspect these actual component states in both themes and language directions, then attach evidence to the relevant finding.
 
-## 9. Implementation checklist
+## 9. Forced-colors / high-contrast mode
+
+The runtime token sheet implements an explicit `@media (forced-colors: active)` mapping to the user's system palette. This is a semantic fallback, not a second branded theme: normal light/dark values remain unchanged outside forced-colors mode.
+
+- Use `Canvas` for the page/surface family, `CanvasText` for text and meaningful boundaries, `LinkText` for link/secondary text, `ButtonFace` / `ButtonText` for primary and destructive button surfaces/labels, `Highlight` / `HighlightText` for selection, and `Highlight` for keyboard focus outlines.
+- Do not pair independently user-configured system colors without evidence of contrast. In particular, avoid using `Highlight` as a hover fill beneath `LinkText`; keep the secondary-action hover surface at `Canvas` and preserve a distinguishable foreground.
+- Remove decorative shadows in forced-colors mode; retain shape, borders, text, focus outlines and explicit labels so selected/status/error states are not conveyed by hue alone.
+- Retain `forced-color-adjust: auto` for native controls. Do not force a custom brand palette over the user's accessibility palette.
+- Validate computed tokens and keyboard focus in Playwright, then perform a separate manual pass in an actual supported OS/browser high-contrast setting. Browser emulation does not certify system-level rendering, screen-reader announcements or full usability.
+
+PR [#51](https://github.com/ArdKam/Rinemi2/pull/51) added the initial system-token mapping. PR [#53](https://github.com/ArdKam/Rinemi2/pull/53) is now merged: it uses `Canvas` for the secondary-action hover surface rather than pairing `LinkText` on `Highlight`, and the hovered-bookmark regression assertion passed in [full CI](https://github.com/ArdKam/Rinemi2/actions/runs/39859285047) and [token-contrast checks](https://github.com/ArdKam/Rinemi2/actions/runs/39859285118). The current integrated application SHA `1929c774b67c8ec3990f1ccb2f43aef7c463e7f1` also passed [main CI](https://github.com/ArdKam/Rinemi2/actions/runs/39859508305), [contrast](https://github.com/ArdKam/Rinemi2/actions/runs/39859508249) and [Pages/live Chromium verification](https://github.com/ArdKam/Rinemi2/actions/runs/39859508390). This does not close manual OS high-contrast, keyboard, screen-reader or broader theme/locale acceptance.
+
+## 10. Implementation checklist
 
 - [x] Create one token sheet for shared colors, semantic roles, type, spacing, radius, focus, borders, elevation, layering and motion.
 - [x] Establish vermilion/coral as the primary action in both themes; keep indigo secondary and danger separate.
@@ -105,4 +117,4 @@ Before marking token or component styling accepted, consult [the UI/UX review re
 - [x] Add a standalone semantic-token contrast checker at `scripts/check-design-token-contrast.mjs`.
 - [x] Wire the checker into GitHub Actions for token-sheet and checker changes.
 - [ ] Build a rendered component gallery.
-- [ ] Validate Persian RTL / English LTR, light / dark, mobile / desktop, keyboard focus and reduced motion.
+- [ ] Validate Persian RTL / English LTR, light / dark, mobile / desktop, keyboard focus, reduced motion and real OS forced-colors mode.
