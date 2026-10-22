@@ -320,7 +320,10 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
 }
 @media (max-width: 680px) {
   .app-shell { padding-inline: var(--rinemi-space-4); padding-bottom: var(--rinemi-space-5); }
-  .app-header { min-height: 0; gap: var(--rinemi-space-3); }
+  .app-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "brand tools" "nav nav"; align-items: center; min-height: 0; gap: var(--rinemi-space-3); padding: var(--rinemi-space-3) 0 0; }
+  .brand-lockup { grid-area: brand; min-width: 0; }
+  .primary-nav { grid-area: nav; order: initial; }
+  .header-tools { grid-area: tools; margin-inline-start: 0; }
   .brand-mark-shell { width: 39px; height: 39px; }
   .brand-copy strong { font-size: var(--rinemi-font-size-lg); }
   .brand-copy span { display: none; }
