@@ -237,3 +237,85 @@
     scroll-behavior: auto;
   }
 }
+
+
+/* Windows High Contrast / browser forced-colors support.
+   Preserve semantic contrast using system colors instead of relying on brand hues. */
+@media (forced-colors: active) {
+  :root,
+  :root[data-theme="light"],
+  :root[data-theme="dark"] {
+    color-scheme: light dark;
+
+    --rinemi-color-bg-canvas: Canvas;
+    --rinemi-color-bg-surface: Canvas;
+    --rinemi-color-bg-raised: Canvas;
+    --rinemi-color-bg-inset: Canvas;
+    --rinemi-color-overlay: Canvas;
+
+    --rinemi-color-text-primary: CanvasText;
+    --rinemi-color-text-secondary: CanvasText;
+    --rinemi-color-text-muted: CanvasText;
+    --rinemi-color-text-disabled: GrayText;
+    --rinemi-color-text-inverse: Canvas;
+    --rinemi-color-link: LinkText;
+
+    --rinemi-color-border-subtle: CanvasText;
+    --rinemi-color-border-default: CanvasText;
+    --rinemi-color-border-strong: CanvasText;
+    --rinemi-color-border-interactive: ButtonText;
+    --rinemi-color-divider: CanvasText;
+
+    --rinemi-color-action-primary-bg: ButtonFace;
+    --rinemi-color-action-primary-hover-bg: ButtonFace;
+    --rinemi-color-action-primary-pressed-bg: ButtonFace;
+    --rinemi-color-action-primary-fg: ButtonText;
+    --rinemi-color-action-primary-disabled-bg: ButtonFace;
+    --rinemi-color-action-primary-disabled-fg: GrayText;
+
+    --rinemi-color-action-secondary-fg: LinkText;
+    --rinemi-color-action-secondary-hover-bg: Highlight;
+    --rinemi-color-action-secondary-border: LinkText;
+
+    --rinemi-color-selection-bg: Highlight;
+    --rinemi-color-selection-fg: HighlightText;
+    --rinemi-color-selection-border: Highlight;
+
+    --rinemi-color-danger-fg: CanvasText;
+    --rinemi-color-danger-bg: Canvas;
+    --rinemi-color-danger-border: CanvasText;
+    --rinemi-color-action-danger-bg: ButtonFace;
+    --rinemi-color-action-danger-hover-bg: ButtonFace;
+    --rinemi-color-action-danger-fg: ButtonText;
+
+    --rinemi-color-success-fg: CanvasText;
+    --rinemi-color-success-bg: Canvas;
+    --rinemi-color-success-border: CanvasText;
+    --rinemi-color-warning-fg: CanvasText;
+    --rinemi-color-warning-bg: Canvas;
+    --rinemi-color-warning-border: CanvasText;
+    --rinemi-color-info-fg: CanvasText;
+    --rinemi-color-info-bg: Canvas;
+    --rinemi-color-info-border: CanvasText;
+
+    --rinemi-color-focus-ring: Highlight;
+    --rinemi-shadow-raised: none;
+    --rinemi-shadow-overlay: none;
+  }
+
+  :where(:focus-visible),
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  a:focus-visible {
+    outline-color: Highlight;
+  }
+
+  /* Do not depend on filled surfaces or a color-only focus cue in this mode. */
+  button,
+  input,
+  select,
+  textarea {
+    forced-color-adjust: auto;
+  }
+}
