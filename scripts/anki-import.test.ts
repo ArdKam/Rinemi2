@@ -88,6 +88,25 @@ test("rejects malformed or unsupported input without silently guessing", () => {
   assert.throws(() => parseAnkiTextExport('#separator:Tab\n#columns:Front\tBack\n"unclosed\tvalue'), /ANKI_UNCLOSED_QUOTED_FIELD/);
 });
 
+test("rejects metadata column indexes outside declared columns", () => {
+  assert.throws(() => parseAnkiTextExport([
+    "#separator:Tab",
+    "#columns:Front\tBack",
+    "#tags column:3",
+    "front\tback\ttags"
+  ].join("\n")), /ANKI_UNSUPPORTED_SPECIAL_COLUMN/);
+});
+
+test("rejects metadata-only exports with no content fields to map", () => {
+  assert.throws(() => parseAnkiTextExport([
+    "#separator:Tab",
+    "#columns:Tags\tDeck",
+    "#tags column:1",
+    "#deck column:2",
+    "beginner\tJapanese"
+  ].join("\n")), /ANKI_UNSUPPORTED_NO_CONTENT_FIELDS/);
+});
+
 test("rejects invalid UTF-8 and oversized uploads before parsing", () => {
   assert.throws(() => decodeAnkiTextExport(new Uint8Array([0xc3, 0x28]).buffer), /ANKI_INVALID_UTF8/);
   assert.throws(() => decodeAnkiTextExport(new ArrayBuffer(MAX_ANKI_TEXT_BYTES + 1)), /ANKI_FILE_TOO_LARGE/);
