@@ -606,7 +606,7 @@ test("saved language and theme are applied before the React module boots", async
 
 
 test("forced-colors mode uses system colors and keeps keyboard focus visible", async ({ page }) => {
-  await page.emulateMedia({ forcedColors: "active" });
+  await page.emulateMedia({ forcedColors: "active", reducedMotion: "reduce" });
   await page.goto("/");
 
   await expect(page.getByRole("heading", { name: "امروز، یک قدم به خواندن نزدیک‌تر." })).toBeVisible();
