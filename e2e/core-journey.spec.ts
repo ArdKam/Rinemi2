@@ -359,7 +359,7 @@ for (const viewport of [
 test("English mobile Explore shows selected detail before secondary tools", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  await page.getByRole("button", { name: "English", exact: true }).click();
+  await page.getByRole("button", { name: "Switch to English", exact: true }).click();
   await page.getByRole("button", { name: "Explore", exact: true }).click();
   const query = page.getByPlaceholder("e.g. 日, nichi, sun…");
   await query.fill("a");
