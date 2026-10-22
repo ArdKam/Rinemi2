@@ -377,6 +377,33 @@ for (const viewport of [
 
     const overflowsBefore = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
     expect(overflowsBefore, "No horizontal overflow on Today").toBe(false);
+
+    if (viewport.width <= 680) {
+      const headerLayout = await page.evaluate(() => {
+        const rect = (selector: string) => {
+          const element = document.querySelector(selector);
+          if (!element) return null;
+          const box = element.getBoundingClientRect();
+          return { x: box.x, y: box.y, width: box.width, height: box.height };
+        };
+        return {
+          header: rect(".app-header"),
+          brand: rect(".brand-lockup"),
+          tools: rect(".header-tools"),
+          nav: rect(".primary-nav"),
+          viewportWidth: window.innerWidth,
+          scrollWidth: document.documentElement.scrollWidth
+        };
+      });
+      expect(headerLayout.brand, "Mobile brand remains rendered").not.toBeNull();
+      expect(headerLayout.tools, "Mobile utility controls remain rendered").not.toBeNull();
+      expect(headerLayout.nav, "Mobile primary navigation remains rendered").not.toBeNull();
+      expect(Math.abs(headerLayout.brand!.y - headerLayout.tools!.y), "Brand and utilities share the top header row").toBeLessThanOrEqual(2);
+      expect(headerLayout.nav!.y, "Primary navigation occupies the second row").toBeGreaterThan(headerLayout.brand!.y + headerLayout.brand!.height - 1);
+      expect(headerLayout.header!.height, "The mobile header avoids a third row").toBeLessThanOrEqual(120);
+      expect(headerLayout.scrollWidth, "The two-row header does not create horizontal overflow").toBeLessThanOrEqual(headerLayout.viewportWidth + 1);
+    }
+
     await page.screenshot({ path: testInfo.outputPath("today.png"), fullPage: true });
 
     if (viewport.width <= 680) {
