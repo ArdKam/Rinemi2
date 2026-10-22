@@ -318,6 +318,14 @@ for (const viewport of [
     await expect(page.locator(".kanji-detail")).toBeVisible();
     await expect(page.locator(".kanji-detail")).toBeFocused();
     await expect(page.locator(".detail-character")).toHaveText(character ?? "");
+
+    // Selecting a result on mobile must show its detail before secondary
+    // collection and Anki tools; learners should not scroll past those tools.
+    const detailTop = await page.locator(".kanji-detail").evaluate(element => element.getBoundingClientRect().top);
+    const collectionsTop = await page.locator(".collections-entry").evaluate(element => element.getBoundingClientRect().top);
+    const ankiTop = await page.locator(".anki-import-entry").evaluate(element => element.getBoundingClientRect().top);
+    expect(detailTop, "Selected kanji detail precedes collections controls").toBeLessThan(collectionsTop);
+    expect(detailTop, "Selected kanji detail precedes Anki preview tools").toBeLessThan(ankiTop);
     await expect(page.getByRole("button", { name: "بازگشت به نتایج" })).toBeVisible();
 
     // Browser Back should dismiss the mobile detail state rather than leave Explore.
@@ -346,6 +354,26 @@ for (const viewport of [
     await expect.poll(async () => Math.abs(await page.evaluate(() => window.scrollY) - returnScrollY)).toBeLessThan(3);
   });
 }
+
+
+test("English mobile Explore shows selected detail before secondary tools", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.getByRole("button", { name: "English", exact: true }).click();
+  await page.getByRole("button", { name: "Explore", exact: true }).click();
+  const query = page.getByPlaceholder("e.g. 日, nichi, sun…");
+  await query.fill("a");
+  const result = page.locator(".kanji-result").first();
+  await expect(result).toBeVisible();
+  await result.click();
+  await expect(page.locator(".kanji-detail")).toBeVisible();
+  const detailTop = await page.locator(".kanji-detail").evaluate(element => element.getBoundingClientRect().top);
+  const collectionsTop = await page.locator(".collections-entry").evaluate(element => element.getBoundingClientRect().top);
+  const ankiTop = await page.locator(".anki-import-entry").evaluate(element => element.getBoundingClientRect().top);
+  expect(detailTop, "LTR detail appears before collections").toBeLessThan(collectionsTop);
+  expect(detailTop, "LTR detail appears before Anki tools").toBeLessThan(ankiTop);
+  await expect(page.getByRole("button", { name: "Back to results", exact: true })).toBeVisible();
+});
 
 test("Explore continues past 240 results and exposes a reading cue on each result row", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });

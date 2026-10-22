@@ -656,6 +656,52 @@ export default function App() {
           </div>
           <p className="result-count">{fmt(filteredKanji.length, language)} {t.results}</p>
         </div>
+        <div className={"explore-layout" + (mobileDetailOpen ? " is-mobile-detail" : "")}>
+          <section className="kanji-results" aria-label={t.explore}>
+            <p className="result-count" role="status">{t.showingResults} {fmt(Math.min(visibleResultCount, filteredKanji.length), language)} {t.ofResults} {fmt(filteredKanji.length, language)} {t.results}</p>
+            {filteredKanji.slice(0, visibleResultCount).map(item => {
+              const gloss = glossFor(item.character, language);
+              const reading = item.on[0] ?? item.kun[0] ?? "";
+              return <button ref={item.character === selectedCharacter ? selectedResultRef : undefined} key={item.character} type="button" className={"kanji-result " + (selectedCharacter === item.character ? "is-selected" : "")} onClick={() => {
+                const isMobile = window.matchMedia("(max-width: 680px)").matches;
+                setSelectedCharacter(item.character);
+                if (isMobile) {
+                  mobileDetailScrollYRef.current = window.scrollY;
+                  const currentState = window.history.state;
+                  const baseState = currentState && typeof currentState === "object" ? currentState as Record<string, unknown> : {};
+                  window.history.pushState({ ...baseState, rinemiMobileDetail: true }, "");
+                  mobileDetailOpenRef.current = true;
+                }
+                setMobileDetailOpen(isMobile);
+              }} aria-pressed={selectedCharacter === item.character}>
+                <span className="result-glyph" lang="ja">{item.character}</span><span className="result-copy"><strong lang={gloss ? language : "en"} dir="auto">{gloss ?? item.meaning.slice(0, 2).join(" · ")}</strong>{reading && <small className="result-reading" lang="ja" dir="ltr">{reading}</small>}<small className="result-metadata">{item.jlpt ?? "Jōyō"} · {fmt(item.strokes, language)} {t.strokes.toLocaleLowerCase()}</small></span>{savedSet.has(item.character) && <span className="saved-dot" aria-label={t.savedLabel}>♥</span>}
+              </button>;
+            })}
+            {filteredKanji.length === 0 && <div className="no-results"><span aria-hidden="true">⌕</span><p>{t.noResults}</p><button className="text-link" type="button" onClick={() => { setQuery(""); setLevel("all"); setTopicId("all"); setOnlySaved(false); setActiveCollectionId(null); }}>{t.clear}</button></div>}
+            {filteredKanji.length > visibleResultCount && <button className="button-secondary load-more-results" type="button" onClick={() => setVisibleResultCount(count => Math.min(count + 60, filteredKanji.length))}>{t.moreResults} · {fmt(Math.min(60, filteredKanji.length - visibleResultCount), language)}</button>}
+          </section>
+          {selectedItem && <aside ref={detailRef} tabIndex={-1} className="kanji-detail" aria-labelledby="detail-title">
+            <div className="detail-topline"><span className="eyebrow">{t.detail}</span><button type="button" className={"detail-close" + (mobileDetailOpen ? " detail-back" : "")} onClick={() => {
+              if (mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches) closeMobileDetail();
+              else { setSelectedCharacter(null); mobileDetailOpenRef.current = false; setMobileDetailOpen(false); }
+            }} aria-label={mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches ? t.backToResults : t.close}><span className="detail-close-glyph" aria-hidden="true">{mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches ? "←" : "×"}</span><span className="detail-back-label">{t.backToResults}</span></button></div>
+            <div className="detail-character" lang="ja">{selectedItem.character}</div><h2 id="detail-title">{selectedGloss ?? selectedItem.meaning.slice(0, 2).join(" · ")}</h2><p className="content-caveat">{selectedGloss ? t.glossNotice : t.sourceDisclaimer}</p>
+            <div className="detail-property"><span>{t.on}</span><strong lang="ja" dir="ltr">{selectedItem.on.slice(0, 5).join(" · ") || "—"}</strong></div><div className="detail-property"><span>{t.kun}</span><strong lang="ja" dir="ltr">{selectedItem.kun.slice(0, 5).join(" · ") || "—"}</strong></div>
+            {(EXAMPLES[selectedItem.character] ?? []).length > 0 && <section className="detail-examples"><p className="section-kicker">{t.example}</p>{(EXAMPLES[selectedItem.character] ?? []).map(example => <div className="detail-example" key={example.word}><strong lang="ja" dir="ltr">{example.word}</strong><span lang="ja" dir="ltr">{example.reading}</span><small>{language === "fa" ? example.fa : example.en}</small></div>)}</section>}
+            <div className="detail-facts"><div><span>{t.strokes}</span><strong>{fmt(selectedItem.strokes, language)}</strong></div><div><span>{t.grade}</span><strong>{selectedItem.grade ? fmt(selectedItem.grade, language) : "—"}</strong></div><div><span>{t.jlpt}</span><strong>{selectedItem.jlpt ?? "—"}</strong></div><div><span>{t.frequency}</span><strong>{fmt(selectedItem.frequency, language)}</strong></div></div>
+            <button className={"button-secondary detail-bookmark " + (savedSet.has(selectedItem.character) ? "is-saved" : "")} type="button" onClick={() => toggleBookmark(selectedItem.character)} aria-pressed={savedSet.has(selectedItem.character)}>{savedSet.has(selectedItem.character) ? t.removeSaved : t.bookmark}</button>
+            {store.collections.length > 0 ? <div className="detail-collection-control">
+              <label><span>{t.addToCollection}</span><select value={collectionTargetId} onChange={event => setCollectionTargetId(event.target.value)}>
+                <option value="">—</option>
+                {store.collections.map(collection => <option key={collection.id} value={collection.id}>{collection.name}</option>)}
+              </select></label>
+              {collectionTargetId && <button className="button-secondary" type="button" onClick={() => toggleCollectionCharacter(collectionTargetId, selectedItem.character)}>
+                {store.collections.find(collection => collection.id === collectionTargetId)?.characters.includes(selectedItem.character) ? t.removeFromCollection : t.addToCollection}
+              </button>}
+            </div> : <button className="text-link detail-study" type="button" onClick={() => { setCollectionsOpen(true); setCollectionMessage(""); }}>{t.createFirstCollection}</button>}
+            {STARTER_CHARACTERS.some(character => character === selectedItem.character) && <button className="text-link detail-study" type="button" onClick={() => { ratingLockRef.current = null; setQueue([selectedItem.character]); setSessionIndex(0); setSessionRated(0); setRevealed(false); setPage("learn"); }}>{t.practice} ←</button>}
+          </aside>}
+        </div>
         <div className="collections-entry">
           <button className="collections-toggle" type="button" aria-expanded={collectionsOpen} onClick={() => setCollectionsOpen(open => !open)}>
             <span>{t.collectionsLabel}</span><span className="collections-count">{fmt(store.collections.length, language)}</span><span aria-hidden="true">{collectionsOpen ? "−" : "+"}</span>
@@ -765,52 +811,6 @@ export default function App() {
             </>}
           </div>}
         </section>
-        <div className={"explore-layout" + (mobileDetailOpen ? " is-mobile-detail" : "")}>
-          <section className="kanji-results" aria-label={t.explore}>
-            <p className="result-count" role="status">{t.showingResults} {fmt(Math.min(visibleResultCount, filteredKanji.length), language)} {t.ofResults} {fmt(filteredKanji.length, language)} {t.results}</p>
-            {filteredKanji.slice(0, visibleResultCount).map(item => {
-              const gloss = glossFor(item.character, language);
-              const reading = item.on[0] ?? item.kun[0] ?? "";
-              return <button ref={item.character === selectedCharacter ? selectedResultRef : undefined} key={item.character} type="button" className={"kanji-result " + (selectedCharacter === item.character ? "is-selected" : "")} onClick={() => {
-                const isMobile = window.matchMedia("(max-width: 680px)").matches;
-                setSelectedCharacter(item.character);
-                if (isMobile) {
-                  mobileDetailScrollYRef.current = window.scrollY;
-                  const currentState = window.history.state;
-                  const baseState = currentState && typeof currentState === "object" ? currentState as Record<string, unknown> : {};
-                  window.history.pushState({ ...baseState, rinemiMobileDetail: true }, "");
-                  mobileDetailOpenRef.current = true;
-                }
-                setMobileDetailOpen(isMobile);
-              }} aria-pressed={selectedCharacter === item.character}>
-                <span className="result-glyph" lang="ja">{item.character}</span><span className="result-copy"><strong lang={gloss ? language : "en"} dir="auto">{gloss ?? item.meaning.slice(0, 2).join(" · ")}</strong>{reading && <small className="result-reading" lang="ja" dir="ltr">{reading}</small>}<small className="result-metadata">{item.jlpt ?? "Jōyō"} · {fmt(item.strokes, language)} {t.strokes.toLocaleLowerCase()}</small></span>{savedSet.has(item.character) && <span className="saved-dot" aria-label={t.savedLabel}>♥</span>}
-              </button>;
-            })}
-            {filteredKanji.length === 0 && <div className="no-results"><span aria-hidden="true">⌕</span><p>{t.noResults}</p><button className="text-link" type="button" onClick={() => { setQuery(""); setLevel("all"); setTopicId("all"); setOnlySaved(false); setActiveCollectionId(null); }}>{t.clear}</button></div>}
-            {filteredKanji.length > visibleResultCount && <button className="button-secondary load-more-results" type="button" onClick={() => setVisibleResultCount(count => Math.min(count + 60, filteredKanji.length))}>{t.moreResults} · {fmt(Math.min(60, filteredKanji.length - visibleResultCount), language)}</button>}
-          </section>
-          {selectedItem && <aside ref={detailRef} tabIndex={-1} className="kanji-detail" aria-labelledby="detail-title">
-            <div className="detail-topline"><span className="eyebrow">{t.detail}</span><button type="button" className={"detail-close" + (mobileDetailOpen ? " detail-back" : "")} onClick={() => {
-              if (mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches) closeMobileDetail();
-              else { setSelectedCharacter(null); mobileDetailOpenRef.current = false; setMobileDetailOpen(false); }
-            }} aria-label={mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches ? t.backToResults : t.close}><span className="detail-close-glyph" aria-hidden="true">{mobileDetailOpen && window.matchMedia("(max-width: 680px)").matches ? "←" : "×"}</span><span className="detail-back-label">{t.backToResults}</span></button></div>
-            <div className="detail-character" lang="ja">{selectedItem.character}</div><h2 id="detail-title">{selectedGloss ?? selectedItem.meaning.slice(0, 2).join(" · ")}</h2><p className="content-caveat">{selectedGloss ? t.glossNotice : t.sourceDisclaimer}</p>
-            <div className="detail-property"><span>{t.on}</span><strong lang="ja" dir="ltr">{selectedItem.on.slice(0, 5).join(" · ") || "—"}</strong></div><div className="detail-property"><span>{t.kun}</span><strong lang="ja" dir="ltr">{selectedItem.kun.slice(0, 5).join(" · ") || "—"}</strong></div>
-            {(EXAMPLES[selectedItem.character] ?? []).length > 0 && <section className="detail-examples"><p className="section-kicker">{t.example}</p>{(EXAMPLES[selectedItem.character] ?? []).map(example => <div className="detail-example" key={example.word}><strong lang="ja" dir="ltr">{example.word}</strong><span lang="ja" dir="ltr">{example.reading}</span><small>{language === "fa" ? example.fa : example.en}</small></div>)}</section>}
-            <div className="detail-facts"><div><span>{t.strokes}</span><strong>{fmt(selectedItem.strokes, language)}</strong></div><div><span>{t.grade}</span><strong>{selectedItem.grade ? fmt(selectedItem.grade, language) : "—"}</strong></div><div><span>{t.jlpt}</span><strong>{selectedItem.jlpt ?? "—"}</strong></div><div><span>{t.frequency}</span><strong>{fmt(selectedItem.frequency, language)}</strong></div></div>
-            <button className={"button-secondary detail-bookmark " + (savedSet.has(selectedItem.character) ? "is-saved" : "")} type="button" onClick={() => toggleBookmark(selectedItem.character)} aria-pressed={savedSet.has(selectedItem.character)}>{savedSet.has(selectedItem.character) ? t.removeSaved : t.bookmark}</button>
-            {store.collections.length > 0 ? <div className="detail-collection-control">
-              <label><span>{t.addToCollection}</span><select value={collectionTargetId} onChange={event => setCollectionTargetId(event.target.value)}>
-                <option value="">—</option>
-                {store.collections.map(collection => <option key={collection.id} value={collection.id}>{collection.name}</option>)}
-              </select></label>
-              {collectionTargetId && <button className="button-secondary" type="button" onClick={() => toggleCollectionCharacter(collectionTargetId, selectedItem.character)}>
-                {store.collections.find(collection => collection.id === collectionTargetId)?.characters.includes(selectedItem.character) ? t.removeFromCollection : t.addToCollection}
-              </button>}
-            </div> : <button className="text-link detail-study" type="button" onClick={() => { setCollectionsOpen(true); setCollectionMessage(""); }}>{t.createFirstCollection}</button>}
-            {STARTER_CHARACTERS.some(character => character === selectedItem.character) && <button className="text-link detail-study" type="button" onClick={() => { ratingLockRef.current = null; setQueue([selectedItem.character]); setSessionIndex(0); setSessionRated(0); setRevealed(false); setPage("learn"); }}>{t.practice} ←</button>}
-          </aside>}
-        </div>
         <div className="data-note"><strong>{isFa ? "دادهٔ مرجع" : "Source data"}:</strong> {t.contentNote}</div>
       </section>}
     </main>
