@@ -1,6 +1,6 @@
 # Rinemi Mascot Design System
 
-**Status:** v0.1 design contract and first UI integration are in review. The rules are ready to apply; the first SVG is a candidate adaptation of the owner-supplied mascot, not final owner-approved artwork. Do not expand the asset set until this candidate has been checked in the rendered application.
+**Status (2026-10-23):** The design contract and first UI integration were merged in [PR #55](https://github.com/ArdKam/Rinemi2/pull/55) at [`008edbe`](https://github.com/ArdKam/Rinemi2/commit/008edbe7659f47ed36831fcc9ed35d3e645b7316). The SVG remains a v0.1 candidate, not final owner-approved artwork. The exact pre-merge head [`40975ea`](https://github.com/ArdKam/Rinemi2/commit/40975ea62ba9f3375833dd4cc5fffecc87e15d34) passed [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39874654456) and its rendered screenshots were inspected at 390×844 for Persian RTL light/dark and English LTR dark. Post-merge live Pages/runtime verification for `008edbe` was not independently confirmed in this pass. Do not expand the asset set until the candidate receives owner visual approval and the provenance/license review is recorded.
 
 **Target:** `ArdKam/Rinemi2`  
 **Reference-only repository:** `ArdKam/kanji5` — do not modify it.
