@@ -25,6 +25,7 @@
 - Preserve all parsed rows for review; do not silently discard duplicate first fields or extra columns.
 - Show source line, field values, and row-level warnings for differing column counts, empty content, duplicate first fields, HTML-like markup and media references.
 - Duplicate detection in the preview is a warning only. It does not choose an import/update policy and does not compare against the learner's stored cards.
+- Reject metadata column indexes that exceed the declared `#columns` list and reject metadata-only files that leave no content fields to map; neither should produce a misleading empty mapping UI.
 - File selection, parsing, field mapping and preview do not write to local storage. The current UI reports counts, duplicate warnings and unsupported media/HTML limitations. The eventual import action must have explicit duplicate disposition, unsupported-content reporting, confirmation/cancellation and recoverable failure handling before writing data.
 - No imported note should overwrite an existing FSRS review record or change kanji identity implicitly.
 
@@ -37,6 +38,7 @@ Parser tests are in `scripts/anki-import.test.ts` and run in `npm test`. Browser
 - Duplicate first fields without row loss.
 - HTML/media warnings, empty rows and inconsistent field counts.
 - Unsupported separator, unclosed quotes, invalid UTF-8 and oversized inputs.
+- Out-of-range metadata column references and metadata-only files that have no mappable content fields.
 
 These fixtures exercise parsing, not import persistence, scheduler correctness, rendering safety, import cancellation, rollback, or real-world compatibility with all Anki exports. Those remain separate release gates.
 
