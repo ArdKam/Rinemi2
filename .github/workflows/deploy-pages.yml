@@ -67,6 +67,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # Bound external Pages/environment waits so a stale deploy cannot block publishes indefinitely.
+    timeout-minutes: 20
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
