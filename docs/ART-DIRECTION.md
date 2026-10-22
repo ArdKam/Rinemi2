@@ -1,6 +1,6 @@
 # Rinemi 2 — Art Direction and Design System
 
-**Status:** Approved written starting direction for Rinemi 2. The owner explicitly asked to skip image generation. This is a design baseline, not a claim that rendered UI has been verified; refine it against browser screenshots.  
+**Status:** Approved written baseline; mascot-specific identity and usage rules are maintained in [Mascot Design System](MASCOT-DESIGN-SYSTEM.md). The first mascot SVG integration is a review candidate, not visual acceptance. Refine and expand it only after checking rendered browser screenshots.  
 **Creative intent:** an adult, calm, Persian-first Japanese learning studio with editorial Japanese influence—not generic SaaS, anime, or decorative Japan-themed stock UI.
 
 ## 1. Brand character
@@ -124,7 +124,7 @@ For each interactive component, define idle, hover, focus-visible, active/presse
 ## 8. Mascot and illustration system
 
 ### The Rinemi cat
-The cat is a quiet companion, not a tutor, pet-care mechanic or constant narrator.
+The cat is a quiet companion, not a tutor, pet-care mechanic or constant narrator. The canonical character invariants, illustration palette, pose grammar, provenance rules, and asset acceptance gate are maintained in [MASCOT-DESIGN-SYSTEM.md](MASCOT-DESIGN-SYSTEM.md); consult it before creating or placing any new mascot variant.
 
 Character constraints:
 - small, rounded head integrated naturally into the body—not an oval resting on a neck;
@@ -155,6 +155,7 @@ Character constraints:
 - evaluate silhouette and expression at intended UI sizes, in light/dark mode;
 - keep source file, export, prompt/brief, license and approved status;
 - generated variants are drafts until visually checked against the reference;
+- the current empty-state SVG is a candidate v0.1 integration; do not call it final or extend it to more surfaces until the mascot acceptance gate passes;
 - prefer simple, consistent 2D vectors or clean line illustrations for interface use.
 
 ### Educational illustration rules

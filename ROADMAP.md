@@ -56,7 +56,7 @@ Passing unit tests is not enough to mark visual, educational, content, or deploy
 
 ### 0.4 Operating principles
 
-1. **Use the approved written art direction.** The owner explicitly asked to skip image generation; do not block implementation on mockups. Treat the Sumi Play written direction in `docs/ART-DIRECTION.md` as the approved baseline, implement a small real vertical slice, then inspect rendered browser results and refine before expanding.
+1. **Use the approved written art direction and the mascot design contract.** Treat `docs/ART-DIRECTION.md` and `docs/MASCOT-DESIGN-SYSTEM.md` as the source of truth, implement a small real vertical slice, then inspect rendered browser results and refine before expanding. Visual references support design decisions but do not replace browser acceptance.
 2. **Show rendered evidence.** Important design decisions must be checked in a running browser at target sizes, not inferred from source code or a tool’s completion message.
 3. **Depth before breadth.** The core kanji-to-reading journey outranks new domains and feature count.
 4. **One obvious next action.** Minimize competing primary buttons, dashboards, chips, and panels.
@@ -235,7 +235,7 @@ Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.
 - [ ] Specify buttons, icon buttons, chips, segmented controls, search/filter fields, menus, dialogs, toasts, progress indicators, skeletons, error panels, lists, dictionary entries, review ratings, tabs and navigation.
 - [ ] Define interaction states: idle, hover, focus, active, selected, disabled, loading, success, warning, destructive, and failure.
 - [ ] Define reduced-motion alternatives and ensure motion communicates state or teaches a skill.
-- [ ] Create illustration and mascot standards; establish which screens merit custom artwork and which must remain typographic.
+- [x] Establish written mascot identity and usage standards; the initial set is intentionally narrow. [ ] Visually accept the empty-state candidate before creating more variants. See [MASCOT-DESIGN-SYSTEM.md](docs/MASCOT-DESIGN-SYSTEM.md).
 - [ ] Build a small rendered component gallery to verify tokens on actual devices and themes.
 - [ ] Validate the approved direction on actual rendered screens in-browser, including Persian RTL/English LTR, light/dark themes, mobile and desktop.
 - [ ] Refine palette and components based on contrast/accessibility checks and real content density.
@@ -575,6 +575,7 @@ The latest application-code/evidence snapshot is [`1929c774b67c8ec3990f1ccb2f43a
 - [x] Automated live preview runtime check covers React mount, the core review flow, locale/theme changes, brand assets, mobile width and runtime/network errors.
 - [ ] Manual accessibility/usability acceptance: keyboard-only/focus, zoom, reduced-motion/forced-colors, screen-reader, Explore/collections and non-happy-path review.
 - [ ] Candidate release evidence assembled and beta gate approved.
+- [ ] Mascot asset and empty-state integration visually accepted in Persian RTL / English LTR, light / dark, narrow mobile / desktop; record exact screenshots and owner approval per [Mascot Design System](docs/MASCOT-DESIGN-SYSTEM.md).
 
 **Repository boundary:** `ArdKam/kanji5` remains reference-only. All implementation and documentation changes must remain in `ArdKam/Rinemi2`.
 
