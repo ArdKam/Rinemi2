@@ -39,7 +39,7 @@ test("live preview mounts React and completes a minimal learner journey without 
   expectAssetPath(await lightMark.getAttribute("src"), "brand/rinemi-mark.svg");
   expectAssetPath(await darkMark.getAttribute("src"), "brand/rinemi-mark-dark.svg");
 
-  const todayMascot = page.locator(".mascot-first-session-illustration");
+  const todayMascot = page.locator(".mascot-today-illustration");
   await expect(todayMascot).toBeVisible();
   await expect(todayMascot).toHaveAttribute("alt", "");
   await expect.poll(() => todayMascot.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
