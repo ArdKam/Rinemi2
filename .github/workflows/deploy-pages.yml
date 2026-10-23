@@ -44,18 +44,9 @@ jobs:
       - name: Verify design-token contrast
         run: npm run check:contrast
 
-      - name: Install Chromium for browser tests
-        run: npx playwright install --with-deps chromium
-
-      - name: Run end-to-end browser tests
-        run: npm run e2e
-
-      - name: Build regular-root output for offline verification
-        run: npm run build
-
-      - name: Verify warm-cache offline learning in production preview
-        run: npm run e2e:offline
-
+      # The dedicated CI workflow runs the local Playwright and warm-cache offline
+      # suites on this same commit. Keep this job focused on producing the Pages
+      # artifact; the deploy job below still runs live Chromium against the deployed URL.
       - name: Build the GitHub Pages artifact
         run: npm run build:pages
 
