@@ -37,6 +37,10 @@ test("starter examples align key meanings for 本, 生, 会 and 社", () => {
     "会 should include 会う (あう) to demonstrate the meet sense");
   assert.ok(EXAMPLES["社"].some(example => example.word === "神社" && example.reading === "じんじゃ"),
     "社 should include 神社 (じんじゃ) to demonstrate the shrine sense");
+  assert.ok(EXAMPLES["学"].some(example => example.word === "学ぶ" && example.reading === "まなぶ"),
+    "学 should include 学ぶ (まなぶ) to demonstrate the learn/study sense");
+  assert.ok(EXAMPLES["東"].some(example => example.word === "東" && example.reading === "ひがし"),
+    "東 should include 東 (ひがし) to demonstrate the east sense");
 });
 
 test("gloss and example keys reference real kanji and contain non-empty fields", () => {
