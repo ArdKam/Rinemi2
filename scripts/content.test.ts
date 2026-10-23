@@ -28,6 +28,13 @@ test("every starter character has a Persian/English gloss and at least one examp
   }
 });
 
+test("starter examples connect 本 with books and 生 with living, alongside common compound words", () => {
+  assert.ok(EXAMPLES["本"].some(example => example.word === "本屋" && example.reading === "ほんや"),
+    "本 should include 本屋 (ほんや) to demonstrate the book sense");
+  assert.ok(EXAMPLES["生"].some(example => example.word === "生きる" && example.reading === "いきる"),
+    "生 should include 生きる (いきる) to demonstrate the life/live sense");
+});
+
 test("gloss and example keys reference real kanji and contain non-empty fields", () => {
   for (const [character, gloss] of Object.entries(PERSIAN_GLOSSES)) {
     assert.ok(corpus.has(character), `Gloss key is not in the corpus: ${character}`);

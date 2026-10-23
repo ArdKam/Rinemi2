@@ -70,7 +70,10 @@ export const EXAMPLES: Record<string, Example[]> = {
   "大": [{ word: "大きい", reading: "おおきい", fa: "بزرگ", en: "big" }],
   "十": [{ word: "十月", reading: "じゅうがつ", fa: "ماه اکتبر", en: "October" }],
   "二": [{ word: "二つ", reading: "ふたつ", fa: "دو چیز", en: "two things" }],
-  "本": [{ word: "日本", reading: "にほん", fa: "ژاپن", en: "Japan" }],
+  "本": [
+    { word: "本屋", reading: "ほんや", fa: "کتاب‌فروشی", en: "bookstore" },
+    { word: "日本", reading: "にほん", fa: "ژاپن", en: "Japan" }
+  ],
   "中": [{ word: "中", reading: "なか", fa: "داخل؛ میان", en: "inside; middle" }],
   "長": [{ word: "長い", reading: "ながい", fa: "بلند؛ طولانی", en: "long" }],
   "出": [{ word: "出口", reading: "でぐち", fa: "خروجی", en: "exit" }],
@@ -85,7 +88,10 @@ export const EXAMPLES: Record<string, Example[]> = {
   "月": [{ word: "月", reading: "つき", fa: "ماه", en: "moon; month" }],
   "金": [{ word: "お金", reading: "おかね", fa: "پول", en: "money" }],
   "学": [{ word: "学校", reading: "がっこう", fa: "مدرسه", en: "school" }],
-  "生": [{ word: "学生", reading: "がくせい", fa: "دانش‌آموز؛ دانشجو", en: "student" }],
+  "生": [
+    { word: "生きる", reading: "いきる", fa: "زندگی کردن", en: "to live" },
+    { word: "学生", reading: "がくせい", fa: "دانش‌آموز؛ دانشجو", en: "student" }
+  ],
   "前": [{ word: "午前", reading: "ごぜん", fa: "قبل از ظهر", en: "morning; a.m." }],
   "後": [{ word: "午後", reading: "ごご", fa: "بعدازظهر", en: "afternoon; p.m." }],
   "東": [{ word: "東京", reading: "とうきょう", fa: "توکیو", en: "Tokyo" }],
