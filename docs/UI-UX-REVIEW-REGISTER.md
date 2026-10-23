@@ -30,14 +30,14 @@ Responsive screenshots from [run 39172388405](https://github.com/ArdKam/Rinemi2/
 
 ## 3. Findings
 
-### UIUX-016 — Target kanji needs more visual prominence in compact landscape
+### UIUX-016 — Target kanji and recall prompt must remain prominent in compact landscape
 
 - **Priority:** P2 — learning-screen hierarchy at short viewport heights.
-- **Status:** IMPLEMENTATION MERGED in [PR #63](https://github.com/ArdKam/Rinemi2/pull/63); pre-merge CI passed and the updated screenshot was inspected. Post-merge live verification remains pending.
-- **Evidence:** the prior compact-landscape capture at 844×390 displayed the target character smaller than its instructional hierarchy suggested. The short-height CSS rule used clamp(3.25rem, 11vh, 5rem), yielding 52px at 390px height.
-- **Change:** PR #63 changes the rule to clamp(3.75rem, 14vh, 5rem) and adds a Playwright assertion that the computed character size is at least 60px at the existing 844×390 viewport. No card content or scheduler behavior changed.
-- **Verification:** full [CI run #197](https://github.com/ArdKam/Rinemi2/actions/runs/39991899942) passed on PR head 852a71db8a7f241ecac4f04f637f172febfac5ff; its compact-landscape revealed-card screenshot artifact was downloaded and inspected. The screenshot shows the target glyph larger while preserving meaning, readings, example words, and rating controls.
-- **Acceptance still open:** inspect the deployed app at the merge SHA, then re-check 320×640, 390×844, 844×390 and desktop for visual balance, no overlap, and useful reading/rating reachability. This does not replace the broader manual acceptance in issue #7.
+- **Status:** BASIC REACHABILITY VERIFIED live on deployed SHA `65d09edf1dc10add3f64bc3d87f5e514bf366c95`; PR #76 improves the remaining bottom inset, with post-merge live acceptance pending.
+- **Evidence:** earlier 844×390 captures showed the target kanji was too small and the recall prompt/reveal action could fall below the initial viewport. PR #63 raised the glyph size; PR #70 compacted the header and asserts the complete prompt and reveal action fit without scrolling.
+- **Verification:** live [Pages run #40005713742](https://github.com/ArdKam/Rinemi2/actions/runs/40005713742) passed on `65d09ed`; its prompt and revealed-answer screenshots were downloaded and inspected. At 844×390 the full prompt/reveal action are reachable and the revealed view retains meaning, readings, vocabulary and all four rating controls.
+- **Remaining refinement:** [PR #76](https://github.com/ArdKam/Rinemi2/pull/76) adds an 8px bottom inset and stronger bounds assertions. PR CI #40007109679 and main CI #40007448689 passed, while post-merge Pages run #40007448666 is queued. Reinspect the deployed prompt screenshot before calling the extra inset live-verified.
+- **Acceptance still open:** finish the deployed screenshot matrix at 320×640, 390×844, 844×390 and desktop, then perform manual keyboard, zoom, screen-reader, reduced-motion and forced-colors acceptance. See issue #7.
 ### UIUX-001 — Mobile Explore return context and selected-detail priority
 
 - **Priority:** P1 — high-impact core discovery flow.
