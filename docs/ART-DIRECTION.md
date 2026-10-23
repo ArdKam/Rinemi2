@@ -1,6 +1,6 @@
 # Rinemi 2 — Art Direction and Design System
 
-**Status (2026-10-23):** Approved written baseline; mascot identity and usage rules are maintained in [Mascot Design System](MASCOT-DESIGN-SYSTEM.md). The current deployed v0.1 SVG is verified on Today and the empty-session recovery state by [CI #188](https://github.com/ArdKam/Rinemi2/actions/runs/39877410690) and [Pages deployment #43](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464). A review candidate proposes using the owner's supplied raster artwork instead; that replacement is not yet live. Preserve the original paper texture, marks, expression and palette; do not vector-trace or redraw it. Rendered verification, responsive screenshot acceptance and provenance/license review remain required.
+**Status (2026-10-23):** The owner-supplied cat illustration is the canonical artwork and is now the active raster asset at `public/mascot/rinemi-cat-artwork.webp`. The replacement merged in [PR #60](https://github.com/ArdKam/Rinemi2/pull/60); [Pages deployment #44](https://github.com/ArdKam/Rinemi2/actions/runs/39940377108) passed base-path and live Chromium checks on [`42ddab9`](https://github.com/ArdKam/Rinemi2/commit/42ddab9dca017146c458f2c8615896624c971951). The original paper texture, markings, expression and palette are preserved; do not vector-trace, redraw or theme-filter it. Broader manual viewport/theme/locale review and provenance/license sign-off remain required.
 **Creative intent:** an adult, calm, Persian-first Japanese learning studio with editorial Japanese influence—not generic SaaS, anime, or decorative Japan-themed stock UI.
 
 ## 1. Brand character
@@ -155,7 +155,7 @@ Character constraints:
 - evaluate silhouette and expression at intended UI sizes, in light/dark mode;
 - keep source file, export, prompt/brief, license and approved status;
 - generated variants are drafts until visually checked against the reference;
-- the deployed SVG is a legacy v0.1 interpretation; the owner-supplied artwork is the canonical visual reference and its raster replacement remains a candidate until CI, deployed asset checks, and screenshots pass;
+- the prior hand-authored SVG is a legacy unused interpretation; use the owner-supplied raster artwork as the canonical base asset and do not extend the asset set until its broader visual and provenance/license acceptance gates pass;
 - prefer simple, consistent 2D vectors or clean line illustrations for interface use.
 
 ### Educational illustration rules

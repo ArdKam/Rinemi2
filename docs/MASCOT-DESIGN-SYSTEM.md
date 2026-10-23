@@ -1,6 +1,6 @@
 # Rinemi Mascot Design System
 
-**Status (2026-10-23):** The design contract and first UI integration are verified on current deployed app SHA [`fb88901`](https://github.com/ArdKam/Rinemi2/commit/fb88901126d331a55ff2e91f188a0f2907e9c10c), via [CI #188](https://github.com/ArdKam/Rinemi2/actions/runs/39877410690) and [Pages deployment #43](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464). That deployment uses `rinemi-cat-tea.svg`, a hand-authored vector reinterpretation. The owner has now specified the supplied original cat illustration as the canonical artwork; this review branch stages a compact WebP derivative for Today and empty-session placements. That replacement is not yet deployed. Its successful asset-path check, rendered screenshot matrix, and content fidelity need verification before closing the gate.
+**Status (2026-10-23):** The owner-supplied cat illustration is the canonical source artwork. Active placements use `public/mascot/rinemi-cat-artwork.webp`, merged by [PR #60](https://github.com/ArdKam/Rinemi2/pull/60) on application SHA [`42ddab9`](https://github.com/ArdKam/Rinemi2/commit/42ddab9dca017146c458f2c8615896624c971951). [PR CI](https://github.com/ArdKam/Rinemi2/actions/runs/39939967641) passed, and [Pages deployment #44](https://github.com/ArdKam/Rinemi2/actions/runs/39940377108) passed the live asset-path smoke test and Chromium visibility/decode assertion. The CI empty-state light/dark and responsive Today screenshots, plus the live Persian RTL/light desktop screenshot, were inspected. The full language/theme/viewport matrix and provenance/license review remain open; do not create new mascot variants until those gates pass.
 
 **Target:** `ArdKam/Rinemi2`  
 **Reference-only repository:** `ArdKam/kanji5` — do not modify it.
@@ -72,11 +72,11 @@ The current app integration remains intentionally narrow: a small, decorative il
 | Asset | Status | Intended use | Provenance / note |
 |---|---|---|---|
 | Owner-supplied original cat image | Canonical source artwork | Source-of-truth reference | Original PNG supplied by the owner; keep this master unchanged as the reference for future variants |
-| `public/mascot/rinemi-cat-artwork.webp` | Proposed raster replacement, in review | Today heading and empty-session recovery | 256×320 WebP derivative cropped only to remove unused left/right canvas margins and rescaled for UI delivery; it preserves the full cat, linework, marks, paper texture, and palette, without redrawing |
-| `public/mascot/rinemi-cat-tea.svg` | Current deployed legacy interpretation | Still used by `main` until the replacement is merged and deployed | Hand-authored vector interpretation; differs from the owner's supplied illustration and should not remain the canonical art |
+| `public/mascot/rinemi-cat-artwork.webp` | Active canonical display asset | Today heading and empty-session recovery | 256×320 WebP derivative cropped only to remove unused left/right canvas margins and rescaled for UI delivery; preserves the full cat, linework, marks, paper texture and palette without redrawing |
+| `public/mascot/rinemi-cat-tea.svg` | Legacy unused interpretation | No active UI use | Retained in the repository for history only; it differs from the owner-supplied artwork and is not the canonical asset |
 | Avatar crop, brush/writing pose, book/reading pose, achievement, seasonal and loading variants | Not produced / deferred | Only after the base asset is accepted | Each asset requires visual comparison, provenance and license review |
 
-The WebP derivative is a display asset, not a replacement for the owner's source file. Keep the source artwork unchanged outside this app repository and record the crop/resize/WebP conversion; complete the project's provenance/license review before public-beta sign-off.
+The WebP derivative is a display asset, not a replacement for the owner's source file. Keep the source artwork unchanged and retain the crop/resize/WebP transformation note; complete the project's provenance/license review before public-beta sign-off.
 
 ## 8. Acceptance gate before adding more assets
 

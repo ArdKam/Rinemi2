@@ -1,6 +1,6 @@
 # Rinemi 2 — Product Redesign & Rebuild Roadmap
 
-**Status (2026-10-23):** The latest merged application-code snapshot is [`fb88901`](https://github.com/ArdKam/Rinemi2/commit/fb88901126d331a55ff2e91f188a0f2907e9c10c). [PR #55](https://github.com/ArdKam/Rinemi2/pull/55) established mascot identity/usage rules and [PR #57](https://github.com/ArdKam/Rinemi2/pull/57) fixed visibility on Today. Exact-main [CI #188](https://github.com/ArdKam/Rinemi2/actions/runs/39877410690) and [Pages deployment #43](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464) passed on fb88901 and verified the SVG currently deployed. The owner-supplied raster artwork replacement is staged separately for review; it is not live and needs its own CI, deployed asset-path check, and screenshots. Remaining release blockers include human accessibility/usability, starter-content QA, source/license approval and manual data/PWA acceptance; see [issue #7](https://github.com/ArdKam/Rinemi2/issues/7), [#24](https://github.com/ArdKam/Rinemi2/issues/24) and [#25](https://github.com/ArdKam/Rinemi2/issues/25).
+**Status (2026-10-23):** The latest merged application-code snapshot is [`42ddab9`](https://github.com/ArdKam/Rinemi2/commit/42ddab9dca017146c458f2c8615896624c971951). [PR #60](https://github.com/ArdKam/Rinemi2/pull/60) replaces the reconstructed SVG with the owner-supplied mascot artwork. [PR CI](https://github.com/ArdKam/Rinemi2/actions/runs/39939967641) passed and [Pages deployment #44](https://github.com/ArdKam/Rinemi2/actions/runs/39940377108) deployed the same application SHA; the base-prefixed WebP request and live Chromium image decode both passed. Remaining release blockers include human accessibility/usability, starter-content QA, provenance/license review and manual data/PWA acceptance; see [issue #7](https://github.com/ArdKam/Rinemi2/issues/7), [#24](https://github.com/ArdKam/Rinemi2/issues/24) and [#25](https://github.com/ArdKam/Rinemi2/issues/25).
 **Planning date:** 2026-10-19  
 **Target repository:** `ArdKam/Rinemi2`  
 **Reference-only repository:** `ArdKam/kanji5` — do not modify it.  
@@ -235,7 +235,7 @@ Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.
 - [ ] Specify buttons, icon buttons, chips, segmented controls, search/filter fields, menus, dialogs, toasts, progress indicators, skeletons, error panels, lists, dictionary entries, review ratings, tabs and navigation.
 - [ ] Define interaction states: idle, hover, focus, active, selected, disabled, loading, success, warning, destructive, and failure.
 - [ ] Define reduced-motion alternatives and ensure motion communicates state or teaches a skill.
-- [x] Establish written mascot identity and usage standards; the initial set is intentionally narrow. [ ] Visually verify the owner-supplied canonical artwork in both active placements before creating more variants. See [MASCOT-DESIGN-SYSTEM.md](docs/MASCOT-DESIGN-SYSTEM.md).
+- [x] Establish written mascot identity and usage standards; the initial set is intentionally narrow. [ ] Finish the full rendered acceptance matrix for the owner-supplied canonical artwork in both active placements before creating more variants. See [MASCOT-DESIGN-SYSTEM.md](docs/MASCOT-DESIGN-SYSTEM.md).
 - [ ] Build a small rendered component gallery to verify tokens on actual devices and themes.
 - [ ] Validate the approved direction on actual rendered screens in-browser, including Persian RTL/English LTR, light/dark themes, mobile and desktop.
 - [ ] Refine palette and components based on contrast/accessibility checks and real content density.
@@ -536,7 +536,7 @@ Do not accept new scope just because a competing app has the feature or a protot
 
 ## 9. Current execution status (2026-10-23)
 
-The latest merged application-code snapshot is [`fb88901`](https://github.com/ArdKam/Rinemi2/commit/fb88901126d331a55ff2e91f188a0f2907e9c10c). Exact-main [CI #188](https://github.com/ArdKam/Rinemi2/actions/runs/39877410690) and [Pages deployment #43](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464) passed on this SHA. These runs verified the then-current SVG mascot on Today and the empty-session recovery state. A separate review branch now proposes the owner-supplied raster artwork; CI, the WebP base path, and rendered screenshots for that candidate remain unverified, so the live-status claim applies only to fb88901 until the replacement is merged and deployed.
+The latest merged application-code snapshot is [`42ddab9`](https://github.com/ArdKam/Rinemi2/commit/42ddab9dca017146c458f2c8615896624c971951). [PR CI](https://github.com/ArdKam/Rinemi2/actions/runs/39939967641) passed the code and browser checks. [Pages deployment #44](https://github.com/ArdKam/Rinemi2/actions/runs/39940377108) deployed this exact application SHA; its smoke test verified the WebP under the `/Rinemi2/` base path and live Chromium confirmed the Today illustration is visible and decodes successfully. The reviewed CI screenshots include the empty-session art in light/dark and Today at small phone, typical phone, compact landscape and desktop; the live Persian RTL/light desktop screenshot was also inspected. The broader locale/theme/viewport matrix and manual accessibility, content-quality and provenance/license checks remain open.
 
 ### Implemented in the current slice
 
@@ -575,7 +575,8 @@ The latest merged application-code snapshot is [`fb88901`](https://github.com/Ar
 - [x] Automated live preview runtime check covers React mount, core review flow, locale/theme changes, brand and mascot assets, mobile width, asset path, and runtime/network errors ([run](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464)).
 - [ ] Manual accessibility/usability acceptance: keyboard-only/focus, zoom, reduced-motion/forced-colors, screen-reader, Explore/collections and non-happy-path review.
 - [ ] Candidate release evidence assembled and beta gate approved.
-- [ ] Verify the owner-supplied canonical raster mascot in both active placements across Persian RTL / English LTR, light / dark, narrow mobile / desktop; confirm the deployed WebP base path and inspect rendered screenshots after the replacement merges. Preserve source/provenance and complete license review. Existing SVG verification is historical evidence for [Pages run #43](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464), not proof of the replacement. See [Mascot Design System](docs/MASCOT-DESIGN-SYSTEM.md).
+- [x] Replace the hand-authored mascot SVG in active UI placements with the owner-supplied raster artwork; the base-prefixed WebP and live Today image were verified on [Pages deployment #44](https://github.com/ArdKam/Rinemi2/actions/runs/39940377108).
+- [ ] Complete the full rendered fidelity matrix across Persian RTL / English LTR, light / dark, narrow mobile / compact landscape / desktop; finish provenance/license review before public-beta sign-off. See [Mascot Design System](docs/MASCOT-DESIGN-SYSTEM.md).
 
 **Repository boundary:** `ArdKam/kanji5` remains reference-only. All implementation and documentation changes must remain in `ArdKam/Rinemi2`.
 
