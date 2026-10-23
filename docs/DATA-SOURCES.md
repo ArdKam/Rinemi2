@@ -16,7 +16,7 @@ The initial 2,136-entry dataset is copied from ArdKam/kanji5/kanji-data.json, in
 
 The [official EDRDG licence statement](https://www.edrdg.org/edrdg/licence.html) says software packages and applications that use these files must have a procedure for regular updating from the most recent available versions; it specifically states that web-based dictionary servers should update at least monthly. The precise treatment of this embedded PWA and its fixed 2,136 Jōyō-character scope should be confirmed by the project owner/legal reviewer, but Rinemi should not imply that the bundled copy is perpetually current.
 
-**Required operational procedure (monthly workflow merged; initial run is triggered when the workflow-change PR merges):**
+**Required operational procedure (monthly/manual workflow merged; first run succeeded 2026-10-23):**
 1. At least monthly, check the authoritative EDRDG KANJIDIC2 project and licence pages plus the documented upstream source/revision used for the app dataset.
 2. Record the check date, upstream version or commit/file hash, source URL, and whether an update is available; link the result from the release/provenance issue.
 3. If changed, review the source delta and regenerate the 2,136-entry dataset only from the approved source, preserving the Jōyō scope and current data schema.
