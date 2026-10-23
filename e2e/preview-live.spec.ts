@@ -43,7 +43,7 @@ test("live preview mounts React and completes a minimal learner journey without 
   await expect(todayMascot).toBeVisible();
   await expect(todayMascot).toHaveAttribute("alt", "");
   await expect.poll(() => todayMascot.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
-  expectAssetPath(await todayMascot.getAttribute("src"), "mascot/rinemi-cat-tea.svg");
+  expectAssetPath(await todayMascot.getAttribute("src"), "mascot/rinemi-cat-artwork.webp");
 
   await page.screenshot({ path: "artifacts/live-preview-fa-light.png", fullPage: true });
 
