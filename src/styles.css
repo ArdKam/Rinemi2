@@ -433,3 +433,46 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
   .rating-area > p { margin-bottom: var(--rinemi-space-2); }
   .session-complete { min-height: 300px; padding-block: var(--rinemi-space-6); }
 }
+
+@media (min-width: 681px) and (max-width: 960px) and (max-height: 560px) {
+  /* Tablet landscape has enough width for a single compact header row. Use it
+     to give the recall prompt and reveal action room without shrinking the
+     target kanji or hiding the retrieval instruction. */
+  .app-header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "brand nav tools";
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: var(--rinemi-space-2);
+    padding-top: var(--rinemi-space-2);
+  }
+  .brand-lockup { grid-area: brand; min-width: 0; }
+  .brand-copy span { display: none; }
+  .primary-nav {
+    grid-area: nav;
+    order: initial;
+    width: auto;
+    min-width: 0;
+    min-height: 44px;
+    margin-inline-start: 0;
+  }
+  .nav-link { min-width: 0; padding-inline: var(--rinemi-space-2); }
+  .header-tools {
+    grid-area: tools;
+    margin-inline-start: 0;
+    flex-wrap: nowrap;
+    gap: var(--rinemi-space-1);
+  }
+  .header-tools .utility-label,
+  .data-tools-label { display: none; }
+  .utility-button { min-height: 44px; padding-inline: var(--rinemi-space-2); }
+  .page-content { padding-top: var(--rinemi-space-2); }
+  .learn-topline { margin-bottom: var(--rinemi-space-2); }
+  .session-progress-line { margin-bottom: var(--rinemi-space-1); }
+  .learning-sheet-top { padding-block: var(--rinemi-space-2); }
+  .prompt-area { min-height: 0; padding-block: var(--rinemi-space-2); gap: var(--rinemi-space-1); }
+  .prompt-question { font-size: var(--rinemi-font-size-base); }
+  .prompt-hint { font-size: var(--rinemi-font-size-sm); }
+  .reveal-area { padding-block: var(--rinemi-space-1); }
+}
