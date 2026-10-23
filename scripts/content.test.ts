@@ -28,11 +28,15 @@ test("every starter character has a Persian/English gloss and at least one examp
   }
 });
 
-test("starter examples connect 本 with books and 生 with living, alongside common compound words", () => {
+test("starter examples align key meanings for 本, 生, 会 and 社", () => {
   assert.ok(EXAMPLES["本"].some(example => example.word === "本屋" && example.reading === "ほんや"),
     "本 should include 本屋 (ほんや) to demonstrate the book sense");
   assert.ok(EXAMPLES["生"].some(example => example.word === "生きる" && example.reading === "いきる"),
     "生 should include 生きる (いきる) to demonstrate the life/live sense");
+  assert.ok(EXAMPLES["会"].some(example => example.word === "会う" && example.reading === "あう"),
+    "会 should include 会う (あう) to demonstrate the meet sense");
+  assert.ok(EXAMPLES["社"].some(example => example.word === "神社" && example.reading === "じんじゃ"),
+    "社 should include 神社 (じんじゃ) to demonstrate the shrine sense");
 });
 
 test("gloss and example keys reference real kanji and contain non-empty fields", () => {
