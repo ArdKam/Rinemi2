@@ -85,14 +85,24 @@ test("live preview mounts React and completes a minimal learner journey without 
   expect(landscapeLayout.promptFontSize, "Live compact-landscape target kanji remains prominent").toBeGreaterThanOrEqual(60);
   expect(landscapeLayout.documentWidth, "Live compact-landscape view has no horizontal overflow")
     .toBeLessThanOrEqual(landscapeLayout.viewportWidth + 1);
+  await expect(page.locator(".prompt-question"), "The recall prompt fits in the initial landscape viewport").toBeInViewport();
+  const revealControl = page.getByRole("button", { name: /Reveal answer/ });
+  await expect(revealControl, "The primary reveal action fits in the initial landscape viewport").toBeInViewport();
   await page.screenshot({ path: "artifacts/live-preview-en-dark-landscape-prompt.png" });
 
-  await page.getByRole("button", { name: /Reveal answer/ }).click();
+  await revealControl.click();
   await expect(page.locator(".answer-heading h2")).toHaveText("one");
   await expect(page.locator(".vocabulary-example")).toBeVisible();
   const ratingButtons = page.locator(".rating-button");
   await expect(ratingButtons).toHaveCount(4);
   await expect(ratingButtons.first()).toBeVisible();
+  // Keep the fixed skip link out of a full-page screenshot after Playwright has
+  // scrolled to the reveal button in the short viewport.
+  await page.evaluate(() => {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  });
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
   await page.screenshot({ path: "artifacts/live-preview-en-dark-landscape-answer.png", fullPage: true });
 
   expect(failedResponses, failedResponses.join("\n")).toEqual([]);
