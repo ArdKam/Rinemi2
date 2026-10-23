@@ -606,7 +606,7 @@ export default function App() {
     <main id="main-content" className="page-content">
       {storageWarning && <div className="status-banner" role="status">{t.storageWarning}</div>}
       {page === "today" && <section className="today-page" aria-labelledby="today-title">
-        <div className="today-heading"><p className="eyebrow">{t.kicker}</p><h1 id="today-title" tabIndex={-1}>{t.headline}</h1><p className="lede">{t.intro}</p></div>
+        <div className="today-heading"><p className="eyebrow">{t.kicker}</p><h1 id="today-title" tabIndex={-1}>{t.headline}</h1><p className="lede">{t.intro}</p><img className="mascot-today-illustration" src={MASCOT_IMAGE} alt="" aria-hidden="true" width={76} height={81} decoding="async" /></div>
         <section className="study-overview" aria-label={isFa ? "خلاصهٔ یادگیری" : "Study summary"}>
           <div className="overview-primary">
             <div className="overview-copy">
@@ -616,7 +616,7 @@ export default function App() {
             </div>
             <div className="hero-kanji"><span className="hero-kanji-glyph" lang="ja">日</span><span className="hero-kanji-label">{t.sun}</span><span className="hero-kanji-note">{isFa ? "یک نشانه، چند کاربرد." : "One character, several uses."}</span></div>
           </div>
-          {isFirstSession ? <div className="first-session-note"><img className="mascot-first-session-illustration" src={MASCOT_IMAGE} alt="" aria-hidden="true" width={64} height={68} decoding="async" /><div><strong>{t.firstSessionTitle}</strong><span>{t.firstSessionText}</span></div></div> : <div className="overview-metrics">
+          {isFirstSession ? <div className="first-session-note"><span className="first-session-mark" aria-hidden="true">一</span><div><strong>{t.firstSessionTitle}</strong><span>{t.firstSessionText}</span></div></div> : <div className="overview-metrics">
             <div><strong>{fmt(dueCount, language)}</strong><span>{t.due}</span></div>
             <div><strong>{fmt(learnedCount, language)}</strong><span>{t.learned}</span></div>
             <div><strong>{fmt(store.bookmarks.length, language)}</strong><span>{t.saved}</span></div>
