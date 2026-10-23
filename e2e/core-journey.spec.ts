@@ -530,6 +530,13 @@ for (const viewport of [
     await again.scrollIntoViewIfNeeded();
     await expect(again).toBeVisible();
 
+    if (viewport.name === "compact landscape") {
+      const promptFontSize = await page.locator(".prompt-kanji").evaluate(element =>
+        Number.parseFloat(getComputedStyle(element).fontSize)
+      );
+      expect(promptFontSize, "The target kanji remains visually prominent in compact landscape").toBeGreaterThanOrEqual(60);
+    }
+
     const measurements = await page.evaluate(() => {
       const targets = [...document.querySelectorAll("button, select, input:not([type='checkbox'])")]
         .filter(element => {
