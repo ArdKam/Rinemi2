@@ -73,6 +73,28 @@ test("live preview mounts React and completes a minimal learner journey without 
   expect(widths.document).toBeLessThanOrEqual(widths.viewport + 1);
   await page.screenshot({ path: "artifacts/live-preview-en-dark-mobile.png", fullPage: true });
 
+  // Verify the merged short-height typography on the actual deployed Pages URL,
+  // not only in the PR preview's local Vite server.
+  await page.setViewportSize({ width: 844, height: 390 });
+  await expect(page.locator(".prompt-kanji")).toHaveText("一");
+  const landscapeLayout = await page.evaluate(() => ({
+    promptFontSize: Number.parseFloat(getComputedStyle(document.querySelector(".prompt-kanji")!).fontSize),
+    documentWidth: document.documentElement.scrollWidth,
+    viewportWidth: window.innerWidth
+  }));
+  expect(landscapeLayout.promptFontSize, "Live compact-landscape target kanji remains prominent").toBeGreaterThanOrEqual(60);
+  expect(landscapeLayout.documentWidth, "Live compact-landscape view has no horizontal overflow")
+    .toBeLessThanOrEqual(landscapeLayout.viewportWidth + 1);
+  await page.screenshot({ path: "artifacts/live-preview-en-dark-landscape-prompt.png" });
+
+  await page.getByRole("button", { name: /Reveal answer/ }).click();
+  await expect(page.locator(".answer-heading h2")).toHaveText("one");
+  await expect(page.locator(".vocabulary-example")).toBeVisible();
+  const ratingButtons = page.locator(".rating-button");
+  await expect(ratingButtons).toHaveCount(4);
+  await expect(ratingButtons.first()).toBeVisible();
+  await page.screenshot({ path: "artifacts/live-preview-en-dark-landscape-answer.png", fullPage: true });
+
   expect(failedResponses, failedResponses.join("\n")).toEqual([]);
   expect(pageErrors, pageErrors.join("\n")).toEqual([]);
   expect(consoleErrors, consoleErrors.join("\n")).toEqual([]);
