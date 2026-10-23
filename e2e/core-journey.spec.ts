@@ -62,7 +62,7 @@ test("Today starts a useful session and learning rating advances the queue", asy
   await expect(todayMascot).toBeVisible();
   await expect(todayMascot).toHaveAttribute("alt", "");
   await expect.poll(() => todayMascot.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
-  await expect(todayMascot).toHaveAttribute("src", "/mascot/rinemi-cat-tea.svg");
+  await expect(todayMascot).toHaveAttribute("src", "/mascot/rinemi-cat-artwork.webp");
   await expect(page.locator(".overview-metrics")).toHaveCount(0);
   await expect(page.locator(".hero-kanji-glyph")).toHaveText("日");
   await page.screenshot({ path: "artifacts/today-fa-light.png", fullPage: true });
@@ -114,6 +114,7 @@ test("empty learning state loads its decorative mascot and keeps the recovery ac
   await expect(mascot).toBeVisible();
   await expect(mascot).toHaveAttribute("alt", "");
   await expect(mascot).toHaveAttribute("aria-hidden", "true");
+  await expect(mascot).toHaveAttribute("src", "/mascot/rinemi-cat-artwork.webp");
   await expect.poll(() => mascot.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
   await expect(emptyState.getByRole("button", { name: /کاوش کانجی‌ها/ })).toBeVisible();
   await page.screenshot({ path: "artifacts/mascot-empty-fa-light.png", fullPage: true });

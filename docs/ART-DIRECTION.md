@@ -1,6 +1,6 @@
 # Rinemi 2 — Art Direction and Design System
 
-**Status:** Approved written baseline; mascot-specific identity and usage rules are maintained in [Mascot Design System](MASCOT-DESIGN-SYSTEM.md). The first mascot SVG integration is a review candidate, not visual acceptance. Refine and expand it only after checking rendered browser screenshots.  
+**Status (2026-10-23):** Approved written baseline; mascot identity and usage rules are maintained in [Mascot Design System](MASCOT-DESIGN-SYSTEM.md). The current deployed v0.1 SVG is verified on Today and the empty-session recovery state by [CI #188](https://github.com/ArdKam/Rinemi2/actions/runs/39877410690) and [Pages deployment #43](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464). A review candidate proposes using the owner's supplied raster artwork instead; that replacement is not yet live. Preserve the original paper texture, marks, expression and palette; do not vector-trace or redraw it. Rendered verification, responsive screenshot acceptance and provenance/license review remain required.
 **Creative intent:** an adult, calm, Persian-first Japanese learning studio with editorial Japanese influence—not generic SaaS, anime, or decorative Japan-themed stock UI.
 
 ## 1. Brand character
@@ -155,7 +155,7 @@ Character constraints:
 - evaluate silhouette and expression at intended UI sizes, in light/dark mode;
 - keep source file, export, prompt/brief, license and approved status;
 - generated variants are drafts until visually checked against the reference;
-- the current empty-state SVG is a candidate v0.1 integration; do not call it final or extend it to more surfaces until the mascot acceptance gate passes;
+- the deployed SVG is a legacy v0.1 interpretation; the owner-supplied artwork is the canonical visual reference and its raster replacement remains a candidate until CI, deployed asset checks, and screenshots pass;
 - prefer simple, consistent 2D vectors or clean line illustrations for interface use.
 
 ### Educational illustration rules

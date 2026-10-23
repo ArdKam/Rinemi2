@@ -1,6 +1,6 @@
 # Rinemi 2 — Product Redesign & Rebuild Roadmap
 
-**Status (2026-10-23):** the latest merged application-code snapshot is [`008edbe`](https://github.com/ArdKam/Rinemi2/commit/008edbe7659f47ed36831fcc9ed35d3e645b7316). [PR #55](https://github.com/ArdKam/Rinemi2/pull/55) adds the mascot design system and the initial empty-session integration. The exact pre-merge head [`40975ea`](https://github.com/ArdKam/Rinemi2/commit/40975ea62ba9f3375833dd4cc5fffecc87e15d34) passed [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39874654456), covering unit/data tests, typecheck, build, contrast, Playwright, offline tests, and the Pages build. The resulting 390×844 Persian RTL light/dark and English LTR dark screenshots were inspected after fixing an SVG transparency artifact. These are branch-build results; post-merge Pages/live-browser verification for `008edbe` was not independently confirmed here. Prior checks on [`1929c77`](https://github.com/ArdKam/Rinemi2/commit/1929c774b67c8ec3990f1ccb2f43aef7c463e7f1) remain historical for that SHA. Rinemi remains **pre-release**: human accessibility/usability, the 44-record teaching-content review, owner/legal source and license approval, and manual data/PWA failure acceptance remain open; see [issue #7](https://github.com/ArdKam/Rinemi2/issues/7), [#24](https://github.com/ArdKam/Rinemi2/issues/24) and [#25](https://github.com/ArdKam/Rinemi2/issues/25).
+**Status (2026-10-23):** The latest merged application-code snapshot is [`fb88901`](https://github.com/ArdKam/Rinemi2/commit/fb88901126d331a55ff2e91f188a0f2907e9c10c). [PR #55](https://github.com/ArdKam/Rinemi2/pull/55) established mascot identity/usage rules and [PR #57](https://github.com/ArdKam/Rinemi2/pull/57) fixed visibility on Today. Exact-main [CI #188](https://github.com/ArdKam/Rinemi2/actions/runs/39877410690) and [Pages deployment #43](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464) passed on fb88901 and verified the SVG currently deployed. The owner-supplied raster artwork replacement is staged separately for review; it is not live and needs its own CI, deployed asset-path check, and screenshots. Remaining release blockers include human accessibility/usability, starter-content QA, source/license approval and manual data/PWA acceptance; see [issue #7](https://github.com/ArdKam/Rinemi2/issues/7), [#24](https://github.com/ArdKam/Rinemi2/issues/24) and [#25](https://github.com/ArdKam/Rinemi2/issues/25).
 **Planning date:** 2026-10-19  
 **Target repository:** `ArdKam/Rinemi2`  
 **Reference-only repository:** `ArdKam/kanji5` — do not modify it.  
@@ -235,7 +235,7 @@ Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.
 - [ ] Specify buttons, icon buttons, chips, segmented controls, search/filter fields, menus, dialogs, toasts, progress indicators, skeletons, error panels, lists, dictionary entries, review ratings, tabs and navigation.
 - [ ] Define interaction states: idle, hover, focus, active, selected, disabled, loading, success, warning, destructive, and failure.
 - [ ] Define reduced-motion alternatives and ensure motion communicates state or teaches a skill.
-- [x] Establish written mascot identity and usage standards; the initial set is intentionally narrow. [ ] Visually accept the empty-state candidate before creating more variants. See [MASCOT-DESIGN-SYSTEM.md](docs/MASCOT-DESIGN-SYSTEM.md).
+- [x] Establish written mascot identity and usage standards; the initial set is intentionally narrow. [ ] Visually verify the owner-supplied canonical artwork in both active placements before creating more variants. See [MASCOT-DESIGN-SYSTEM.md](docs/MASCOT-DESIGN-SYSTEM.md).
 - [ ] Build a small rendered component gallery to verify tokens on actual devices and themes.
 - [ ] Validate the approved direction on actual rendered screens in-browser, including Persian RTL/English LTR, light/dark themes, mobile and desktop.
 - [ ] Refine palette and components based on contrast/accessibility checks and real content density.
@@ -536,7 +536,7 @@ Do not accept new scope just because a competing app has the feature or a protot
 
 ## 9. Current execution status (2026-10-23)
 
-The latest merged application-code snapshot is [`008edbe`](https://github.com/ArdKam/Rinemi2/commit/008edbe7659f47ed36831fcc9ed35d3e645b7316). The exact pre-merge head [`40975ea`](https://github.com/ArdKam/Rinemi2/commit/40975ea62ba9f3375833dd4cc5fffecc87e15d34) passed [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39874654456), including unit/data tests, typecheck, build, design-token contrast, Playwright E2E, offline checks and `build:pages`. The branch-build screenshots were manually inspected in Persian RTL light/dark and English LTR dark at 390×844 after a transparency-filter defect was corrected. Post-merge Pages/live Chromium verification for `008edbe` was not independently confirmed in this pass; the earlier [Pages/live verification](https://github.com/ArdKam/Rinemi2/actions/runs/39859508390) is historical for its own SHA. Automated checks and inspected screenshot artifacts do not replace human accessibility, teaching-quality or legal acceptance.
+The latest merged application-code snapshot is [`fb88901`](https://github.com/ArdKam/Rinemi2/commit/fb88901126d331a55ff2e91f188a0f2907e9c10c). Exact-main [CI #188](https://github.com/ArdKam/Rinemi2/actions/runs/39877410690) and [Pages deployment #43](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464) passed on this SHA. These runs verified the then-current SVG mascot on Today and the empty-session recovery state. A separate review branch now proposes the owner-supplied raster artwork; CI, the WebP base path, and rendered screenshots for that candidate remain unverified, so the live-status claim applies only to fb88901 until the replacement is merged and deployed.
 
 ### Implemented in the current slice
 
@@ -563,19 +563,19 @@ The latest merged application-code snapshot is [`008edbe`](https://github.com/Ar
 
 - [x] Written product/design/learning/quality specifications are present.
 - [x] First functional application slice is merged to `main`.
-- [x] Automated post-merge CI passed on application-code SHA `1929c774b67c8ec3990f1ccb2f43aef7c463e7f1` ([run](https://github.com/ArdKam/Rinemi2/actions/runs/39859508305)).
-- [x] Pages deployment, smoke test and live Chromium verification passed on the same application-code SHA ([deployment run](https://github.com/ArdKam/Rinemi2/actions/runs/39859508390)).
+- [x] Automated post-merge CI passed on application-code SHA `fb88901126d331a55ff2e91f188a0f2907e9c10c` ([run](https://github.com/ArdKam/Rinemi2/actions/runs/39877410690)).
+- [x] Pages deployment, base-path asset smoke test and live Chromium verification passed on the same application-code SHA ([deployment run](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464)).
 - [ ] Manual rendered-browser, usability and accessibility acceptance.
 - [ ] Human review of learner-facing Persian/Japanese starter content.
 - [ ] Selective source/license review complete (upstream KANJIDIC2/EDRDG declaration and UI attribution are in place; exact corpus/share-alike, topic taxonomy, identity asset, font-binary and project-license approval remain open).
 - [x] Committed npm lockfile; CI and Pages deployment use `npm ci` and validate clean installs.
 - [ ] Adaptive/recovery semantics, remaining collection bulk operations, end-to-end Anki import, and reading-transfer work; collection rename/clear/delete are implemented but still need rendered UX acceptance.
 - [ ] Manual acceptance of local backup/restore/erasure and PWA install/update/cache behavior; full privacy/legal review and owner approval of exact source/font/application terms; storage-failure/rollback behavior.
-- [x] Hosting configuration and public URL verified on the actual Vite build; latest Pages deployment/live Chromium checks passed on application-code SHA `1929c774b67c8ec3990f1ccb2f43aef7c463e7f1` ([run](https://github.com/ArdKam/Rinemi2/actions/runs/39859508390)). Earlier `de3b9ef` verification remains historical evidence.
-- [x] Automated live preview runtime check covers React mount, the core review flow, locale/theme changes, brand assets, mobile width and runtime/network errors.
+- [x] Hosting configuration, public URL and the mascot SVG's `/Rinemi2/` base-prefixed path verified on application-code SHA `fb88901126d331a55ff2e91f188a0f2907e9c10c` ([Pages/live-browser run](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464)).
+- [x] Automated live preview runtime check covers React mount, core review flow, locale/theme changes, brand and mascot assets, mobile width, asset path, and runtime/network errors ([run](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464)).
 - [ ] Manual accessibility/usability acceptance: keyboard-only/focus, zoom, reduced-motion/forced-colors, screen-reader, Explore/collections and non-happy-path review.
 - [ ] Candidate release evidence assembled and beta gate approved.
-- [ ] Mascot asset and both placements (Today-page heading for new/returning learners and empty-session recovery) visually accepted in Persian RTL / English LTR, light / dark, narrow mobile / desktop; verify the public Pages URL serves the base-prefixed SVG and records rendered screenshots. See [Mascot Design System](docs/MASCOT-DESIGN-SYSTEM.md).
+- [ ] Verify the owner-supplied canonical raster mascot in both active placements across Persian RTL / English LTR, light / dark, narrow mobile / desktop; confirm the deployed WebP base path and inspect rendered screenshots after the replacement merges. Preserve source/provenance and complete license review. Existing SVG verification is historical evidence for [Pages run #43](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464), not proof of the replacement. See [Mascot Design System](docs/MASCOT-DESIGN-SYSTEM.md).
 
 **Repository boundary:** `ArdKam/kanji5` remains reference-only. All implementation and documentation changes must remain in `ArdKam/Rinemi2`.
 

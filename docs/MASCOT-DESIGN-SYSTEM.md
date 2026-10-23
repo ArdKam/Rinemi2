@@ -1,6 +1,6 @@
 # Rinemi Mascot Design System
 
-**Status (2026-10-23):** The design contract and first UI integration were merged in [PR #55](https://github.com/ArdKam/Rinemi2/pull/55) at [`008edbe`](https://github.com/ArdKam/Rinemi2/commit/008edbe7659f47ed36831fcc9ed35d3e645b7316). The SVG remains a v0.1 candidate, not final owner-approved artwork. The exact pre-merge head [`40975ea`](https://github.com/ArdKam/Rinemi2/commit/40975ea62ba9f3375833dd4cc5fffecc87e15d34) passed [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39874654456) and its rendered screenshots were inspected at 390×844 for Persian RTL light/dark and English LTR dark. Post-merge live Pages/runtime verification for `008edbe` was not independently confirmed in this pass. Do not expand the asset set until the candidate receives owner visual approval and the provenance/license review is recorded.
+**Status (2026-10-23):** The design contract and first UI integration are verified on current deployed app SHA [`fb88901`](https://github.com/ArdKam/Rinemi2/commit/fb88901126d331a55ff2e91f188a0f2907e9c10c), via [CI #188](https://github.com/ArdKam/Rinemi2/actions/runs/39877410690) and [Pages deployment #43](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464). That deployment uses `rinemi-cat-tea.svg`, a hand-authored vector reinterpretation. The owner has now specified the supplied original cat illustration as the canonical artwork; this review branch stages a compact WebP derivative for Today and empty-session placements. That replacement is not yet deployed. Its successful asset-path check, rendered screenshot matrix, and content fidelity need verification before closing the gate.
 
 **Target:** `ArdKam/Rinemi2`  
 **Reference-only repository:** `ArdKam/kanji5` — do not modify it.
@@ -61,7 +61,7 @@ The current app integration remains intentionally narrow: a small, decorative il
 ## 6. Component and accessibility contract
 
 - Keep artwork in normal document flow; it must not overlap text, controls, safe areas, or the kanji.
-- Use transparent backgrounds for UI assets wherever feasible. Keep a stable intrinsic aspect ratio and size to avoid layout shift.
+- The selected owner-supplied artwork has a warm rice-paper texture and background. Preserve it; do not vector-trace, redraw, recolor, invert, or remove the texture. Keep a stable intrinsic 4:5 ratio and use `object-fit: contain` so the complete character and paper texture remain visible without distortion.
 - In dark mode, preserve the illustration's original colors; do not apply global inversion or opacity reduction to make it blend in.
 - When the art is decorative and the adjacent heading, explanation, and recovery action convey the state, use an empty alternative text (`alt=""`) and hide it from assistive technology. If an illustration ever conveys instructional meaning, add a text equivalent instead.
 - Never rely on the illustration to explain the state, report success/failure, or communicate the only available action.
@@ -71,18 +71,19 @@ The current app integration remains intentionally narrow: a small, decorative il
 
 | Asset | Status | Intended use | Provenance / note |
 |---|---|---|---|
-| Owner-supplied original cat image | Canonical identity reference | Design review only | Supplied by the owner in this conversation; do not silently overwrite or alter the source |
-| `public/mascot/rinemi-cat-tea.svg` | Candidate v0.1, in review | Empty learning-session state only | New vector interpretation based on the supplied cat reference; tea bowl is a context prop; review visual fidelity before expanding use |
+| Owner-supplied original cat image | Canonical source artwork | Source-of-truth reference | Original PNG supplied by the owner; keep this master unchanged as the reference for future variants |
+| `public/mascot/rinemi-cat-artwork.webp` | Proposed raster replacement, in review | Today heading and empty-session recovery | 256×320 WebP derivative cropped only to remove unused left/right canvas margins and rescaled for UI delivery; it preserves the full cat, linework, marks, paper texture, and palette, without redrawing |
+| `public/mascot/rinemi-cat-tea.svg` | Current deployed legacy interpretation | Still used by `main` until the replacement is merged and deployed | Hand-authored vector interpretation; differs from the owner's supplied illustration and should not remain the canonical art |
 | Avatar crop, brush/writing pose, book/reading pose, achievement, seasonal and loading variants | Not produced / deferred | Only after the base asset is accepted | Each asset requires visual comparison, provenance and license review |
 
-The candidate SVG is authored as a repository asset and does not replace the owner's source image. Confirm the rights/provenance of the final selected identity artwork as part of release preparation. Keep source file, prompt/brief where relevant, transformation notes, approval state, and license status together when new assets are added.
+The WebP derivative is a display asset, not a replacement for the owner's source file. Keep the source artwork unchanged outside this app repository and record the crop/resize/WebP conversion; complete the project's provenance/license review before public-beta sign-off.
 
 ## 8. Acceptance gate before adding more assets
 
 1. Compare the base silhouette, face, markings and proportions against the owner's original reference at 24 px, 44 px, 96 px and the empty-state display size.
-2. Inspect the live empty state in Persian RTL and English LTR, light and dark themes, narrow mobile and desktop. Verify the illustration does not outgrow the message/action hierarchy.
+2. Inspect both live placements in Persian RTL and English LTR, light and dark themes, narrow mobile, compact landscape and desktop. Verify the illustration preserves the reference appearance and does not outgrow the message/action hierarchy.
 3. Verify the image request returns successfully, intrinsic size is non-zero, no horizontal overflow or layout shift is introduced, and the state remains understandable with images disabled.
 4. Review keyboard, screen-reader, zoom and reduced-motion behavior; the static illustration should not introduce interactive behavior.
-5. Record the exact commit, screenshots, test result and owner approval. A green build is not visual approval.
+5. Record the exact replacement commit, screenshots, test result and owner acceptance of the rendered result. A green build is not visual approval.
 
 Until these criteria are met, the first integration is a review candidate, not a release gate closure. See [Art Direction](ART-DIRECTION.md), [UI/UX Review Register](UI-UX-REVIEW-REGISTER.md), and [Roadmap](../ROADMAP.md).
