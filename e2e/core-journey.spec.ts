@@ -521,6 +521,30 @@ for (const viewport of [
     await expect(page.locator("#learn-title")).toBeFocused();
     await expect(page.locator(".skip-link")).not.toBeFocused();
     await expect(page.locator(".prompt-kanji")).toHaveText("日");
+
+    if (viewport.name === "compact landscape") {
+      const promptLayout = await page.evaluate(() => {
+        const rect = (selector: string) => {
+          const element = document.querySelector(selector);
+          if (!element) return null;
+          const box = element.getBoundingClientRect();
+          return { top: box.top, bottom: box.bottom };
+        };
+        return {
+          kanji: rect(".prompt-kanji"),
+          question: rect(".prompt-question"),
+          viewportHeight: window.innerHeight
+        };
+      });
+      expect(promptLayout.kanji, "The kanji prompt exists").not.toBeNull();
+      expect(promptLayout.question, "The question prompt exists").not.toBeNull();
+      expect(promptLayout.kanji!.top, "The target kanji stays above the viewport fold").toBeGreaterThanOrEqual(0);
+      expect(promptLayout.kanji!.bottom, "The target kanji is fully visible").toBeLessThanOrEqual(promptLayout.viewportHeight);
+      expect(promptLayout.question!.top, "The prompt question starts inside the viewport").toBeGreaterThanOrEqual(0);
+      expect(promptLayout.question!.bottom, "The full prompt question is visible without scrolling").toBeLessThanOrEqual(promptLayout.viewportHeight);
+      await page.screenshot({ path: testInfo.outputPath("compact-landscape-prompt-viewport.png") });
+    }
+
     await page.getByRole("button", { name: /نمایش پاسخ/ }).click();
     await expect(page.locator("#answer-meaning-title")).toBeFocused();
     await expect(page.locator(".skip-link")).not.toBeFocused();
