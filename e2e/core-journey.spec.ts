@@ -314,6 +314,90 @@ test("invalid backup is rejected without replacing existing local data", async (
   expect(after).toBe(before);
 });
 
+test("failed backup restore rolls back current learner data and announces the storage failure", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("rinemi2:local:v2", JSON.stringify({
+      version: 2, language: "fa", theme: "light", bookmarks: ["一"], collections: [], reviews: {}
+    }));
+    localStorage.setItem("rinemi.theme", "light");
+  });
+  await page.goto("/");
+  await page.locator(".data-tools-toggle").click();
+
+  const backup = {
+    format: "rinemi2-local-backup",
+    schemaVersion: 1,
+    exportedAt: "2026-10-23T00:00:00.000Z",
+    data: { version: 2, language: "en", theme: "dark", bookmarks: ["日"], collections: [], reviews: {} }
+  };
+  await page.locator(".data-upload-control input").setInputFiles({
+    name: "restore-write-failure.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(backup))
+  });
+  await expect(page.locator(".data-backup-preview")).toBeVisible();
+  const before = await page.evaluate(() => ({
+    store: localStorage.getItem("rinemi2:local:v2"),
+    theme: localStorage.getItem("rinemi.theme")
+  }));
+
+  await page.evaluate(() => {
+    const originalSetItem = Storage.prototype.setItem;
+    Storage.prototype.setItem = function (key: string, value: string) {
+      if (key === "rinemi.theme" && value === "dark") {
+        throw new DOMException("Injected theme write failure", "QuotaExceededError");
+      }
+      return originalSetItem.call(this, key, value);
+    };
+  });
+  page.once("dialog", dialog => dialog.accept());
+  await page.getByRole("button", { name: "جایگزینی با پشتیبان" }).click();
+
+  await expect(page.getByText("ذخیره‌سازی انجام نشد. فضای ذخیره‌سازی مرورگر یا دسترسی آن را بررسی کن.")).toBeVisible();
+  await expect(page.locator(".status-banner")).toBeVisible();
+  const after = await page.evaluate(() => ({
+    store: localStorage.getItem("rinemi2:local:v2"),
+    theme: localStorage.getItem("rinemi.theme")
+  }));
+  expect(after).toEqual(before);
+});
+
+test("failed removal still attempts every other local-data key and reports incomplete erasure", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem("rinemi2:local:v2", JSON.stringify({
+      version: 2, language: "fa", theme: "light", bookmarks: ["一"], collections: [], reviews: {}
+    }));
+    localStorage.setItem("rinemi2:local:v1", JSON.stringify({
+      version: 1, language: "fa", theme: "light", bookmarks: ["日"], reviews: {}
+    }));
+    localStorage.setItem("rinemi.theme", "light");
+  });
+  await page.goto("/");
+  await page.evaluate(() => {
+    const originalRemoveItem = Storage.prototype.removeItem;
+    Storage.prototype.removeItem = function (key: string) {
+      if (key === "rinemi2:local:v1") {
+        throw new DOMException("Injected legacy removal failure", "SecurityError");
+      }
+      return originalRemoveItem.call(this, key);
+    };
+  });
+  await page.locator(".data-tools-toggle").click();
+  page.once("dialog", dialog => dialog.accept());
+  await page.getByRole("button", { name: "پاک‌کردن داده‌های این مرورگر" }).click();
+
+  await expect(page.getByText("پاک‌کردن داده‌ها کامل نشد؛ دسترسی ذخیره‌سازی مرورگر را بررسی کن.")).toBeVisible();
+  const state = await page.evaluate(() => ({
+    store: localStorage.getItem("rinemi2:local:v2"),
+    legacy: localStorage.getItem("rinemi2:local:v1"),
+    theme: localStorage.getItem("rinemi.theme")
+  }));
+  expect(state.store).toBeNull();
+  expect(state.legacy).not.toBeNull();
+  expect(state.theme).toBeNull();
+});
+
+
 test("local data erasure clears review, bookmark, collection, legacy and theme preferences", async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem("rinemi2:local:v2", JSON.stringify({

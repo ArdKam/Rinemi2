@@ -158,9 +158,18 @@ export function persistStore(store: AppStore): void {
 
 export function eraseLocalData(): void {
   if (typeof window === "undefined") return;
-  window.localStorage.removeItem(STORAGE_KEY);
-  window.localStorage.removeItem(LEGACY_STORAGE_KEY);
-  window.localStorage.removeItem(THEME_PREFERENCE_KEY);
+  const keys = [STORAGE_KEY, LEGACY_STORAGE_KEY, THEME_PREFERENCE_KEY];
+  const failedKeys: string[] = [];
+  // A single denied removal must not prevent best-effort erasure of the
+  // remaining local records. Report incomplete erasure after attempting all keys.
+  for (const key of keys) {
+    try {
+      window.localStorage.removeItem(key);
+    } catch {
+      failedKeys.push(key);
+    }
+  }
+  if (failedKeys.length > 0) throw new Error("LOCAL_DATA_ERASURE_INCOMPLETE");
 }
 function createId(): string {
   try {
