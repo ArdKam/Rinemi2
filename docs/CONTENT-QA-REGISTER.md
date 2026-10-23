@@ -17,7 +17,7 @@ For each stable kanji ID:
 
 ## AI-assisted draft refinements (2026-10-23)
 
-The two additions below were cross-checked against Japanese-English/Japanese dictionary entries to improve alignment between the starter gloss and its vocabulary examples:
+The additions below were cross-checked against Japanese-English/Japanese dictionary entries to improve alignment between the starter gloss and its vocabulary examples:
 
 - **本:** add 本屋（ほんや, bookstore） before 日本（にほん, Japan), so the card includes a word that demonstrates the “book” sense. Reference: [TKG Japanese-English Learner’s Dictionary — 本屋](https://www.tkgje.jp/entries/03000/03034_honya.html).
 - **生:** add 生きる（いきる, to live） before 学生（がくせい, student), so the card includes a word tied to “life/live.” Reference: [Kotobank / 精選版 日本国語大辞典 — 生きる](https://kotobank.jp/word/%E7%94%9F%E3%81%8D%E3%82%8B-431376).
@@ -25,6 +25,10 @@ The two additions below were cross-checked against Japanese-English/Japanese dic
 - **社:** add 神社（じんじゃ, Shinto shrine） before 会社（かいしゃ, company), so both listed senses have an example. Reference: [Kotobank / Progressive Japanese-English — 神社](https://kotobank.jp/jeword/%E7%A5%9E%E7%A4%BE).
 - **学:** add 学ぶ（まなぶ, to learn/study） before 学校（がっこう, school), so the card demonstrates the learning sense directly. Reference: [Cambridge Japanese–English Dictionary — 学ぶ](https://dictionary.cambridge.org/dictionary/japanese-english/%E5%AD%A6%E3%81%B6).
 - **東:** add 東（ひがし, east） before 東京（とうきょう, Tokyo), so the card demonstrates the direction sense directly. Reference: [Cambridge Japanese–English Dictionary — 東](https://dictionary.cambridge.org/dictionary/japanese-english/%E6%9D%B1).
+- **金:** add 金（きん, gold） before お金（おかね, money), so both the gold and money senses have a candidate example. Reference: [Cambridge Japanese–English Dictionary — 金](https://dictionary.cambridge.org/ja/dictionary/japanese-english/%E9%87%91).
+- **家:** add 家（いえ, house） before 家族（かぞく, family), so the card includes a direct house sense. Reference: [Cambridge Japanese–English Dictionary — 家](https://dictionary.cambridge.org/ja/dictionary/japanese-english/%E5%AE%B6_1).
+- **語:** add 単語（たんご, word） before 日本語（にほんご, Japanese language), so the card includes a candidate for the word sense. Reference: [Cambridge Japanese–English Dictionary — 単語](https://dictionary.cambridge.org/ja/dictionary/japanese-english/%E5%8D%98%E8%AA%9E).
+- **事:** add 事（こと, matter; thing） before 仕事（しごと, work; job), so the card includes a direct matter/thing sense. Reference: [Cambridge Japanese–English Dictionary — 事](https://dictionary.cambridge.org/us/dictionary/japanese-english/%E4%BA%8B).
 
 These are **AI-assisted draft refinements, not human approval**. The example readings and Japanese lexical senses were checked against the linked references; the Persian and English translations, level/frequency suitability, and overall teaching quality still require human review. All corresponding status cells below remain NOT REVIEWED; [issue #24](https://github.com/ArdKam/Rinemi2/issues/24) remains open.
 ## Record inventory
@@ -53,13 +57,13 @@ These are **AI-assisted draft refinements, not human approval**. The example rea
 | 三 | Present | 三つ（みっつ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 同 | Present | 同じ（おなじ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 時 | Present | 時間（じかん） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
-| 事 | Present | 仕事（しごと） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 事 | Present | 事（こと）; 仕事（しごと） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Cambridge — 事](https://dictionary.cambridge.org/us/dictionary/japanese-english/%E4%BA%8B); Persian translation, suitability and final review still open | — | — |
 | 自 | Present | 自分（じぶん） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 行 | Present | 行く（いく） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 社 | Present | 神社（じんじゃ）; 会社（かいしゃ） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Kotobank — 神社](https://kotobank.jp/jeword/%E7%A5%9E%E7%A4%BE); Persian translation, suitability and final review still open | — | — |
 | 見 | Present | 見る（みる） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 月 | Present | 月（つき） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
-| 金 | Present | お金（おかね） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 金 | Present | 金（きん）; お金（おかね） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Cambridge — 金](https://dictionary.cambridge.org/ja/dictionary/japanese-english/%E9%87%91); Persian translation, suitability and final review still open | — | — |
 | 学 | Present | 学ぶ（まなぶ）; 学校（がっこう） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Cambridge — 学ぶ](https://dictionary.cambridge.org/dictionary/japanese-english/%E5%AD%A6%E3%81%B6); Persian translation, suitability and final review still open | — | — |
 | 生 | Present | 生きる（いきる）; 学生（がくせい） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Kotobank — 生きる](https://kotobank.jp/word/%E7%94%9F%E3%81%8D%E3%82%8B-431376); Persian translation, suitability and final review still open | — | — |
 | 前 | Present | 午前（ごぜん） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
@@ -75,12 +79,12 @@ These are **AI-assisted draft refinements, not human approval**. The example rea
 | 食 | Present | 食べる（たべる） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 読 | Present | 読む（よむ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 書 | Present | 書く（かく） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
-| 語 | Present | 日本語（にほんご） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 語 | Present | 単語（たんご）; 日本語（にほんご） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Cambridge — 単語](https://dictionary.cambridge.org/ja/dictionary/japanese-english/%E5%8D%98%E8%AA%9E); Persian translation, suitability and final review still open | — | — |
 | 電 | Present | 電車（でんしゃ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 車 | Present | 車（くるま） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 道 | Present | 道（みち） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 今 | Present | 今（いま） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
-| 家 | Present | 家族（かぞく） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 家 | Present | 家（いえ）; 家族（かぞく） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Cambridge — 家](https://dictionary.cambridge.org/ja/dictionary/japanese-english/%E5%AE%B6_1); Persian translation, suitability and final review still open | — | — |
 
 ## Current blockers
 

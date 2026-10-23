@@ -83,7 +83,10 @@ export const EXAMPLES: Record<string, Example[]> = {
   "三": [{ word: "三つ", reading: "みっつ", fa: "سه چیز", en: "three things" }],
   "同": [{ word: "同じ", reading: "おなじ", fa: "یکسان", en: "same" }],
   "時": [{ word: "時間", reading: "じかん", fa: "زمان؛ مدت", en: "time; duration" }],
-  "事": [{ word: "仕事", reading: "しごと", fa: "کار؛ شغل", en: "work; job" }],
+  "事": [
+    { word: "事", reading: "こと", fa: "موضوع؛ مسئله", en: "matter; thing" },
+    { word: "仕事", reading: "しごと", fa: "کار؛ شغل", en: "work; job" }
+  ],
   "自": [{ word: "自分", reading: "じぶん", fa: "خود", en: "oneself" }],
   "行": [{ word: "行く", reading: "いく", fa: "رفتن", en: "to go" }],
   "社": [
@@ -92,7 +95,10 @@ export const EXAMPLES: Record<string, Example[]> = {
   ],
   "見": [{ word: "見る", reading: "みる", fa: "دیدن", en: "to see" }],
   "月": [{ word: "月", reading: "つき", fa: "ماه", en: "moon; month" }],
-  "金": [{ word: "お金", reading: "おかね", fa: "پول", en: "money" }],
+  "金": [
+    { word: "金", reading: "きん", fa: "طلا", en: "gold" },
+    { word: "お金", reading: "おかね", fa: "پول", en: "money" }
+  ],
   "学": [
     { word: "学ぶ", reading: "まなぶ", fa: "یاد گرفتن", en: "to learn" },
     { word: "学校", reading: "がっこう", fa: "مدرسه", en: "school" }
@@ -117,10 +123,16 @@ export const EXAMPLES: Record<string, Example[]> = {
   "食": [{ word: "食べる", reading: "たべる", fa: "خوردن", en: "to eat" }],
   "読": [{ word: "読む", reading: "よむ", fa: "خواندن", en: "to read" }],
   "書": [{ word: "書く", reading: "かく", fa: "نوشتن", en: "to write" }],
-  "語": [{ word: "日本語", reading: "にほんご", fa: "زبان ژاپنی", en: "Japanese language" }],
+  "語": [
+    { word: "単語", reading: "たんご", fa: "واژه", en: "word" },
+    { word: "日本語", reading: "にほんご", fa: "زبان ژاپنی", en: "Japanese language" }
+  ],
   "電": [{ word: "電車", reading: "でんしゃ", fa: "قطار برقی", en: "train" }],
   "車": [{ word: "車", reading: "くるま", fa: "خودرو", en: "car" }],
   "道": [{ word: "道", reading: "みち", fa: "راه؛ مسیر", en: "road; way" }],
   "今": [{ word: "今", reading: "いま", fa: "اکنون", en: "now" }],
-  "家": [{ word: "家族", reading: "かぞく", fa: "خانواده", en: "family" }]
+  "家": [
+    { word: "家", reading: "いえ", fa: "خانه", en: "house" },
+    { word: "家族", reading: "かぞく", fa: "خانواده", en: "family" }
+  ]
 };

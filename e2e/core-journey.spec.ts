@@ -741,7 +741,7 @@ test("forced-colors mode uses system colors and keeps keyboard focus visible", a
   expect(secondaryState.buttonText).not.toBe(secondaryState.buttonBackground);
 });
 
-test("learning cards render the meaning-aligned 本屋 and 生きる examples", async ({ page }) => {
+test("learning cards render source-checked meaning-aligned starter examples", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/");
 
@@ -767,4 +767,26 @@ test("learning cards render the meaning-aligned 本屋 and 生きる examples", 
   await expect(seiExamples.nth(0)).toContainText("生きる");
   await expect(seiExamples.nth(0)).toContainText("いきる");
   await expect(seiExamples.nth(0)).toContainText("زندگی کردن");
+
+  const goldExamples = await revealStarterCharacter("金");
+  await expect(goldExamples).toHaveCount(2);
+  await expect(goldExamples.nth(0)).toContainText("金");
+  await expect(goldExamples.nth(0)).toContainText("きん");
+  await expect(goldExamples.nth(0)).toContainText("طلا");
+
+  const homeExamples = await revealStarterCharacter("家");
+  await expect(homeExamples).toHaveCount(2);
+  await expect(homeExamples.nth(0)).toContainText("いえ");
+  await expect(homeExamples.nth(0)).toContainText("خانه");
+
+  const wordExamples = await revealStarterCharacter("語");
+  await expect(wordExamples).toHaveCount(2);
+  await expect(wordExamples.nth(0)).toContainText("単語");
+  await expect(wordExamples.nth(0)).toContainText("たんご");
+  await expect(wordExamples.nth(0)).toContainText("واژه");
+
+  const matterExamples = await revealStarterCharacter("事");
+  await expect(matterExamples).toHaveCount(2);
+  await expect(matterExamples.nth(0)).toContainText("こと");
+  await expect(matterExamples.nth(0)).toContainText("موضوع؛ مسئله");
 });
