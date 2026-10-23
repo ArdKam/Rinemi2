@@ -17,7 +17,7 @@ const BY_CHARACTER = new Map(KANJI.map(item => [item.character, item]));
 const TOPIC_MEMBERS = new Map(TOPICS.map(topic => [topic.id, new Set(topic.characters.trim().split(/\s+/))]));
 const BRAND_MARK_LIGHT = `${import.meta.env.BASE_URL}brand/rinemi-mark.svg`;
 const BRAND_MARK_DARK = `${import.meta.env.BASE_URL}brand/rinemi-mark-dark.svg`;
-const MASCOT_EMPTY_IMAGE = `${import.meta.env.BASE_URL}mascot/rinemi-cat-tea.svg`;
+const MASCOT_IMAGE = `${import.meta.env.BASE_URL}mascot/rinemi-cat-tea.svg`;
 
 const COPY = {
   fa: {
@@ -616,7 +616,7 @@ export default function App() {
             </div>
             <div className="hero-kanji"><span className="hero-kanji-glyph" lang="ja">日</span><span className="hero-kanji-label">{t.sun}</span><span className="hero-kanji-note">{isFa ? "یک نشانه، چند کاربرد." : "One character, several uses."}</span></div>
           </div>
-          {isFirstSession ? <div className="first-session-note"><span className="first-session-mark" aria-hidden="true">一</span><div><strong>{t.firstSessionTitle}</strong><span>{t.firstSessionText}</span></div></div> : <div className="overview-metrics">
+          {isFirstSession ? <div className="first-session-note"><img className="mascot-first-session-illustration" src={MASCOT_IMAGE} alt="" aria-hidden="true" width={64} height={68} decoding="async" /><div><strong>{t.firstSessionTitle}</strong><span>{t.firstSessionText}</span></div></div> : <div className="overview-metrics">
             <div><strong>{fmt(dueCount, language)}</strong><span>{t.due}</span></div>
             <div><strong>{fmt(learnedCount, language)}</strong><span>{t.learned}</span></div>
             <div><strong>{fmt(store.bookmarks.length, language)}</strong><span>{t.saved}</span></div>
@@ -643,7 +643,7 @@ export default function App() {
               <div className="rating-area"><p>{t.askRating}</p><div className="rating-grid" dir="ltr">{(["Again", "Hard", "Good", "Easy"] as const).map((rating, index) => <button key={rating} className={"rating-button rating-" + rating.toLowerCase()} type="button" disabled={rateBusy} onClick={() => applyRating(rating)} title={RATING_HINTS[language][rating]} aria-label={t[rating] + " — " + RATING_HINTS[language][rating]}><strong>{t[rating]}</strong><small>{index + 1}</small></button>)}</div></div>
             </div> : <div className="reveal-area"><button className="button-primary reveal-button" type="button" onClick={() => setRevealed(true)}>{t.reveal}<span aria-hidden="true">↵</span></button><span className="keyboard-hint">Space</span></div>}
           </article>
-        </> : queue.length > 0 && sessionRated > 0 ? <section className="session-complete"><span className="completion-mark" aria-hidden="true">✓</span><p className="eyebrow">{t.recall}</p><h1>{t.complete}</h1><p>{t.completeText}</p><div className="completion-total"><strong>{fmt(sessionRated, language)}</strong><span>{t.progress}</span></div><button className="button-primary" type="button" onClick={() => { setPage("today"); setNow(new Date()); }}>{t.back}<span aria-hidden="true">←</span></button></section> : <section className="session-complete session-empty"><img className="mascot-empty-illustration" src={MASCOT_EMPTY_IMAGE} alt="" aria-hidden="true" width={170} height={180} decoding="async" /><h1>{t.empty}</h1><p>{t.emptyHelp}</p><button className="button-primary" type="button" onClick={() => setPage("explore")}>{t.browse}<span aria-hidden="true">←</span></button></section>}
+        </> : queue.length > 0 && sessionRated > 0 ? <section className="session-complete"><span className="completion-mark" aria-hidden="true">✓</span><p className="eyebrow">{t.recall}</p><h1>{t.complete}</h1><p>{t.completeText}</p><div className="completion-total"><strong>{fmt(sessionRated, language)}</strong><span>{t.progress}</span></div><button className="button-primary" type="button" onClick={() => { setPage("today"); setNow(new Date()); }}>{t.back}<span aria-hidden="true">←</span></button></section> : <section className="session-complete session-empty"><img className="mascot-empty-illustration" src={MASCOT_IMAGE} alt="" aria-hidden="true" width={170} height={180} decoding="async" /><h1>{t.empty}</h1><p>{t.emptyHelp}</p><button className="button-primary" type="button" onClick={() => setPage("explore")}>{t.browse}<span aria-hidden="true">←</span></button></section>}
       </section>}
 
       {page === "explore" && <section className="explore-page" aria-labelledby="explore-title">
