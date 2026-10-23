@@ -38,6 +38,13 @@ Responsive screenshots from [run 39172388405](https://github.com/ArdKam/Rinemi2/
 - **Verification:** live [Pages run #40005713742](https://github.com/ArdKam/Rinemi2/actions/runs/40005713742) passed on `65d09ed`; its prompt and revealed-answer screenshots were downloaded and inspected. At 844×390 the full prompt/reveal action are reachable and the revealed view retains meaning, readings, vocabulary and all four rating controls.
 - **Remaining refinement:** [PR #76](https://github.com/ArdKam/Rinemi2/pull/76) adds an 8px bottom inset and stronger bounds assertions. PR CI #40007109679 and main CI #40007448689 passed, while post-merge Pages run #40007448666 is queued. Reinspect the deployed prompt screenshot before calling the extra inset live-verified.
 - **Acceptance still open:** finish the deployed screenshot matrix at 320×640, 390×844, 844×390 and desktop, then perform manual keyboard, zoom, screen-reader, reduced-motion and forced-colors acceptance. See issue #7.
+### UIUX-017 — Compact-landscape reveal control needs a safe bottom inset
+
+- **Priority:** P2 — touch control reachability and visual safety margin.
+- **Status:** CODE MERGED in [PR #76](https://github.com/ArdKam/Rinemi2/pull/76); local and main CI passed. Post-merge live verification pending.
+- **Evidence and change:** the initial deployed 844×390 screenshot showed the reveal control near the bottom edge after the question/reveal were made visible. PR #76 reduces only short-height tablet-landscape top padding and Learn topline spacing by one token each, moving content up 8px. Local and live Playwright assert actual bounding boxes, requiring the reveal control to end at least 8px above the viewport edge.
+- **Verification:** exact PR CI [#40007109679](https://github.com/ArdKam/Rinemi2/actions/runs/40007109679) and main CI [#40007448689](https://github.com/ArdKam/Rinemi2/actions/runs/40007448689) passed. Pages post-merge run [#40007448666](https://github.com/ArdKam/Rinemi2/actions/runs/40007448666) remains queued; the new inset cannot be called live-accepted until a screenshot from the deployed merge SHA is inspected.
+
 ### UIUX-001 — Mobile Explore return context and selected-detail priority
 
 - **Priority:** P1 — high-impact core discovery flow.
