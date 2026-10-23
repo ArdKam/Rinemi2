@@ -521,6 +521,10 @@ for (const viewport of [
     await expect(page.locator("#learn-title")).toBeFocused();
     await expect(page.locator(".skip-link")).not.toBeFocused();
     await expect(page.locator(".prompt-kanji")).toHaveText("日");
+    if (viewport.name === "compact landscape") {
+      await expect(page.locator(".prompt-question"), "The recall prompt fits in the compact landscape viewport").toBeInViewport();
+      await expect(page.getByRole("button", { name: /نمایش پاسخ/ }), "The reveal action fits in the compact landscape viewport").toBeInViewport();
+    }
     await page.getByRole("button", { name: /نمایش پاسخ/ }).click();
     await expect(page.locator("#answer-meaning-title")).toBeFocused();
     await expect(page.locator(".skip-link")).not.toBeFocused();
