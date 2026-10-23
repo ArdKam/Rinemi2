@@ -17,6 +17,8 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: node --check scripts/smoke-deployment.mjs
       - run: node --check public/sw.js
+      - name: Test KANJIDIC2 freshness audit parser
+        run: python3 scripts/test_kanjidic2_freshness.py
       - run: npm test
       - run: npm run typecheck
       - run: npm run build
