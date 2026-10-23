@@ -801,4 +801,21 @@ test("learning cards render source-checked meaning-aligned starter examples", as
   await expect(matterExamples).toHaveCount(2);
   await expect(matterExamples.nth(0)).toContainText("こと");
   await expect(matterExamples.nth(0)).toContainText("موضوع؛ مسئله");
+
+  const tenExamples = await revealStarterCharacter("十");
+  await expect(tenExamples).toHaveCount(2);
+  await expect(tenExamples.nth(0)).toContainText("じゅう");
+  await expect(tenExamples.nth(0)).toContainText("ده");
+
+  const foodExamples = await revealStarterCharacter("食");
+  await expect(foodExamples).toHaveCount(2);
+  await expect(foodExamples.nth(0)).toContainText("食べ物");
+  await expect(foodExamples.nth(0)).toContainText("たべもの");
+  await expect(foodExamples.nth(0)).toContainText("غذا");
+
+  const electricityExamples = await revealStarterCharacter("電");
+  await expect(electricityExamples).toHaveCount(2);
+  await expect(electricityExamples.nth(0)).toContainText("電気");
+  await expect(electricityExamples.nth(0)).toContainText("でんき");
+  await expect(electricityExamples.nth(0)).toContainText("برق");
 });

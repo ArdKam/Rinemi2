@@ -29,6 +29,9 @@ The additions below were cross-checked against Japanese-English/Japanese diction
 - **家:** add 家（いえ, house） before 家族（かぞく, family), so the card includes a direct house sense. Reference: [Cambridge Japanese–English Dictionary — 家](https://dictionary.cambridge.org/ja/dictionary/japanese-english/%E5%AE%B6_1).
 - **語:** add 単語（たんご, word） before 日本語（にほんご, Japanese language), so the card includes a candidate for the word sense. Reference: [Cambridge Japanese–English Dictionary — 単語](https://dictionary.cambridge.org/ja/dictionary/japanese-english/%E5%8D%98%E8%AA%9E).
 - **事:** add 事（こと, matter; thing） before 仕事（しごと, work; job), so the card includes a direct matter/thing sense. Reference: [Cambridge Japanese–English Dictionary — 事](https://dictionary.cambridge.org/us/dictionary/japanese-english/%E4%BA%8B).
+- **十:** add 十（じゅう, ten） before 十月（じゅうがつ, October), so the card directly demonstrates the number. Reference: [Kotobank / Progressive Japanese–English — 十](https://kotobank.jp/jeword/%E5%8D%81).
+- **食:** add 食べ物（たべもの, food） before 食べる（たべる, to eat), covering the food sense as well as the verb. Reference: [Cambridge Japanese–English Dictionary — 食べ物](https://dictionary.cambridge.org/us/dictionary/japanese-english/%E9%A3%9F%E3%81%B9%E7%89%A9).
+- **電:** add 電気（でんき, electricity） before 電車（でんしゃ, electric train), so the card directly demonstrates the electricity sense. Reference: [Cambridge Japanese–English Dictionary — 電気](https://dictionary.cambridge.org/us/dictionary/japanese-english/%E9%9B%BB%E6%B0%97).
 
 These are **AI-assisted draft refinements, not human approval**. The example readings and Japanese lexical senses were checked against the linked references; the Persian and English translations, level/frequency suitability, and overall teaching quality still require human review. All corresponding status cells below remain NOT REVIEWED; [issue #24](https://github.com/ArdKam/Rinemi2/issues/24) remains open.
 ## Record inventory
@@ -48,7 +51,7 @@ These are **AI-assisted draft refinements, not human approval**. The example rea
 | 人 | Present | 日本人（にほんじん） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 年 | Present | 今年（ことし） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 大 | Present | 大きい（おおきい） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
-| 十 | Present | 十月（じゅうがつ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 十 | Present | 十（じゅう）; 十月（じゅうがつ） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Kotobank — 十](https://kotobank.jp/jeword/%E5%8D%81); translation and final review still open | — | — |
 | 二 | Present | 二つ（ふたつ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 本 | Present | 本屋（ほんや）; 日本（にほん） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [TKG — 本屋](https://www.tkgje.jp/entries/03000/03034_honya.html); Persian translation, suitability and final review still open | — | — |
 | 中 | Present | 中（なか） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
@@ -76,11 +79,11 @@ These are **AI-assisted draft refinements, not human approval**. The example rea
 | 火 | Present | 火（ひ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 雨 | Present | 雨（あめ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 花 | Present | 花（はな） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
-| 食 | Present | 食べる（たべる） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 食 | Present | 食べ物（たべもの）; 食べる（たべる） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Cambridge — 食べ物](https://dictionary.cambridge.org/us/dictionary/japanese-english/%E9%A3%9F%E3%81%B9%E7%89%A9); translation and final review still open | — | — |
 | 読 | Present | 読む（よむ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 書 | Present | 書く（かく） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 語 | Present | 単語（たんご）; 日本語（にほんご） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Cambridge — 単語](https://dictionary.cambridge.org/ja/dictionary/japanese-english/%E5%8D%98%E8%AA%9E); Persian translation, suitability and final review still open | — | — |
-| 電 | Present | 電車（でんしゃ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 電 | Present | 電気（でんき）; 電車（でんしゃ） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Cambridge — 電気](https://dictionary.cambridge.org/us/dictionary/japanese-english/%E9%9B%BB%E6%B0%97); translation and final review still open | — | — |
 | 車 | Present | 車（くるま） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 道 | Present | 道（みち） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 今 | Present | 今（いま） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |

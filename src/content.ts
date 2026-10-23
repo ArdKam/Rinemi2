@@ -71,7 +71,10 @@ export const EXAMPLES: Record<string, Example[]> = {
   "人": [{ word: "日本人", reading: "にほんじん", fa: "فرد ژاپنی", en: "Japanese person" }],
   "年": [{ word: "今年", reading: "ことし", fa: "امسال", en: "this year" }],
   "大": [{ word: "大きい", reading: "おおきい", fa: "بزرگ", en: "big" }],
-  "十": [{ word: "十月", reading: "じゅうがつ", fa: "ماه اکتبر", en: "October" }],
+  "十": [
+    { word: "十", reading: "じゅう", fa: "ده", en: "ten" },
+    { word: "十月", reading: "じゅうがつ", fa: "ماه اکتبر", en: "October" }
+  ],
   "二": [{ word: "二つ", reading: "ふたつ", fa: "دو چیز", en: "two things" }],
   "本": [
     { word: "本屋", reading: "ほんや", fa: "کتاب‌فروشی", en: "bookstore" },
@@ -120,14 +123,20 @@ export const EXAMPLES: Record<string, Example[]> = {
   "火": [{ word: "火", reading: "ひ", fa: "آتش", en: "fire" }],
   "雨": [{ word: "雨", reading: "あめ", fa: "باران", en: "rain" }],
   "花": [{ word: "花", reading: "はな", fa: "گل", en: "flower" }],
-  "食": [{ word: "食べる", reading: "たべる", fa: "خوردن", en: "to eat" }],
+  "食": [
+    { word: "食べ物", reading: "たべもの", fa: "غذا", en: "food" },
+    { word: "食べる", reading: "たべる", fa: "خوردن", en: "to eat" }
+  ],
   "読": [{ word: "読む", reading: "よむ", fa: "خواندن", en: "to read" }],
   "書": [{ word: "書く", reading: "かく", fa: "نوشتن", en: "to write" }],
   "語": [
     { word: "単語", reading: "たんご", fa: "واژه", en: "word" },
     { word: "日本語", reading: "にほんご", fa: "زبان ژاپنی", en: "Japanese language" }
   ],
-  "電": [{ word: "電車", reading: "でんしゃ", fa: "قطار برقی", en: "train" }],
+  "電": [
+    { word: "電気", reading: "でんき", fa: "برق", en: "electricity" },
+    { word: "電車", reading: "でんしゃ", fa: "قطار برقی", en: "train" }
+  ],
   "車": [{ word: "車", reading: "くるま", fa: "خودرو", en: "car" }],
   "道": [{ word: "道", reading: "みち", fa: "راه؛ مسیر", en: "road; way" }],
   "今": [{ word: "今", reading: "いま", fa: "اکنون", en: "now" }],
