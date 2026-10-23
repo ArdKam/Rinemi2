@@ -25,6 +25,8 @@ The [official EDRDG licence statement](https://www.edrdg.org/edrdg/licence.html)
 
 **Current status:** the provenance notes in this file record the source path and historical blob SHA, but no recurring freshness check is automated or evidenced yet. Add a monthly review reminder/workflow and record the first completed check before public beta; do not report this procedure as operating until a check is logged.
 
+**Baseline investigation (2026-10-23):** the public [`jkindrix/japanese-language-data`](https://github.com/jkindrix/japanese-language-data) repository currently points to main commit [`04014e06019fc9d4af76e6dbb64ec709fe863c4d`](https://github.com/jkindrix/japanese-language-data/commit/04014e06019fc9d4af76e6dbb64ec709fe863c4d), dated 2026-04-14. Its tree includes `data/core/kanji-joyo.json`. This is a **current candidate comparison point only**, not proof that the app's copied corpus was generated from this exact commit or file revision. During the first recorded freshness audit, compare the Jōyō source file and transformations against the `kanji5` blob currently identified above, record exact hashes and reconcile count/content differences before declaring provenance complete.
+
 ## Topic taxonomy
 
 Copied from ArdKam/kanji5/frontend/src/app/kanji-topics.json, inspected on 2026-10-18 at source blob SHA 45036a2007c4cc5d1ff981219d1f04bf175d9f9a. Its metadata describes hand-curated associations and partial coverage. Do not imply all characters are categorized or infer membership from gloss strings.
