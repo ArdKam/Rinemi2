@@ -736,3 +736,31 @@ test("forced-colors mode uses system colors and keeps keyboard focus visible", a
   expect(secondaryState.buttonBackground).toBe(secondaryState.pageBackground);
   expect(secondaryState.buttonText).not.toBe(secondaryState.buttonBackground);
 });
+
+test("learning cards render the meaning-aligned 本屋 and 生きる examples", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+
+  async function revealStarterCharacter(character: string) {
+    await page.getByRole("button", { name: "کاوش", exact: true }).click();
+    await page.getByPlaceholder("مثلاً 日، nichi، خورشید…").fill(character);
+    const result = page.locator(".kanji-result");
+    await expect(result).toHaveCount(1);
+    await result.first().click();
+    await page.getByRole("button", { name: "تمرین همین کانجی" }).click();
+    await page.getByRole("button", { name: /نمایش پاسخ/ }).click();
+    return page.locator(".vocabulary-example .vocab-row");
+  }
+
+  const honExamples = await revealStarterCharacter("本");
+  await expect(honExamples).toHaveCount(2);
+  await expect(honExamples.nth(0)).toContainText("本屋");
+  await expect(honExamples.nth(0)).toContainText("ほんや");
+  await expect(honExamples.nth(0)).toContainText("کتاب‌فروشی");
+
+  const seiExamples = await revealStarterCharacter("生");
+  await expect(seiExamples).toHaveCount(2);
+  await expect(seiExamples.nth(0)).toContainText("生きる");
+  await expect(seiExamples.nth(0)).toContainText("いきる");
+  await expect(seiExamples.nth(0)).toContainText("زندگی کردن");
+});
