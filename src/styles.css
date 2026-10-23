@@ -467,8 +467,9 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
   .header-tools .utility-label,
   .data-tools-label { display: none; }
   .utility-button { min-height: 44px; padding-inline: var(--rinemi-space-2); }
-  .page-content { padding-top: var(--rinemi-space-2); }
-  .learn-topline { margin-bottom: var(--rinemi-space-2); }
+  /* Keep a small safe inset beneath the primary reveal action at 844×390. */
+  .page-content { padding-top: var(--rinemi-space-1); }
+  .learn-topline { margin-bottom: var(--rinemi-space-1); }
   .session-progress-line { margin-bottom: var(--rinemi-space-1); }
   .learning-sheet-top { padding-block: var(--rinemi-space-2); }
   .prompt-area { min-height: 0; padding-block: var(--rinemi-space-2); gap: var(--rinemi-space-1); }
