@@ -1,6 +1,12 @@
 name: KANJIDIC2 source freshness
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/kanjidic2-source-freshness.yml"
+      - "scripts/check-kanjidic2-freshness.py"
+      - "scripts/test_kanjidic2_freshness.py"
   schedule:
     # Monthly source-version checkpoint; humans still decide whether the app's
     # curated 2,136-entry Jōyō subset requires a reviewed update.
