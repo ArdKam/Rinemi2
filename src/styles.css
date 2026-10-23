@@ -418,13 +418,19 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
 }
 
 @media (max-height: 560px) {
-  .app-header { min-height: 58px; gap: var(--rinemi-space-3) var(--rinemi-space-5); }
-  .page-content { padding-top: var(--rinemi-space-4); }
-  .learn-topline { margin-bottom: var(--rinemi-space-3); }
-  .session-progress-line { margin-bottom: var(--rinemi-space-2); }
-  .prompt-area { min-height: 124px; padding-block: var(--rinemi-space-3); gap: var(--rinemi-space-2); }
-  /* Keep the target kanji the visual anchor on short landscape screens without
-     forcing the answer content below the fold. */
+  /* Preserve the two-row mobile/tablet header, but remove excess vertical gaps
+     so the target and the full prompt remain visible above the fold. */
+  .app-header {
+    min-height: 58px;
+    gap: var(--rinemi-space-2) var(--rinemi-space-3);
+    padding-top: var(--rinemi-space-2);
+  }
+  .page-content { padding-top: var(--rinemi-space-2); }
+  .learn-topline { margin-bottom: var(--rinemi-space-2); }
+  .session-progress-line { margin-bottom: var(--rinemi-space-1); }
+  .learning-sheet-top { padding-block: var(--rinemi-space-2); }
+  .prompt-area { min-height: 112px; padding-block: var(--rinemi-space-1); gap: var(--rinemi-space-1); }
+  /* Keep the target kanji prominent while making space for its full question. */
   .prompt-kanji { font-size: clamp(3.75rem, 14vh, 5rem); }
   .answer-heading { padding-block: var(--rinemi-space-2); }
   .answer-readings > div { padding-block: var(--rinemi-space-2); }
