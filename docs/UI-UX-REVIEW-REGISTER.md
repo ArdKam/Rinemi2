@@ -160,6 +160,16 @@ Responsive screenshots from [run 39172388405](https://github.com/ArdKam/Rinemi2/
 - **Acceptance still open:** manually inspect Today, revealed Learn, Explore filters/details, collection controls, selected states, disabled/error states and dialogs under an actual supported OS/browser forced-colors setting; test keyboard focus; confirm status is not communicated through color alone. Issue [#7](https://github.com/ArdKam/Rinemi2/issues/7) and the checklist's `NOT RUN / NOT ACCEPTED` status remain open.
 
 
+### UIUX-015 — Mascot was missing from the ordinary Today screen
+
+- **Priority:** P2 — brand/implementation visibility; not a learning-engine defect.
+- **Status:** IMPLEMENTATION MERGED AND LIVE-VERIFIED on application commit [`fb88901`](https://github.com/ArdKam/Rinemi2/commit/fb88901126d331a55ff2e91f188a0f2907e9c10c); PR [#57](https://github.com/ArdKam/Rinemi2/pull/57).
+- **Root cause:** the first integration placed the cat only in the empty-session recovery state. A fresh learner and a returning learner with due/new work see the ordinary Today screen instead, so the mascot appeared to be absent during normal use.
+- **Fix:** add the small decorative cat beside the Today heading unconditionally, independent of local review history. Keep the larger existing illustration in the empty-session recovery state. Do not place it in the wordmark or active review card.
+- **Verification:** [Main CI #188](https://github.com/ArdKam/Rinemi2/actions/runs/39877410690) passed, including mobile viewport screenshots at 320px and 390px and the Today image-load assertion. [Pages deployment #43](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464) passed the live smoke test and Chromium journey on the same SHA; the live test asserts the cat is visible on Today, its image decodes to non-zero dimensions, and its URL stays under the deployed `/Rinemi2/` base path. The actual live Persian RTL/light desktop screenshot was downloaded and inspected.
+- **Acceptance still open:** owner visual approval and provenance/license review for the SVG; full manual comparison across Persian RTL / English LTR, light / dark, phone / compact landscape / desktop; screen-reader and zoom acceptance. Do not infer complete brand or accessibility acceptance from this single live visual fix.
+
+
 ## 4. Implementation order
 
 1. **UIUX-007:** complete manual accessibility and visual acceptance on the current deployed SHA; the screenshot matrix remains incomplete.
