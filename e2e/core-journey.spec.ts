@@ -522,8 +522,20 @@ for (const viewport of [
     await expect(page.locator(".skip-link")).not.toBeFocused();
     await expect(page.locator(".prompt-kanji")).toHaveText("日");
     if (viewport.name === "compact landscape") {
-      await expect(page.locator(".prompt-question"), "The recall prompt fits in the compact landscape viewport").toBeInViewport();
-      await expect(page.getByRole("button", { name: /نمایش پاسخ/ }), "The reveal action fits in the compact landscape viewport").toBeInViewport();
+      const landscapeQuestion = page.locator(".prompt-question");
+      await expect(landscapeQuestion, "The recall prompt fits in the compact landscape viewport").toBeInViewport();
+      const questionBounds = await landscapeQuestion.boundingBox();
+      if (!questionBounds) throw new Error("Compact-landscape recall question has no rendered bounds");
+      const revealAction = page.getByRole("button", { name: /نمایش پاسخ/ });
+      await expect(revealAction, "The reveal action fits in the compact landscape viewport").toBeInViewport();
+      const revealBounds = await revealAction.boundingBox();
+      if (!revealBounds) throw new Error("Compact-landscape reveal action has no rendered bounds");
+      const viewportHeight = await page.evaluate(() => window.innerHeight);
+      expect(questionBounds.y).toBeGreaterThanOrEqual(0);
+      expect(questionBounds.y + questionBounds.height).toBeLessThanOrEqual(viewportHeight);
+      expect(revealBounds.y).toBeGreaterThanOrEqual(0);
+      expect(revealBounds.y + revealBounds.height, "The reveal action leaves a minimum 8px bottom inset")
+        .toBeLessThanOrEqual(viewportHeight - 8);
     }
     await page.getByRole("button", { name: /نمایش پاسخ/ }).click();
     await expect(page.locator("#answer-meaning-title")).toBeFocused();
