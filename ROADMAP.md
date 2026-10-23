@@ -575,7 +575,7 @@ The latest merged application-code snapshot is [`008edbe`](https://github.com/Ar
 - [x] Automated live preview runtime check covers React mount, the core review flow, locale/theme changes, brand assets, mobile width and runtime/network errors.
 - [ ] Manual accessibility/usability acceptance: keyboard-only/focus, zoom, reduced-motion/forced-colors, screen-reader, Explore/collections and non-happy-path review.
 - [ ] Candidate release evidence assembled and beta gate approved.
-- [ ] Mascot asset and empty-state integration visually accepted in Persian RTL / English LTR, light / dark, narrow mobile / desktop; record exact screenshots and owner approval per [Mascot Design System](docs/MASCOT-DESIGN-SYSTEM.md).
+- [ ] Mascot asset and both placements (Today-page heading for new/returning learners and empty-session recovery) visually accepted in Persian RTL / English LTR, light / dark, narrow mobile / desktop; verify the public Pages URL serves the base-prefixed SVG and records rendered screenshots. See [Mascot Design System](docs/MASCOT-DESIGN-SYSTEM.md).
 
 **Repository boundary:** `ArdKam/kanji5` remains reference-only. All implementation and documentation changes must remain in `ArdKam/Rinemi2`.
 

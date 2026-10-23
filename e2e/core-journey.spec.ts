@@ -58,6 +58,11 @@ test("Today starts a useful session and learning rating advances the queue", asy
   expect(serifState).toBe("loaded");
   await expect(page.getByRole("heading", { name: "امروز، یک قدم به خواندن نزدیک‌تر." })).toBeVisible();
   await expect(page.locator(".first-session-note")).toBeVisible();
+  const todayMascot = page.locator(".mascot-today-illustration");
+  await expect(todayMascot).toBeVisible();
+  await expect(todayMascot).toHaveAttribute("alt", "");
+  await expect.poll(() => todayMascot.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+  await expect(todayMascot).toHaveAttribute("src", "/mascot/rinemi-cat-tea.svg");
   await expect(page.locator(".overview-metrics")).toHaveCount(0);
   await expect(page.locator(".hero-kanji-glyph")).toHaveText("日");
   await page.screenshot({ path: "artifacts/today-fa-light.png", fullPage: true });
@@ -468,6 +473,9 @@ for (const viewport of [
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     await page.goto("/");
     await expect(page.getByRole("heading", { name: "امروز، یک قدم به خواندن نزدیک‌تر." })).toBeVisible();
+    const todayMascot = page.locator(".mascot-today-illustration");
+    await expect(todayMascot).toBeVisible();
+    await expect.poll(() => todayMascot.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
 
     const overflowsBefore = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
     expect(overflowsBefore, "No horizontal overflow on Today").toBe(false);
