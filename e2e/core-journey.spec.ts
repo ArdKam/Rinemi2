@@ -396,7 +396,9 @@ test("failed removal still attempts every other local-data key and reports incom
   expect(state.legacy).not.toBeNull();
   expect(state.theme).toBeNull();
 });
-\ntest("local data erasure clears review, bookmark, collection, legacy and theme preferences", async ({ page }) => {
+
+
+test("local data erasure clears review, bookmark, collection, legacy and theme preferences", async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem("rinemi2:local:v2", JSON.stringify({
       version: 2,
