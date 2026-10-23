@@ -1,6 +1,6 @@
 # Rinemi 2 — Art Direction and Design System
 
-**Status:** Approved written baseline; mascot-specific identity and usage rules are maintained in [Mascot Design System](MASCOT-DESIGN-SYSTEM.md). The first mascot SVG integration is a review candidate, not visual acceptance. Refine and expand it only after checking rendered browser screenshots.  
+**Status (2026-10-23):** Approved written baseline; mascot-specific identity and usage rules are maintained in [Mascot Design System](MASCOT-DESIGN-SYSTEM.md). The current v0.1 SVG is visible on Today and the empty-session recovery state. [CI #188](https://github.com/ArdKam/Rinemi2/actions/runs/39877410690) and [Pages deployment #43](https://github.com/ArdKam/Rinemi2/actions/runs/39877410464) passed; live Today rendering and the base-prefixed asset were verified. The art remains a review candidate pending owner visual approval, broader manual screenshot acceptance and provenance/license sign-off.  
 **Creative intent:** an adult, calm, Persian-first Japanese learning studio with editorial Japanese influence—not generic SaaS, anime, or decorative Japan-themed stock UI.
 
 ## 1. Brand character
