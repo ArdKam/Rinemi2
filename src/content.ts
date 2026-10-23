@@ -93,14 +93,20 @@ export const EXAMPLES: Record<string, Example[]> = {
   "見": [{ word: "見る", reading: "みる", fa: "دیدن", en: "to see" }],
   "月": [{ word: "月", reading: "つき", fa: "ماه", en: "moon; month" }],
   "金": [{ word: "お金", reading: "おかね", fa: "پول", en: "money" }],
-  "学": [{ word: "学校", reading: "がっこう", fa: "مدرسه", en: "school" }],
+  "学": [
+    { word: "学ぶ", reading: "まなぶ", fa: "یاد گرفتن", en: "to learn" },
+    { word: "学校", reading: "がっこう", fa: "مدرسه", en: "school" }
+  ],
   "生": [
     { word: "生きる", reading: "いきる", fa: "زندگی کردن", en: "to live" },
     { word: "学生", reading: "がくせい", fa: "دانش‌آموز؛ دانشجو", en: "student" }
   ],
   "前": [{ word: "午前", reading: "ごぜん", fa: "قبل از ظهر", en: "morning; a.m." }],
   "後": [{ word: "午後", reading: "ごご", fa: "بعدازظهر", en: "afternoon; p.m." }],
-  "東": [{ word: "東京", reading: "とうきょう", fa: "توکیو", en: "Tokyo" }],
+  "東": [
+    { word: "東", reading: "ひがし", fa: "شرق", en: "east" },
+    { word: "東京", reading: "とうきょう", fa: "توکیو", en: "Tokyo" }
+  ],
   "水": [{ word: "水", reading: "みず", fa: "آب", en: "water" }],
   "山": [{ word: "山", reading: "やま", fa: "کوه", en: "mountain" }],
   "川": [{ word: "川", reading: "かわ", fa: "رودخانه", en: "river" }],
