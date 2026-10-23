@@ -15,6 +15,14 @@ For each stable kanji ID:
 
 **Severity:** `S0` wrong target/reading or meaning; `S1` materially misleading translation or unsuitable example; `S2` minor clarity/naturalness/typography issue. Keep content unpublished or visibly marked as unreviewed while any S0/S1 issue is open.
 
+## AI-assisted draft refinements (2026-10-23)
+
+The two additions below were cross-checked against Japanese-English/Japanese dictionary entries to improve alignment between the starter gloss and its vocabulary examples:
+
+- **本:** add 本屋（ほんや, bookstore） before 日本（にほん, Japan), so the card includes a word that demonstrates the “book” sense. Reference: [TKG Japanese-English Learner’s Dictionary — 本屋](https://www.tkgje.jp/entries/03000/03034_honya.html).
+- **生:** add 生きる（いきる, to live） before 学生（がくせい, student), so the card includes a word tied to “life/live.” Reference: [Kotobank / 精選版 日本国語大辞典 — 生きる](https://kotobank.jp/word/%E7%94%9F%E3%81%8D%E3%82%8B-431376).
+
+These are **AI-assisted draft refinements, not human approval**. The example readings and Japanese lexical senses were checked against the linked references; the Persian and English translations, level/frequency suitability, and overall teaching quality still require human review. All corresponding status cells below remain NOT REVIEWED; [issue #24](https://github.com/ArdKam/Rinemi2/issues/24) remains open.
 ## Record inventory
 
 - Kanji corpus: 2,136 entries in `src/data/kanji.json`.
@@ -34,7 +42,7 @@ For each stable kanji ID:
 | 大 | Present | 大きい（おおきい） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 十 | Present | 十月（じゅうがつ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 二 | Present | 二つ（ふたつ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
-| 本 | Present | 日本（にほん） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 本 | Present | 本屋（ほんや）; 日本（にほん） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [TKG — 本屋](https://www.tkgje.jp/entries/03000/03034_honya.html); Persian translation, suitability and final review still open | — | — |
 | 中 | Present | 中（なか） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 長 | Present | 長い（ながい） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 出 | Present | 出口（でぐち） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
@@ -49,7 +57,7 @@ For each stable kanji ID:
 | 月 | Present | 月（つき） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 金 | Present | お金（おかね） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 学 | Present | 学校（がっこう） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
-| 生 | Present | 学生（がくせい） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 生 | Present | 生きる（いきる）; 学生（がくせい） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Kotobank — 生きる](https://kotobank.jp/word/%E7%94%9F%E3%81%8D%E3%82%8B-431376); Persian translation, suitability and final review still open | — | — |
 | 前 | Present | 午前（ごぜん） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 後 | Present | 午後（ごご） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 東 | Present | 東京（とうきょう） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
