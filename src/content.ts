@@ -64,7 +64,10 @@ export const EXAMPLES: Record<string, Example[]> = {
   ],
   "一": [{ word: "一つ", reading: "ひとつ", fa: "یک چیز", en: "one thing" }],
   "国": [{ word: "外国", reading: "がいこく", fa: "کشور خارجی", en: "foreign country" }],
-  "会": [{ word: "会社", reading: "かいしゃ", fa: "شرکت", en: "company" }],
+  "会": [
+    { word: "会う", reading: "あう", fa: "ملاقات کردن", en: "to meet" },
+    { word: "会社", reading: "かいしゃ", fa: "شرکت", en: "company" }
+  ],
   "人": [{ word: "日本人", reading: "にほんじん", fa: "فرد ژاپنی", en: "Japanese person" }],
   "年": [{ word: "今年", reading: "ことし", fa: "امسال", en: "this year" }],
   "大": [{ word: "大きい", reading: "おおきい", fa: "بزرگ", en: "big" }],
@@ -83,7 +86,10 @@ export const EXAMPLES: Record<string, Example[]> = {
   "事": [{ word: "仕事", reading: "しごと", fa: "کار؛ شغل", en: "work; job" }],
   "自": [{ word: "自分", reading: "じぶん", fa: "خود", en: "oneself" }],
   "行": [{ word: "行く", reading: "いく", fa: "رفتن", en: "to go" }],
-  "社": [{ word: "会社", reading: "かいしゃ", fa: "شرکت", en: "company" }],
+  "社": [
+    { word: "神社", reading: "じんじゃ", fa: "زیارتگاه شینتو", en: "Shinto shrine" },
+    { word: "会社", reading: "かいしゃ", fa: "شرکت", en: "company" }
+  ],
   "見": [{ word: "見る", reading: "みる", fa: "دیدن", en: "to see" }],
   "月": [{ word: "月", reading: "つき", fa: "ماه", en: "moon; month" }],
   "金": [{ word: "お金", reading: "おかね", fa: "پول", en: "money" }],
