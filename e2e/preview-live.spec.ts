@@ -85,9 +85,19 @@ test("live preview mounts React and completes a minimal learner journey without 
   expect(landscapeLayout.promptFontSize, "Live compact-landscape target kanji remains prominent").toBeGreaterThanOrEqual(60);
   expect(landscapeLayout.documentWidth, "Live compact-landscape view has no horizontal overflow")
     .toBeLessThanOrEqual(landscapeLayout.viewportWidth + 1);
-  await expect(page.locator(".prompt-question"), "The recall prompt fits in the initial landscape viewport").toBeInViewport();
+  const promptQuestion = page.locator(".prompt-question");
+  await expect(promptQuestion, "The recall prompt fits in the initial landscape viewport").toBeInViewport();
+  const promptBounds = await promptQuestion.boundingBox();
+  if (!promptBounds) throw new Error("The live recall question has no rendered bounds");
+  expect(promptBounds.y).toBeGreaterThanOrEqual(0);
+  expect(promptBounds.y + promptBounds.height).toBeLessThanOrEqual(390);
   const revealControl = page.getByRole("button", { name: /Reveal answer/ });
   await expect(revealControl, "The primary reveal action fits in the initial landscape viewport").toBeInViewport();
+  const revealBounds = await revealControl.boundingBox();
+  if (!revealBounds) throw new Error("The live reveal action has no rendered bounds");
+  expect(revealBounds.y).toBeGreaterThanOrEqual(0);
+  expect(revealBounds.y + revealBounds.height, "Keep at least 8px of bottom inset beneath the reveal action")
+    .toBeLessThanOrEqual(390 - 8);
   await page.screenshot({ path: "artifacts/live-preview-en-dark-landscape-prompt.png" });
 
   await revealControl.click();
