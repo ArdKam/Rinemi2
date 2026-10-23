@@ -1,6 +1,6 @@
 # Rinemi Mascot Design System
 
-**Status (2026-10-23):** The design contract and first UI integration were merged in [PR #55](https://github.com/ArdKam/Rinemi2/pull/55) at [`008edbe`](https://github.com/ArdKam/Rinemi2/commit/008edbe7659f47ed36831fcc9ed35d3e645b7316). The SVG remains a v0.1 candidate, not final owner-approved artwork. The exact pre-merge head [`40975ea`](https://github.com/ArdKam/Rinemi2/commit/40975ea62ba9f3375833dd4cc5fffecc87e15d34) passed [CI](https://github.com/ArdKam/Rinemi2/actions/runs/39874654456) and its rendered screenshots were inspected at 390×844 for Persian RTL light/dark and English LTR dark. Post-merge live Pages/runtime verification for `008edbe` was not independently confirmed in this pass. Do not expand the asset set until the candidate receives owner visual approval and the provenance/license review is recorded.
+**Status (2026-10-23):** The owner's supplied cat illustration is the canonical artwork reference. Active UI placements use `public/mascot/rinemi-cat-artwork.webp`, a compact raster derivative that removes only unused horizontal canvas margins and resizes/encodes the image for UI delivery. It does not redraw the cat or alter its face, markings, linework, paper texture, or palette. The earlier hand-authored `rinemi-cat-tea.svg` is a legacy reinterpretation and is no longer an active product asset. This PR updates the source and automated asset-path checks; rendered CI and public Pages verification must still pass before declaring the change live.
 
 **Target:** `ArdKam/Rinemi2`  
 **Reference-only repository:** `ArdKam/kanji5` — do not modify it.
@@ -61,7 +61,7 @@ The current app integration remains intentionally narrow: a small, decorative il
 ## 6. Component and accessibility contract
 
 - Keep artwork in normal document flow; it must not overlap text, controls, safe areas, or the kanji.
-- Use transparent backgrounds for UI assets wherever feasible. Keep a stable intrinsic aspect ratio and size to avoid layout shift.
+- The canonical owner-supplied artwork includes a warm rice-paper texture/background. Preserve it; do not automatically remove it, vector-trace it, redraw it, recolor it, or apply dark-mode filters. Use a stable 4:5 display box with `object-fit: contain` so the entire character and its paper texture remain intact without distortion.
 - In dark mode, preserve the illustration's original colors; do not apply global inversion or opacity reduction to make it blend in.
 - When the art is decorative and the adjacent heading, explanation, and recovery action convey the state, use an empty alternative text (`alt=""`) and hide it from assistive technology. If an illustration ever conveys instructional meaning, add a text equivalent instead.
 - Never rely on the illustration to explain the state, report success/failure, or communicate the only available action.
@@ -71,8 +71,9 @@ The current app integration remains intentionally narrow: a small, decorative il
 
 | Asset | Status | Intended use | Provenance / note |
 |---|---|---|---|
-| Owner-supplied original cat image | Canonical identity reference | Design review only | Supplied by the owner in this conversation; do not silently overwrite or alter the source |
-| `public/mascot/rinemi-cat-tea.svg` | Candidate v0.1, in review | Empty learning-session state only | New vector interpretation based on the supplied cat reference; tea bowl is a context prop; review visual fidelity before expanding use |
+| Owner-supplied original cat image | Canonical source artwork | Source of truth / provenance reference | Original PNG supplied by the owner; keep the master unchanged and preserve it as the reference for all future variants |
+| `public/mascot/rinemi-cat-artwork.webp` | Active base asset | Today heading and empty learning-session state | High-quality raster derivative of the supplied artwork, cropped only to remove unused left/right canvas margins and sized to 256×320 WebP for compact UI delivery; no redrawing, recoloring, or character edits |
+| `public/mascot/rinemi-cat-tea.svg` | Legacy unused interpretation | No active product use | Earlier hand-authored vector interpretation; must not be used for active placements because it differs from the owner-supplied illustration |
 | Avatar crop, brush/writing pose, book/reading pose, achievement, seasonal and loading variants | Not produced / deferred | Only after the base asset is accepted | Each asset requires visual comparison, provenance and license review |
 
 The candidate SVG is authored as a repository asset and does not replace the owner's source image. Confirm the rights/provenance of the final selected identity artwork as part of release preparation. Keep source file, prompt/brief where relevant, transformation notes, approval state, and license status together when new assets are added.

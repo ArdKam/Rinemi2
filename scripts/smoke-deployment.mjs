@@ -75,7 +75,7 @@ while (pendingAssets.length) {
   if (asset.kind === "module") {
     assert.doesNotMatch(body, /<!doctype\s+html/i, `Module URL returned HTML instead of JavaScript: ${url.href}`);
 
-    for (const staticAsset of ["brand/rinemi-mark.svg", "brand/rinemi-mark-dark.svg", "mascot/rinemi-cat-tea.svg"]) {
+    for (const staticAsset of ["brand/rinemi-mark.svg", "brand/rinemi-mark-dark.svg", "mascot/rinemi-cat-artwork.webp"]) {
       const expectedPath = `${baseUrl.pathname}${staticAsset}`;
       assert.ok(
         body.includes(expectedPath),

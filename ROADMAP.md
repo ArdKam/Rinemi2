@@ -235,7 +235,7 @@ Required: all P0 acceptance checks from [Quality & Release](QUALITY-AND-RELEASE.
 - [ ] Specify buttons, icon buttons, chips, segmented controls, search/filter fields, menus, dialogs, toasts, progress indicators, skeletons, error panels, lists, dictionary entries, review ratings, tabs and navigation.
 - [ ] Define interaction states: idle, hover, focus, active, selected, disabled, loading, success, warning, destructive, and failure.
 - [ ] Define reduced-motion alternatives and ensure motion communicates state or teaches a skill.
-- [x] Establish written mascot identity and usage standards; the initial set is intentionally narrow. [ ] Visually accept the empty-state candidate before creating more variants. See [MASCOT-DESIGN-SYSTEM.md](docs/MASCOT-DESIGN-SYSTEM.md).
+- [x] Establish written mascot identity and usage standards; the initial set is intentionally narrow. [ ] Verify the owner-supplied canonical artwork in both active placements before creating more variants. See [MASCOT-DESIGN-SYSTEM.md](docs/MASCOT-DESIGN-SYSTEM.md).
 - [ ] Build a small rendered component gallery to verify tokens on actual devices and themes.
 - [ ] Validate the approved direction on actual rendered screens in-browser, including Persian RTL/English LTR, light/dark themes, mobile and desktop.
 - [ ] Refine palette and components based on contrast/accessibility checks and real content density.
@@ -575,7 +575,7 @@ The latest merged application-code snapshot is [`008edbe`](https://github.com/Ar
 - [x] Automated live preview runtime check covers React mount, the core review flow, locale/theme changes, brand assets, mobile width and runtime/network errors.
 - [ ] Manual accessibility/usability acceptance: keyboard-only/focus, zoom, reduced-motion/forced-colors, screen-reader, Explore/collections and non-happy-path review.
 - [ ] Candidate release evidence assembled and beta gate approved.
-- [ ] Mascot asset and both placements (Today-page heading for new/returning learners and empty-session recovery) visually accepted in Persian RTL / English LTR, light / dark, narrow mobile / desktop; verify the public Pages URL serves the base-prefixed SVG and records rendered screenshots. See [Mascot Design System](docs/MASCOT-DESIGN-SYSTEM.md).
+- [ ] Verify the owner-supplied raster mascot asset and both placements (Today-page heading and empty-session recovery) in Persian RTL / English LTR, light / dark, narrow mobile / desktop; confirm public Pages serves the base-prefixed WebP and capture rendered screenshots before marking visual acceptance complete. See [Mascot Design System](docs/MASCOT-DESIGN-SYSTEM.md).
 
 **Repository boundary:** `ArdKam/kanji5` remains reference-only. All implementation and documentation changes must remain in `ArdKam/Rinemi2`.
 
