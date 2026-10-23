@@ -472,7 +472,8 @@ html[dir="rtl"] .kanji-result.is-selected { box-shadow: inset -3px 0 var(--rinem
   .learn-topline { margin-bottom: var(--rinemi-space-1); }
   .session-progress-line { margin-bottom: var(--rinemi-space-1); }
   .learning-sheet-top { padding-block: var(--rinemi-space-2); }
-  .prompt-area { min-height: 0; padding-block: var(--rinemi-space-2); gap: var(--rinemi-space-1); }
+  /* Recover one small spacing step so the reveal action retains its 8px viewport inset. */
+  .prompt-area { min-height: 0; padding-block: var(--rinemi-space-1); gap: var(--rinemi-space-1); }
   .prompt-question { font-size: var(--rinemi-font-size-base); }
   .prompt-hint { font-size: var(--rinemi-font-size-sm); }
   .reveal-area { padding-block: var(--rinemi-space-1); }
