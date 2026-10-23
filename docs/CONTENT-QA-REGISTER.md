@@ -21,6 +21,10 @@ The two additions below were cross-checked against Japanese-English/Japanese dic
 
 - **本:** add 本屋（ほんや, bookstore） before 日本（にほん, Japan), so the card includes a word that demonstrates the “book” sense. Reference: [TKG Japanese-English Learner’s Dictionary — 本屋](https://www.tkgje.jp/entries/03000/03034_honya.html).
 - **生:** add 生きる（いきる, to live） before 学生（がくせい, student), so the card includes a word tied to “life/live.” Reference: [Kotobank / 精選版 日本国語大辞典 — 生きる](https://kotobank.jp/word/%E7%94%9F%E3%81%8D%E3%82%8B-431376).
+- **会:** add 会う（あう, to meet） before 会社（かいしゃ, company), so the card demonstrates the “meet” sense. Reference: [Cambridge Japanese–English Dictionary — 会う](https://dictionary.cambridge.org/ja/dictionary/japanese-english/%E4%BC%9A%E3%81%86).
+- **社:** add 神社（じんじゃ, Shinto shrine） before 会社（かいしゃ, company), so both listed senses have an example. Reference: [Kotobank / Progressive Japanese-English — 神社](https://kotobank.jp/jeword/%E7%A5%9E%E7%A4%BE).
+- **学:** add 学ぶ（まなぶ, to learn/study） before 学校（がっこう, school), so the card demonstrates the learning sense directly. Reference: [Cambridge Japanese–English Dictionary — 学ぶ](https://dictionary.cambridge.org/dictionary/japanese-english/%E5%AD%A6%E3%81%B6).
+- **東:** add 東（ひがし, east） before 東京（とうきょう, Tokyo), so the card demonstrates the direction sense directly. Reference: [Cambridge Japanese–English Dictionary — 東](https://dictionary.cambridge.org/dictionary/japanese-english/%E6%9D%B1).
 
 These are **AI-assisted draft refinements, not human approval**. The example readings and Japanese lexical senses were checked against the linked references; the Persian and English translations, level/frequency suitability, and overall teaching quality still require human review. All corresponding status cells below remain NOT REVIEWED; [issue #24](https://github.com/ArdKam/Rinemi2/issues/24) remains open.
 ## Record inventory
@@ -36,7 +40,7 @@ These are **AI-assisted draft refinements, not human approval**. The example rea
 | 日 | Present | 日本（にほん）; 毎日（まいにち） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 一 | Present | 一つ（ひとつ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 国 | Present | 外国（がいこく） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
-| 会 | Present | 会社（かいしゃ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 会 | Present | 会う（あう）; 会社（かいしゃ） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Cambridge — 会う](https://dictionary.cambridge.org/ja/dictionary/japanese-english/%E4%BC%9A%E3%81%86); Persian translation, suitability and final review still open | — | — |
 | 人 | Present | 日本人（にほんじん） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 年 | Present | 今年（ことし） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 大 | Present | 大きい（おおきい） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
@@ -52,15 +56,15 @@ These are **AI-assisted draft refinements, not human approval**. The example rea
 | 事 | Present | 仕事（しごと） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 自 | Present | 自分（じぶん） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 行 | Present | 行く（いく） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
-| 社 | Present | 会社（かいしゃ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 社 | Present | 神社（じんじゃ）; 会社（かいしゃ） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Kotobank — 神社](https://kotobank.jp/jeword/%E7%A5%9E%E7%A4%BE); Persian translation, suitability and final review still open | — | — |
 | 見 | Present | 見る（みる） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 月 | Present | 月（つき） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 金 | Present | お金（おかね） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
-| 学 | Present | 学校（がっこう） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 学 | Present | 学ぶ（まなぶ）; 学校（がっこう） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Cambridge — 学ぶ](https://dictionary.cambridge.org/dictionary/japanese-english/%E5%AD%A6%E3%81%B6); Persian translation, suitability and final review still open | — | — |
 | 生 | Present | 生きる（いきる）; 学生（がくせい） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Kotobank — 生きる](https://kotobank.jp/word/%E7%94%9F%E3%81%8D%E3%82%8B-431376); Persian translation, suitability and final review still open | — | — |
 | 前 | Present | 午前（ごぜん） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 後 | Present | 午後（ごご） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
-| 東 | Present | 東京（とうきょう） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
+| 東 | Present | 東（ひがし）; 東京（とうきょう） | NOT REVIEWED | NOT REVIEWED | AI draft addition cross-checked against [Cambridge — 東](https://dictionary.cambridge.org/dictionary/japanese-english/%E6%9D%B1); Persian translation, suitability and final review still open | — | — |
 | 水 | Present | 水（みず） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 山 | Present | 山（やま） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
 | 川 | Present | 川（かわ） | NOT REVIEWED | NOT REVIEWED | Editorial seed in `src/content.ts`; per-record source trace not yet recorded | — | — |
