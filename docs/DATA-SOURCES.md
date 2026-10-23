@@ -12,6 +12,19 @@ The initial 2,136-entry dataset is copied from ArdKam/kanji5/kanji-data.json, in
 - Reference repository: https://github.com/ArdKam/kanji5
 - This is an engineering provenance record, not legal advice.
 
+### Source freshness and update procedure
+
+The [official EDRDG licence statement](https://www.edrdg.org/edrdg/licence.html) says software packages and applications that use these files must have a procedure for regular updating from the most recent available versions; it specifically states that web-based dictionary servers should update at least monthly. The precise treatment of this embedded PWA and its fixed 2,136 Jōyō-character scope should be confirmed by the project owner/legal reviewer, but Rinemi should not imply that the bundled copy is perpetually current.
+
+**Required operational procedure (not yet automated):**
+1. At least monthly, check the authoritative EDRDG KANJIDIC2 project and licence pages plus the documented upstream source/revision used for the app dataset.
+2. Record the check date, upstream version or commit/file hash, source URL, and whether an update is available; link the result from the release/provenance issue.
+3. If changed, review the source delta and regenerate the 2,136-entry dataset only from the approved source, preserving the Jōyō scope and current data schema.
+4. Review any changed readings/meanings, confirm attribution/share-alike notices, run data-contract/unit/type/build/browser tests, and inspect relevant UI diffs before accepting the update.
+5. Update this record and the user-facing source acknowledgement if the source/version or obligations change. Do not close the provenance gate until the initial source lineage and owner/legal approval are recorded.
+
+**Current status:** the provenance notes in this file record the source path and historical blob SHA, but no recurring freshness check is automated or evidenced yet. Add a monthly review reminder/workflow and record the first completed check before public beta; do not report this procedure as operating until a check is logged.
+
 ## Topic taxonomy
 
 Copied from ArdKam/kanji5/frontend/src/app/kanji-topics.json, inspected on 2026-10-18 at source blob SHA 45036a2007c4cc5d1ff981219d1f04bf175d9f9a. Its metadata describes hand-curated associations and partial coverage. Do not imply all characters are categorized or infer membership from gloss strings.
