@@ -56,7 +56,7 @@ A pose may change limb position or props, but not face style, markings, body-to-
 
 **Not allowed:** every screen, the persistent brand logo, the main kanji retrieval prompt, rating controls, error feedback that shames the learner, decorative filler cards, or speech bubbles during rapid review.
 
-The current app integration remains intentionally narrow: a small, decorative illustration beside the first-session guidance on Today, plus the larger illustration in the genuinely empty learning-session state. The first-session placement makes the mascot visible in the ordinary first-visit flow, while the larger empty-state placement supports recovery. The Rinemi wordmark remains the logo. Do not add the cat to the header or active learning card simply to increase brand presence.
+The current app integration remains intentionally narrow: a small, decorative illustration beside the Today-page heading, plus the larger illustration in the genuinely empty learning-session state. The Today placement remains visible to new and returning learners, while the larger empty-state placement supports recovery. The Rinemi wordmark remains the logo. Do not add the cat to the header or active learning card simply to increase brand presence.
 
 ## 6. Component and accessibility contract
 
