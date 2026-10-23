@@ -28,7 +28,7 @@ test("every starter character has a Persian/English gloss and at least one examp
   }
 });
 
-test("starter examples align key meanings for 本, 生, 会 and 社", () => {
+test("starter examples align direct meanings for 本, 生, 会, 社, 学, 東, 金, 家, 語 and 事", () => {
   assert.ok(EXAMPLES["本"].some(example => example.word === "本屋" && example.reading === "ほんや"),
     "本 should include 本屋 (ほんや) to demonstrate the book sense");
   assert.ok(EXAMPLES["生"].some(example => example.word === "生きる" && example.reading === "いきる"),
@@ -41,6 +41,14 @@ test("starter examples align key meanings for 本, 生, 会 and 社", () => {
     "学 should include 学ぶ (まなぶ) to demonstrate the learn/study sense");
   assert.ok(EXAMPLES["東"].some(example => example.word === "東" && example.reading === "ひがし"),
     "東 should include 東 (ひがし) to demonstrate the east sense");
+  assert.ok(EXAMPLES["金"].some(example => example.word === "金" && example.reading === "きん"),
+    "金 should include 金 (きん) to demonstrate the gold sense");
+  assert.ok(EXAMPLES["家"].some(example => example.word === "家" && example.reading === "いえ"),
+    "家 should include 家 (いえ) to demonstrate the house sense");
+  assert.ok(EXAMPLES["語"].some(example => example.word === "単語" && example.reading === "たんご"),
+    "語 should include 単語 (たんご) to demonstrate the word sense");
+  assert.ok(EXAMPLES["事"].some(example => example.word === "事" && example.reading === "こと"),
+    "事 should include 事 (こと) to demonstrate the matter/thing sense");
 });
 
 test("gloss and example keys reference real kanji and contain non-empty fields", () => {
